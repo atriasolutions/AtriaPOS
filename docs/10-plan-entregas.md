@@ -13,6 +13,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 6 | SLICE-6 | App Flutter POS mínima | RF-030 UI | 1 flujo e2e smoke |
 | 7 | SLICE-7 | Roles + PIN | RF-002 | Matriz permisos |
 | 8 | SLICE-8 | Certificación SII | RF-003, RF-050 real | Ambiente cert OK |
+| 10 | SLICE-10 | Anulación venta del día | RF-032 | Stock revertido; caja excluye anuladas |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

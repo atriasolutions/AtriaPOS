@@ -19,6 +19,10 @@ void main() {
         AuthPolicy.allows(UserRole.cajero, Permission.configurarCatalogo),
         isFalse,
       );
+      expect(
+        AuthPolicy.allows(UserRole.cajero, Permission.anularVenta),
+        isFalse,
+      );
     });
 
     test('supervisor opera inventario y caja', () {

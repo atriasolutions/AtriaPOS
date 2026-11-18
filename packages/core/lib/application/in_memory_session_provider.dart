@@ -19,6 +19,16 @@ class InMemorySessionProvider implements SessionProvider {
     );
   }
 
+  factory InMemorySessionProvider.cajero({UserId userId = 'usr_cajero'}) {
+    return InMemorySessionProvider(
+      initial: AuthSession(
+        userId: userId,
+        role: UserRole.cajero,
+        expiresAt: DateTime.now().toUtc().add(const Duration(hours: 8)),
+      ),
+    );
+  }
+
   @override
   AuthSession? get current => _current;
 

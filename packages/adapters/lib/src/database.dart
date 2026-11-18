@@ -55,6 +55,7 @@ class Sales extends Table {
   IntColumn get totalClp => integer()();
   IntColumn get changeClp => integer()();
   TextColumn get createdAt => text()();
+  TextColumn get status => text().withDefault(const Constant('CONFIRMADA'))();
   TextColumn get dteStatus =>
       text().withDefault(const Constant('PENDIENTE_DTE'))();
   IntColumn get folio => integer().nullable()();
@@ -139,7 +140,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -185,6 +186,9 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 7) {
             await m.createTable(dteFolioCounters);
+          }
+          if (from < 8) {
+            await m.addColumn(sales, sales.status);
           }
         },
       );

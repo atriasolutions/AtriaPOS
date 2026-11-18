@@ -1,13 +1,20 @@
 import 'payment_method.dart';
 import 'sale.dart';
+import 'sale_status.dart';
+
+bool saleCountsForShiftTotals(Sale sale) =>
+    sale.status != SaleStatus.anulada;
 
 int shiftSalesTotalClp(List<Sale> sales) {
-  return sales.fold<int>(0, (sum, sale) => sum + sale.totalClp);
+  return sales
+      .where(saleCountsForShiftTotals)
+      .fold<int>(0, (sum, sale) => sum + sale.totalClp);
 }
 
 int shiftExpectedCashClp(int openingCashClp, List<Sale> sales) {
   var cash = openingCashClp;
   for (final sale in sales) {
+    if (!saleCountsForShiftTotals(sale)) continue;
     final hasCash =
         sale.payments.any((p) => p.method == PaymentMethod.efectivo);
     if (!hasCash) continue;

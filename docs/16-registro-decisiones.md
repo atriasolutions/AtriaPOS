@@ -19,7 +19,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-011 | P0 | Carro: uno por cajero / por turno | ⬜ | 07 | F2 |
 | DEC-012 | P0 | Medios de pago MVP (EFECTIVO, OTRO, …) | ⬜ | 07 | F2 |
 | DEC-013 | P0 | Un turno abierto por dispositivo | ✅ | [ADR](decisiones/DEC-turno-slice4.md) (MVP: por tienda) | F2 |
-| DEC-014 | P0 | Anulación venta: ventana y stock | ⬜ | 04 + ADR | F2 |
+| DEC-014 | P0 | Anulación venta: ventana y stock | ✅ | [DEC-anulacion-slice10](decisiones/DEC-anulacion-slice10.md) | SLICE-10 |
 | DEC-015 | P0 | Tolerancia diferencia cierre caja | ✅ | [ADR](decisiones/DEC-turno-slice4.md) (solo reporte S4) | F2 |
 | DEC-016 | P0 | Esquema SQLite v1 (DDL) | ✅ | 08b (products) | F4 |
 | DEC-017 | P0 | Índices búsqueda producto | ✅ | 08b | F4 |

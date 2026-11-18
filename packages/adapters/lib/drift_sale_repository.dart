@@ -17,6 +17,7 @@ class DriftSaleRepository implements SaleRepository {
     if (existing != null) {
       await (_db.update(_db.sales)..where((t) => t.id.equals(sale.id))).write(
         SalesCompanion(
+          status: Value(sale.status.apiValue),
           dteStatus: Value(sale.dteStatus.apiValue),
           folio: Value(sale.folio),
           pdfUrl: Value(sale.pdfUrl),
@@ -35,6 +36,7 @@ class DriftSaleRepository implements SaleRepository {
               totalClp: sale.totalClp,
               changeClp: sale.changeClp,
               createdAt: sale.createdAt.toUtc().toIso8601String(),
+              status: Value(sale.status.apiValue),
               dteStatus: Value(sale.dteStatus.apiValue),
               folio: Value(sale.folio),
               pdfUrl: Value(sale.pdfUrl),
@@ -133,6 +135,7 @@ class DriftSaleRepository implements SaleRepository {
         totalClp: row.totalClp,
         changeClp: row.changeClp,
         createdAt: DateTime.parse(row.createdAt).toUtc(),
+        status: SaleStatus.fromApi(row.status),
         dteStatus: DteStatus.fromApi(row.dteStatus),
         folio: row.folio,
         pdfUrl: row.pdfUrl,

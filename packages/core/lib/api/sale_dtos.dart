@@ -68,6 +68,16 @@ class CheckoutRequest {
   final int changeClp;
 }
 
+class VoidSaleResponse {
+  const VoidSaleResponse({
+    required this.saleId,
+    required this.status,
+  });
+
+  final String saleId;
+  final String status;
+}
+
 class CheckoutResponse {
   const CheckoutResponse({
     required this.saleId,

@@ -14,6 +14,8 @@ class AuthPolicy {
       Permission.configurarCatalogo =>
         role == UserRole.dueno || role == UserRole.supervisor,
       Permission.gestionarUsuarios => role == UserRole.dueno,
+      Permission.anularVenta =>
+        role == UserRole.dueno || role == UserRole.supervisor,
     };
   }
 

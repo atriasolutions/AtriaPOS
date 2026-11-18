@@ -20,6 +20,7 @@ export 'stock_adjustment_reason.dart';
 export 'stock_movement.dart';
 export 'sale.dart';
 export 'sale_id.dart';
+export 'sale_status.dart';
 export 'sale_line.dart';
 export 'sale_totals.dart';
 export 'shift.dart';

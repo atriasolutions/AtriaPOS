@@ -105,6 +105,7 @@ class PosComposition {
         shiftRepository: shifts,
         dteGateway: dteGateway,
         dteQueueRepository: dteQueue,
+        sessionProvider: sessions,
       ),
       inventoryService: InventoryService(
         productRepository: products,

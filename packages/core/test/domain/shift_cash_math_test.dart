@@ -67,4 +67,38 @@ void main() {
     ];
     expect(shiftExpectedCashClp(50000, sales), 51000);
   });
+
+  test('SC-032-07 excluye ventas anuladas', () {
+    final sales = [
+      Sale(
+        id: 's1',
+        storeId: 't1',
+        shiftId: 'sh1',
+        cartId: 'c1',
+        lines: const [],
+        payments: [
+          Payment(method: PaymentMethod.efectivo, amountClp: 1000),
+        ],
+        totalClp: 1000,
+        changeClp: 0,
+        createdAt: DateTime.utc(2026, 1, 1),
+      ),
+      Sale(
+        id: 's2',
+        storeId: 't1',
+        shiftId: 'sh1',
+        cartId: 'c2',
+        lines: const [],
+        payments: [
+          Payment(method: PaymentMethod.efectivo, amountClp: 2000),
+        ],
+        totalClp: 2000,
+        changeClp: 0,
+        createdAt: DateTime.utc(2026, 1, 1),
+        status: SaleStatus.anulada,
+      ),
+    ];
+    expect(shiftSalesTotalClp(sales), 1000);
+    expect(shiftExpectedCashClp(10000, sales), 11000);
+  });
 }

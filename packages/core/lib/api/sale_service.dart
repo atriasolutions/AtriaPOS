@@ -13,6 +13,7 @@ class SaleService {
     ShiftRepository? shiftRepository,
     DteGateway? dteGateway,
     DteQueueRepository? dteQueueRepository,
+    SessionProvider? sessionProvider,
   }) {
     final carts = cartRepository ?? InMemoryCartRepository();
     final products = productRepository ?? InMemoryProductRepository();
@@ -22,6 +23,8 @@ class SaleService {
     final shifts = shiftRepository ?? InMemoryShiftRepository();
     final dte = dteGateway ?? FakeDteGateway();
     final dteQueue = dteQueueRepository ?? InMemoryDteQueueRepository();
+    final sessions =
+        sessionProvider ?? InMemorySessionProvider.supervisor();
     return SaleService._(
       carts,
       products,
@@ -30,6 +33,7 @@ class SaleService {
       shifts,
       dte,
       dteQueue,
+      sessions,
     );
   }
 
@@ -41,6 +45,7 @@ class SaleService {
     ShiftRepository shifts,
     DteGateway dte,
     DteQueueRepository dteQueue,
+    SessionProvider sessions,
   )   : _createCart = CreateCart(carts, shifts),
         _addLine = AddCartLine(carts, products),
         _updateLine = UpdateCartLineQuantity(carts),
@@ -54,6 +59,14 @@ class SaleService {
           shifts,
           dte,
           dteQueue,
+        ),
+        _voidSale = VoidSale(
+          sales,
+          products,
+          movements,
+          shifts,
+          dteQueue,
+          sessions,
         );
 
   final CreateCart _createCart;
@@ -62,6 +75,7 @@ class SaleService {
   final RemoveCartLine _removeLine;
   final GetCart _getCart;
   final ConfirmCheckout _checkout;
+  final VoidSale _voidSale;
 
   Future<ApiResult<CreateCartResponse>> createCart(StoreId storeId) async {
     final cart = await _createCart(storeId);
@@ -194,6 +208,47 @@ class SaleService {
         statusCode: 400,
       );
     } on InsufficientStockFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 409,
+      );
+    } on TurnClosedFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    }
+  }
+
+  Future<ApiResult<VoidSaleResponse>> voidSale(
+    StoreId storeId,
+    SaleId saleId,
+  ) async {
+    try {
+      final sale = await _voidSale(storeId, saleId);
+      return ApiSuccess(
+        VoidSaleResponse(
+          saleId: sale.id,
+          status: sale.status.apiValue,
+        ),
+        statusCode: 200,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on ConflictFailure catch (e) {
       return ApiFailure(
         ApiErrorBody(code: e.code, message: e.message, details: e.details),
         statusCode: 409,

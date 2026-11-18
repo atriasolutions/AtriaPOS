@@ -152,6 +152,7 @@ Columnas adicionales en `sales`:
 
 | Columna | Tipo | Notas |
 |---------|------|-------|
+| status | TEXT NOT NULL DEFAULT 'CONFIRMADA' | CONFIRMADA / ANULADA (SLICE-10) |
 | dte_status | TEXT NOT NULL DEFAULT 'PENDIENTE_DTE' | EMITIDA / PENDIENTE_DTE / RECHAZADA_SII |
 | folio | INTEGER NULL | |
 | pdf_url | TEXT NULL | |
@@ -167,6 +168,7 @@ Tabla `dte_queue`:
 | created_at | TEXT NOT NULL | |
 
 ```sql
+ALTER TABLE sales ADD COLUMN status TEXT NOT NULL DEFAULT 'CONFIRMADA';
 ALTER TABLE sales ADD COLUMN dte_status TEXT NOT NULL DEFAULT 'PENDIENTE_DTE';
 ALTER TABLE sales ADD COLUMN folio INTEGER;
 ALTER TABLE sales ADD COLUMN pdf_url TEXT;

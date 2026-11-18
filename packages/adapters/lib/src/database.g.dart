@@ -1590,6 +1590,16 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('CONFIRMADA'),
+  );
   static const VerificationMeta _dteStatusMeta = const VerificationMeta(
     'dteStatus',
   );
@@ -1629,6 +1639,7 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     totalClp,
     changeClp,
     createdAt,
+    status,
     dteStatus,
     folio,
     pdfUrl,
@@ -1698,6 +1709,12 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
     if (data.containsKey('dte_status')) {
       context.handle(
         _dteStatusMeta,
@@ -1753,6 +1770,10 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         DriftSqlType.string,
         data['${effectivePrefix}created_at'],
       )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
       dteStatus: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}dte_status'],
@@ -1782,6 +1803,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
   final int totalClp;
   final int changeClp;
   final String createdAt;
+  final String status;
   final String dteStatus;
   final int? folio;
   final String? pdfUrl;
@@ -1793,6 +1815,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     required this.totalClp,
     required this.changeClp,
     required this.createdAt,
+    required this.status,
     required this.dteStatus,
     this.folio,
     this.pdfUrl,
@@ -1807,6 +1830,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     map['total_clp'] = Variable<int>(totalClp);
     map['change_clp'] = Variable<int>(changeClp);
     map['created_at'] = Variable<String>(createdAt);
+    map['status'] = Variable<String>(status);
     map['dte_status'] = Variable<String>(dteStatus);
     if (!nullToAbsent || folio != null) {
       map['folio'] = Variable<int>(folio);
@@ -1826,6 +1850,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       totalClp: Value(totalClp),
       changeClp: Value(changeClp),
       createdAt: Value(createdAt),
+      status: Value(status),
       dteStatus: Value(dteStatus),
       folio: folio == null && nullToAbsent
           ? const Value.absent()
@@ -1849,6 +1874,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       totalClp: serializer.fromJson<int>(json['totalClp']),
       changeClp: serializer.fromJson<int>(json['changeClp']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
+      status: serializer.fromJson<String>(json['status']),
       dteStatus: serializer.fromJson<String>(json['dteStatus']),
       folio: serializer.fromJson<int?>(json['folio']),
       pdfUrl: serializer.fromJson<String?>(json['pdfUrl']),
@@ -1865,6 +1891,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       'totalClp': serializer.toJson<int>(totalClp),
       'changeClp': serializer.toJson<int>(changeClp),
       'createdAt': serializer.toJson<String>(createdAt),
+      'status': serializer.toJson<String>(status),
       'dteStatus': serializer.toJson<String>(dteStatus),
       'folio': serializer.toJson<int?>(folio),
       'pdfUrl': serializer.toJson<String?>(pdfUrl),
@@ -1879,6 +1906,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     int? totalClp,
     int? changeClp,
     String? createdAt,
+    String? status,
     String? dteStatus,
     Value<int?> folio = const Value.absent(),
     Value<String?> pdfUrl = const Value.absent(),
@@ -1890,6 +1918,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     totalClp: totalClp ?? this.totalClp,
     changeClp: changeClp ?? this.changeClp,
     createdAt: createdAt ?? this.createdAt,
+    status: status ?? this.status,
     dteStatus: dteStatus ?? this.dteStatus,
     folio: folio.present ? folio.value : this.folio,
     pdfUrl: pdfUrl.present ? pdfUrl.value : this.pdfUrl,
@@ -1903,6 +1932,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       totalClp: data.totalClp.present ? data.totalClp.value : this.totalClp,
       changeClp: data.changeClp.present ? data.changeClp.value : this.changeClp,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      status: data.status.present ? data.status.value : this.status,
       dteStatus: data.dteStatus.present ? data.dteStatus.value : this.dteStatus,
       folio: data.folio.present ? data.folio.value : this.folio,
       pdfUrl: data.pdfUrl.present ? data.pdfUrl.value : this.pdfUrl,
@@ -1919,6 +1949,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           ..write('totalClp: $totalClp, ')
           ..write('changeClp: $changeClp, ')
           ..write('createdAt: $createdAt, ')
+          ..write('status: $status, ')
           ..write('dteStatus: $dteStatus, ')
           ..write('folio: $folio, ')
           ..write('pdfUrl: $pdfUrl')
@@ -1935,6 +1966,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     totalClp,
     changeClp,
     createdAt,
+    status,
     dteStatus,
     folio,
     pdfUrl,
@@ -1950,6 +1982,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           other.totalClp == this.totalClp &&
           other.changeClp == this.changeClp &&
           other.createdAt == this.createdAt &&
+          other.status == this.status &&
           other.dteStatus == this.dteStatus &&
           other.folio == this.folio &&
           other.pdfUrl == this.pdfUrl);
@@ -1963,6 +1996,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
   final Value<int> totalClp;
   final Value<int> changeClp;
   final Value<String> createdAt;
+  final Value<String> status;
   final Value<String> dteStatus;
   final Value<int?> folio;
   final Value<String?> pdfUrl;
@@ -1975,6 +2009,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.totalClp = const Value.absent(),
     this.changeClp = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.status = const Value.absent(),
     this.dteStatus = const Value.absent(),
     this.folio = const Value.absent(),
     this.pdfUrl = const Value.absent(),
@@ -1988,6 +2023,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     required int totalClp,
     required int changeClp,
     required String createdAt,
+    this.status = const Value.absent(),
     this.dteStatus = const Value.absent(),
     this.folio = const Value.absent(),
     this.pdfUrl = const Value.absent(),
@@ -2007,6 +2043,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Expression<int>? totalClp,
     Expression<int>? changeClp,
     Expression<String>? createdAt,
+    Expression<String>? status,
     Expression<String>? dteStatus,
     Expression<int>? folio,
     Expression<String>? pdfUrl,
@@ -2020,6 +2057,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       if (totalClp != null) 'total_clp': totalClp,
       if (changeClp != null) 'change_clp': changeClp,
       if (createdAt != null) 'created_at': createdAt,
+      if (status != null) 'status': status,
       if (dteStatus != null) 'dte_status': dteStatus,
       if (folio != null) 'folio': folio,
       if (pdfUrl != null) 'pdf_url': pdfUrl,
@@ -2035,6 +2073,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Value<int>? totalClp,
     Value<int>? changeClp,
     Value<String>? createdAt,
+    Value<String>? status,
     Value<String>? dteStatus,
     Value<int?>? folio,
     Value<String?>? pdfUrl,
@@ -2048,6 +2087,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       totalClp: totalClp ?? this.totalClp,
       changeClp: changeClp ?? this.changeClp,
       createdAt: createdAt ?? this.createdAt,
+      status: status ?? this.status,
       dteStatus: dteStatus ?? this.dteStatus,
       folio: folio ?? this.folio,
       pdfUrl: pdfUrl ?? this.pdfUrl,
@@ -2079,6 +2119,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
     }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
     if (dteStatus.present) {
       map['dte_status'] = Variable<String>(dteStatus.value);
     }
@@ -2104,6 +2147,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
           ..write('totalClp: $totalClp, ')
           ..write('changeClp: $changeClp, ')
           ..write('createdAt: $createdAt, ')
+          ..write('status: $status, ')
           ..write('dteStatus: $dteStatus, ')
           ..write('folio: $folio, ')
           ..write('pdfUrl: $pdfUrl, ')
@@ -4737,6 +4781,7 @@ typedef $$SalesTableCreateCompanionBuilder =
       required int totalClp,
       required int changeClp,
       required String createdAt,
+      Value<String> status,
       Value<String> dteStatus,
       Value<int?> folio,
       Value<String?> pdfUrl,
@@ -4751,6 +4796,7 @@ typedef $$SalesTableUpdateCompanionBuilder =
       Value<int> totalClp,
       Value<int> changeClp,
       Value<String> createdAt,
+      Value<String> status,
       Value<String> dteStatus,
       Value<int?> folio,
       Value<String?> pdfUrl,
@@ -4797,6 +4843,11 @@ class $$SalesTableFilterComposer extends Composer<_$AppDatabase, $SalesTable> {
 
   ColumnFilters<String> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4860,6 +4911,11 @@ class $$SalesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get dteStatus => $composableBuilder(
     column: $table.dteStatus,
     builder: (column) => ColumnOrderings(column),
@@ -4906,6 +4962,9 @@ class $$SalesTableAnnotationComposer
   GeneratedColumn<String> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
   GeneratedColumn<String> get dteStatus =>
       $composableBuilder(column: $table.dteStatus, builder: (column) => column);
 
@@ -4951,6 +5010,7 @@ class $$SalesTableTableManager
                 Value<int> totalClp = const Value.absent(),
                 Value<int> changeClp = const Value.absent(),
                 Value<String> createdAt = const Value.absent(),
+                Value<String> status = const Value.absent(),
                 Value<String> dteStatus = const Value.absent(),
                 Value<int?> folio = const Value.absent(),
                 Value<String?> pdfUrl = const Value.absent(),
@@ -4963,6 +5023,7 @@ class $$SalesTableTableManager
                 totalClp: totalClp,
                 changeClp: changeClp,
                 createdAt: createdAt,
+                status: status,
                 dteStatus: dteStatus,
                 folio: folio,
                 pdfUrl: pdfUrl,
@@ -4977,6 +5038,7 @@ class $$SalesTableTableManager
                 required int totalClp,
                 required int changeClp,
                 required String createdAt,
+                Value<String> status = const Value.absent(),
                 Value<String> dteStatus = const Value.absent(),
                 Value<int?> folio = const Value.absent(),
                 Value<String?> pdfUrl = const Value.absent(),
@@ -4989,6 +5051,7 @@ class $$SalesTableTableManager
                 totalClp: totalClp,
                 changeClp: changeClp,
                 createdAt: createdAt,
+                status: status,
                 dteStatus: dteStatus,
                 folio: folio,
                 pdfUrl: pdfUrl,

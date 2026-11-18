@@ -160,6 +160,26 @@ Response ampliada con `dteStatus`, `folio`, `pdfUrl`. Tests con `FakeDteGateway`
 
 Estados `dteStatus`: `EMITIDA` | `PENDIENTE_DTE` | `RECHAZADA_SII`.
 
+#### SLICE-10 (RF-032)
+
+### `POST /v0/stores/{storeId}/sales/{saleId}/void`
+
+**Response 200**
+
+```json
+{ "saleId": "sale_01", "status": "ANULADA" }
+```
+
+**Tests comportamiento (SC-032-*)**
+
+- Supervisor/dueño, turno abierto, DTE no emitida → `200`, stock revertido.
+- Cajero → `403` `PERMISO_DENEGADO`.
+- Venta ya anulada → `409` `CONFLICTO`.
+- `dteStatus` `EMITIDA` → `400` `VALIDACION`.
+- Sin turno abierto → `403` `TURNO_CERRADO`.
+
+Estados `status` venta: `CONFIRMADA` | `ANULADA`.
+
 ---
 
 ## API-003 — Turno y cierre
