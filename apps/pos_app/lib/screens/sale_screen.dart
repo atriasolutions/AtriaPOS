@@ -1,9 +1,11 @@
 import 'package:core/api/api.dart';
+import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 
 import '../config/store_config.dart';
 import '../di/pos_composition.dart';
 import '../widgets/checkout_dialog.dart';
+import 'shift_sales_screen.dart';
 
 class SaleScreen extends StatefulWidget {
   const SaleScreen({super.key, required this.composition});
@@ -147,8 +149,30 @@ class _SaleScreenState extends State<SaleScreen> {
   @override
   Widget build(BuildContext context) {
     final cart = _cart;
+    final session = widget.composition.sessionProvider.current;
+    final canVoidSales = session != null &&
+        AuthPolicy.allows(session.role, Permission.anularVenta);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Vender')),
+      appBar: AppBar(
+        title: const Text('Vender'),
+        actions: [
+          if (canVoidSales)
+            IconButton(
+              key: const Key('shift_sales_button'),
+              tooltip: 'Ventas del turno',
+              icon: const Icon(Icons.receipt_long),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) =>
+                        ShiftSalesScreen(composition: widget.composition),
+                  ),
+                );
+              },
+            ),
+        ],
+      ),
       body: Row(
         children: [
           Expanded(

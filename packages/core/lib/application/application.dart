@@ -22,6 +22,7 @@ export 'adjust_stock.dart';
 export 'close_shift.dart';
 export 'confirm_checkout.dart';
 export 'void_sale.dart';
+export 'list_shift_sales.dart';
 export 'create_cart.dart';
 export 'get_open_shift.dart';
 export 'create_product.dart';

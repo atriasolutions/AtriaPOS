@@ -67,7 +67,8 @@ class SaleService {
           shifts,
           dteQueue,
           sessions,
-        );
+        ),
+        _listShiftSales = ListShiftSales(sales, shifts, sessions);
 
   final CreateCart _createCart;
   final AddCartLine _addLine;
@@ -76,6 +77,7 @@ class SaleService {
   final GetCart _getCart;
   final ConfirmCheckout _checkout;
   final VoidSale _voidSale;
+  final ListShiftSales _listShiftSales;
 
   Future<ApiResult<CreateCartResponse>> createCart(StoreId storeId) async {
     final cart = await _createCart(storeId);
@@ -221,6 +223,38 @@ class SaleService {
       return ApiFailure(
         ApiErrorBody(code: e.code, message: e.message, details: e.details),
         statusCode: 404,
+      );
+    }
+  }
+
+  Future<ApiResult<ListShiftSalesResponse>> listShiftSales(StoreId storeId) async {
+    try {
+      final items = await _listShiftSales(storeId);
+      return ApiSuccess(
+        ListShiftSalesResponse(
+          items: items
+              .map(
+                (i) => ShiftSaleItemResponse(
+                  saleId: i.saleId,
+                  totalClp: i.totalClp,
+                  status: i.status.apiValue,
+                  dteStatus: i.dteStatus.apiValue,
+                  folio: i.folio,
+                ),
+              )
+              .toList(),
+        ),
+        statusCode: 200,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on TurnClosedFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
       );
     }
   }

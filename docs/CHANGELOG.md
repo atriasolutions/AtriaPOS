@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-10 UI: pantalla ventas del turno, anulación supervisor, `ListShiftSales`, SC-032-UI-01.
 - SLICE-10: `VoidSale`, `Permission.anularVenta`, API `POST .../void`, drift `sales.status` v8, SC-032.
 - SLICE-8 Fase B: `SiiLiveDteGateway`, `HttpSiiTransport`, folios CAF (`dte_folio_counters` v7), SC-080-04/05.
 - SLICE-8 Fase A: `SiiCertReplayDteGateway`, `CertificateStore`, runbook cert SII; cert live pendiente (Fase B).

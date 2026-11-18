@@ -46,9 +46,9 @@ class PosComposition {
   /// PIN demo documentado en ADR (solo desarrollo).
   static const demoPin = '2468';
 
-  factory PosComposition.memory() {
+  factory PosComposition.memory({DteGateway? dteGateway}) {
     final db = openPosDatabaseMemory();
-    return PosComposition._fromDatabase(db);
+    return PosComposition._fromDatabase(db, dteGatewayOverride: dteGateway);
   }
 
   factory PosComposition.file(String path) {
@@ -59,14 +59,18 @@ class PosComposition {
   factory PosComposition.fromDatabase(AppDatabase db) =>
       PosComposition._fromDatabase(db);
 
-  static PosComposition _fromDatabase(AppDatabase db) {
+  static PosComposition _fromDatabase(
+    AppDatabase db, {
+    DteGateway? dteGatewayOverride,
+  }) {
     final carts = InMemoryCartRepository();
     final products = DriftProductRepository(db);
     final sales = DriftSaleRepository(db);
     final movements = DriftStockMovementRepository(db);
     final shifts = DriftShiftRepository(db);
     final dteQueue = DriftDteQueueRepository(db);
-    final dteGateway = createDteGateway(sales: sales, database: db);
+    final dteGateway = dteGatewayOverride ??
+        createDteGateway(sales: sales, database: db);
     final users = DriftUserRepository(db);
     final sessions = InMemorySessionProvider();
     final hasher = BcryptPinHasher();

@@ -162,6 +162,26 @@ Estados `dteStatus`: `EMITIDA` | `PENDIENTE_DTE` | `RECHAZADA_SII`.
 
 #### SLICE-10 (RF-032)
 
+### `GET /v0/stores/{storeId}/shifts/open/sales` (SLICE-10 UI)
+
+Solo supervisor/dueño. Requiere turno abierto.
+
+**Response 200**
+
+```json
+{
+  "items": [
+    {
+      "saleId": "sale_01",
+      "totalClp": 1000,
+      "status": "CONFIRMADA",
+      "dteStatus": "EMITIDA",
+      "folio": 1001
+    }
+  ]
+}
+```
+
 ### `POST /v0/stores/{storeId}/sales/{saleId}/void`
 
 **Response 200**

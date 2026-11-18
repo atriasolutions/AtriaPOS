@@ -78,6 +78,28 @@ class VoidSaleResponse {
   final String status;
 }
 
+class ShiftSaleItemResponse {
+  const ShiftSaleItemResponse({
+    required this.saleId,
+    required this.totalClp,
+    required this.status,
+    required this.dteStatus,
+    this.folio,
+  });
+
+  final String saleId;
+  final int totalClp;
+  final String status;
+  final String dteStatus;
+  final int? folio;
+}
+
+class ListShiftSalesResponse {
+  const ListShiftSalesResponse({required this.items});
+
+  final List<ShiftSaleItemResponse> items;
+}
+
 class CheckoutResponse {
   const CheckoutResponse({
     required this.saleId,

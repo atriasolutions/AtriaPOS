@@ -48,6 +48,14 @@ Cuando anula
 Entonces ANULADA y cola sin el saleId
 ```
 
+### SC-032-UI-01 — Flutter anular venta
+
+```gherkin
+Dado supervisor con venta confirmada anulable en turno
+Cuando abre ventas del turno y confirma anular
+Entonces la lista muestra ANULADA
+```
+
 ### SC-032-07 — Cierre caja
 
 ```gherkin

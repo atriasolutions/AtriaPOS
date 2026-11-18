@@ -16,4 +16,4 @@
 | Folio consumido | No se devuelve al CAF (DEC-043) |
 | Cierre caja | Ventas `ANULADA` excluidas de totales |
 
-DoD: tests SC-032-01…07 en verde.
+DoD: tests SC-032-01…07 en verde. UI Flutter (SC-032-UI-01): lista turno + anular en app.
