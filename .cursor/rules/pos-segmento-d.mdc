@@ -12,3 +12,4 @@ alwaysApply: true
 - MVP local-first; sin ERP, sin omnicanal, sin certificados en repo.
 - Kora: complemento opcional únicamente; casos de uso [M] sin dependencia de Kora (doc 14).
 - Español Chile en docs y mensajes de usuario.
+- Cierre slice: tests verdes + **commit** (`slice-cierre-commit.mdc`).

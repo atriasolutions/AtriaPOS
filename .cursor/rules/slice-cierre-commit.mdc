@@ -1,0 +1,17 @@
+---
+description: Commit obligatorio al cerrar cada vertical slice
+alwaysApply: true
+---
+
+# Cierre de slice — commit
+
+Al **terminar un slice** (tests verdes + acceptance/CHANGELOG/plan según `docs/10-plan-entregas.md`):
+
+1. **Crear un commit** en git antes de dar por cerrada la entrega (no dejar el slice solo en working tree).
+2. **Mensaje:** `feat(slice-N): <resumen breve en español>.` Alinear con commits recientes (`feat(slice-10): …`).
+3. **Incluir** en el commit: código del slice, tests, `test/acceptance/*`, `docs/CHANGELOG.md`, fila en `docs/10`, DEC/ADR del slice si aplica.
+4. **Excluir** siempre: `.env`, certificados, secretos, dart-define con claves.
+5. **No hacer push** salvo que el usuario lo pida.
+6. Si el slice se implementó en el mismo turno, el commit es parte del DoD; no esperar a que el usuario diga “haz commit”.
+
+Slices operativos sin código (p. ej. solo piloto manual SII): documentar evidencia en `runbooks/` y commit de docs si hubo checklist cerrado.

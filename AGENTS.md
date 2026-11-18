@@ -21,7 +21,8 @@ POS para **comercio de barrio** (Chile). Definición en `docs/`. Desarrollo **TD
 - Tests de **comportamiento** contra API/casos de uso públicos (`packages/core`).
 - Un slice a la vez; no avanzar con tests rojos del slice actual.
 - Mínimo diff; sin features fuera de RF del slice.
-- Docs español Chile; commits solo si el usuario lo pide.
+- Docs español Chile.
+- **Al cerrar cada slice:** commit obligatorio (ver `.cursor/rules/slice-cierre-commit.mdc`). Otros commits intermedios solo si el usuario lo pide.
 - Certificados SII / secretos: nunca en repo ni chat.
 - Núcleo POS autónomo; Kora solo complementos opcionales (`docs/14-nucleo-y-complementos-kora.md`).
 - Cobertura objetivo ≥ 80 % en `packages/core` (post SLICE-4).
