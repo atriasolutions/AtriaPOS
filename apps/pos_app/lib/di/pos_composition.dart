@@ -10,6 +10,7 @@ import '../config/store_config.dart';
 class PosComposition {
   PosComposition._({
     required this.database,
+    required this.stores,
     required this.carts,
     required this.products,
     required this.sales,
@@ -20,13 +21,16 @@ class PosComposition {
     required this.users,
     required this.sessionProvider,
     required this.authService,
+    required this.storeService,
     required this.productService,
     required this.shiftService,
     required this.saleService,
     required this.inventoryService,
+    required this.dteService,
   });
 
   final AppDatabase database;
+  final DriftStoreRepository stores;
   final InMemoryCartRepository carts;
   final DriftProductRepository products;
   final DriftSaleRepository sales;
@@ -37,14 +41,27 @@ class PosComposition {
   final DriftUserRepository users;
   final InMemorySessionProvider sessionProvider;
   final AuthService authService;
+  final StoreService storeService;
 
   final ProductService productService;
   final ShiftService shiftService;
   final SaleService saleService;
   final InventoryService inventoryService;
+  final DteService dteService;
+
+  /// Cache del identificador de tienda activa (MVP una tienda).
+  String? activeStoreId;
 
   /// PIN demo documentado en ADR (solo desarrollo).
   static const demoPin = '2468';
+
+  StoreId get requireStoreId {
+    final id = activeStoreId;
+    if (id == null) {
+      throw StateError('No hay tienda activa cargada');
+    }
+    return id;
+  }
 
   factory PosComposition.memory({DteGateway? dteGateway}) {
     final db = openPosDatabaseMemory();
@@ -63,6 +80,7 @@ class PosComposition {
     AppDatabase db, {
     DteGateway? dteGatewayOverride,
   }) {
+    final storeRepo = DriftStoreRepository(db);
     final carts = InMemoryCartRepository();
     final products = DriftProductRepository(db);
     final sales = DriftSaleRepository(db);
@@ -70,7 +88,11 @@ class PosComposition {
     final shifts = DriftShiftRepository(db);
     final dteQueue = DriftDteQueueRepository(db);
     final dteGateway = dteGatewayOverride ??
-        createDteGateway(sales: sales, database: db);
+        createDteGateway(
+          sales: sales,
+          database: db,
+          stores: storeRepo,
+        );
     final users = DriftUserRepository(db);
     final sessions = InMemorySessionProvider();
     final hasher = BcryptPinHasher();
@@ -79,9 +101,16 @@ class PosComposition {
       pinHasher: hasher,
       sessionProvider: sessions,
     );
+    final storeSvc = StoreService(
+      storeRepository: storeRepo,
+      userRepository: users,
+      pinHasher: hasher,
+      sessionProvider: sessions,
+    );
 
     return PosComposition._(
       database: db,
+      stores: storeRepo,
       carts: carts,
       products: products,
       sales: sales,
@@ -92,6 +121,7 @@ class PosComposition {
       users: users,
       sessionProvider: sessions,
       authService: auth,
+      storeService: storeSvc,
       productService: ProductService(
         repository: products,
         sessionProvider: sessions,
@@ -116,10 +146,36 @@ class PosComposition {
         stockMovementRepository: movements,
         sessionProvider: sessions,
       ),
+      dteService: DteService(
+        queueRepository: dteQueue,
+        saleRepository: sales,
+        dteGateway: dteGateway,
+      ),
     );
   }
 
+  Future<void> refreshActiveStore() async {
+    activeStoreId = await storeService.activeStoreId();
+  }
+
+  /// Seed para tests de regresión (id fijo `tienda_demo`).
+  Future<void> ensureDemoStore() async {
+    if (await stores.count() > 0) {
+      await refreshActiveStore();
+      return;
+    }
+    final store = Store.create(
+      id: kDemoStoreId,
+      rutRaw: '12.345.678-5',
+      legalName: 'Tienda demo',
+      businessLine: 'Comercio',
+    );
+    await stores.save(store);
+    activeStoreId = kDemoStoreId;
+  }
+
   Future<void> ensureDemoUsers() async {
+    final storeId = activeStoreId ?? kDemoStoreId;
     final hasher = BcryptPinHasher();
     final hash = hasher.hash(demoPin);
     for (final def in [
@@ -127,12 +183,12 @@ class PosComposition {
       (id: 'usr_supervisor', role: UserRole.supervisor, name: 'Supervisor'),
       (id: 'usr_cajero', role: UserRole.cajero, name: 'Cajero'),
     ]) {
-      final existing = await users.findById(kDemoStoreId, def.id);
+      final existing = await users.findById(storeId, def.id);
       if (existing != null) continue;
       await users.save(
         User(
           id: def.id,
-          storeId: kDemoStoreId,
+          storeId: storeId,
           role: def.role,
           pinHash: hash,
           displayName: def.name,

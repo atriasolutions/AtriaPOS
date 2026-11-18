@@ -2,10 +2,12 @@ import 'package:core/api/api.dart';
 import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 
-import '../config/store_config.dart';
 import '../di/pos_composition.dart';
 import '../widgets/checkout_dialog.dart';
+import 'close_shift_screen.dart';
+import 'dte_queue_screen.dart';
 import 'shift_sales_screen.dart';
+import 'stock_adjust_screen.dart';
 
 class SaleScreen extends StatefulWidget {
   const SaleScreen({super.key, required this.composition});
@@ -37,7 +39,7 @@ class _SaleScreenState extends State<SaleScreen> {
 
   Future<void> _ensureCart() async {
     if (_cartId != null) return;
-    final created = await widget.composition.saleService.createCart(kDemoStoreId);
+    final created = await widget.composition.saleService.createCart(widget.composition.requireStoreId);
     switch (created) {
       case ApiSuccess<CreateCartResponse>(data: final data):
         setState(() => _cartId = data.cartId);
@@ -51,7 +53,7 @@ class _SaleScreenState extends State<SaleScreen> {
     final cartId = _cartId;
     if (cartId == null) return;
     final result = await widget.composition.saleService.getCart(
-      kDemoStoreId,
+      widget.composition.requireStoreId,
       cartId,
     );
     if (!mounted) return;
@@ -68,7 +70,7 @@ class _SaleScreenState extends State<SaleScreen> {
     }
     setState(() => _loading = true);
     final result = await widget.composition.productService.searchProducts(
-      kDemoStoreId,
+      widget.composition.requireStoreId,
       query,
     );
     if (!mounted) return;
@@ -82,7 +84,7 @@ class _SaleScreenState extends State<SaleScreen> {
     final cartId = _cartId;
     if (cartId == null) return;
     final result = await widget.composition.saleService.addLine(
-      kDemoStoreId,
+      widget.composition.requireStoreId,
       cartId,
       AddCartLineRequest(productId: product.id, quantity: 1),
     );
@@ -134,7 +136,7 @@ class _SaleScreenState extends State<SaleScreen> {
       ),
     );
 
-    final created = await widget.composition.saleService.createCart(kDemoStoreId);
+    final created = await widget.composition.saleService.createCart(widget.composition.requireStoreId);
     if (created case ApiSuccess<CreateCartResponse>(data: final data)) {
       setState(() {
         _cartId = data.cartId;
@@ -150,26 +152,89 @@ class _SaleScreenState extends State<SaleScreen> {
   Widget build(BuildContext context) {
     final cart = _cart;
     final session = widget.composition.sessionProvider.current;
+    final role = session?.role;
     final canVoidSales = session != null &&
         AuthPolicy.allows(session.role, Permission.anularVenta);
+    final canCloseShift = session != null &&
+        AuthPolicy.allows(session.role, Permission.cerrarCaja);
+    final canAdjustStock = session != null &&
+        AuthPolicy.allows(session.role, Permission.ajustarInventario);
+    final canDteQueue =
+        role == UserRole.dueno || role == UserRole.supervisor;
+    final hasOpsMenu = canVoidSales ||
+        canCloseShift ||
+        canAdjustStock ||
+        canDteQueue;
+
+    void openScreen(Widget screen) {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => screen),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Vender'),
         actions: [
-          if (canVoidSales)
-            IconButton(
-              key: const Key('shift_sales_button'),
-              tooltip: 'Ventas del turno',
-              icon: const Icon(Icons.receipt_long),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) =>
-                        ShiftSalesScreen(composition: widget.composition),
-                  ),
-                );
+          if (hasOpsMenu)
+            PopupMenuButton<String>(
+              key: const Key('operation_menu_button'),
+              tooltip: 'Operación',
+              icon: const Icon(Icons.more_vert),
+              onSelected: (value) {
+                switch (value) {
+                  case 'sales':
+                    openScreen(
+                      ShiftSalesScreen(composition: widget.composition),
+                    );
+                  case 'close':
+                    openScreen(
+                      CloseShiftScreen(composition: widget.composition),
+                    );
+                  case 'dte':
+                    openScreen(
+                      DteQueueScreen(composition: widget.composition),
+                    );
+                  case 'stock':
+                    openScreen(
+                      StockAdjustScreen(composition: widget.composition),
+                    );
+                }
               },
+              itemBuilder: (context) => [
+                if (canVoidSales)
+                  const PopupMenuItem(
+                    value: 'sales',
+                    child: Text(
+                      'Ventas del turno',
+                      key: Key('operation_menu_sales'),
+                    ),
+                  ),
+                if (canCloseShift)
+                  const PopupMenuItem(
+                    value: 'close',
+                    child: Text(
+                      'Cerrar caja',
+                      key: Key('operation_menu_close'),
+                    ),
+                  ),
+                if (canDteQueue)
+                  const PopupMenuItem(
+                    value: 'dte',
+                    child: Text(
+                      'Cola DTE',
+                      key: Key('operation_menu_dte'),
+                    ),
+                  ),
+                if (canAdjustStock)
+                  const PopupMenuItem(
+                    value: 'stock',
+                    child: Text(
+                      'Ajuste de stock',
+                      key: Key('operation_menu_stock'),
+                    ),
+                  ),
+              ],
             ),
         ],
       ),

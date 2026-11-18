@@ -39,7 +39,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-030 | P2 | Orden cobro vs DTE | ⬜ | ADR | F7 |
 | DEC-031 | P2 | Eventos sync Kora (complemento) | ⬜ | 14 + ADR | F7 |
 | DEC-032 | P2 | Backend sync (sí/no/cuándo) | ⏸ | 06 | F7 |
-| DEC-033 | P1 | CI GitHub Actions | ⬜ | repo | F1 |
+| DEC-033 | P1 | CI GitHub Actions | ✅ | [DEC-ci-slice11](decisiones/DEC-ci-slice11.md) | SLICE-11 |
 | DEC-034 | P0 | Inyección dependencias core | 🔄 | [DEC-ui-slice6](decisiones/DEC-ui-slice6.md) + session S7 | SLICE-7 |
 | DEC-035 | P1 | Soft delete productos | ⬜ | 08b | F4 |
 | DEC-036 | P1 | Backup export local | ⬜ | ADR | F4 |

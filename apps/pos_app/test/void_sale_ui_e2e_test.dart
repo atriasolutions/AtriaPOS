@@ -13,6 +13,7 @@ void main() {
       dteGateway: FakeDteGateway(mode: FakeDteMode.rechazadaSii),
     );
     addTearDown(composition.close);
+    await composition.ensureDemoStore();
     await composition.ensureDemoUsers();
     await composition.authService.login(
       kDemoStoreId,
@@ -70,6 +71,7 @@ void main() {
   testWidgets('cajero no ve botón ventas del turno en pantalla vender', (tester) async {
     final composition = PosComposition.memory();
     addTearDown(composition.close);
+    await composition.ensureDemoStore();
     await composition.ensureDemoUsers();
     await composition.authService.login(
       kDemoStoreId,
@@ -86,6 +88,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('checkout_button')), findsOneWidget);
-    expect(find.byKey(const Key('shift_sales_button')), findsNothing);
+    expect(find.byKey(const Key('operation_menu_button')), findsNothing);
   });
 }

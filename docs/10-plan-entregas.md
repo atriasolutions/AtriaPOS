@@ -14,6 +14,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 7 | SLICE-7 | Roles + PIN | RF-002 | Matriz permisos |
 | 8 | SLICE-8 | Certificación SII | RF-003, RF-050 real | Ambiente cert OK |
 | 10 | SLICE-10 | Anulación venta del día | RF-032 | Stock revertido; caja excluye anuladas |
+| 11 | SLICE-11 | Operación supervisor + CI | RF-041, RF-051, RF-021 UI | Cierre/cola/ajuste en app; workflow verde |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

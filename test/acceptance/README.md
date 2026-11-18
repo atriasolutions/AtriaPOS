@@ -12,5 +12,8 @@ Cada slice tiene un archivo `slice_XX_*.md` con escenarios Gherkin enlazados a R
 | `slice_06_pos_ui.md` | SLICE-6 | Creado |
 | `slice_07_auth.md` | SLICE-7 | Creado |
 | `slice_08_dte_sii.md` | SLICE-8 | Creado |
-
+| `slice_10_anulacion.md` | SLICE-10 | Creado |
+| `slice_11_operacion_ui.md` | SLICE-11 | Creado |
 Los tests Dart deben citar el ID de escenario (ej. `SC-030-01`).
+
+Matriz automatización: [`docs/12b-matriz-verificacion-automatizacion.md`](../docs/12b-matriz-verificacion-automatizacion.md).

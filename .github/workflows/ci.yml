@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'feat/**']
+  pull_request:
+    branches: [main, 'feat/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Dart SDK check
+        run: dart --version
+
+      - name: core — pub get and test
+        working-directory: packages/core
+        run: |
+          dart pub get
+          dart test
+
+      - name: adapters — pub get and test
+        working-directory: packages/adapters
+        run: |
+          dart pub get
+          dart test
+
+      - name: pos_app — pub get and test
+        working-directory: apps/pos_app
+        run: |
+          flutter pub get
+          flutter test

@@ -36,6 +36,6 @@ flutter run -d windows
 
 ## Estado
 
-**SLICE-0:** scaffold — sin lógica de negocio.
+**SLICE-11:** cierre caja, cola DTE y ajuste stock en UI; CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md).
 
-Siguiente: cerrar DEC P0 en [`docs/16-registro-decisiones.md`](docs/16-registro-decisiones.md) y **SLICE-1** (catálogo / API-001).
+Ver plan de slices en [`docs/10-plan-entregas.md`](docs/10-plan-entregas.md).
