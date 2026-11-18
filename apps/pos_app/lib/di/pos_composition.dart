@@ -27,6 +27,7 @@ class PosComposition {
     required this.saleService,
     required this.inventoryService,
     required this.dteService,
+    required this.reportService,
   });
 
   final AppDatabase database;
@@ -48,6 +49,7 @@ class PosComposition {
   final SaleService saleService;
   final InventoryService inventoryService;
   final DteService dteService;
+  final ReportService reportService;
 
   /// Cache del identificador de tienda activa (MVP una tienda).
   String? activeStoreId;
@@ -150,6 +152,10 @@ class PosComposition {
         queueRepository: dteQueue,
         saleRepository: sales,
         dteGateway: dteGateway,
+      ),
+      reportService: ReportService(
+        saleRepository: sales,
+        sessionProvider: sessions,
       ),
     );
   }

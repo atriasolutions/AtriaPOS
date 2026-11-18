@@ -6,4 +6,10 @@ abstract class SaleRepository {
   Future<Sale?> findById(StoreId storeId, SaleId saleId);
 
   Future<List<Sale>> listByShift(StoreId storeId, ShiftId shiftId);
+
+  Future<List<Sale>> listByStoreCreatedBetween(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  );
 }

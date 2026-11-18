@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../di/pos_composition.dart';
 import '../widgets/checkout_dialog.dart';
 import 'close_shift_screen.dart';
+import 'daily_sales_screen.dart';
 import 'dte_queue_screen.dart';
 import 'shift_sales_screen.dart';
 import 'product_create_screen.dart';
@@ -162,13 +163,15 @@ class _SaleScreenState extends State<SaleScreen> {
         AuthPolicy.allows(session.role, Permission.ajustarInventario);
     final canDteQueue =
         role == UserRole.dueno || role == UserRole.supervisor;
+    final canDailyReport = canDteQueue;
     final canCreateProduct = session != null &&
         AuthPolicy.allows(session.role, Permission.configurarCatalogo);
     final hasOpsMenu = canVoidSales ||
         canCloseShift ||
         canAdjustStock ||
         canDteQueue ||
-        canCreateProduct;
+        canCreateProduct ||
+        canDailyReport;
 
     void openScreen(Widget screen) {
       Navigator.of(context).push(
@@ -198,6 +201,10 @@ class _SaleScreenState extends State<SaleScreen> {
                   case 'dte':
                     openScreen(
                       DteQueueScreen(composition: widget.composition),
+                    );
+                  case 'daily':
+                    openScreen(
+                      DailySalesScreen(composition: widget.composition),
                     );
                   case 'stock':
                     openScreen(
@@ -232,6 +239,14 @@ class _SaleScreenState extends State<SaleScreen> {
                     child: Text(
                       'Cola DTE',
                       key: Key('operation_menu_dte'),
+                    ),
+                  ),
+                if (canDailyReport)
+                  const PopupMenuItem(
+                    value: 'daily',
+                    child: Text(
+                      'Ventas del día',
+                      key: Key('operation_menu_daily_report'),
                     ),
                   ),
                 if (canAdjustStock)

@@ -14,3 +14,5 @@ export 'shift_dtos.dart';
 export 'shift_service.dart';
 export 'store_dtos.dart';
 export 'store_service.dart';
+export 'report_dtos.dart';
+export 'report_service.dart';

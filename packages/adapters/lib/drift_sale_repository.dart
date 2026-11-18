@@ -104,6 +104,35 @@ class DriftSaleRepository implements SaleRepository {
     return sales;
   }
 
+  @override
+  Future<List<Sale>> listByStoreCreatedBetween(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  ) async {
+    final fromIso = fromInclusive.toUtc().toIso8601String();
+    final toIso = toExclusive.toUtc().toIso8601String();
+    final rows = await (_db.select(_db.sales)
+          ..where(
+            (t) =>
+                t.storeId.equals(storeId) &
+                t.createdAt.isBiggerOrEqualValue(fromIso) &
+                t.createdAt.isSmallerThanValue(toIso),
+          ))
+        .get();
+    final sales = <Sale>[];
+    for (final row in rows) {
+      final lineRows = await (_db.select(_db.saleLines)
+            ..where((t) => t.saleId.equals(row.id)))
+          .get();
+      final paymentRows = await (_db.select(_db.payments)
+            ..where((t) => t.saleId.equals(row.id)))
+          .get();
+      sales.add(_mapSale(row, lineRows, paymentRows));
+    }
+    return sales;
+  }
+
   Sale _mapSale(
     SaleRow row,
     List<SaleLineRow> lineRows,

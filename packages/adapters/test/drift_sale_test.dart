@@ -85,4 +85,45 @@ void main() {
     final stock = await getProductStock(storeId, product.id);
     expect(stock.stock, 8);
   });
+
+  test('listByStoreCreatedBetween filtra por tienda y día', () async {
+    final day = DateTime(2026, 3, 18);
+    final from = DateTime(day.year, day.month, day.day);
+    final to = from.add(const Duration(days: 1));
+
+    await sales.save(
+      Sale(
+        id: 's1',
+        storeId: storeId,
+        shiftId: 'sh1',
+        cartId: 'c1',
+        lines: const [],
+        payments: [
+          Payment.create(method: PaymentMethod.efectivo, amountClp: 1000),
+        ],
+        totalClp: 1000,
+        changeClp: 0,
+        createdAt: DateTime(2026, 3, 18, 10),
+      ),
+    );
+    await sales.save(
+      Sale(
+        id: 's2',
+        storeId: storeId,
+        shiftId: 'sh1',
+        cartId: 'c2',
+        lines: const [],
+        payments: [
+          Payment.create(method: PaymentMethod.efectivo, amountClp: 500),
+        ],
+        totalClp: 500,
+        changeClp: 0,
+        createdAt: DateTime(2026, 3, 19, 10),
+      ),
+    );
+
+    final inDay = await sales.listByStoreCreatedBetween(storeId, from, to);
+    expect(inDay, hasLength(1));
+    expect(inDay.first.id, 's1');
+  });
 }

@@ -15,6 +15,8 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-021-UI-01 | RF-021 | — | — | ✅ | Merma UI |
 | SC-032-UI-01 | RF-032 | — | — | ✅ | `void_sale_ui_e2e_test.dart` |
 | SC-060-01 | RF-030 | — | — | ✅ | `sale_flow_e2e_test.dart` |
+| SC-060-02 | RF-060 | ✅ | 🔶 | — | `get_daily_sales_report_test`, `report_service_test`; drift filtro fecha |
+| SC-060-UI-01 | RF-060 | — | — | ✅ | `daily_sales_ui_e2e_test.dart` |
 | SC-010-UI-01 | RF-010 | — | — | ✅ | `product_create_ui_e2e_test.dart` |
 | SC-010-UI-02 | RF-010 | — | — | ✅ | Mismo archivo |
 | SC-010-UI-03 | RF-010 | — | — | ✅ | Validación precio en UI |

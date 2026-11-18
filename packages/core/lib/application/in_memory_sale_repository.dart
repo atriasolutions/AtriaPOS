@@ -22,4 +22,17 @@ class InMemorySaleRepository implements SaleRepository {
         .where((s) => s.storeId == storeId && s.shiftId == shiftId)
         .toList();
   }
+
+  @override
+  Future<List<Sale>> listByStoreCreatedBetween(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  ) async {
+    return _sales.values.where((s) {
+      if (s.storeId != storeId) return false;
+      final local = s.createdAt.toLocal();
+      return !local.isBefore(fromInclusive) && local.isBefore(toExclusive);
+    }).toList();
+  }
 }

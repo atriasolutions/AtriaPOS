@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-14: RF-060 — `ReportService` (API-008), ventas del día en app, SC-060-02 / SC-060-UI-01.
 - SLICE-13: RF-010 — pantalla nuevo producto, menú operación, SC-010-UI.
 - SLICE-12: RF-001 — tabla `stores`, `StoreService` API-007, onboarding app, emisor DTE desde tienda.
 - SLICE-11: operación diaria en UI — cierre caja, cola DTE, ajuste stock; menú operación; CI GitHub Actions (DEC-033); matriz `12b`.

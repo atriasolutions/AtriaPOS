@@ -396,6 +396,29 @@ Errores: `CREDENCIAL_INVALIDA` (401). Operaciones privilegiadas sin sesión o ro
 
 ---
 
+## API-008 — Reportes (RF-060)
+
+### `GET /v0/stores/{storeId}/reports/daily`
+
+Query opcional: `date=YYYY-MM-DD` (día calendario local; default hoy).
+
+**Response 200**
+
+```json
+{
+  "date": "2026-03-18",
+  "salesTotalClp": 2500,
+  "transactionCount": 2,
+  "averageTicketClp": 1250
+}
+```
+
+Solo supervisor y dueño (403 cajero). Ventas `ANULADA` no cuentan.
+
+**Tests:** SC-060-02 (core/API).
+
+---
+
 ## Matriz RF ↔ API
 
 | RF | Endpoints |
@@ -407,3 +430,4 @@ Errores: `CREDENCIAL_INVALIDA` (401). Operaciones privilegiadas sin sesión o ro
 | RF-051 | API-005 |
 | RF-002 | API-006 |
 | RF-001 | API-007 |
+| RF-060 | API-008 |
