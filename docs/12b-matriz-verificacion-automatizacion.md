@@ -15,6 +15,10 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-021-UI-01 | RF-021 | — | — | ✅ | Merma UI |
 | SC-032-UI-01 | RF-032 | — | — | ✅ | `void_sale_ui_e2e_test.dart` |
 | SC-060-01 | RF-030 | — | — | ✅ | `sale_flow_e2e_test.dart` |
+| SC-001-01 | RF-001 | ✅ | ✅ | — | `bootstrap_store_test`, `drift_store_test` |
+| SC-001-02 | RF-001 | ✅ | — | — | Core |
+| SC-001-03 | RF-001 | ✅ | — | — | Core |
+| SC-001-UI-01 | RF-001 | — | — | ✅ | `store_setup_ui_e2e_test.dart` |
 | SC-080-03 | RF-003 | — | — | ⬜ | Piloto cert SII — ver `runbooks/sii-cert-pilot-evidence.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

@@ -19,6 +19,7 @@ export 'caf_file.dart';
 export 'sii_emisor_config.dart';
 export 'sii_dte_xml_builder.dart';
 export 'drift_user_repository.dart';
+export 'drift_store_repository.dart';
 export 'drift_product_repository.dart';
 export 'drift_sale_repository.dart';
 export 'drift_shift_repository.dart';

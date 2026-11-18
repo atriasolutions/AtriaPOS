@@ -2,11 +2,11 @@ import 'package:core/api/api.dart';
 import 'package:core/application/application.dart';
 import 'package:flutter/material.dart';
 
-import 'config/store_config.dart';
 import 'di/pos_composition.dart';
 import 'screens/login_screen.dart';
 import 'screens/sale_screen.dart';
 import 'screens/shift_open_screen.dart';
+import 'screens/store_setup_screen.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key, required this.composition});
@@ -33,6 +33,21 @@ class _AppShellState extends State<AppShell> {
   }
 
   Future<void> _resolveStart() async {
+    setState(() => _checking = true);
+    await widget.composition.refreshActiveStore();
+
+    if (widget.composition.activeStoreId == null) {
+      if (!mounted) return;
+      setState(() {
+        _home = StoreSetupScreen(
+          composition: widget.composition,
+          onCompleted: _resolveStart,
+        );
+        _checking = false;
+      });
+      return;
+    }
+
     if (!_hasSession()) {
       if (!mounted) return;
       setState(() {
@@ -45,9 +60,8 @@ class _AppShellState extends State<AppShell> {
       return;
     }
 
-    setState(() => _checking = true);
-    final result =
-        await widget.composition.shiftService.getOpenShift(kDemoStoreId);
+    final storeId = widget.composition.requireStoreId;
+    final result = await widget.composition.shiftService.getOpenShift(storeId);
     Widget home;
     switch (result) {
       case ApiSuccess<OpenShiftStatusResponse>():

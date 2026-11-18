@@ -2,7 +2,6 @@ import 'package:core/api/api.dart';
 import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 
-import '../config/store_config.dart';
 import '../di/pos_composition.dart';
 
 class ShiftSalesScreen extends StatefulWidget {
@@ -31,7 +30,7 @@ class _ShiftSalesScreenState extends State<ShiftSalesScreen> {
       _error = null;
     });
     final result =
-        await widget.composition.saleService.listShiftSales(kDemoStoreId);
+        await widget.composition.saleService.listShiftSales(widget.composition.requireStoreId);
     switch (result) {
       case ApiSuccess<ListShiftSalesResponse>(data: final data):
         if (!mounted) return;
@@ -76,7 +75,7 @@ class _ShiftSalesScreenState extends State<ShiftSalesScreen> {
     if (ok != true || !mounted) return;
 
     final result =
-        await widget.composition.saleService.voidSale(kDemoStoreId, item.saleId);
+        await widget.composition.saleService.voidSale(widget.composition.requireStoreId, item.saleId);
     if (!mounted) return;
     switch (result) {
       case ApiSuccess<VoidSaleResponse>():

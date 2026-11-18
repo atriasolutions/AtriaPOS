@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-12: RF-001 — tabla `stores`, `StoreService` API-007, onboarding app, emisor DTE desde tienda.
 - SLICE-11: operación diaria en UI — cierre caja, cola DTE, ajuste stock; menú operación; CI GitHub Actions (DEC-033); matriz `12b`.
 - SLICE-10 UI: pantalla ventas del turno, anulación supervisor, `ListShiftSales`, SC-032-UI-01.
 - SLICE-10: `VoidSale`, `Permission.anularVenta`, API `POST .../void`, drift `sales.status` v8, SC-032.

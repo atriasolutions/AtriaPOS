@@ -1,3 +1,5 @@
+import 'package:core/pos_barrio_core.dart';
+
 /// Configuración fiscal emisor — puente piloto hasta RF-001.
 class SiiEmisorConfig {
   const SiiEmisorConfig({
@@ -25,4 +27,13 @@ class SiiEmisorConfig {
   }
 
   bool get isConfigured => rutEmisor != '00000000-0';
+
+  factory SiiEmisorConfig.fromStore(Store store) {
+    final normalized = RutChile.normalize(store.rut);
+    return SiiEmisorConfig(
+      rutEmisor: normalized,
+      razonSocial: store.legalName,
+      giro: store.businessLine,
+    );
+  }
 }

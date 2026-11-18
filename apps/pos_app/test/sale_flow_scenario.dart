@@ -10,6 +10,7 @@ Future<void> runSaleFlowScenario(WidgetTester tester) async {
   final composition = PosComposition.memory();
   addTearDown(composition.close);
 
+  await composition.ensureDemoStore();
   await composition.ensureDemoUsers();
   await composition.authService.login(
     kDemoStoreId,

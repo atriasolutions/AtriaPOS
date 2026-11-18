@@ -2,6 +2,19 @@ import 'package:drift/drift.dart';
 
 part 'database.g.dart';
 
+@DataClassName('StoreRow')
+class Stores extends Table {
+  TextColumn get id => text()();
+  TextColumn get rut => text()();
+  TextColumn get legalName => text()();
+  TextColumn get businessLine => text()();
+  TextColumn get taxConfig => text()();
+  TextColumn get createdAt => text()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 @DataClassName('ProductRow')
 class Products extends Table {
   TextColumn get id => text()();
@@ -126,6 +139,7 @@ class DteFolioCounters extends Table {
 }
 
 @DriftDatabase(tables: [
+  Stores,
   Products,
   StockMovements,
   Shifts,
@@ -140,7 +154,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -189,6 +203,18 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 8) {
             await m.addColumn(sales, sales.status);
+          }
+          if (from < 9) {
+            await m.createTable(stores);
+            await customStatement('''
+INSERT INTO stores (id, rut, legal_name, business_line, tax_config, created_at)
+SELECT 'tienda_demo', '00.000.000-0', 'Tienda demo', 'Comercio',
+  '{"defaultTaxTreatment":"AFECTO"}', datetime('now')
+WHERE (
+  EXISTS (SELECT 1 FROM products WHERE store_id = 'tienda_demo')
+  OR EXISTS (SELECT 1 FROM users WHERE store_id = 'tienda_demo')
+) AND NOT EXISTS (SELECT 1 FROM stores);
+''');
           }
         },
       );

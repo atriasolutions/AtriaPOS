@@ -182,6 +182,28 @@ CREATE TABLE dte_queue (
 );
 ```
 
+## `stores` (SLICE-12, schema v9)
+
+| Columna | Tipo | Notas |
+|---------|------|-------|
+| id | TEXT PK | UUID v4 |
+| rut | TEXT NOT NULL | display con puntos |
+| legal_name | TEXT NOT NULL | |
+| business_line | TEXT NOT NULL | giro |
+| tax_config | TEXT NOT NULL | JSON mínimo |
+| created_at | TEXT NOT NULL | ISO-8601 UTC |
+
+```sql
+CREATE TABLE stores (
+  id TEXT NOT NULL PRIMARY KEY,
+  rut TEXT NOT NULL,
+  legal_name TEXT NOT NULL,
+  business_line TEXT NOT NULL,
+  tax_config TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+```
+
 ## DTE folios (SLICE-8 Fase B, schema v7)
 
 Tabla `dte_folio_counters`:

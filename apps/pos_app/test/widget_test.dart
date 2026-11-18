@@ -8,6 +8,7 @@ void main() {
   testWidgets('pantalla abrir turno', (WidgetTester tester) async {
     final composition = PosComposition.memory();
     addTearDown(composition.close);
+    await composition.ensureDemoStore();
 
     await tester.pumpWidget(
       MaterialApp(

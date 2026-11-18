@@ -2,7 +2,6 @@ import 'package:core/api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../config/store_config.dart';
 import '../di/pos_composition.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -30,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     setState(() => _loading = true);
     final result = await widget.composition.authService.login(
-      kDemoStoreId,
+      widget.composition.requireStoreId,
       LoginRequest(
         userId: _userIdController.text.trim(),
         pin: _pinController.text.trim(),

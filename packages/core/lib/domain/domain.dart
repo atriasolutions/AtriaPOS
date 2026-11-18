@@ -28,3 +28,6 @@ export 'shift_cash_math.dart';
 export 'shift_id.dart';
 export 'stock_movement_id.dart';
 export 'store_id.dart';
+export 'store.dart';
+export 'rut_chile.dart';
+export 'tax_config.dart';

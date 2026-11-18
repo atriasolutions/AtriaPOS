@@ -2,7 +2,6 @@ import 'package:core/api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../config/store_config.dart';
 import '../di/pos_composition.dart';
 import 'sale_screen.dart';
 
@@ -34,7 +33,7 @@ class _ShiftOpenScreenState extends State<ShiftOpenScreen> {
     }
     setState(() => _loading = true);
     final result = await widget.composition.shiftService.openShift(
-      kDemoStoreId,
+      widget.composition.requireStoreId,
       OpenShiftRequest(openingCashClp: cash),
     );
     if (!mounted) return;

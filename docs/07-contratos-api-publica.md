@@ -324,6 +324,56 @@ Lista pendientes para UI supervisor.
 
 ---
 
+## API-007 — Tienda (RF-001)
+
+### `POST /v0/stores/bootstrap`
+
+Solo si no existe tienda en el dispositivo (MVP una tienda).
+
+```json
+{
+  "rut": "12.345.678-5",
+  "legalName": "Minimarket La Esquina",
+  "businessLine": "Almacén",
+  "ownerDisplayName": "Dueño",
+  "ownerPin": "2468"
+}
+```
+
+**Response 201**
+
+```json
+{
+  "storeId": "uuid",
+  "userId": "usr_dueno",
+  "token": "local-session",
+  "role": "DUENO",
+  "expiresAt": "..."
+}
+```
+
+Errores: RUT u datos inválidos → `VALIDACION` (400). Tienda ya existe → `CONFLICTO` (409).
+
+### `GET /v0/stores/active`
+
+**Response 200**
+
+```json
+{
+  "storeId": "uuid",
+  "rut": "12.345.678-5",
+  "legalName": "Minimarket La Esquina",
+  "businessLine": "Almacén",
+  "taxConfig": { "defaultTaxTreatment": "AFECTO" }
+}
+```
+
+Sin tienda → `NO_ENCONTRADO` (404).
+
+**Tests comportamiento (SC-001-01…03)**
+
+---
+
 ## API-006 — Autenticación (MVP local)
 
 ### `POST /v0/auth/login`
@@ -354,3 +404,4 @@ Errores: `CREDENCIAL_INVALIDA` (401). Operaciones privilegiadas sin sesión o ro
 | RF-020–021 | API-004 |
 | RF-051 | API-005 |
 | RF-002 | API-006 |
+| RF-001 | API-007 |

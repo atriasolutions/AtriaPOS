@@ -9,7 +9,7 @@
 | DEC-043 (F3-4) | CAF XML en filesystem (`SII_CAF_PATH`); rango en SQLite (`dte_folio_counters`); siguiente folio atómico por tienda y tipo DTE |
 | Fase A | `SiiCertReplayDteGateway` sin red; fixtures/escenarios |
 | Fase B | `SiiLiveDteGateway` + `HttpSiiTransport`; confirmación cliente antes de piloto con red |
-| Puente RF-001 | Emisor piloto vía `SII_RUT_EMISOR`, `SII_RAZON_SOCIAL`, `SII_GIRO` hasta alta de tienda en UI |
+| Puente RF-001 | ~~dart-define emisor~~ sustituido por tienda en DB (SLICE-12); env solo legacy/tests |
 | Default app | `FakeDteGateway`; `SII_GATEWAY=replay` dev; `SII_GATEWAY=live` solo piloto cert |
 | Ambiente | `SII_AMBIENTE=cert` → base Maullin; producción explícitamente fuera de MVP |
 | Fallos red | `PENDIENTE_DTE` + cola API-005 |

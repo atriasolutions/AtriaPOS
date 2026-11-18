@@ -3,6 +3,418 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
+class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $StoresTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _rutMeta = const VerificationMeta('rut');
+  @override
+  late final GeneratedColumn<String> rut = GeneratedColumn<String>(
+    'rut',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _legalNameMeta = const VerificationMeta(
+    'legalName',
+  );
+  @override
+  late final GeneratedColumn<String> legalName = GeneratedColumn<String>(
+    'legal_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _businessLineMeta = const VerificationMeta(
+    'businessLine',
+  );
+  @override
+  late final GeneratedColumn<String> businessLine = GeneratedColumn<String>(
+    'business_line',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _taxConfigMeta = const VerificationMeta(
+    'taxConfig',
+  );
+  @override
+  late final GeneratedColumn<String> taxConfig = GeneratedColumn<String>(
+    'tax_config',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    rut,
+    legalName,
+    businessLine,
+    taxConfig,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'stores';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<StoreRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('rut')) {
+      context.handle(
+        _rutMeta,
+        rut.isAcceptableOrUnknown(data['rut']!, _rutMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rutMeta);
+    }
+    if (data.containsKey('legal_name')) {
+      context.handle(
+        _legalNameMeta,
+        legalName.isAcceptableOrUnknown(data['legal_name']!, _legalNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_legalNameMeta);
+    }
+    if (data.containsKey('business_line')) {
+      context.handle(
+        _businessLineMeta,
+        businessLine.isAcceptableOrUnknown(
+          data['business_line']!,
+          _businessLineMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_businessLineMeta);
+    }
+    if (data.containsKey('tax_config')) {
+      context.handle(
+        _taxConfigMeta,
+        taxConfig.isAcceptableOrUnknown(data['tax_config']!, _taxConfigMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_taxConfigMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  StoreRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return StoreRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      rut: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}rut'],
+      )!,
+      legalName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}legal_name'],
+      )!,
+      businessLine: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}business_line'],
+      )!,
+      taxConfig: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tax_config'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $StoresTable createAlias(String alias) {
+    return $StoresTable(attachedDatabase, alias);
+  }
+}
+
+class StoreRow extends DataClass implements Insertable<StoreRow> {
+  final String id;
+  final String rut;
+  final String legalName;
+  final String businessLine;
+  final String taxConfig;
+  final String createdAt;
+  const StoreRow({
+    required this.id,
+    required this.rut,
+    required this.legalName,
+    required this.businessLine,
+    required this.taxConfig,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['rut'] = Variable<String>(rut);
+    map['legal_name'] = Variable<String>(legalName);
+    map['business_line'] = Variable<String>(businessLine);
+    map['tax_config'] = Variable<String>(taxConfig);
+    map['created_at'] = Variable<String>(createdAt);
+    return map;
+  }
+
+  StoresCompanion toCompanion(bool nullToAbsent) {
+    return StoresCompanion(
+      id: Value(id),
+      rut: Value(rut),
+      legalName: Value(legalName),
+      businessLine: Value(businessLine),
+      taxConfig: Value(taxConfig),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory StoreRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return StoreRow(
+      id: serializer.fromJson<String>(json['id']),
+      rut: serializer.fromJson<String>(json['rut']),
+      legalName: serializer.fromJson<String>(json['legalName']),
+      businessLine: serializer.fromJson<String>(json['businessLine']),
+      taxConfig: serializer.fromJson<String>(json['taxConfig']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'rut': serializer.toJson<String>(rut),
+      'legalName': serializer.toJson<String>(legalName),
+      'businessLine': serializer.toJson<String>(businessLine),
+      'taxConfig': serializer.toJson<String>(taxConfig),
+      'createdAt': serializer.toJson<String>(createdAt),
+    };
+  }
+
+  StoreRow copyWith({
+    String? id,
+    String? rut,
+    String? legalName,
+    String? businessLine,
+    String? taxConfig,
+    String? createdAt,
+  }) => StoreRow(
+    id: id ?? this.id,
+    rut: rut ?? this.rut,
+    legalName: legalName ?? this.legalName,
+    businessLine: businessLine ?? this.businessLine,
+    taxConfig: taxConfig ?? this.taxConfig,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  StoreRow copyWithCompanion(StoresCompanion data) {
+    return StoreRow(
+      id: data.id.present ? data.id.value : this.id,
+      rut: data.rut.present ? data.rut.value : this.rut,
+      legalName: data.legalName.present ? data.legalName.value : this.legalName,
+      businessLine: data.businessLine.present
+          ? data.businessLine.value
+          : this.businessLine,
+      taxConfig: data.taxConfig.present ? data.taxConfig.value : this.taxConfig,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StoreRow(')
+          ..write('id: $id, ')
+          ..write('rut: $rut, ')
+          ..write('legalName: $legalName, ')
+          ..write('businessLine: $businessLine, ')
+          ..write('taxConfig: $taxConfig, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, rut, legalName, businessLine, taxConfig, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is StoreRow &&
+          other.id == this.id &&
+          other.rut == this.rut &&
+          other.legalName == this.legalName &&
+          other.businessLine == this.businessLine &&
+          other.taxConfig == this.taxConfig &&
+          other.createdAt == this.createdAt);
+}
+
+class StoresCompanion extends UpdateCompanion<StoreRow> {
+  final Value<String> id;
+  final Value<String> rut;
+  final Value<String> legalName;
+  final Value<String> businessLine;
+  final Value<String> taxConfig;
+  final Value<String> createdAt;
+  final Value<int> rowid;
+  const StoresCompanion({
+    this.id = const Value.absent(),
+    this.rut = const Value.absent(),
+    this.legalName = const Value.absent(),
+    this.businessLine = const Value.absent(),
+    this.taxConfig = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  StoresCompanion.insert({
+    required String id,
+    required String rut,
+    required String legalName,
+    required String businessLine,
+    required String taxConfig,
+    required String createdAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       rut = Value(rut),
+       legalName = Value(legalName),
+       businessLine = Value(businessLine),
+       taxConfig = Value(taxConfig),
+       createdAt = Value(createdAt);
+  static Insertable<StoreRow> custom({
+    Expression<String>? id,
+    Expression<String>? rut,
+    Expression<String>? legalName,
+    Expression<String>? businessLine,
+    Expression<String>? taxConfig,
+    Expression<String>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (rut != null) 'rut': rut,
+      if (legalName != null) 'legal_name': legalName,
+      if (businessLine != null) 'business_line': businessLine,
+      if (taxConfig != null) 'tax_config': taxConfig,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  StoresCompanion copyWith({
+    Value<String>? id,
+    Value<String>? rut,
+    Value<String>? legalName,
+    Value<String>? businessLine,
+    Value<String>? taxConfig,
+    Value<String>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return StoresCompanion(
+      id: id ?? this.id,
+      rut: rut ?? this.rut,
+      legalName: legalName ?? this.legalName,
+      businessLine: businessLine ?? this.businessLine,
+      taxConfig: taxConfig ?? this.taxConfig,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (rut.present) {
+      map['rut'] = Variable<String>(rut.value);
+    }
+    if (legalName.present) {
+      map['legal_name'] = Variable<String>(legalName.value);
+    }
+    if (businessLine.present) {
+      map['business_line'] = Variable<String>(businessLine.value);
+    }
+    if (taxConfig.present) {
+      map['tax_config'] = Variable<String>(taxConfig.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StoresCompanion(')
+          ..write('id: $id, ')
+          ..write('rut: $rut, ')
+          ..write('legalName: $legalName, ')
+          ..write('businessLine: $businessLine, ')
+          ..write('taxConfig: $taxConfig, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ProductsTable extends Products
     with TableInfo<$ProductsTable, ProductRow> {
   @override
@@ -3987,6 +4399,7 @@ class DteFolioCountersCompanion extends UpdateCompanion<DteFolioCounterRow> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final $StoresTable stores = $StoresTable(this);
   late final $ProductsTable products = $ProductsTable(this);
   late final $StockMovementsTable stockMovements = $StockMovementsTable(this);
   late final $ShiftsTable shifts = $ShiftsTable(this);
@@ -4003,6 +4416,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
+    stores,
     products,
     stockMovements,
     shifts,
@@ -4015,6 +4429,221 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   ];
 }
 
+typedef $$StoresTableCreateCompanionBuilder =
+    StoresCompanion Function({
+      required String id,
+      required String rut,
+      required String legalName,
+      required String businessLine,
+      required String taxConfig,
+      required String createdAt,
+      Value<int> rowid,
+    });
+typedef $$StoresTableUpdateCompanionBuilder =
+    StoresCompanion Function({
+      Value<String> id,
+      Value<String> rut,
+      Value<String> legalName,
+      Value<String> businessLine,
+      Value<String> taxConfig,
+      Value<String> createdAt,
+      Value<int> rowid,
+    });
+
+class $$StoresTableFilterComposer
+    extends Composer<_$AppDatabase, $StoresTable> {
+  $$StoresTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get rut => $composableBuilder(
+    column: $table.rut,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get legalName => $composableBuilder(
+    column: $table.legalName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get businessLine => $composableBuilder(
+    column: $table.businessLine,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get taxConfig => $composableBuilder(
+    column: $table.taxConfig,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$StoresTableOrderingComposer
+    extends Composer<_$AppDatabase, $StoresTable> {
+  $$StoresTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get rut => $composableBuilder(
+    column: $table.rut,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get legalName => $composableBuilder(
+    column: $table.legalName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get businessLine => $composableBuilder(
+    column: $table.businessLine,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get taxConfig => $composableBuilder(
+    column: $table.taxConfig,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$StoresTableAnnotationComposer
+    extends Composer<_$AppDatabase, $StoresTable> {
+  $$StoresTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get rut =>
+      $composableBuilder(column: $table.rut, builder: (column) => column);
+
+  GeneratedColumn<String> get legalName =>
+      $composableBuilder(column: $table.legalName, builder: (column) => column);
+
+  GeneratedColumn<String> get businessLine => $composableBuilder(
+    column: $table.businessLine,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get taxConfig =>
+      $composableBuilder(column: $table.taxConfig, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$StoresTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $StoresTable,
+          StoreRow,
+          $$StoresTableFilterComposer,
+          $$StoresTableOrderingComposer,
+          $$StoresTableAnnotationComposer,
+          $$StoresTableCreateCompanionBuilder,
+          $$StoresTableUpdateCompanionBuilder,
+          (StoreRow, BaseReferences<_$AppDatabase, $StoresTable, StoreRow>),
+          StoreRow,
+          PrefetchHooks Function()
+        > {
+  $$StoresTableTableManager(_$AppDatabase db, $StoresTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$StoresTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StoresTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StoresTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> rut = const Value.absent(),
+                Value<String> legalName = const Value.absent(),
+                Value<String> businessLine = const Value.absent(),
+                Value<String> taxConfig = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StoresCompanion(
+                id: id,
+                rut: rut,
+                legalName: legalName,
+                businessLine: businessLine,
+                taxConfig: taxConfig,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String rut,
+                required String legalName,
+                required String businessLine,
+                required String taxConfig,
+                required String createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => StoresCompanion.insert(
+                id: id,
+                rut: rut,
+                legalName: legalName,
+                businessLine: businessLine,
+                taxConfig: taxConfig,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$StoresTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $StoresTable,
+      StoreRow,
+      $$StoresTableFilterComposer,
+      $$StoresTableOrderingComposer,
+      $$StoresTableAnnotationComposer,
+      $$StoresTableCreateCompanionBuilder,
+      $$StoresTableUpdateCompanionBuilder,
+      (StoreRow, BaseReferences<_$AppDatabase, $StoresTable, StoreRow>),
+      StoreRow,
+      PrefetchHooks Function()
+    >;
 typedef $$ProductsTableCreateCompanionBuilder =
     ProductsCompanion Function({
       required String id,
@@ -6088,6 +6717,8 @@ typedef $$DteFolioCountersTableProcessedTableManager =
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $$StoresTableTableManager get stores =>
+      $$StoresTableTableManager(_db, _db.stores);
   $$ProductsTableTableManager get products =>
       $$ProductsTableTableManager(_db, _db.products);
   $$StockMovementsTableTableManager get stockMovements =>

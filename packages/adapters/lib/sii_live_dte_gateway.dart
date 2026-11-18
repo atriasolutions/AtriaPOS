@@ -14,6 +14,7 @@ class SiiLiveDteGateway implements DteGateway {
     required FolioAllocator folios,
     required SiiTransport transport,
     SiiEmisorConfig? emisor,
+    StoreRepository? stores,
     SiiDteXmlBuilder? xmlBuilder,
     SiiDteSigner? signer,
     String? certPath,
@@ -22,7 +23,8 @@ class SiiLiveDteGateway implements DteGateway {
         _validate = ValidateCertificate(certificates),
         _folios = folios,
         _transport = transport,
-        _emisor = emisor ?? SiiEmisorConfig.fromEnvironment(),
+        _fallbackEmisor = emisor ?? SiiEmisorConfig.fromEnvironment(),
+        _stores = stores,
         _xmlBuilder = xmlBuilder ?? SiiDteXmlBuilder(),
         _signer = signer ?? const SiiDteSigner(),
         _certPath = certPath ?? _certPathFromEnvironment(),
@@ -33,7 +35,8 @@ class SiiLiveDteGateway implements DteGateway {
   final ValidateCertificate _validate;
   final FolioAllocator _folios;
   final SiiTransport _transport;
-  final SiiEmisorConfig _emisor;
+  final SiiEmisorConfig _fallbackEmisor;
+  final StoreRepository? _stores;
   final SiiDteXmlBuilder _xmlBuilder;
   final SiiDteSigner _signer;
   final String? _certPath;
@@ -70,9 +73,10 @@ class SiiLiveDteGateway implements DteGateway {
       return _pendiente(e.message);
     }
 
-    if (!_emisor.isConfigured) {
+    final emisor = await _resolveEmisor(request.storeId);
+    if (!emisor.isConfigured) {
       return _pendiente(
-        'Configure SII_RUT_EMISOR para emisión live (puente piloto)',
+        'Configure los datos de la tienda o SII_RUT_EMISOR para emisión live',
       );
     }
 
@@ -92,7 +96,7 @@ class SiiLiveDteGateway implements DteGateway {
     final documentXml = _xmlBuilder.buildDocumento(
       sale: sale,
       folio: folio,
-      emisor: _emisor,
+      emisor: emisor,
     );
     final signed = _signer.signXml(
       documentXml,
@@ -126,6 +130,17 @@ class SiiLiveDteGateway implements DteGateway {
       _emitted[request.saleId] = result;
     }
     return result;
+  }
+
+  Future<SiiEmisorConfig> _resolveEmisor(StoreId storeId) async {
+  final repo = _stores;
+    if (repo != null) {
+      final store = await repo.findById(storeId);
+      if (store != null) {
+        return SiiEmisorConfig.fromStore(store);
+      }
+    }
+    return _fallbackEmisor;
   }
 
   DteEmitResult _pendiente(String message) => DteEmitResult(

@@ -9,6 +9,7 @@ void main() {
   testWidgets('SC-060-02 sin turno muestra abrir turno tras login', (tester) async {
     final composition = PosComposition.memory();
     addTearDown(composition.close);
+    await composition.ensureDemoStore();
     await composition.ensureDemoUsers();
     await composition.authService.login(
       kDemoStoreId,

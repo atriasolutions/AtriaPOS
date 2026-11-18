@@ -12,3 +12,5 @@ export 'sale_dtos.dart';
 export 'sale_service.dart';
 export 'shift_dtos.dart';
 export 'shift_service.dart';
+export 'store_dtos.dart';
+export 'store_service.dart';

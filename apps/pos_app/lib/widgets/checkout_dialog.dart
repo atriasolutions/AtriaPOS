@@ -1,7 +1,6 @@
 import 'package:core/api/api.dart';
 import 'package:flutter/material.dart';
 
-import '../config/store_config.dart';
 import '../di/pos_composition.dart';
 
 Future<CheckoutResponse?> showCheckoutDialog({
@@ -41,7 +40,7 @@ class _CheckoutDialogState extends State<_CheckoutDialog> {
   Future<void> _confirm() async {
     setState(() => _loading = true);
     final result = await widget.composition.saleService.checkout(
-      kDemoStoreId,
+      widget.composition.requireStoreId,
       widget.cartId,
       CheckoutRequest(
         payments: [

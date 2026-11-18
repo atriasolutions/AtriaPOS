@@ -1,6 +1,7 @@
 import 'package:core/pos_barrio_core.dart';
 
 import 'drift_folio_allocator.dart';
+import 'drift_store_repository.dart';
 import 'file_certificate_store.dart';
 import 'http_sii_transport.dart';
 import 'in_memory_folio_allocator.dart';
@@ -23,6 +24,7 @@ DteGateway createDteGateway({
   required SaleRepository sales,
   DteGatewayMode? mode,
   AppDatabase? database,
+  StoreRepository? stores,
   InMemoryCertificateStore? certificateStoreForReplay,
   SiiReplayScenario? replayScenario,
 }) {
@@ -40,11 +42,14 @@ DteGateway createDteGateway({
       final folios = database != null
           ? DriftFolioAllocator(database)
           : InMemoryFolioAllocator();
+      final storeRepo =
+          stores ?? (database != null ? DriftStoreRepository(database) : null);
       return SiiLiveDteGateway(
         sales: sales,
         certificates: certs,
         folios: folios,
         transport: HttpSiiTransport(),
+        stores: storeRepo,
       );
     case DteGatewayMode.fake:
       return FakeDteGateway();
