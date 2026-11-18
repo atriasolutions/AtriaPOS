@@ -16,6 +16,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 10 | SLICE-10 | Anulación venta del día | RF-032 | Stock revertido; caja excluye anuladas |
 | 11 | SLICE-11 | Operación supervisor + CI | RF-041, RF-051, RF-021 UI | Cierre/cola/ajuste en app; workflow verde |
 | 12 | SLICE-12 | Alta de tienda | RF-001 | Bootstrap dueño; emisor desde DB |
+| 13 | SLICE-13 | Catálogo en UI | RF-010, RF-012 | Crear producto en app |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

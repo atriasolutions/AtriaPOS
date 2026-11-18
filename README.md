@@ -36,6 +36,6 @@ flutter run -d windows
 
 ## Estado
 
-**SLICE-12:** alta de tienda (RF-001) con onboarding dueño; emisor SII desde SQLite. CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md).
+**SLICE-13:** alta de productos en UI (RF-010). **SLICE-12:** onboarding tienda (RF-001). CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md).
 
 Ver plan de slices en [`docs/10-plan-entregas.md`](docs/10-plan-entregas.md).

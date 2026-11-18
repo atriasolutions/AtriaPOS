@@ -15,6 +15,7 @@ Cada slice tiene un archivo `slice_XX_*.md` con escenarios Gherkin enlazados a R
 | `slice_10_anulacion.md` | SLICE-10 | Creado |
 | `slice_11_operacion_ui.md` | SLICE-11 | Creado |
 | `slice_12_tienda.md` | SLICE-12 | Creado |
+| `slice_13_catalogo_ui.md` | SLICE-13 | Creado |
 
 Los tests Dart deben citar el ID de escenario (ej. `SC-030-01`).
 

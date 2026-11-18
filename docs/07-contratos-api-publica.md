@@ -22,6 +22,8 @@ Códigos reservados: `VALIDACION`, `NO_AUTORIZADO`, `NO_ENCONTRADO`, `CONFLICTO`
 
 ## API-001 — Productos
 
+**UI (SLICE-13):** pantalla «Nuevo producto» llama `ProductService.createProduct` (mismo contrato).
+
 ### `POST /v0/stores/{storeId}/products`
 
 Crea producto en tienda.

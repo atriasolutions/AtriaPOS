@@ -7,6 +7,7 @@ import '../widgets/checkout_dialog.dart';
 import 'close_shift_screen.dart';
 import 'dte_queue_screen.dart';
 import 'shift_sales_screen.dart';
+import 'product_create_screen.dart';
 import 'stock_adjust_screen.dart';
 
 class SaleScreen extends StatefulWidget {
@@ -161,10 +162,13 @@ class _SaleScreenState extends State<SaleScreen> {
         AuthPolicy.allows(session.role, Permission.ajustarInventario);
     final canDteQueue =
         role == UserRole.dueno || role == UserRole.supervisor;
+    final canCreateProduct = session != null &&
+        AuthPolicy.allows(session.role, Permission.configurarCatalogo);
     final hasOpsMenu = canVoidSales ||
         canCloseShift ||
         canAdjustStock ||
-        canDteQueue;
+        canDteQueue ||
+        canCreateProduct;
 
     void openScreen(Widget screen) {
       Navigator.of(context).push(
@@ -199,6 +203,10 @@ class _SaleScreenState extends State<SaleScreen> {
                     openScreen(
                       StockAdjustScreen(composition: widget.composition),
                     );
+                  case 'product':
+                    openScreen(
+                      ProductCreateScreen(composition: widget.composition),
+                    );
                 }
               },
               itemBuilder: (context) => [
@@ -232,6 +240,14 @@ class _SaleScreenState extends State<SaleScreen> {
                     child: Text(
                       'Ajuste de stock',
                       key: Key('operation_menu_stock'),
+                    ),
+                  ),
+                if (canCreateProduct)
+                  const PopupMenuItem(
+                    value: 'product',
+                    child: Text(
+                      'Nuevo producto',
+                      key: Key('operation_menu_product'),
                     ),
                   ),
               ],
