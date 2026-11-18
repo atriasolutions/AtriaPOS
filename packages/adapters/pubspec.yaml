@@ -1,0 +1,20 @@
+name: adapters
+description: Adaptadores SQLite, DTE y integraciones POS barrio.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=3.14.0 <4.0.0"
+
+dependencies:
+  basic_utils: ^5.7.0
+  core:
+    path: ../core
+  drift: ^2.22.1
+  sqlite3: ^2.7.2
+
+dev_dependencies:
+  build_runner: ^2.4.13
+  drift_dev: ^2.22.1
+  lints: ^6.0.0
+  test: ^1.25.8

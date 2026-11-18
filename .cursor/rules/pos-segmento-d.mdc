@@ -1,0 +1,14 @@
+---
+description: POS segmento D — TDD, docs y alcance
+alwaysApply: true
+---
+
+# POS barrio (segmento D)
+
+- Fuente de verdad: `docs/`. No implementar RF fuera del slice activo en `docs/10-plan-entregas.md`.
+- Gate 1: cerrado. Gate 2: cerrar DEC P0 en `docs/16` + `docs/17` antes de SLICE-1.
+- TDD vertical: test de comportamiento → impl mínima → refactor (`docs/09-estrategia-tdd.md`).
+- API pública: `docs/07-contratos-api-publica.md`; actualizar si cambia contrato.
+- MVP local-first; sin ERP, sin omnicanal, sin certificados en repo.
+- Kora: complemento opcional únicamente; casos de uso [M] sin dependencia de Kora (doc 14).
+- Español Chile en docs y mensajes de usuario.

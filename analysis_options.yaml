@@ -1,0 +1,5 @@
+# Análisis en raíz; cada package/app incluye su propio archivo.
+analyzer:
+  exclude:
+    - apps/pos_app/**
+    - packages/**
