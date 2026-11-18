@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-8 Fase B: `SiiLiveDteGateway`, `HttpSiiTransport`, folios CAF (`dte_folio_counters` v7), SC-080-04/05.
 - SLICE-8 Fase A: `SiiCertReplayDteGateway`, `CertificateStore`, runbook cert SII; cert live pendiente (Fase B).
 - SLICE-7: roles y PIN — `AuthService` (API-006), matriz RF-002 en casos de uso, tabla `users` drift v6, login en app.
 - SLICE-6: app Flutter — Drift local-first, turno → venta → cobro con `dteStatus`, integration_test SC-060-01.

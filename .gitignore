@@ -16,6 +16,9 @@ pubspec.lock
 # Secrets
 *.pem
 *.p12
+*.pfx
+/caf/
+*.caf.xml
 .env
 .env.*
 

@@ -66,7 +66,7 @@ class PosComposition {
     final movements = DriftStockMovementRepository(db);
     final shifts = DriftShiftRepository(db);
     final dteQueue = DriftDteQueueRepository(db);
-    final dteGateway = createDteGateway(sales: sales);
+    final dteGateway = createDteGateway(sales: sales, database: db);
     final users = DriftUserRepository(db);
     final sessions = InMemorySessionProvider();
     final hasher = BcryptPinHasher();

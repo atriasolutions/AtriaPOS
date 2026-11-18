@@ -3566,6 +3566,380 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
   }
 }
 
+class $DteFolioCountersTable extends DteFolioCounters
+    with TableInfo<$DteFolioCountersTable, DteFolioCounterRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DteFolioCountersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _storeIdMeta = const VerificationMeta(
+    'storeId',
+  );
+  @override
+  late final GeneratedColumn<String> storeId = GeneratedColumn<String>(
+    'store_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _documentTypeMeta = const VerificationMeta(
+    'documentType',
+  );
+  @override
+  late final GeneratedColumn<int> documentType = GeneratedColumn<int>(
+    'document_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nextFolioMeta = const VerificationMeta(
+    'nextFolio',
+  );
+  @override
+  late final GeneratedColumn<int> nextFolio = GeneratedColumn<int>(
+    'next_folio',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cafDesdeMeta = const VerificationMeta(
+    'cafDesde',
+  );
+  @override
+  late final GeneratedColumn<int> cafDesde = GeneratedColumn<int>(
+    'caf_desde',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cafHastaMeta = const VerificationMeta(
+    'cafHasta',
+  );
+  @override
+  late final GeneratedColumn<int> cafHasta = GeneratedColumn<int>(
+    'caf_hasta',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    storeId,
+    documentType,
+    nextFolio,
+    cafDesde,
+    cafHasta,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'dte_folio_counters';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DteFolioCounterRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('store_id')) {
+      context.handle(
+        _storeIdMeta,
+        storeId.isAcceptableOrUnknown(data['store_id']!, _storeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_storeIdMeta);
+    }
+    if (data.containsKey('document_type')) {
+      context.handle(
+        _documentTypeMeta,
+        documentType.isAcceptableOrUnknown(
+          data['document_type']!,
+          _documentTypeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_documentTypeMeta);
+    }
+    if (data.containsKey('next_folio')) {
+      context.handle(
+        _nextFolioMeta,
+        nextFolio.isAcceptableOrUnknown(data['next_folio']!, _nextFolioMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nextFolioMeta);
+    }
+    if (data.containsKey('caf_desde')) {
+      context.handle(
+        _cafDesdeMeta,
+        cafDesde.isAcceptableOrUnknown(data['caf_desde']!, _cafDesdeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cafDesdeMeta);
+    }
+    if (data.containsKey('caf_hasta')) {
+      context.handle(
+        _cafHastaMeta,
+        cafHasta.isAcceptableOrUnknown(data['caf_hasta']!, _cafHastaMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cafHastaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {storeId, documentType};
+  @override
+  DteFolioCounterRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DteFolioCounterRow(
+      storeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}store_id'],
+      )!,
+      documentType: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}document_type'],
+      )!,
+      nextFolio: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}next_folio'],
+      )!,
+      cafDesde: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}caf_desde'],
+      )!,
+      cafHasta: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}caf_hasta'],
+      )!,
+    );
+  }
+
+  @override
+  $DteFolioCountersTable createAlias(String alias) {
+    return $DteFolioCountersTable(attachedDatabase, alias);
+  }
+}
+
+class DteFolioCounterRow extends DataClass
+    implements Insertable<DteFolioCounterRow> {
+  final String storeId;
+  final int documentType;
+  final int nextFolio;
+  final int cafDesde;
+  final int cafHasta;
+  const DteFolioCounterRow({
+    required this.storeId,
+    required this.documentType,
+    required this.nextFolio,
+    required this.cafDesde,
+    required this.cafHasta,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['store_id'] = Variable<String>(storeId);
+    map['document_type'] = Variable<int>(documentType);
+    map['next_folio'] = Variable<int>(nextFolio);
+    map['caf_desde'] = Variable<int>(cafDesde);
+    map['caf_hasta'] = Variable<int>(cafHasta);
+    return map;
+  }
+
+  DteFolioCountersCompanion toCompanion(bool nullToAbsent) {
+    return DteFolioCountersCompanion(
+      storeId: Value(storeId),
+      documentType: Value(documentType),
+      nextFolio: Value(nextFolio),
+      cafDesde: Value(cafDesde),
+      cafHasta: Value(cafHasta),
+    );
+  }
+
+  factory DteFolioCounterRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DteFolioCounterRow(
+      storeId: serializer.fromJson<String>(json['storeId']),
+      documentType: serializer.fromJson<int>(json['documentType']),
+      nextFolio: serializer.fromJson<int>(json['nextFolio']),
+      cafDesde: serializer.fromJson<int>(json['cafDesde']),
+      cafHasta: serializer.fromJson<int>(json['cafHasta']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'storeId': serializer.toJson<String>(storeId),
+      'documentType': serializer.toJson<int>(documentType),
+      'nextFolio': serializer.toJson<int>(nextFolio),
+      'cafDesde': serializer.toJson<int>(cafDesde),
+      'cafHasta': serializer.toJson<int>(cafHasta),
+    };
+  }
+
+  DteFolioCounterRow copyWith({
+    String? storeId,
+    int? documentType,
+    int? nextFolio,
+    int? cafDesde,
+    int? cafHasta,
+  }) => DteFolioCounterRow(
+    storeId: storeId ?? this.storeId,
+    documentType: documentType ?? this.documentType,
+    nextFolio: nextFolio ?? this.nextFolio,
+    cafDesde: cafDesde ?? this.cafDesde,
+    cafHasta: cafHasta ?? this.cafHasta,
+  );
+  DteFolioCounterRow copyWithCompanion(DteFolioCountersCompanion data) {
+    return DteFolioCounterRow(
+      storeId: data.storeId.present ? data.storeId.value : this.storeId,
+      documentType: data.documentType.present
+          ? data.documentType.value
+          : this.documentType,
+      nextFolio: data.nextFolio.present ? data.nextFolio.value : this.nextFolio,
+      cafDesde: data.cafDesde.present ? data.cafDesde.value : this.cafDesde,
+      cafHasta: data.cafHasta.present ? data.cafHasta.value : this.cafHasta,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DteFolioCounterRow(')
+          ..write('storeId: $storeId, ')
+          ..write('documentType: $documentType, ')
+          ..write('nextFolio: $nextFolio, ')
+          ..write('cafDesde: $cafDesde, ')
+          ..write('cafHasta: $cafHasta')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(storeId, documentType, nextFolio, cafDesde, cafHasta);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DteFolioCounterRow &&
+          other.storeId == this.storeId &&
+          other.documentType == this.documentType &&
+          other.nextFolio == this.nextFolio &&
+          other.cafDesde == this.cafDesde &&
+          other.cafHasta == this.cafHasta);
+}
+
+class DteFolioCountersCompanion extends UpdateCompanion<DteFolioCounterRow> {
+  final Value<String> storeId;
+  final Value<int> documentType;
+  final Value<int> nextFolio;
+  final Value<int> cafDesde;
+  final Value<int> cafHasta;
+  final Value<int> rowid;
+  const DteFolioCountersCompanion({
+    this.storeId = const Value.absent(),
+    this.documentType = const Value.absent(),
+    this.nextFolio = const Value.absent(),
+    this.cafDesde = const Value.absent(),
+    this.cafHasta = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  DteFolioCountersCompanion.insert({
+    required String storeId,
+    required int documentType,
+    required int nextFolio,
+    required int cafDesde,
+    required int cafHasta,
+    this.rowid = const Value.absent(),
+  }) : storeId = Value(storeId),
+       documentType = Value(documentType),
+       nextFolio = Value(nextFolio),
+       cafDesde = Value(cafDesde),
+       cafHasta = Value(cafHasta);
+  static Insertable<DteFolioCounterRow> custom({
+    Expression<String>? storeId,
+    Expression<int>? documentType,
+    Expression<int>? nextFolio,
+    Expression<int>? cafDesde,
+    Expression<int>? cafHasta,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (storeId != null) 'store_id': storeId,
+      if (documentType != null) 'document_type': documentType,
+      if (nextFolio != null) 'next_folio': nextFolio,
+      if (cafDesde != null) 'caf_desde': cafDesde,
+      if (cafHasta != null) 'caf_hasta': cafHasta,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  DteFolioCountersCompanion copyWith({
+    Value<String>? storeId,
+    Value<int>? documentType,
+    Value<int>? nextFolio,
+    Value<int>? cafDesde,
+    Value<int>? cafHasta,
+    Value<int>? rowid,
+  }) {
+    return DteFolioCountersCompanion(
+      storeId: storeId ?? this.storeId,
+      documentType: documentType ?? this.documentType,
+      nextFolio: nextFolio ?? this.nextFolio,
+      cafDesde: cafDesde ?? this.cafDesde,
+      cafHasta: cafHasta ?? this.cafHasta,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (storeId.present) {
+      map['store_id'] = Variable<String>(storeId.value);
+    }
+    if (documentType.present) {
+      map['document_type'] = Variable<int>(documentType.value);
+    }
+    if (nextFolio.present) {
+      map['next_folio'] = Variable<int>(nextFolio.value);
+    }
+    if (cafDesde.present) {
+      map['caf_desde'] = Variable<int>(cafDesde.value);
+    }
+    if (cafHasta.present) {
+      map['caf_hasta'] = Variable<int>(cafHasta.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DteFolioCountersCompanion(')
+          ..write('storeId: $storeId, ')
+          ..write('documentType: $documentType, ')
+          ..write('nextFolio: $nextFolio, ')
+          ..write('cafDesde: $cafDesde, ')
+          ..write('cafHasta: $cafHasta, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3577,6 +3951,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $PaymentsTable payments = $PaymentsTable(this);
   late final $DteQueueTable dteQueue = $DteQueueTable(this);
   late final $UsersTable users = $UsersTable(this);
+  late final $DteFolioCountersTable dteFolioCounters = $DteFolioCountersTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3590,6 +3967,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     payments,
     dteQueue,
     users,
+    dteFolioCounters,
   ];
 }
 
@@ -5431,6 +5809,218 @@ typedef $$UsersTableProcessedTableManager =
       UserRow,
       PrefetchHooks Function()
     >;
+typedef $$DteFolioCountersTableCreateCompanionBuilder =
+    DteFolioCountersCompanion Function({
+      required String storeId,
+      required int documentType,
+      required int nextFolio,
+      required int cafDesde,
+      required int cafHasta,
+      Value<int> rowid,
+    });
+typedef $$DteFolioCountersTableUpdateCompanionBuilder =
+    DteFolioCountersCompanion Function({
+      Value<String> storeId,
+      Value<int> documentType,
+      Value<int> nextFolio,
+      Value<int> cafDesde,
+      Value<int> cafHasta,
+      Value<int> rowid,
+    });
+
+class $$DteFolioCountersTableFilterComposer
+    extends Composer<_$AppDatabase, $DteFolioCountersTable> {
+  $$DteFolioCountersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get documentType => $composableBuilder(
+    column: $table.documentType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get nextFolio => $composableBuilder(
+    column: $table.nextFolio,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cafDesde => $composableBuilder(
+    column: $table.cafDesde,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cafHasta => $composableBuilder(
+    column: $table.cafHasta,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DteFolioCountersTableOrderingComposer
+    extends Composer<_$AppDatabase, $DteFolioCountersTable> {
+  $$DteFolioCountersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get documentType => $composableBuilder(
+    column: $table.documentType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get nextFolio => $composableBuilder(
+    column: $table.nextFolio,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cafDesde => $composableBuilder(
+    column: $table.cafDesde,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cafHasta => $composableBuilder(
+    column: $table.cafHasta,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DteFolioCountersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DteFolioCountersTable> {
+  $$DteFolioCountersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get storeId =>
+      $composableBuilder(column: $table.storeId, builder: (column) => column);
+
+  GeneratedColumn<int> get documentType => $composableBuilder(
+    column: $table.documentType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get nextFolio =>
+      $composableBuilder(column: $table.nextFolio, builder: (column) => column);
+
+  GeneratedColumn<int> get cafDesde =>
+      $composableBuilder(column: $table.cafDesde, builder: (column) => column);
+
+  GeneratedColumn<int> get cafHasta =>
+      $composableBuilder(column: $table.cafHasta, builder: (column) => column);
+}
+
+class $$DteFolioCountersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DteFolioCountersTable,
+          DteFolioCounterRow,
+          $$DteFolioCountersTableFilterComposer,
+          $$DteFolioCountersTableOrderingComposer,
+          $$DteFolioCountersTableAnnotationComposer,
+          $$DteFolioCountersTableCreateCompanionBuilder,
+          $$DteFolioCountersTableUpdateCompanionBuilder,
+          (
+            DteFolioCounterRow,
+            BaseReferences<
+              _$AppDatabase,
+              $DteFolioCountersTable,
+              DteFolioCounterRow
+            >,
+          ),
+          DteFolioCounterRow,
+          PrefetchHooks Function()
+        > {
+  $$DteFolioCountersTableTableManager(
+    _$AppDatabase db,
+    $DteFolioCountersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DteFolioCountersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DteFolioCountersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DteFolioCountersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> storeId = const Value.absent(),
+                Value<int> documentType = const Value.absent(),
+                Value<int> nextFolio = const Value.absent(),
+                Value<int> cafDesde = const Value.absent(),
+                Value<int> cafHasta = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DteFolioCountersCompanion(
+                storeId: storeId,
+                documentType: documentType,
+                nextFolio: nextFolio,
+                cafDesde: cafDesde,
+                cafHasta: cafHasta,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String storeId,
+                required int documentType,
+                required int nextFolio,
+                required int cafDesde,
+                required int cafHasta,
+                Value<int> rowid = const Value.absent(),
+              }) => DteFolioCountersCompanion.insert(
+                storeId: storeId,
+                documentType: documentType,
+                nextFolio: nextFolio,
+                cafDesde: cafDesde,
+                cafHasta: cafHasta,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DteFolioCountersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DteFolioCountersTable,
+      DteFolioCounterRow,
+      $$DteFolioCountersTableFilterComposer,
+      $$DteFolioCountersTableOrderingComposer,
+      $$DteFolioCountersTableAnnotationComposer,
+      $$DteFolioCountersTableCreateCompanionBuilder,
+      $$DteFolioCountersTableUpdateCompanionBuilder,
+      (
+        DteFolioCounterRow,
+        BaseReferences<
+          _$AppDatabase,
+          $DteFolioCountersTable,
+          DteFolioCounterRow
+        >,
+      ),
+      DteFolioCounterRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5451,4 +6041,6 @@ class $AppDatabaseManager {
       $$DteQueueTableTableManager(_db, _db.dteQueue);
   $$UsersTableTableManager get users =>
       $$UsersTableTableManager(_db, _db.users);
+  $$DteFolioCountersTableTableManager get dteFolioCounters =>
+      $$DteFolioCountersTableTableManager(_db, _db.dteFolioCounters);
 }

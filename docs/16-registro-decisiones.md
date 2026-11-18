@@ -29,6 +29,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-021 | P0 | Custodia certificado digital | ✅ | [DEC-sii-slice8](decisiones/DEC-sii-slice8.md) + runbooks/sii-cert.md | SLICE-8 |
 | DEC-022 | P0 | Cola DTE: reintentos y TTL | ✅ | [ADR](decisiones/DEC-dte-slice5.md) (retry manual API-005) | SLICE-5 |
 | DEC-023 | P0 | Idempotencia emisión (`saleId`) | ✅ | [ADR](decisiones/DEC-dte-slice5.md) | SLICE-5 |
+| DEC-043 | P0 | CAF local y folios en SQLite (F3-4) | ✅ | [DEC-sii-slice8](decisiones/DEC-sii-slice8.md) + 08b v7 | SLICE-8 |
 | DEC-024 | P1 | Hash PIN (argon2/bcrypt) | ✅ | [ADR](decisiones/DEC-auth-slice7.md) (bcrypt S7) | SLICE-7 |
 | DEC-025 | P1 | Sesión inactividad (minutos) | ✅ | [ADR](decisiones/DEC-auth-slice7.md) (15 min) | SLICE-7 |
 | DEC-026 | P1 | Android primero vs Win paralelo | ⬜ | ADR | F6 |

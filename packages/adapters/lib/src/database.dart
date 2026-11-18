@@ -112,6 +112,18 @@ class Payments extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+@DataClassName('DteFolioCounterRow')
+class DteFolioCounters extends Table {
+  TextColumn get storeId => text()();
+  IntColumn get documentType => integer()();
+  IntColumn get nextFolio => integer()();
+  IntColumn get cafDesde => integer()();
+  IntColumn get cafHasta => integer()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {storeId, documentType};
+}
+
 @DriftDatabase(tables: [
   Products,
   StockMovements,
@@ -121,12 +133,13 @@ class Payments extends Table {
   Payments,
   DteQueue,
   Users,
+  DteFolioCounters,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -169,6 +182,9 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 6) {
             await m.createTable(users);
+          }
+          if (from < 7) {
+            await m.createTable(dteFolioCounters);
           }
         },
       );

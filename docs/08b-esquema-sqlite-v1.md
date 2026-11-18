@@ -179,3 +179,26 @@ CREATE TABLE dte_queue (
   created_at TEXT NOT NULL
 );
 ```
+
+## DTE folios (SLICE-8 Fase B, schema v7)
+
+Tabla `dte_folio_counters`:
+
+| Columna | Tipo | Notas |
+|---------|------|-------|
+| store_id | TEXT PK (compuesto) | |
+| document_type | INTEGER PK (compuesto) | ej. 39 |
+| next_folio | INTEGER NOT NULL | siguiente a asignar |
+| caf_desde | INTEGER NOT NULL | rango CAF |
+| caf_hasta | INTEGER NOT NULL | rango CAF |
+
+```sql
+CREATE TABLE dte_folio_counters (
+  store_id TEXT NOT NULL,
+  document_type INTEGER NOT NULL,
+  next_folio INTEGER NOT NULL,
+  caf_desde INTEGER NOT NULL,
+  caf_hasta INTEGER NOT NULL,
+  PRIMARY KEY (store_id, document_type)
+);
+```
