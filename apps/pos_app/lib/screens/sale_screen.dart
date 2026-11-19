@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:core/api/api.dart';
 import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
 import '../scanner/ble_central_scanner_ingress.dart';
@@ -250,6 +251,20 @@ class _SaleScreenState extends State<SaleScreen> {
           ],
         ),
         actions: [
+          TextButton(
+            key: const Key('checkout_copy_sale_id_button'),
+            onPressed: () async {
+              await Clipboard.setData(ClipboardData(text: response.saleId));
+              if (!ctx.mounted) return;
+              ScaffoldMessenger.of(ctx).showSnackBar(
+                const SnackBar(
+                  key: Key('checkout_sale_id_copied_snackbar'),
+                  content: Text('sale_id copiado al portapapeles.'),
+                ),
+              );
+            },
+            child: const Text('Copiar sale_id'),
+          ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
             child: const Text('Listo'),

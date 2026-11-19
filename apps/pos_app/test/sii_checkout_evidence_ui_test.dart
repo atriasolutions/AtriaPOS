@@ -1,13 +1,37 @@
 import 'package:core/api/api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/main.dart' as app;
 
 void main() {
-  testWidgets('SC-080-ASSIST-UI-01 checkout muestra sale_id para evidencia SII',
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets(
+      'SC-080-ASSIST-UI-01/02 checkout muestra y copia sale_id para evidencia SII',
       (WidgetTester tester) async {
+    String? clipboardText;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (MethodCall methodCall) async {
+        if (methodCall.method == 'Clipboard.setData') {
+          final args = methodCall.arguments as Map<dynamic, dynamic>;
+          clipboardText = args['text'] as String?;
+          return null;
+        }
+        if (methodCall.method == 'Clipboard.getData') {
+          return clipboardText == null ? null : {'text': clipboardText};
+        }
+        return null;
+      },
+    );
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, null),
+    );
+
     tester.view.physicalSize = const Size(1280, 900);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
@@ -69,5 +93,15 @@ void main() {
     expect(labelText, startsWith('Venta (sale_id): '));
     final saleId = labelText.replaceFirst('Venta (sale_id): ', '');
     expect(saleId.trim(), isNotEmpty);
+
+    await tester.tap(find.byKey(const Key('checkout_copy_sale_id_button')));
+    await tester.pump();
+
+    expect(clipboardText, saleId);
+    expect(
+      find.byKey(const Key('checkout_sale_id_copied_snackbar')),
+      findsOneWidget,
+    );
+    expect(find.text('sale_id copiado al portapapeles.'), findsOneWidget);
   });
 }

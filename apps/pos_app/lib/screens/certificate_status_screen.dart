@@ -136,7 +136,7 @@ class _CertificateStatusScreenState extends State<CertificateStatusScreen> {
                   Text('2. Índice: runbooks/sii-piloto-indice.md'),
                   Text('3. Variables Fase B: runbooks/sii-cert.md'),
                   Text(
-                    '4. Venta de prueba → EMITIDA; copiar sale_id del diálogo Venta registrada',
+                    '4. Venta de prueba → EMITIDA; botón Copiar sale_id en Venta registrada',
                   ),
                   Text('5. Evidencia: runbooks/sii-cert-pilot-evidence.md'),
                   Text('6. Rollback: SII_GATEWAY=fake'),
