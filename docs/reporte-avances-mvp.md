@@ -2,7 +2,7 @@
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
 **Fecha de reporte:** 2026-11-19  
-**Rama de trabajo:** `feat/slice-0-scaffold` (ver HEAD tras último commit de slice)  
+**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `a728144`)  
 **Organización:** Atria Solutions SpA  
 
 ---
@@ -50,7 +50,7 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 | 21 | `3cdf2ec` | RF-003 | API-010 certificado consulta |
 | 22 | `43e0e13` | RF-060/070 | Drift reportes y auditoría |
 | 23 | `c2f2470` | RF-041 | SC-041-UI-03 cierre sin turno |
-| 24 | (este hito) | — | Runbook merge, reporte al día |
+| 24 | `a728144` | — | Runbook merge, reporte al día |
 
 Decisiones por slice: `docs/decisiones/DEC-*-slice*.md`.
 
