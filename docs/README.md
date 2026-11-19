@@ -24,6 +24,7 @@
 | 15 | [Plan definición pre-impl.](15-plan-definicion-pre-implementacion.md) | Fases 0–7, workshops, Gate 2 |
 | 16 | [Registro decisiones DEC](16-registro-decisiones.md) | 40 decisiones P0–P3 |
 | 17 | [Cierre Gate 2](17-cierre-gate-2.md) | Autorización SLICE-1+ |
+| 18 | [Diagnóstico pruebas](18-diagnostico-pruebas.md) | Baseline suites, cobertura core, foco pre-slice |
 | 08b | [Esquema SQLite v1 borrador](08b-esquema-sqlite-v1.md) | DDL pendiente Gate 2 |
 | — | [ADRs](decisiones/README.md) | Plantilla decisiones |
 
