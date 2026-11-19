@@ -84,7 +84,7 @@ Leyenda: **✅** implementado y con tests automatizados relevantes | **🔶** pa
 |----|--------|--------|---------------------|
 | RF-001 | Alta de tienda | ✅ | Core, drift, `store_setup_ui_e2e_test.dart` |
 | RF-002 | Usuarios y roles | ✅ | Login, permisos, alta usuario UI (SLICE-19) |
-| RF-003 | Certificado SII | 🔶 | API-010 + guía piloto (SLICE-25); SC-080-03 ⬜ hasta evidencia CERRADO |
+| RF-003 | Certificado SII | ✅ | API-010 + piloto cert SC-080-03 **CERRADO** (SLICE-37) |
 | RF-010 | Crear producto | ✅ | API + `product_create_ui_e2e_test.dart` |
 | RF-011 | Buscar producto | ✅ | Core + flujo venta UI |
 | RF-012 | Stock inicial | ✅ | Create product (opcional UI) |
