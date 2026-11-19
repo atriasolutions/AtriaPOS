@@ -215,7 +215,11 @@ Estados `status` venta: `CONFIRMADA` | `ANULADA`.
 **Response 201**
 
 ```json
-{ "shiftId": "shift_01", "openingCashClp": 50000 }
+{
+  "shiftId": "shift_01",
+  "openingCashClp": 50000,
+  "openedAt": "2026-03-18T15:00:00.000Z"
+}
 ```
 
 Turno ya abierto en tienda → `CONFLICTO`.
@@ -247,7 +251,9 @@ Sin turno → `NO_ENCONTRADO`.
   "expectedCashClp": 148500,
   "countedCashClp": 150000,
   "differenceClp": 1500,
-  "salesTotalClp": 98500
+  "salesTotalClp": 98500,
+  "openedAt": "2026-03-18T12:00:00.000Z",
+  "closedAt": "2026-03-18T21:00:00.000Z"
 }
 ```
 

@@ -8,10 +8,12 @@ class OpenShiftResponse {
   const OpenShiftResponse({
     required this.shiftId,
     required this.openingCashClp,
+    required this.openedAt,
   });
 
   final String shiftId;
   final int openingCashClp;
+  final String openedAt;
 }
 
 class OpenShiftStatusResponse {
@@ -38,10 +40,14 @@ class CloseShiftResponse {
     required this.countedCashClp,
     required this.differenceClp,
     required this.salesTotalClp,
+    required this.openedAt,
+    required this.closedAt,
   });
 
   final int expectedCashClp;
   final int countedCashClp;
   final int differenceClp;
   final int salesTotalClp;
+  final String openedAt;
+  final String closedAt;
 }

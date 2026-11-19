@@ -7,6 +7,9 @@ import 'package:pos_app/main.dart' as app;
 
 /// SC-060-01 — compartido entre `test/` y `integration_test/`.
 Future<void> runSaleFlowScenario(WidgetTester tester) async {
+  tester.view.physicalSize = const Size(1280, 900);
+  tester.view.devicePixelRatio = 1.0;
+  addTearDown(tester.view.resetPhysicalSize);
   final composition = PosComposition.memory();
   addTearDown(composition.close);
 
@@ -56,7 +59,10 @@ Future<void> runSaleFlowScenario(WidgetTester tester) async {
   expect(find.byKey(const Key('cart_total_label')), findsOneWidget);
   expect(find.textContaining('Total: \$1000'), findsOneWidget);
 
-  await tester.tap(find.byKey(const Key('checkout_button')));
+  final checkout = find.byKey(const Key('checkout_button'));
+  await tester.ensureVisible(checkout);
+  final buttonRect = tester.getRect(checkout);
+  await tester.tapAt(buttonRect.center);
   await tester.pumpAndSettle();
 
   await tester.tap(find.byKey(const Key('confirm_checkout_button')));

@@ -7,6 +7,7 @@ import 'ports/product_repository.dart';
 import 'ports/sale_repository.dart';
 import 'ports/shift_repository.dart';
 import 'ports/stock_movement_repository.dart';
+import 'ports/trusted_clock.dart';
 
 class CheckoutPaymentInput {
   const CheckoutPaymentInput({
@@ -37,6 +38,7 @@ class ConfirmCheckoutResult {
     required this.saleId,
     required this.totalClp,
     required this.dteStatus,
+    required this.createdAt,
     this.folio,
     this.pdfUrl,
   });
@@ -44,6 +46,7 @@ class ConfirmCheckoutResult {
   final SaleId saleId;
   final int totalClp;
   final DteStatus dteStatus;
+  final DateTime createdAt;
   final int? folio;
   final String? pdfUrl;
 }
@@ -56,8 +59,9 @@ class ConfirmCheckout {
     this._movements,
     this._shifts,
     this._dte,
-    this._dteQueue,
-  );
+    this._dteQueue, [
+    TrustedClock? clock,
+  ]) : _clock = clock ?? MutableTrustedClock();
 
   final CartRepository _carts;
   final ProductRepository _products;
@@ -66,6 +70,7 @@ class ConfirmCheckout {
   final ShiftRepository _shifts;
   final DteGateway _dte;
   final DteQueueRepository _dteQueue;
+  final TrustedClock _clock;
 
   Future<ConfirmCheckoutResult> call(ConfirmCheckoutInput input) async {
     final openShift = await _shifts.findOpenByStore(input.storeId);
@@ -129,7 +134,7 @@ class ConfirmCheckout {
       payments: paymentEntities,
       totalClp: totalClp,
       changeClp: input.changeClp,
-      createdAt: DateTime.now().toUtc(),
+      createdAt: _clock.now(),
     );
 
     for (final line in cart.lines) {
@@ -154,7 +159,7 @@ class ConfirmCheckout {
     }
 
     await _sales.save(sale);
-    sale = await emitSaleDte(sale, _dte, _dteQueue);
+    sale = await emitSaleDte(sale, _dte, _dteQueue, _clock);
     await _sales.save(sale);
     await _carts.save(cart.markCompleted());
 
@@ -162,6 +167,7 @@ class ConfirmCheckout {
       saleId: sale.id,
       totalClp: totalClp,
       dteStatus: sale.dteStatus,
+      createdAt: sale.createdAt,
       folio: sale.folio,
       pdfUrl: sale.pdfUrl,
     );

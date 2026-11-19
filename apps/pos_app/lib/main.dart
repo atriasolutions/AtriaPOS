@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'app_shell.dart';
 import 'di/pos_composition.dart';
+import 'widgets/pos_clock_overlay.dart';
 
 PosComposition? _composition;
 
@@ -14,7 +15,15 @@ PosComposition? _composition;
 Future<void> main({PosComposition? testComposition}) async {
   WidgetsFlutterBinding.ensureInitialized();
   _composition = testComposition ?? await _openDefaultComposition();
-  runApp(PosApp(composition: _composition!));
+  if (testComposition == null) {
+    await _composition!.bootstrapClock();
+  }
+  runApp(
+    PosApp(
+      composition: _composition!,
+      showClockOverlay: testComposition == null,
+    ),
+  );
 }
 
 Future<PosComposition> _openDefaultComposition() async {
@@ -24,9 +33,14 @@ Future<PosComposition> _openDefaultComposition() async {
 }
 
 class PosApp extends StatelessWidget {
-  const PosApp({super.key, required this.composition});
+  const PosApp({
+    super.key,
+    required this.composition,
+    this.showClockOverlay = true,
+  });
 
   final PosComposition composition;
+  final bool showClockOverlay;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +49,12 @@ class PosApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
       ),
-      home: AppShell(composition: composition),
+      home: showClockOverlay
+          ? PosClockOverlay(
+              clock: composition.trustedClock,
+              child: AppShell(composition: composition),
+            )
+          : AppShell(composition: composition),
     );
   }
 }

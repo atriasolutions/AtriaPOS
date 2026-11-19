@@ -14,8 +14,10 @@ class SaleService {
     DteGateway? dteGateway,
     DteQueueRepository? dteQueueRepository,
     SessionProvider? sessionProvider,
+    TrustedClock? clock,
   }) {
     final carts = cartRepository ?? InMemoryCartRepository();
+    final trustedClock = clock ?? MutableTrustedClock();
     final products = productRepository ?? InMemoryProductRepository();
     final sales = saleRepository ?? InMemorySaleRepository();
     final movements =
@@ -34,6 +36,7 @@ class SaleService {
       dte,
       dteQueue,
       sessions,
+      trustedClock,
     );
   }
 
@@ -46,6 +49,7 @@ class SaleService {
     DteGateway dte,
     DteQueueRepository dteQueue,
     SessionProvider sessions,
+    TrustedClock clock,
   )   : _createCart = CreateCart(carts, shifts),
         _addLine = AddCartLine(carts, products),
         _updateLine = UpdateCartLineQuantity(carts),
@@ -59,6 +63,7 @@ class SaleService {
           shifts,
           dte,
           dteQueue,
+          clock,
         ),
         _voidSale = VoidSale(
           sales,
@@ -199,6 +204,7 @@ class SaleService {
           saleId: result.saleId,
           totalClp: result.totalClp,
           dteStatus: result.dteStatus.apiValue,
+          createdAt: result.createdAt.toUtc().toIso8601String(),
           folio: result.folio,
           pdfUrl: result.pdfUrl,
         ),

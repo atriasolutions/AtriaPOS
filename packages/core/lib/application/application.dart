@@ -10,6 +10,7 @@ export 'in_memory_session_provider.dart';
 export 'in_memory_user_repository.dart';
 export 'ports/pin_hasher.dart';
 export 'ports/session_provider.dart';
+export 'ports/trusted_clock.dart';
 export 'ports/user_repository.dart';
 export 'emit_sale_dte.dart';
 export 'fakes/fake_dte_gateway.dart';

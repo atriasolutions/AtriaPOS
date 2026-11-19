@@ -27,6 +27,13 @@
 
 **[OBSERVADO]** Integración SII y manejo de certificados requiere confirmación explícita del cliente antes de producción.
 
+## Hora y periféricos (SLICE-15–17)
+
+| ID | Requisito |
+|----|-----------|
+| RNF-040 | Sincronización hora con ntp.shoa.cl (fallback IP); UI muestra reloj |
+| RNF-041 | Escáner externo Android vía BLE companion (MVP) |
+
 ## Calidad y TDD
 
 | ID | Requisito |

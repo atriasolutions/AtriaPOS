@@ -1,4 +1,5 @@
 import 'package:core/api/api.dart';
+import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -77,6 +78,8 @@ class _CloseShiftScreenState extends State<CloseShiftScreen> {
             key: const Key('close_shift_report_dialog'),
             title: const Text('Cierre de caja'),
             content: Text(
+              'Apertura: ${formatChileDateTime(DateTime.parse(report.openedAt))}\n'
+              'Cierre: ${formatChileDateTime(DateTime.parse(report.closedAt))}\n'
               'Efectivo esperado: \$${report.expectedCashClp}\n'
               'Efectivo contado: \$${report.countedCashClp}\n'
               'Diferencia: \$${report.differenceClp}\n'

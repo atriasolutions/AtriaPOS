@@ -1,6 +1,7 @@
 import 'package:core/api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../di/pos_composition.dart';
 
@@ -19,6 +20,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
   final _stockController = TextEditingController(text: '0');
   final _barcodeController = TextEditingController();
   bool _submitting = false;
+  String? _createdQrPayload;
 
   @override
   void dispose() {
@@ -63,15 +65,16 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
 
     switch (result) {
       case ApiSuccess<ProductResponse>(data: final data):
+        setState(() => _createdQrPayload = data.qrPayload);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             key: const Key('product_create_success_snackbar'),
             content: Text('Producto creado: ${data.name} (stock ${data.stock}).'),
           ),
         );
-        if (Navigator.of(context).canPop()) {
+        if (Navigator.of(context).canPop() && data.qrPayload == null) {
           Navigator.of(context).pop(true);
-        } else {
+        } else if (!Navigator.of(context).canPop()) {
           _nameController.clear();
           _priceController.clear();
           _stockController.text = '0';
@@ -149,6 +152,27 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                     )
                   : const Text('Guardar producto'),
             ),
+            if (_createdQrPayload case final payload?) ...[
+              const SizedBox(height: 24),
+              const Text('Código QR del producto'),
+              const SizedBox(height: 8),
+              Center(
+                child: QrImageView(
+                  key: const Key('product_qr_image'),
+                  data: payload,
+                  size: 180,
+                ),
+              ),
+              const SizedBox(height: 8),
+              SelectableText(payload),
+              if (Navigator.of(context).canPop()) ...[
+                const SizedBox(height: 16),
+                FilledButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('Volver'),
+                ),
+              ],
+            ],
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:core/domain/domain.dart';
 import 'package:core/pos_barrio_core.dart';
 
 import '../config/store_config.dart';
+import '../scanner/scanner_ingress.dart';
 
 /// Cableado local-first: Drift + carrito in-memory + DTE fake.
 class PosComposition {
@@ -28,6 +29,8 @@ class PosComposition {
     required this.inventoryService,
     required this.dteService,
     required this.reportService,
+    required this.trustedClock,
+    required this.scannerIngress,
   });
 
   final AppDatabase database;
@@ -50,6 +53,8 @@ class PosComposition {
   final InventoryService inventoryService;
   final DteService dteService;
   final ReportService reportService;
+  final NtpShoaTrustedClock trustedClock;
+  final ScannerIngress scannerIngress;
 
   /// Cache del identificador de tienda activa (MVP una tienda).
   String? activeStoreId;
@@ -65,9 +70,18 @@ class PosComposition {
     return id;
   }
 
-  factory PosComposition.memory({DteGateway? dteGateway}) {
+  factory PosComposition.memory({
+    DteGateway? dteGateway,
+    ScannerIngress? scannerIngress,
+    NtpShoaTrustedClock? trustedClock,
+  }) {
     final db = openPosDatabaseMemory();
-    return PosComposition._fromDatabase(db, dteGatewayOverride: dteGateway);
+    return PosComposition._fromDatabase(
+      db,
+      dteGatewayOverride: dteGateway,
+      scannerIngressOverride: scannerIngress,
+      trustedClockOverride: trustedClock,
+    );
   }
 
   factory PosComposition.file(String path) {
@@ -81,6 +95,8 @@ class PosComposition {
   static PosComposition _fromDatabase(
     AppDatabase db, {
     DteGateway? dteGatewayOverride,
+    ScannerIngress? scannerIngressOverride,
+    NtpShoaTrustedClock? trustedClockOverride,
   }) {
     final storeRepo = DriftStoreRepository(db);
     final carts = InMemoryCartRepository();
@@ -109,6 +125,11 @@ class PosComposition {
       pinHasher: hasher,
       sessionProvider: sessions,
     );
+    final clockPersist = DriftClockStateRepository(db);
+    final trustedClock = trustedClockOverride ??
+        NtpShoaTrustedClock(MutableTrustedClock(), clockPersist);
+    final scannerIngress =
+        scannerIngressOverride ?? StreamScannerIngress();
 
     return PosComposition._(
       database: db,
@@ -132,6 +153,7 @@ class PosComposition {
         shiftRepository: shifts,
         saleRepository: sales,
         sessionProvider: sessions,
+        clock: trustedClock,
       ),
       saleService: SaleService(
         cartRepository: carts,
@@ -142,6 +164,7 @@ class PosComposition {
         dteGateway: dteGateway,
         dteQueueRepository: dteQueue,
         sessionProvider: sessions,
+        clock: trustedClock,
       ),
       inventoryService: InventoryService(
         productRepository: products,
@@ -157,7 +180,14 @@ class PosComposition {
         saleRepository: sales,
         sessionProvider: sessions,
       ),
+      trustedClock: trustedClock,
+      scannerIngress: scannerIngress,
     );
+  }
+
+  Future<void> bootstrapClock() async {
+    await trustedClock.loadPersisted();
+    await trustedClock.syncFromNetwork();
   }
 
   Future<void> refreshActiveStore() async {

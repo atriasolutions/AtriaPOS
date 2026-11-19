@@ -483,6 +483,17 @@ class $ProductsTable extends Products
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _qrPayloadMeta = const VerificationMeta(
+    'qrPayload',
+  );
+  @override
+  late final GeneratedColumn<String> qrPayload = GeneratedColumn<String>(
+    'qr_payload',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _stockMeta = const VerificationMeta('stock');
   @override
   late final GeneratedColumn<int> stock = GeneratedColumn<int>(
@@ -513,6 +524,7 @@ class $ProductsTable extends Products
     salePriceClp,
     costClp,
     barcode,
+    qrPayload,
     stock,
     blockWhenOutOfStock,
   ];
@@ -572,6 +584,12 @@ class $ProductsTable extends Products
         barcode.isAcceptableOrUnknown(data['barcode']!, _barcodeMeta),
       );
     }
+    if (data.containsKey('qr_payload')) {
+      context.handle(
+        _qrPayloadMeta,
+        qrPayload.isAcceptableOrUnknown(data['qr_payload']!, _qrPayloadMeta),
+      );
+    }
     if (data.containsKey('stock')) {
       context.handle(
         _stockMeta,
@@ -624,6 +642,10 @@ class $ProductsTable extends Products
         DriftSqlType.string,
         data['${effectivePrefix}barcode'],
       ),
+      qrPayload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}qr_payload'],
+      ),
       stock: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}stock'],
@@ -648,6 +670,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
   final int salePriceClp;
   final int? costClp;
   final String? barcode;
+  final String? qrPayload;
   final int stock;
   final bool blockWhenOutOfStock;
   const ProductRow({
@@ -657,6 +680,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     required this.salePriceClp,
     this.costClp,
     this.barcode,
+    this.qrPayload,
     required this.stock,
     required this.blockWhenOutOfStock,
   });
@@ -672,6 +696,9 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     }
     if (!nullToAbsent || barcode != null) {
       map['barcode'] = Variable<String>(barcode);
+    }
+    if (!nullToAbsent || qrPayload != null) {
+      map['qr_payload'] = Variable<String>(qrPayload);
     }
     map['stock'] = Variable<int>(stock);
     map['block_when_out_of_stock'] = Variable<bool>(blockWhenOutOfStock);
@@ -690,6 +717,9 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       barcode: barcode == null && nullToAbsent
           ? const Value.absent()
           : Value(barcode),
+      qrPayload: qrPayload == null && nullToAbsent
+          ? const Value.absent()
+          : Value(qrPayload),
       stock: Value(stock),
       blockWhenOutOfStock: Value(blockWhenOutOfStock),
     );
@@ -707,6 +737,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       salePriceClp: serializer.fromJson<int>(json['salePriceClp']),
       costClp: serializer.fromJson<int?>(json['costClp']),
       barcode: serializer.fromJson<String?>(json['barcode']),
+      qrPayload: serializer.fromJson<String?>(json['qrPayload']),
       stock: serializer.fromJson<int>(json['stock']),
       blockWhenOutOfStock: serializer.fromJson<bool>(
         json['blockWhenOutOfStock'],
@@ -723,6 +754,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       'salePriceClp': serializer.toJson<int>(salePriceClp),
       'costClp': serializer.toJson<int?>(costClp),
       'barcode': serializer.toJson<String?>(barcode),
+      'qrPayload': serializer.toJson<String?>(qrPayload),
       'stock': serializer.toJson<int>(stock),
       'blockWhenOutOfStock': serializer.toJson<bool>(blockWhenOutOfStock),
     };
@@ -735,6 +767,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     int? salePriceClp,
     Value<int?> costClp = const Value.absent(),
     Value<String?> barcode = const Value.absent(),
+    Value<String?> qrPayload = const Value.absent(),
     int? stock,
     bool? blockWhenOutOfStock,
   }) => ProductRow(
@@ -744,6 +777,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     salePriceClp: salePriceClp ?? this.salePriceClp,
     costClp: costClp.present ? costClp.value : this.costClp,
     barcode: barcode.present ? barcode.value : this.barcode,
+    qrPayload: qrPayload.present ? qrPayload.value : this.qrPayload,
     stock: stock ?? this.stock,
     blockWhenOutOfStock: blockWhenOutOfStock ?? this.blockWhenOutOfStock,
   );
@@ -757,6 +791,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
           : this.salePriceClp,
       costClp: data.costClp.present ? data.costClp.value : this.costClp,
       barcode: data.barcode.present ? data.barcode.value : this.barcode,
+      qrPayload: data.qrPayload.present ? data.qrPayload.value : this.qrPayload,
       stock: data.stock.present ? data.stock.value : this.stock,
       blockWhenOutOfStock: data.blockWhenOutOfStock.present
           ? data.blockWhenOutOfStock.value
@@ -773,6 +808,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
           ..write('salePriceClp: $salePriceClp, ')
           ..write('costClp: $costClp, ')
           ..write('barcode: $barcode, ')
+          ..write('qrPayload: $qrPayload, ')
           ..write('stock: $stock, ')
           ..write('blockWhenOutOfStock: $blockWhenOutOfStock')
           ..write(')'))
@@ -787,6 +823,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     salePriceClp,
     costClp,
     barcode,
+    qrPayload,
     stock,
     blockWhenOutOfStock,
   );
@@ -800,6 +837,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
           other.salePriceClp == this.salePriceClp &&
           other.costClp == this.costClp &&
           other.barcode == this.barcode &&
+          other.qrPayload == this.qrPayload &&
           other.stock == this.stock &&
           other.blockWhenOutOfStock == this.blockWhenOutOfStock);
 }
@@ -811,6 +849,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
   final Value<int> salePriceClp;
   final Value<int?> costClp;
   final Value<String?> barcode;
+  final Value<String?> qrPayload;
   final Value<int> stock;
   final Value<bool> blockWhenOutOfStock;
   final Value<int> rowid;
@@ -821,6 +860,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     this.salePriceClp = const Value.absent(),
     this.costClp = const Value.absent(),
     this.barcode = const Value.absent(),
+    this.qrPayload = const Value.absent(),
     this.stock = const Value.absent(),
     this.blockWhenOutOfStock = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -832,6 +872,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     required int salePriceClp,
     this.costClp = const Value.absent(),
     this.barcode = const Value.absent(),
+    this.qrPayload = const Value.absent(),
     required int stock,
     required bool blockWhenOutOfStock,
     this.rowid = const Value.absent(),
@@ -848,6 +889,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     Expression<int>? salePriceClp,
     Expression<int>? costClp,
     Expression<String>? barcode,
+    Expression<String>? qrPayload,
     Expression<int>? stock,
     Expression<bool>? blockWhenOutOfStock,
     Expression<int>? rowid,
@@ -859,6 +901,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
       if (salePriceClp != null) 'sale_price_clp': salePriceClp,
       if (costClp != null) 'cost_clp': costClp,
       if (barcode != null) 'barcode': barcode,
+      if (qrPayload != null) 'qr_payload': qrPayload,
       if (stock != null) 'stock': stock,
       if (blockWhenOutOfStock != null)
         'block_when_out_of_stock': blockWhenOutOfStock,
@@ -873,6 +916,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     Value<int>? salePriceClp,
     Value<int?>? costClp,
     Value<String?>? barcode,
+    Value<String?>? qrPayload,
     Value<int>? stock,
     Value<bool>? blockWhenOutOfStock,
     Value<int>? rowid,
@@ -884,6 +928,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
       salePriceClp: salePriceClp ?? this.salePriceClp,
       costClp: costClp ?? this.costClp,
       barcode: barcode ?? this.barcode,
+      qrPayload: qrPayload ?? this.qrPayload,
       stock: stock ?? this.stock,
       blockWhenOutOfStock: blockWhenOutOfStock ?? this.blockWhenOutOfStock,
       rowid: rowid ?? this.rowid,
@@ -911,6 +956,9 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     if (barcode.present) {
       map['barcode'] = Variable<String>(barcode.value);
     }
+    if (qrPayload.present) {
+      map['qr_payload'] = Variable<String>(qrPayload.value);
+    }
     if (stock.present) {
       map['stock'] = Variable<int>(stock.value);
     }
@@ -934,6 +982,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
           ..write('salePriceClp: $salePriceClp, ')
           ..write('costClp: $costClp, ')
           ..write('barcode: $barcode, ')
+          ..write('qrPayload: $qrPayload, ')
           ..write('stock: $stock, ')
           ..write('blockWhenOutOfStock: $blockWhenOutOfStock, ')
           ..write('rowid: $rowid')
@@ -4396,6 +4445,374 @@ class DteFolioCountersCompanion extends UpdateCompanion<DteFolioCounterRow> {
   }
 }
 
+class $ClockStateTable extends ClockState
+    with TableInfo<$ClockStateTable, ClockStateRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ClockStateTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _offsetMicrosecondsMeta =
+      const VerificationMeta('offsetMicroseconds');
+  @override
+  late final GeneratedColumn<int> offsetMicroseconds = GeneratedColumn<int>(
+    'offset_microseconds',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _lastSyncAtMeta = const VerificationMeta(
+    'lastSyncAt',
+  );
+  @override
+  late final GeneratedColumn<String> lastSyncAt = GeneratedColumn<String>(
+    'last_sync_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String> source = GeneratedColumn<String>(
+    'source',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('device'),
+  );
+  static const VerificationMeta _degradedMeta = const VerificationMeta(
+    'degraded',
+  );
+  @override
+  late final GeneratedColumn<bool> degraded = GeneratedColumn<bool>(
+    'degraded',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("degraded" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    offsetMicroseconds,
+    lastSyncAt,
+    source,
+    degraded,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'clock_state';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ClockStateRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('offset_microseconds')) {
+      context.handle(
+        _offsetMicrosecondsMeta,
+        offsetMicroseconds.isAcceptableOrUnknown(
+          data['offset_microseconds']!,
+          _offsetMicrosecondsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_sync_at')) {
+      context.handle(
+        _lastSyncAtMeta,
+        lastSyncAt.isAcceptableOrUnknown(
+          data['last_sync_at']!,
+          _lastSyncAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('source')) {
+      context.handle(
+        _sourceMeta,
+        source.isAcceptableOrUnknown(data['source']!, _sourceMeta),
+      );
+    }
+    if (data.containsKey('degraded')) {
+      context.handle(
+        _degradedMeta,
+        degraded.isAcceptableOrUnknown(data['degraded']!, _degradedMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ClockStateRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ClockStateRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      offsetMicroseconds: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}offset_microseconds'],
+      )!,
+      lastSyncAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_sync_at'],
+      ),
+      source: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source'],
+      )!,
+      degraded: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}degraded'],
+      )!,
+    );
+  }
+
+  @override
+  $ClockStateTable createAlias(String alias) {
+    return $ClockStateTable(attachedDatabase, alias);
+  }
+}
+
+class ClockStateRow extends DataClass implements Insertable<ClockStateRow> {
+  final String id;
+  final int offsetMicroseconds;
+  final String? lastSyncAt;
+  final String source;
+  final bool degraded;
+  const ClockStateRow({
+    required this.id,
+    required this.offsetMicroseconds,
+    this.lastSyncAt,
+    required this.source,
+    required this.degraded,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['offset_microseconds'] = Variable<int>(offsetMicroseconds);
+    if (!nullToAbsent || lastSyncAt != null) {
+      map['last_sync_at'] = Variable<String>(lastSyncAt);
+    }
+    map['source'] = Variable<String>(source);
+    map['degraded'] = Variable<bool>(degraded);
+    return map;
+  }
+
+  ClockStateCompanion toCompanion(bool nullToAbsent) {
+    return ClockStateCompanion(
+      id: Value(id),
+      offsetMicroseconds: Value(offsetMicroseconds),
+      lastSyncAt: lastSyncAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastSyncAt),
+      source: Value(source),
+      degraded: Value(degraded),
+    );
+  }
+
+  factory ClockStateRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ClockStateRow(
+      id: serializer.fromJson<String>(json['id']),
+      offsetMicroseconds: serializer.fromJson<int>(json['offsetMicroseconds']),
+      lastSyncAt: serializer.fromJson<String?>(json['lastSyncAt']),
+      source: serializer.fromJson<String>(json['source']),
+      degraded: serializer.fromJson<bool>(json['degraded']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'offsetMicroseconds': serializer.toJson<int>(offsetMicroseconds),
+      'lastSyncAt': serializer.toJson<String?>(lastSyncAt),
+      'source': serializer.toJson<String>(source),
+      'degraded': serializer.toJson<bool>(degraded),
+    };
+  }
+
+  ClockStateRow copyWith({
+    String? id,
+    int? offsetMicroseconds,
+    Value<String?> lastSyncAt = const Value.absent(),
+    String? source,
+    bool? degraded,
+  }) => ClockStateRow(
+    id: id ?? this.id,
+    offsetMicroseconds: offsetMicroseconds ?? this.offsetMicroseconds,
+    lastSyncAt: lastSyncAt.present ? lastSyncAt.value : this.lastSyncAt,
+    source: source ?? this.source,
+    degraded: degraded ?? this.degraded,
+  );
+  ClockStateRow copyWithCompanion(ClockStateCompanion data) {
+    return ClockStateRow(
+      id: data.id.present ? data.id.value : this.id,
+      offsetMicroseconds: data.offsetMicroseconds.present
+          ? data.offsetMicroseconds.value
+          : this.offsetMicroseconds,
+      lastSyncAt: data.lastSyncAt.present
+          ? data.lastSyncAt.value
+          : this.lastSyncAt,
+      source: data.source.present ? data.source.value : this.source,
+      degraded: data.degraded.present ? data.degraded.value : this.degraded,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClockStateRow(')
+          ..write('id: $id, ')
+          ..write('offsetMicroseconds: $offsetMicroseconds, ')
+          ..write('lastSyncAt: $lastSyncAt, ')
+          ..write('source: $source, ')
+          ..write('degraded: $degraded')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, offsetMicroseconds, lastSyncAt, source, degraded);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ClockStateRow &&
+          other.id == this.id &&
+          other.offsetMicroseconds == this.offsetMicroseconds &&
+          other.lastSyncAt == this.lastSyncAt &&
+          other.source == this.source &&
+          other.degraded == this.degraded);
+}
+
+class ClockStateCompanion extends UpdateCompanion<ClockStateRow> {
+  final Value<String> id;
+  final Value<int> offsetMicroseconds;
+  final Value<String?> lastSyncAt;
+  final Value<String> source;
+  final Value<bool> degraded;
+  final Value<int> rowid;
+  const ClockStateCompanion({
+    this.id = const Value.absent(),
+    this.offsetMicroseconds = const Value.absent(),
+    this.lastSyncAt = const Value.absent(),
+    this.source = const Value.absent(),
+    this.degraded = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ClockStateCompanion.insert({
+    required String id,
+    this.offsetMicroseconds = const Value.absent(),
+    this.lastSyncAt = const Value.absent(),
+    this.source = const Value.absent(),
+    this.degraded = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id);
+  static Insertable<ClockStateRow> custom({
+    Expression<String>? id,
+    Expression<int>? offsetMicroseconds,
+    Expression<String>? lastSyncAt,
+    Expression<String>? source,
+    Expression<bool>? degraded,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (offsetMicroseconds != null) 'offset_microseconds': offsetMicroseconds,
+      if (lastSyncAt != null) 'last_sync_at': lastSyncAt,
+      if (source != null) 'source': source,
+      if (degraded != null) 'degraded': degraded,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ClockStateCompanion copyWith({
+    Value<String>? id,
+    Value<int>? offsetMicroseconds,
+    Value<String?>? lastSyncAt,
+    Value<String>? source,
+    Value<bool>? degraded,
+    Value<int>? rowid,
+  }) {
+    return ClockStateCompanion(
+      id: id ?? this.id,
+      offsetMicroseconds: offsetMicroseconds ?? this.offsetMicroseconds,
+      lastSyncAt: lastSyncAt ?? this.lastSyncAt,
+      source: source ?? this.source,
+      degraded: degraded ?? this.degraded,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (offsetMicroseconds.present) {
+      map['offset_microseconds'] = Variable<int>(offsetMicroseconds.value);
+    }
+    if (lastSyncAt.present) {
+      map['last_sync_at'] = Variable<String>(lastSyncAt.value);
+    }
+    if (source.present) {
+      map['source'] = Variable<String>(source.value);
+    }
+    if (degraded.present) {
+      map['degraded'] = Variable<bool>(degraded.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClockStateCompanion(')
+          ..write('id: $id, ')
+          ..write('offsetMicroseconds: $offsetMicroseconds, ')
+          ..write('lastSyncAt: $lastSyncAt, ')
+          ..write('source: $source, ')
+          ..write('degraded: $degraded, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -4411,6 +4828,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $DteFolioCountersTable dteFolioCounters = $DteFolioCountersTable(
     this,
   );
+  late final $ClockStateTable clockState = $ClockStateTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4426,6 +4844,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     dteQueue,
     users,
     dteFolioCounters,
+    clockState,
   ];
 }
 
@@ -4652,6 +5071,7 @@ typedef $$ProductsTableCreateCompanionBuilder =
       required int salePriceClp,
       Value<int?> costClp,
       Value<String?> barcode,
+      Value<String?> qrPayload,
       required int stock,
       required bool blockWhenOutOfStock,
       Value<int> rowid,
@@ -4664,6 +5084,7 @@ typedef $$ProductsTableUpdateCompanionBuilder =
       Value<int> salePriceClp,
       Value<int?> costClp,
       Value<String?> barcode,
+      Value<String?> qrPayload,
       Value<int> stock,
       Value<bool> blockWhenOutOfStock,
       Value<int> rowid,
@@ -4705,6 +5126,11 @@ class $$ProductsTableFilterComposer
 
   ColumnFilters<String> get barcode => $composableBuilder(
     column: $table.barcode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get qrPayload => $composableBuilder(
+    column: $table.qrPayload,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4758,6 +5184,11 @@ class $$ProductsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get qrPayload => $composableBuilder(
+    column: $table.qrPayload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get stock => $composableBuilder(
     column: $table.stock,
     builder: (column) => ColumnOrderings(column),
@@ -4797,6 +5228,9 @@ class $$ProductsTableAnnotationComposer
 
   GeneratedColumn<String> get barcode =>
       $composableBuilder(column: $table.barcode, builder: (column) => column);
+
+  GeneratedColumn<String> get qrPayload =>
+      $composableBuilder(column: $table.qrPayload, builder: (column) => column);
 
   GeneratedColumn<int> get stock =>
       $composableBuilder(column: $table.stock, builder: (column) => column);
@@ -4844,6 +5278,7 @@ class $$ProductsTableTableManager
                 Value<int> salePriceClp = const Value.absent(),
                 Value<int?> costClp = const Value.absent(),
                 Value<String?> barcode = const Value.absent(),
+                Value<String?> qrPayload = const Value.absent(),
                 Value<int> stock = const Value.absent(),
                 Value<bool> blockWhenOutOfStock = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -4854,6 +5289,7 @@ class $$ProductsTableTableManager
                 salePriceClp: salePriceClp,
                 costClp: costClp,
                 barcode: barcode,
+                qrPayload: qrPayload,
                 stock: stock,
                 blockWhenOutOfStock: blockWhenOutOfStock,
                 rowid: rowid,
@@ -4866,6 +5302,7 @@ class $$ProductsTableTableManager
                 required int salePriceClp,
                 Value<int?> costClp = const Value.absent(),
                 Value<String?> barcode = const Value.absent(),
+                Value<String?> qrPayload = const Value.absent(),
                 required int stock,
                 required bool blockWhenOutOfStock,
                 Value<int> rowid = const Value.absent(),
@@ -4876,6 +5313,7 @@ class $$ProductsTableTableManager
                 salePriceClp: salePriceClp,
                 costClp: costClp,
                 barcode: barcode,
+                qrPayload: qrPayload,
                 stock: stock,
                 blockWhenOutOfStock: blockWhenOutOfStock,
                 rowid: rowid,
@@ -6713,6 +7151,210 @@ typedef $$DteFolioCountersTableProcessedTableManager =
       DteFolioCounterRow,
       PrefetchHooks Function()
     >;
+typedef $$ClockStateTableCreateCompanionBuilder =
+    ClockStateCompanion Function({
+      required String id,
+      Value<int> offsetMicroseconds,
+      Value<String?> lastSyncAt,
+      Value<String> source,
+      Value<bool> degraded,
+      Value<int> rowid,
+    });
+typedef $$ClockStateTableUpdateCompanionBuilder =
+    ClockStateCompanion Function({
+      Value<String> id,
+      Value<int> offsetMicroseconds,
+      Value<String?> lastSyncAt,
+      Value<String> source,
+      Value<bool> degraded,
+      Value<int> rowid,
+    });
+
+class $$ClockStateTableFilterComposer
+    extends Composer<_$AppDatabase, $ClockStateTable> {
+  $$ClockStateTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get offsetMicroseconds => $composableBuilder(
+    column: $table.offsetMicroseconds,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastSyncAt => $composableBuilder(
+    column: $table.lastSyncAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get degraded => $composableBuilder(
+    column: $table.degraded,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ClockStateTableOrderingComposer
+    extends Composer<_$AppDatabase, $ClockStateTable> {
+  $$ClockStateTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get offsetMicroseconds => $composableBuilder(
+    column: $table.offsetMicroseconds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastSyncAt => $composableBuilder(
+    column: $table.lastSyncAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get source => $composableBuilder(
+    column: $table.source,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get degraded => $composableBuilder(
+    column: $table.degraded,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ClockStateTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ClockStateTable> {
+  $$ClockStateTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get offsetMicroseconds => $composableBuilder(
+    column: $table.offsetMicroseconds,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get lastSyncAt => $composableBuilder(
+    column: $table.lastSyncAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<bool> get degraded =>
+      $composableBuilder(column: $table.degraded, builder: (column) => column);
+}
+
+class $$ClockStateTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ClockStateTable,
+          ClockStateRow,
+          $$ClockStateTableFilterComposer,
+          $$ClockStateTableOrderingComposer,
+          $$ClockStateTableAnnotationComposer,
+          $$ClockStateTableCreateCompanionBuilder,
+          $$ClockStateTableUpdateCompanionBuilder,
+          (
+            ClockStateRow,
+            BaseReferences<_$AppDatabase, $ClockStateTable, ClockStateRow>,
+          ),
+          ClockStateRow,
+          PrefetchHooks Function()
+        > {
+  $$ClockStateTableTableManager(_$AppDatabase db, $ClockStateTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ClockStateTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ClockStateTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ClockStateTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<int> offsetMicroseconds = const Value.absent(),
+                Value<String?> lastSyncAt = const Value.absent(),
+                Value<String> source = const Value.absent(),
+                Value<bool> degraded = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ClockStateCompanion(
+                id: id,
+                offsetMicroseconds: offsetMicroseconds,
+                lastSyncAt: lastSyncAt,
+                source: source,
+                degraded: degraded,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                Value<int> offsetMicroseconds = const Value.absent(),
+                Value<String?> lastSyncAt = const Value.absent(),
+                Value<String> source = const Value.absent(),
+                Value<bool> degraded = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ClockStateCompanion.insert(
+                id: id,
+                offsetMicroseconds: offsetMicroseconds,
+                lastSyncAt: lastSyncAt,
+                source: source,
+                degraded: degraded,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ClockStateTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ClockStateTable,
+      ClockStateRow,
+      $$ClockStateTableFilterComposer,
+      $$ClockStateTableOrderingComposer,
+      $$ClockStateTableAnnotationComposer,
+      $$ClockStateTableCreateCompanionBuilder,
+      $$ClockStateTableUpdateCompanionBuilder,
+      (
+        ClockStateRow,
+        BaseReferences<_$AppDatabase, $ClockStateTable, ClockStateRow>,
+      ),
+      ClockStateRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -6737,4 +7379,6 @@ class $AppDatabaseManager {
       $$UsersTableTableManager(_db, _db.users);
   $$DteFolioCountersTableTableManager get dteFolioCounters =>
       $$DteFolioCountersTableTableManager(_db, _db.dteFolioCounters);
+  $$ClockStateTableTableManager get clockState =>
+      $$ClockStateTableTableManager(_db, _db.clockState);
 }

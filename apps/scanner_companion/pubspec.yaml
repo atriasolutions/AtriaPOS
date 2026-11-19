@@ -1,0 +1,23 @@
+name: scanner_companion
+description: Companion Android para escanear QR y enviar al POS por BLE.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  mobile_scanner: ^6.0.2
+  flutter_blue_plus: ^1.35.5
+  core:
+    path: ../../packages/core
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

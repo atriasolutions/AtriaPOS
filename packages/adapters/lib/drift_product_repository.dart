@@ -18,6 +18,7 @@ class DriftProductRepository implements ProductRepository {
             salePriceClp: Value(product.salePriceClp),
             costClp: Value(product.costClp),
             barcode: Value(product.barcode),
+            qrPayload: Value(product.qrPayload),
             stock: Value(product.stock),
             blockWhenOutOfStock: Value(product.blockWhenOutOfStock),
           ),
@@ -50,6 +51,17 @@ class DriftProductRepository implements ProductRepository {
     final byBarcode = await findByBarcode(storeId, q);
     if (byBarcode != null) return [byBarcode];
 
+    final byQr = await (_db.select(_db.products)
+          ..where((t) => t.storeId.equals(storeId) & t.qrPayload.equals(q)))
+        .getSingleOrNull();
+    if (byQr != null) return [_map(byQr)];
+
+    final productId = parseProductIdFromScan(q);
+    if (productId != null) {
+      final byId = await findById(storeId, productId);
+      if (byId != null) return [byId];
+    }
+
     final lower = q.toLowerCase();
     final rows = await (_db.select(_db.products)
           ..where((t) => t.storeId.equals(storeId))
@@ -68,6 +80,7 @@ class DriftProductRepository implements ProductRepository {
         salePriceClp: row.salePriceClp,
         costClp: row.costClp,
         barcode: row.barcode,
+        qrPayload: row.qrPayload,
         stock: row.stock,
         blockWhenOutOfStock: row.blockWhenOutOfStock,
       );

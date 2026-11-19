@@ -105,6 +105,7 @@ class CheckoutResponse {
     required this.saleId,
     required this.totalClp,
     required this.dteStatus,
+    required this.createdAt,
     this.folio,
     this.pdfUrl,
   });
@@ -112,6 +113,7 @@ class CheckoutResponse {
   final String saleId;
   final int totalClp;
   final String dteStatus;
+  final String createdAt;
   final int? folio;
   final String? pdfUrl;
 }

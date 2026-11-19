@@ -24,6 +24,8 @@ export 'drift_product_repository.dart';
 export 'drift_sale_repository.dart';
 export 'drift_shift_repository.dart';
 export 'drift_stock_movement_repository.dart';
+export 'drift_clock_state_repository.dart';
+export 'ntp_shoa_clock.dart';
 export 'src/database.dart';
 
 /// Placeholder SLICE-0: valida enlace con [core].

@@ -7,6 +7,7 @@ environment:
   sdk: ">=3.14.0 <4.0.0"
 
 dependencies:
+  ntp: ^2.0.0
   basic_utils: ^5.8.2
   core:
     path: ../core

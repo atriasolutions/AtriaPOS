@@ -85,6 +85,7 @@ class ProductService {
         name: product.name,
         salePriceClp: product.salePriceClp,
         stock: product.stock,
+        qrPayload: product.qrPayload,
       );
 
   ProductSearchItem _toSearchItem(Product product) => ProductSearchItem(

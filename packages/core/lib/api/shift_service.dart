@@ -9,21 +9,24 @@ class ShiftService {
     ShiftRepository? shiftRepository,
     SaleRepository? saleRepository,
     SessionProvider? sessionProvider,
+    TrustedClock? clock,
   }) {
     final shifts = shiftRepository ?? InMemoryShiftRepository();
     final sales = saleRepository ?? InMemorySaleRepository();
     final sessions =
         sessionProvider ?? InMemorySessionProvider.supervisor();
-    return ShiftService._(shifts, sales, sessions);
+    final trustedClock = clock ?? MutableTrustedClock();
+    return ShiftService._(shifts, sales, sessions, trustedClock);
   }
 
   ShiftService._(
     ShiftRepository shifts,
     SaleRepository sales,
     SessionProvider sessions,
-  )   : _open = OpenShift(shifts),
+    TrustedClock clock,
+  )   : _open = OpenShift(shifts, clock),
         _getOpen = GetOpenShift(shifts),
-        _close = CloseShift(shifts, sales, sessions);
+        _close = CloseShift(shifts, sales, sessions, clock);
 
   final OpenShift _open;
   final GetOpenShift _getOpen;
@@ -39,6 +42,7 @@ class ShiftService {
         OpenShiftResponse(
           shiftId: shift.id,
           openingCashClp: shift.openingCashClp,
+          openedAt: shift.openedAt.toUtc().toIso8601String(),
         ),
         statusCode: 201,
       );
@@ -87,6 +91,8 @@ class ShiftService {
           countedCashClp: report.countedCashClp,
           differenceClp: report.differenceClp,
           salesTotalClp: report.salesTotalClp,
+          openedAt: report.openedAt.toUtc().toIso8601String(),
+          closedAt: report.closedAt.toUtc().toIso8601String(),
         ),
         statusCode: 200,
       );

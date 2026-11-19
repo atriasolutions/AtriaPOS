@@ -1,4 +1,5 @@
 import 'package:core/api/api.dart';
+import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -39,10 +40,13 @@ class _ShiftOpenScreenState extends State<ShiftOpenScreen> {
     if (!mounted) return;
     setState(() => _loading = false);
     switch (result) {
-      case ApiSuccess<OpenShiftResponse>():
+      case ApiSuccess<OpenShiftResponse>(data: final data):
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => SaleScreen(composition: widget.composition),
+            builder: (_) => SaleScreen(
+              composition: widget.composition,
+              lastShiftOpenedAt: data.openedAt,
+            ),
           ),
         );
       case ApiFailure<OpenShiftResponse>(error: final e):

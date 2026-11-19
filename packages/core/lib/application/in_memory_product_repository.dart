@@ -32,6 +32,15 @@ class InMemoryProductRepository implements ProductRepository {
     final byBarcode = await findByBarcode(storeId, q);
     if (byBarcode != null) return [byBarcode];
 
+    for (final p in _byId.values) {
+      if (p.storeId == storeId && p.qrPayload == q) return [p];
+    }
+    final productId = parseProductIdFromScan(q);
+    if (productId != null) {
+      final byId = await findById(storeId, productId);
+      if (byId != null) return [byId];
+    }
+
     final lower = q.toLowerCase();
     final matches = _byId.values
         .where(

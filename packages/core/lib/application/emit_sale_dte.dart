@@ -1,12 +1,15 @@
 import '../domain/domain.dart';
 import 'ports/dte_gateway.dart';
 import 'ports/dte_queue_repository.dart';
+import 'ports/trusted_clock.dart';
 
 Future<Sale> emitSaleDte(
   Sale sale,
   DteGateway gateway,
-  DteQueueRepository queue,
-) async {
+  DteQueueRepository queue, [
+  TrustedClock? clock,
+]) async {
+  final trustedClock = clock ?? MutableTrustedClock();
   if (sale.dteStatus == DteStatus.emitida) {
     return sale;
   }
@@ -34,7 +37,7 @@ Future<Sale> emitSaleDte(
             saleId: sale.id,
             storeId: sale.storeId,
             attempts: 0,
-            createdAt: DateTime.now().toUtc(),
+            createdAt: trustedClock.now(),
           ),
         );
       } else {

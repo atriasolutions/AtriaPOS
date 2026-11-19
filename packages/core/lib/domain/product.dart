@@ -1,5 +1,6 @@
 import 'failures.dart';
 import 'product_id.dart';
+import 'product_qr.dart';
 import 'store_id.dart';
 
 /// Producto de catálogo (DEC-007 IVA incluido, DEC-008 enteros CLP, DEC-009 sin pesables).
@@ -11,6 +12,7 @@ class Product {
     required this.salePriceClp,
     required this.stock,
     this.barcode,
+    this.qrPayload,
     this.costClp,
     this.blockWhenOutOfStock = true,
   });
@@ -21,6 +23,7 @@ class Product {
   final int salePriceClp;
   final int? costClp;
   final String? barcode;
+  final String? qrPayload;
   final int stock;
   final bool blockWhenOutOfStock;
 
@@ -55,6 +58,7 @@ class Product {
       salePriceClp: salePriceClp,
       stock: initialStock,
       barcode: barcode?.trim().isEmpty == true ? null : barcode?.trim(),
+      qrPayload: buildProductQrPayload(storeId, id),
       costClp: costClp,
       blockWhenOutOfStock: blockWhenOutOfStock,
     );
@@ -74,6 +78,7 @@ class Product {
       salePriceClp: salePriceClp,
       stock: newStock,
       barcode: barcode,
+      qrPayload: qrPayload,
       costClp: costClp,
       blockWhenOutOfStock: blockWhenOutOfStock,
     );

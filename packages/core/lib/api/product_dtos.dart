@@ -23,12 +23,14 @@ class ProductResponse {
     required this.name,
     required this.salePriceClp,
     required this.stock,
+    this.qrPayload,
   });
 
   final String id;
   final String name;
   final int salePriceClp;
   final int stock;
+  final String? qrPayload;
 }
 
 class ProductSearchItem {

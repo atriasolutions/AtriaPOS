@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core/api/api.dart';
 import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +14,14 @@ import 'product_create_screen.dart';
 import 'stock_adjust_screen.dart';
 
 class SaleScreen extends StatefulWidget {
-  const SaleScreen({super.key, required this.composition});
+  const SaleScreen({
+    super.key,
+    required this.composition,
+    this.lastShiftOpenedAt,
+  });
 
   final PosComposition composition;
+  final String? lastShiftOpenedAt;
 
   @override
   State<SaleScreen> createState() => _SaleScreenState();
@@ -26,17 +33,29 @@ class _SaleScreenState extends State<SaleScreen> {
   CartResponse? _cart;
   List<ProductSearchItem> _searchResults = [];
   bool _loading = false;
+  StreamSubscription<String>? _scanSub;
 
   @override
   void initState() {
     super.initState();
     _ensureCart();
+    _scanSub = widget.composition.scannerIngress.scans.listen(_onScan);
+    unawaited(widget.composition.scannerIngress.start());
   }
 
   @override
   void dispose() {
+    _scanSub?.cancel();
     _searchController.dispose();
     super.dispose();
+  }
+
+  Future<void> _onScan(String raw) async {
+    _searchController.text = raw;
+    await _search();
+    if (_searchResults.length == 1) {
+      await _addProduct(_searchResults.first);
+    }
   }
 
   Future<void> _ensureCart() async {
@@ -127,6 +146,7 @@ class _SaleScreenState extends State<SaleScreen> {
         title: const Text('Venta registrada'),
         content: Text(
           'Total: \$${response.totalClp}\n'
+          'Fecha: ${formatChileDateTime(DateTime.parse(response.createdAt))}\n'
           'Boleta: ${response.dteStatus}.$folioText',
         ),
         actions: [
@@ -278,6 +298,15 @@ class _SaleScreenState extends State<SaleScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  if (widget.lastShiftOpenedAt != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(
+                        key: const Key('shift_open_time_label'),
+                        'Turno abierto: ${formatChileDateTime(DateTime.parse(widget.lastShiftOpenedAt!))}',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
                   TextField(
                     key: const Key('product_search_field'),
                     controller: _searchController,

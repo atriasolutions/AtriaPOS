@@ -23,6 +23,7 @@ class Products extends Table {
   IntColumn get salePriceClp => integer()();
   IntColumn get costClp => integer().nullable()();
   TextColumn get barcode => text().nullable()();
+  TextColumn get qrPayload => text().nullable()();
   IntColumn get stock => integer()();
   BoolColumn get blockWhenOutOfStock => boolean()();
 
@@ -126,6 +127,18 @@ class Payments extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+@DataClassName('ClockStateRow')
+class ClockState extends Table {
+  TextColumn get id => text()();
+  IntColumn get offsetMicroseconds => integer().withDefault(const Constant(0))();
+  TextColumn get lastSyncAt => text().nullable()();
+  TextColumn get source => text().withDefault(const Constant('device'))();
+  BoolColumn get degraded => boolean().withDefault(const Constant(true))();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 @DataClassName('DteFolioCounterRow')
 class DteFolioCounters extends Table {
   TextColumn get storeId => text()();
@@ -149,12 +162,13 @@ class DteFolioCounters extends Table {
   DteQueue,
   Users,
   DteFolioCounters,
+  ClockState,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -215,6 +229,16 @@ WHERE (
   OR EXISTS (SELECT 1 FROM users WHERE store_id = 'tienda_demo')
 ) AND NOT EXISTS (SELECT 1 FROM stores);
 ''');
+          }
+          if (from < 10) {
+            await m.createTable(clockState);
+            await customStatement(
+              "INSERT INTO clock_state (id, offset_microseconds, source, degraded) "
+              "VALUES ('default', 0, 'device', 1)",
+            );
+          }
+          if (from < 11) {
+            await m.addColumn(products, products.qrPayload);
           }
         },
       );

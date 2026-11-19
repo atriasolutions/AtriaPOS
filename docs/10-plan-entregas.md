@@ -18,6 +18,9 @@ Cada slice entrega valor demostrable y tests verdes.
 | 12 | SLICE-12 | Alta de tienda | RF-001 | Bootstrap dueño; emisor desde DB |
 | 13 | SLICE-13 | Catálogo en UI | RF-010, RF-012 | Crear producto en app |
 | 14 | SLICE-14 | Reporte ventas del día | RF-060 | API-008; pantalla supervisor |
+| 15 | SLICE-15 | Hora SHOA en UI y eventos | RNF-040 | TrustedClock, reloj esquina |
+| 16 | SLICE-16 | QR por producto | RF-010/011 | qr_payload + imagen |
+| 17 | SLICE-17 | Escáner companion BLE | RNF-041 | `scanner_companion` + ingress |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

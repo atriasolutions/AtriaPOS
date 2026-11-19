@@ -3,6 +3,7 @@ import 'auth_helpers.dart';
 import 'ports/sale_repository.dart';
 import 'ports/session_provider.dart';
 import 'ports/shift_repository.dart';
+import 'ports/trusted_clock.dart';
 
 class ShiftCloseReport {
   const ShiftCloseReport({
@@ -10,20 +11,26 @@ class ShiftCloseReport {
     required this.countedCashClp,
     required this.differenceClp,
     required this.salesTotalClp,
+    required this.openedAt,
+    required this.closedAt,
   });
 
   final int expectedCashClp;
   final int countedCashClp;
   final int differenceClp;
   final int salesTotalClp;
+  final DateTime openedAt;
+  final DateTime closedAt;
 }
 
 class CloseShift {
-  CloseShift(this._shifts, this._sales, this._sessions);
+  CloseShift(this._shifts, this._sales, this._sessions, [TrustedClock? clock])
+      : _clock = clock ?? MutableTrustedClock();
 
   final ShiftRepository _shifts;
   final SaleRepository _sales;
   final SessionProvider _sessions;
+  final TrustedClock _clock;
 
   Future<ShiftCloseReport> call(
     StoreId storeId,
@@ -51,7 +58,11 @@ class CloseShift {
         shiftExpectedCashClp(shift.openingCashClp, sales);
     final differenceClp = countedCashClp - expectedCashClp;
 
-    final closed = shift.close(countedCashClp: countedCashClp);
+    final closedAt = _clock.now();
+    final closed = shift.close(
+      countedCashClp: countedCashClp,
+      closedAt: closedAt,
+    );
     await _shifts.save(closed);
 
     return ShiftCloseReport(
@@ -59,6 +70,8 @@ class CloseShift {
       countedCashClp: countedCashClp,
       differenceClp: differenceClp,
       salesTotalClp: salesTotalClp,
+      openedAt: shift.openedAt,
+      closedAt: closedAt,
     );
   }
 }

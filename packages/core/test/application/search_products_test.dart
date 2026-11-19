@@ -49,4 +49,18 @@ void main() {
     expect(results, hasLength(1));
     expect(results.first.barcode, '7801234567890');
   });
+
+  test('SC-011-QR-01 búsqueda por payload QR', () async {
+    final created = await createProduct(
+      const CreateProductInput(
+        storeId: storeId,
+        name: 'Con QR',
+        salePriceClp: 900,
+      ),
+    );
+    final payload = created.qrPayload!;
+    final results = await searchProducts(storeId, payload);
+    expect(results, hasLength(1));
+    expect(results.first.id, created.id);
+  });
 }
