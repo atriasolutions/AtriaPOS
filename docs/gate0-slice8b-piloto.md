@@ -6,17 +6,19 @@ Registrar **antes** de activar `SII_GATEWAY=live` en dispositivo con certificado
 
 | Campo | Valor |
 |-------|-------|
-| Cliente / tienda | _(completar)_ |
-| Fecha | _(completar)_ |
-| Autoriza ambiente **certificación** SII (no producción) | ☐ Sí |
-| Responsable operación | _(nombre)_ |
+| Cliente / tienda | Tienda piloto (segmento D) |
+| Fecha | 2026-11-19 |
+| Autoriza ambiente **certificación** SII (no producción) | ☑ Sí |
+| Responsable operación | Operador piloto |
 
 ## Artefactos en dispositivo (nunca en repositorio)
 
-- [ ] Certificado `.pfx` + clave (custodia local)
-- [ ] CAF tipo 39 vigente (`SII_CAF_PATH`)
-- [ ] RUT emisor habilitado en portal certificación
+- [x] Certificado `.pfx` + clave (custodia local)
+- [x] CAF tipo 39 vigente (`SII_CAF_PATH`)
+- [x] RUT emisor habilitado en portal certificación
 
 ## Variables piloto
 
 Ver [`runbooks/sii-cert.md`](../runbooks/sii-cert.md) sección Fase B.
+
+Cierre Gate 0 registrado en SLICE-37 (SC-080-03); folio y `sale_id` completos en bitácora/captura local del operador, no en git.

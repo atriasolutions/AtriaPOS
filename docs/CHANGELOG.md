@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-37: Piloto certificación SII SC-080-03 — evidencia **CERRADO**, Gate 0, rollback fake; folio/`sale_id` en bitácora local.
 - SLICE-36: Diagnóstico pruebas pre–próximo slice — `docs/18-diagnostico-pruebas.md`, cobertura core 81,2 %, recomendación SC-080-03 operativo.
 - SLICE-35: Copiar `sale_id` post-checkout para piloto SII; SC-080-ASSIST-UI-02; SC-080-03 sigue manual.
 - SLICE-34: Ejecutar PR — reintento SC-030, kit merge título `0-33`, `slice_34_merge_pr_abierto.md`; bloqueado sin `gh`/remoto.

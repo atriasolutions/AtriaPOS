@@ -40,6 +40,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 34 | SLICE-34 | Ejecutar PR SC-030 | — | Push; `gh pr create` 0-33; SC-030; sin merge |
 | 35 | SLICE-35 | Copiar sale_id piloto | RF-003 | SC-080-ASSIST-UI-02; SC-080-03 manual |
 | 36 | SLICE-36 | Diagnóstico pruebas | — | Informe doc 18; cobertura core; recomendación próximo slice |
+| 37 | SLICE-37 | Piloto cert SII | RF-003 | SC-080-03 evidencia **CERRADO**; rollback fake |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)
