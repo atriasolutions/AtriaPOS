@@ -1,23 +1,24 @@
 # Reporte de avances — Sistema POS segmento D
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
-**Fecha de reporte:** 2026-03-18  
-**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `7149a7f`)  
+**Fecha de reporte:** 2026-11-19  
+**Rama de trabajo:** `feat/slice-0-scaffold` (ver HEAD tras último commit de slice)  
 **Organización:** Atria Solutions SpA  
 
 ---
 
 ## 1. Resumen ejecutivo
 
-El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-14**, con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, login por PIN, turno, venta con stock, DTE en modo desarrollo, cierre de caja, anulaciones, ajuste de stock, catálogo en UI y **reporte de ventas del día**.
+El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-24** (hito merge documentado), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–14; **9 opcional** sin iniciar |
-| Contratos API publicados | API-001 … API-008 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 14 archivos `test/acceptance/slice_*.md` |
-| Tests automatizados | Core **98**, adapters **22**, app **14** (widget/e2e) |
+| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–23 + **24** (prep merge); **9** opcional sin iniciar |
+| Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
+| Escenarios acceptance | 23 archivos `test/acceptance/slice_*.md` |
+| Tests automatizados | Core **114**, adapters **25**, app **24** (widget/e2e) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
+| Merge a `main` | **Preparado** — [`runbooks/merge-mvp-hito.md`](../runbooks/merge-mvp-hito.md) |
 | Piloto SII real | **Pendiente** — `SC-080-03` manual (`runbooks/sii-cert-pilot-evidence.md`) |
 
 **Lectura de madurez:** listo para **piloto operativo en tienda** con DTE fake/replay y certificación como hito explícito; no listo para declarar “producción fiscal” sin completar evidencia SC-080-03.
@@ -42,16 +43,28 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 | 12 | `ba60e09` | RF-001 | Bootstrap tienda, onboarding |
 | 13 | `4387509` | RF-010 UI | Crear producto en app |
 | 14 | `7149a7f` | RF-060 | API-008, ventas del día |
+| 15–17 | `7a44878` | RNF-040, RF-010/011, RNF-041 | Hora SHOA, QR, BLE companion |
+| 18 | `ca17541` | RNF-041 | BLE GATT POS |
+| 19 | `7e70135` | RF-002 | Usuarios en UI |
+| 20 | `1b367fe` | RF-070 | API-009 auditoría |
+| 21 | `3cdf2ec` | RF-003 | API-010 certificado consulta |
+| 22 | `43e0e13` | RF-060/070 | Drift reportes y auditoría |
+| 23 | `c2f2470` | RF-041 | SC-041-UI-03 cierre sin turno |
+| 24 | (este hito) | — | Runbook merge, reporte al día |
 
-Decisiones por slice: `docs/decisiones/DEC-*-slice*.md` (14 DEC/ADR de cierre).
+Decisiones por slice: `docs/decisiones/DEC-*-slice*.md`.
 
 Historial reciente:
 
 ```text
+c2f2470 feat(slice-23): cierre sin turno SC-041-UI-03.
+43e0e13 feat(slice-22): tests drift reportes y auditoría.
+3cdf2ec feat(slice-21): estado certificado SII RF-003.
+1b367fe feat(slice-20): auditoría mínima RF-070.
+7e70135 feat(slice-19): alta de usuarios en UI.
+ca17541 feat(slice-18): escáner BLE GATT companion-POS.
+7a44878 feat(slice-15-17): hora SHOA, QR producto y escáner companion.
 7149a7f feat(slice-14): RF-060 ventas del día.
-4387509 feat(slice-13): RF-010 crear producto en UI.
-ba60e09 feat(slice-12): RF-001 alta de tienda y onboarding dueño.
-baaf7b3 feat(slice-11): operación supervisor en UI, CI y matriz.
 ```
 
 ---
@@ -101,7 +114,8 @@ Flujos cubiertos por pruebas e2e (reproducibles manualmente):
 | SC-001-UI-01 | Onboarding tienda | `store_setup_ui_e2e_test.dart` |
 | SC-060-01 | Venta completa | `sale_flow_e2e_test.dart` |
 | SC-032-UI-01 | Anulación | `void_sale_ui_e2e_test.dart` |
-| SC-041-UI-01/02 | Cierre / cajero sin menú | `close_shift_ui_e2e_test.dart` |
+| SC-041-UI-01/02/03 | Cierre / cajero / sin turno | `close_shift_ui_e2e_test.dart` |
+| SC-002-UI-01 | Nuevo usuario (dueño) | `user_create_ui_e2e_test.dart` |
 | SC-051-UI-01 | Cola DTE | `dte_queue_ui_e2e_test.dart` |
 | SC-021-UI-01 | Merma stock | `stock_adjust_ui_e2e_test.dart` |
 | SC-010-UI-* | Nuevo producto | `product_create_ui_e2e_test.dart` |
@@ -136,13 +150,14 @@ cd apps/pos_app && flutter pub get && flutter test
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
 | Alta | Piloto certificación SII (RF-003 / SLICE-8 DoD) | Completar [`runbooks/sii-cert-pilot-evidence.md`](../runbooks/sii-cert-pilot-evidence.md) |
-| Baja | RF-061/062, terminal pago (SLICE-9), merge `main` | Roadmap post-piloto |
+| Media | Integración `main` | Ejecutar checklist [`runbooks/merge-mvp-hito.md`](../runbooks/merge-mvp-hito.md) y abrir PR |
+| Baja | RF-061/062, terminal pago (SLICE-9), BLE manual SC-011-BLE-01 | Roadmap post-piloto |
 
 ---
 
 ## 6. Riesgos y supuestos declarados
 
-- **Rama larga:** trabajo acumulado en `feat/slice-0-scaffold`; conviene PR/merge a `main` con CI verde como hito de reporte.
+- **Rama larga:** trabajo en `feat/slice-0-scaffold`; SLICE-24 documenta prep merge (`runbooks/merge-mvp-hito.md`); PR queda a cargo del operador.
 - **Gate 2:** documento [`17-cierre-gate-2.md`](17-cierre-gate-2.md) sigue en estado abierto [OBSERVADO]; implementación avanzó con TDD igualmente.
 - **DTE producción:** depende de certificado vigente y piloto; modo `FakeDteGateway` válido para demos.
 
@@ -160,6 +175,8 @@ cd apps/pos_app && flutter pub get && flutter test
 | API-006 | Autenticación |
 | API-007 | Tienda |
 | API-008 | Reporte ventas del día |
+| API-009 | Auditoría del día |
+| API-010 | Certificado fiscal (consulta) |
 
 ---
 
@@ -168,5 +185,6 @@ cd apps/pos_app && flutter pub get && flutter test
 | Versión | Fecha | Cambio |
 |---------|-------|--------|
 | 1.0 | 2026-03-18 | Primera edición post SLICE-14 |
+| 1.1 | 2026-11-19 | Slices 15–24, APIs 009/010, conteos test, runbook merge |
 
 **Responsable de actualización:** equipo POS / quien cierre cada slice (actualizar §2, §3 y conteos de §1).

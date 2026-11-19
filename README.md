@@ -31,11 +31,12 @@ dart test
 # App (desde raíz del repo)
 cd ..\..\apps\pos_app
 flutter pub get
+flutter test
 flutter run -d windows
 ```
 
 ## Estado
 
-**SLICE-13:** alta de productos en UI (RF-010). **SLICE-12:** onboarding tienda (RF-001). CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md).
+**SLICE-24:** hito prep merge a `main` (runbook + reporte). Últimos slices de producto: **20–23** (auditoría, certificado SII, drift reportes, cierre sin turno). Ver [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md) y [`runbooks/merge-mvp-hito.md`](runbooks/merge-mvp-hito.md).
 
-Ver plan de slices en [`docs/10-plan-entregas.md`](docs/10-plan-entregas.md).
+CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md). Plan: [`docs/10-plan-entregas.md`](docs/10-plan-entregas.md).
