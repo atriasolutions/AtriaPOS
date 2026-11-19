@@ -17,3 +17,5 @@
 | Kora | Complemento opcional; no reemplaza puerto `DteGateway` |
 
 DoD Fase A: replay + runbook + DEC-021. DoD completo slice: Fase B + checklist SC-080-03 en piloto.
+
+**SLICE-25 (prep piloto):** índice operativo [`runbooks/sii-piloto-indice.md`](../../runbooks/sii-piloto-indice.md), pre-vuelo en evidencia, guía UI en consulta certificado; no equivale a cerrar SC-080-03.

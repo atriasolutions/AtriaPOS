@@ -2,24 +2,24 @@
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
 **Fecha de reporte:** 2026-11-19  
-**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `f77d002`)  
+**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `3b43c1b`)  
 **Organización:** Atria Solutions SpA  
 
 ---
 
 ## 1. Resumen ejecutivo
 
-El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-24** (hito merge documentado), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
+El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-25** (prep piloto SII), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–23 + **24** (prep merge); **9** opcional sin iniciar |
+| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–24 + **25** (prep piloto SII); **9** opcional sin iniciar |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 23 archivos `test/acceptance/slice_*.md` |
-| Tests automatizados | Core **114**, adapters **25**, app **24** (widget/e2e) |
+| Escenarios acceptance | 24 archivos `test/acceptance/slice_*.md` |
+| Tests automatizados | Core **114**, adapters **25**, app **25** (widget/e2e) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
 | Merge a `main` | **Preparado** — [`runbooks/merge-mvp-hito.md`](../runbooks/merge-mvp-hito.md) |
-| Piloto SII real | **Pendiente** — `SC-080-03` manual (`runbooks/sii-cert-pilot-evidence.md`) |
+| Piloto SII real | **Preparado, evidencia pendiente** — índice [`runbooks/sii-piloto-indice.md`](../runbooks/sii-piloto-indice.md); `SC-080-03` ⬜ hasta estado CERRADO en evidencia |
 
 **Lectura de madurez:** listo para **piloto operativo en tienda** con DTE fake/replay y certificación como hito explícito; no listo para declarar “producción fiscal” sin completar evidencia SC-080-03.
 
@@ -51,6 +51,7 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 | 22 | `43e0e13` | RF-060/070 | Drift reportes y auditoría |
 | 23 | `c2f2470` | RF-041 | SC-041-UI-03 cierre sin turno |
 | 24 | `a728144` | — | Runbook merge, reporte al día |
+| 25 | `3b43c1b` | RF-003 | Índice piloto SII, guía UI SC-080-PREP |
 
 Decisiones por slice: `docs/decisiones/DEC-*-slice*.md`.
 
@@ -77,7 +78,7 @@ Leyenda: **✅** implementado y con tests automatizados relevantes | **🔶** pa
 |----|--------|--------|---------------------|
 | RF-001 | Alta de tienda | ✅ | Core, drift, `store_setup_ui_e2e_test.dart` |
 | RF-002 | Usuarios y roles | ✅ | Login, permisos, alta usuario UI (SLICE-19) |
-| RF-003 | Certificado SII | 🔶 | Consulta UI API-010; piloto SC-080-03 ⬜ manual |
+| RF-003 | Certificado SII | 🔶 | API-010 + guía piloto (SLICE-25); SC-080-03 ⬜ hasta evidencia CERRADO |
 | RF-010 | Crear producto | ✅ | API + `product_create_ui_e2e_test.dart` |
 | RF-011 | Buscar producto | ✅ | Core + flujo venta UI |
 | RF-012 | Stock inicial | ✅ | Create product (opcional UI) |
@@ -149,7 +150,7 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Alta | Piloto certificación SII (RF-003 / SLICE-8 DoD) | Completar [`runbooks/sii-cert-pilot-evidence.md`](../runbooks/sii-cert-pilot-evidence.md) |
+| Alta | Piloto certificación SII (RF-003 / SLICE-8 DoD) | Seguir [`runbooks/sii-piloto-indice.md`](../runbooks/sii-piloto-indice.md); cerrar evidencia en [`sii-cert-pilot-evidence.md`](../runbooks/sii-cert-pilot-evidence.md) |
 | Media | Integración `main` | Ejecutar checklist [`runbooks/merge-mvp-hito.md`](../runbooks/merge-mvp-hito.md) y abrir PR |
 | Baja | RF-061/062, terminal pago (SLICE-9), BLE manual SC-011-BLE-01 | Roadmap post-piloto |
 

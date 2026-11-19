@@ -2,6 +2,28 @@
 
 Completar en dispositivo piloto con certificación real (no commitear capturas con datos sensibles).
 
+Índice operativo: [`sii-piloto-indice.md`](sii-piloto-indice.md).
+
+## Estado del documento
+
+| Estado | Significado |
+|--------|-------------|
+| PREPARADO | Runbooks leídos; Gate 0 y variables listas; piloto no ejecutado |
+| CERRADO | Venta cert con folio validado en portal SII; rollback probado |
+
+Estado actual: **PREPARADO** _(operador actualiza a CERRADO al terminar)_
+
+## Pre-vuelo
+
+| Ítem | Hecho |
+|------|-------|
+| [`docs/gate0-slice8b-piloto.md`](../docs/gate0-slice8b-piloto.md) completado | ☐ Gate 0 |
+| [`sii-cert.md`](sii-cert.md) Fase B — variables definidas | ☐ |
+| Certificado y CAF solo en dispositivo | ☐ |
+| App muestra certificado válido (pantalla Certificado SII) | ☐ |
+
+## Evidencia emisión
+
 | Campo | Valor |
 |-------|-------|
 | Fecha piloto | _(completar)_ |
@@ -15,4 +37,4 @@ Completar en dispositivo piloto con certificación real (no commitear capturas c
 ## Notas
 
 - Si el SII rechaza el XML, registrar `dteStatus` y mensaje en cola/logs locales.
-- Tras piloto exitoso, marcar DoD SLICE-8 en [`docs/10-plan-entregas.md`](../docs/10-plan-entregas.md).
+- Tras piloto exitoso (estado **CERRADO**), marcar DoD SLICE-8 en [`docs/10-plan-entregas.md`](../docs/10-plan-entregas.md).

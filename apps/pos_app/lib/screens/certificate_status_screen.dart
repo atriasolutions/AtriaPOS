@@ -89,8 +89,8 @@ class _CertificateStatusScreenState extends State<CertificateStatusScreen> {
                 ),
               )
             else if (_error != null)
-              Center(child: Text(_error!))
-            else if (status != null) ...[
+              Center(child: Text(_error!)),
+            if (status != null) ...[
               Text(
                 key: const Key('certificate_status_badge'),
                 _statusLabel(status.status),
@@ -116,10 +116,29 @@ class _CertificateStatusScreenState extends State<CertificateStatusScreen> {
               ),
               const SizedBox(height: 24),
               Text(
-                'Para emitir con el SII, configure el certificado en el '
-                'dispositivo (variable SII_CERT_PATH o runbook de piloto). '
-                'No cargue archivos .pfx ni claves desde esta pantalla.',
+                'Configure el certificado en el dispositivo (SII_CERT_PATH). '
+                'No cargue .pfx ni claves desde esta pantalla.',
                 style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+            if (!_loading) ...[
+              const SizedBox(height: 32),
+              Text(
+                'Piloto certificación',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Column(
+                key: const Key('certificate_pilot_guide'),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text('1. Gate 0: docs/gate0-slice8b-piloto.md'),
+                  Text('2. Índice: runbooks/sii-piloto-indice.md'),
+                  Text('3. Variables Fase B: runbooks/sii-cert.md'),
+                  Text('4. Venta de prueba → EMITIDA con folio'),
+                  Text('5. Evidencia: runbooks/sii-cert-pilot-evidence.md'),
+                  Text('6. Rollback: SII_GATEWAY=fake'),
+                ],
               ),
             ],
           ],

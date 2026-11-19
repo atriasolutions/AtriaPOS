@@ -42,6 +42,8 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-003-01 | RF-003 | ✅ | — | — | `get_certificate_status_*`, `fiscal_service_test` |
 | SC-003-UI-01 | RF-003 | — | — | ✅ | `certificate_status_ui_e2e_test.dart` |
 | SC-003-UI-02 | RF-003 | — | — | ✅ | Mismo archivo |
-| SC-080-03 | RF-003 | — | — | ⬜ | Piloto cert SII — ver `runbooks/sii-cert-pilot-evidence.md` |
+| SC-080-PREP-01 | RF-003 | — | — | — | Docs — `runbooks/sii-piloto-indice.md`, pre-vuelo evidencia |
+| SC-080-PREP-UI-01 | RF-003 | — | — | ✅ | `certificate_status_ui_e2e_test.dart` — `certificate_pilot_guide` |
+| SC-080-03 | RF-003 | — | — | ⬜ | Piloto cert SII real — `runbooks/sii-cert-pilot-evidence.md` (hasta estado CERRADO) |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

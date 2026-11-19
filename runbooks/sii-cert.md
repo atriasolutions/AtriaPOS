@@ -21,7 +21,7 @@ flutter run --dart-define=SII_GATEWAY=replay --dart-define=SII_REPLAY_SCENARIO=s
 
 ## Fase B (emisión live en certificación)
 
-Antes de piloto: completar [`docs/gate0-slice8b-piloto.md`](../docs/gate0-slice8b-piloto.md).
+Antes de piloto: completar [`docs/gate0-slice8b-piloto.md`](../docs/gate0-slice8b-piloto.md) y seguir el índice [`sii-piloto-indice.md`](sii-piloto-indice.md).
 
 | Variable | Uso |
 |----------|-----|

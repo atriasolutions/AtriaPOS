@@ -46,6 +46,38 @@ void main() {
     expect(find.byKey(const Key('certificate_valid_to')), findsOneWidget);
   });
 
+  testWidgets('SC-080-PREP-UI-01 guía piloto en pantalla certificado', (tester) async {
+    final certs = InMemoryCertificateStore()
+      ..info = CertificateInfo(
+        subject: 'CN=Piloto',
+        validFrom: DateTime.now().toUtc().subtract(const Duration(days: 1)),
+        validTo: DateTime.now().toUtc().add(const Duration(days: 365)),
+        status: CertificateStatus.valido,
+      );
+    final composition = PosComposition.memory(certificateStore: certs);
+    addTearDown(composition.close);
+    await composition.ensureDemoStore();
+    await composition.ensureDemoUsers();
+    await composition.authService.login(
+      kDemoStoreId,
+      const LoginRequest(userId: 'usr_supervisor', pin: PosComposition.demoPin),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(home: SaleScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('operation_menu_button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('operation_menu_certificate')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('certificate_pilot_guide')), findsOneWidget);
+    expect(find.textContaining('sii-piloto-indice.md'), findsOneWidget);
+    expect(find.textContaining('sii-cert-pilot-evidence.md'), findsOneWidget);
+  });
+
   testWidgets('SC-003-UI-02 cajero sin menú certificado', (tester) async {
     final composition = PosComposition.memory();
     addTearDown(composition.close);
