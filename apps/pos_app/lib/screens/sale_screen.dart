@@ -475,6 +475,26 @@ class _SaleScreenState extends State<SaleScreen> {
                       },
                     ),
                   ),
+                  if (_bleIngress != null) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      'Piloto escáner BLE',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    const SizedBox(height: 4),
+                    Column(
+                      key: const Key('scanner_pilot_guide'),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text('1. Índice: runbooks/ble-piloto-indice.md'),
+                        Text('2. Pareo: runbooks/ble-scanner-pairing.md'),
+                        Text('3. Botón Conectar escáner → código 4 dígitos'),
+                        Text('4. Companion Android: anunciar y escanear'),
+                        Text('5. QR producto → línea en carro'),
+                        Text('6. Evidencia: runbooks/ble-scanner-pilot-evidence.md'),
+                      ],
+                    ),
+                  ],
                 ],
               ),
             ),

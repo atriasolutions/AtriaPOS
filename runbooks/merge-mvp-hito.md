@@ -34,7 +34,7 @@ flutter pub get
 flutter test
 ```
 
-Criterio: los tres bloques terminan en verde. Evidencia SLICE-26: **114 + 25 + 25** tests (core + adapters + app). El workflow CI ejecuta el mismo orden sin contar tests individualmente.
+Criterio: los tres bloques terminan en verde. Evidencia post SLICE-27: **114 + 25 + 26** tests (core + adapters + app). El workflow CI ejecuta el mismo orden sin contar tests individualmente.
 
 ## Checklist antes del PR
 

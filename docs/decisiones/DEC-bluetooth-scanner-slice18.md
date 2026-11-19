@@ -17,3 +17,5 @@
 | Payload | UTF-8, trim, máx 512 B (`scan_payload_codec`) |
 | Match carro | 1 resultado → `addLine`; 0 → SnackBar; N>1 → solo búsqueda |
 | Debounce | 300 ms mismo payload en `BleCentralScannerIngress` |
+
+**SLICE-27 (prep piloto):** índice [`runbooks/ble-piloto-indice.md`](../../runbooks/ble-piloto-indice.md), evidencia y guía UI en Vender; no cierra SC-011-BLE-01 en hardware.

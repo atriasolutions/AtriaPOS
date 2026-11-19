@@ -2,21 +2,21 @@
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
 **Fecha de reporte:** 2026-11-19  
-**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `aae0ff2`)  
+**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `3eb5e56`)  
 **Organización:** Atria Solutions SpA  
 
 ---
 
 ## 1. Resumen ejecutivo
 
-El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-26** (kit merge a `main`), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
+El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-27** (prep piloto BLE), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–25 + **26** (hito merge); **9** opcional sin iniciar |
+| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–26 + **27** (prep BLE); **9** opcional sin iniciar |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 25 archivos `test/acceptance/slice_*.md` |
-| Tests automatizados | Core **114**, adapters **25**, app **25** (widget/e2e) |
+| Escenarios acceptance | 26 archivos `test/acceptance/slice_*.md` |
+| Tests automatizados | Core **114**, adapters **25**, app **26** (widget/e2e) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
 | Merge a `main` | **Listo para PR** — [`merge-mvp-hito.md`](../runbooks/merge-mvp-hito.md), [`pr-body-mvp.md`](../runbooks/pr-body-mvp.md), [`scripts/ci-local.ps1`](../scripts/ci-local.ps1) |
 | Piloto SII real | **Preparado, evidencia pendiente** — índice [`runbooks/sii-piloto-indice.md`](../runbooks/sii-piloto-indice.md); `SC-080-03` ⬜ hasta estado CERRADO en evidencia |
@@ -52,7 +52,8 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 | 23 | `c2f2470` | RF-041 | SC-041-UI-03 cierre sin turno |
 | 24 | `a728144` | — | Runbook merge, reporte al día |
 | 25 | `d6d39e8` | RF-003 | Índice piloto SII, guía UI SC-080-PREP |
-| 26 | `aae0ff2` | — | `ci-local.ps1`, plantilla PR SC-026 |
+| 26 | `86c5cbe` | — | `ci-local.ps1`, plantilla PR SC-026 |
+| 27 | `3eb5e56` | RNF-041 | Índice piloto BLE, guía UI SC-011-PREP |
 
 Decisiones por slice: `docs/decisiones/DEC-*-slice*.md`.
 
@@ -153,7 +154,7 @@ cd apps/pos_app && flutter pub get && flutter test
 |-----------|------|-------------------------|
 | Alta | Piloto certificación SII (RF-003 / SLICE-8 DoD) | Seguir [`runbooks/sii-piloto-indice.md`](../runbooks/sii-piloto-indice.md); cerrar evidencia en [`sii-cert-pilot-evidence.md`](../runbooks/sii-cert-pilot-evidence.md) |
 | Media | Integración `main` | SLICE-26 cerrado en doc — operador: `ci-local.ps1`, push, `gh pr create` con [`pr-body-mvp.md`](../runbooks/pr-body-mvp.md) |
-| Baja | RF-061/062, terminal pago (SLICE-9), BLE manual SC-011-BLE-01 | Roadmap post-piloto |
+| Baja | RF-061/062, terminal pago (SLICE-9), BLE manual SC-011-BLE-01 | Índice [`ble-piloto-indice.md`](../runbooks/ble-piloto-indice.md); evidencia hasta **CERRADO** |
 
 ---
 

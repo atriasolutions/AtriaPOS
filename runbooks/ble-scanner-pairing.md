@@ -1,5 +1,7 @@
 # Pareo escáner companion ↔ POS (BLE GATT)
 
+Índice piloto: [`ble-piloto-indice.md`](ble-piloto-indice.md). Evidencia: [`ble-scanner-pilot-evidence.md`](ble-scanner-pilot-evidence.md).
+
 ## Requisitos
 
 - POS en **Windows 10+** con Bluetooth LE.
@@ -13,6 +15,6 @@
 3. Android: abrir companion, ingresar código, **Anunciar y escanear**.
 4. Esperar estado **Conectado** en POS (o cerrar diálogo al conectar).
 5. Escanear QR de un producto; verificar match único en carro.
-6. Evidencia SC-011-BLE-01: fecha, dispositivos, captura pantalla POS + companion.
+6. Registrar evidencia en [`ble-scanner-pilot-evidence.md`](ble-scanner-pilot-evidence.md) (SC-011-BLE-01).
 
 UUIDs: `packages/core/lib/scanner/scanner_ble_constants.dart`

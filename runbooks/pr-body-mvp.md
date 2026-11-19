@@ -1,6 +1,6 @@
 ## Summary
 
-MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tests), **10–25**; **SLICE-9** (terminal de pago) fuera de alcance.
+MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tests), **10–27**; **SLICE-9** (terminal de pago) fuera de alcance.
 
 - Tienda, usuarios y roles (PIN), turno y cierre de caja
 - Venta, stock, anulaciones, catálogo, reportes y auditoría
@@ -13,7 +13,7 @@ MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tes
 |---------|-------|
 | `packages/core` | 114 |
 | `packages/adapters` | 25 |
-| `apps/pos_app` | 25 |
+| `apps/pos_app` | 26 |
 
 Local: [`scripts/ci-local.ps1`](../scripts/ci-local.ps1) o [`runbooks/merge-mvp-hito.md`](merge-mvp-hito.md).
 
