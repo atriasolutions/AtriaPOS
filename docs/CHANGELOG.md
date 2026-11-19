@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-29: Alineación kit merge — título PR slices 0–28, `runbooks/pr-merge-evidence.md`, SC-029-01/02.
 - SLICE-28: Índice tienda piloto — `runbooks/tienda-piloto-indice.md`, evidencia agregada, SC-028-01/02; enlaces desde BLE/SII y kit merge.
 - SLICE-27: Prep piloto BLE — `runbooks/ble-piloto-indice.md`, guía en Vender (`scanner_pilot_guide`), SC-011-PREP-01/ UI-01; SC-011-BLE-01 sigue manual.
 - SLICE-26: Hito merge MVP — `scripts/ci-local.ps1`, `runbooks/pr-body-mvp.md`, runbook merge al día (slices 0–25), SC-026-01/02; PR a `main` sigue manual.

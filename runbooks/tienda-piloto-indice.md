@@ -13,6 +13,7 @@ Punto de entrada para validar el MVP en tienda: demo con DTE fake, pilotos opcio
 No bloquea la demo en tienda.
 
 - Checklist y PR: [`merge-mvp-hito.md`](merge-mvp-hito.md), [`pr-body-mvp.md`](pr-body-mvp.md)
+- Evidencia del PR abierto: [`pr-merge-evidence.md`](pr-merge-evidence.md)
 
 ## 3. Demo tienda — DTE fake/replay
 

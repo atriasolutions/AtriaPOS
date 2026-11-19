@@ -32,6 +32,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 26 | SLICE-26 | Hito merge MVP | — | `ci-local.ps1`, `pr-body-mvp.md`; SC-026; listo para PR (merge manual) |
 | 27 | SLICE-27 | Prep piloto BLE | RNF-041 | Índice runbooks; guía UI Vender; SC-011-PREP; SC-011-BLE-01 manual |
 | 28 | SLICE-28 | Índice tienda piloto | — | `tienda-piloto-indice.md` + evidencia; SC-028; pilotos hijos manual |
+| 29 | SLICE-29 | Alineación kit merge | — | PR título 0–28; `pr-merge-evidence.md`; SC-029; merge manual |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

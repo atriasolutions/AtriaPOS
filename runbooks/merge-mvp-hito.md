@@ -2,7 +2,9 @@
 
 Preparación para integrar la rama de trabajo (p. ej. `feat/slice-0-scaffold`) en `main` con evidencia de CI equivalente a local.
 
-SLICE-26 actualiza este kit (plantilla PR + script local). SLICE-24 introdujo el runbook base.
+SLICE-29 alinea título PR (slices 0–28) y evidencia [`pr-merge-evidence.md`](pr-merge-evidence.md). SLICE-26: script + plantilla; SLICE-24: runbook base.
+
+> Al cerrar un nuevo slice operativo, actualizar el título `gh pr create` y [`pr-body-mvp.md`](pr-body-mvp.md) con el último número de slice.
 
 ## Pre-requisitos
 
@@ -42,11 +44,12 @@ Criterio: los tres bloques terminan en verde. Evidencia post SLICE-27: **114 + 2
 |------|-------|
 | `git fetch` y revisar `git log main..HEAD` (alcance del PR) | ☐ |
 | `git status` limpio (o solo cambios intencionados del hito) | ☐ |
-| Suites locales verdes (`ci-local.ps1` o bloques anteriores) — SLICE-26 | ☐ |
+| Suites locales verdes (`ci-local.ps1` o bloques anteriores) | ☐ |
 | Sin archivos sensibles en `git diff --stat` | ☐ |
 | [`docs/reporte-avances-mvp.md`](../docs/reporte-avances-mvp.md) al día | ☐ |
 | [`docs/12b-matriz-verificacion-automatizacion.md`](../docs/12b-matriz-verificacion-automatizacion.md) revisada | ☐ |
 | Piloto SII (`SC-080-03`) **pendiente** — no bloquea merge MVP con DTE fake | ☐ |
+| Evidencia PR preparada — [`pr-merge-evidence.md`](pr-merge-evidence.md) | ☐ |
 
 ## Abrir PR (operador)
 
@@ -59,12 +62,15 @@ Criterio: los tres bloques terminan en verde. Evidencia post SLICE-27: **114 + 2
 2. Crear PR hacia `main` (ejemplo con `gh`, desde la raíz del repo):
 
    ```bash
-   gh pr create --base main --title "MVP POS: slices 0-25" --body-file runbooks/pr-body-mvp.md
+   gh pr create --base main --title "MVP POS: slices 0-28" --body-file runbooks/pr-body-mvp.md
    ```
 
 3. Verificar que el check **CI** en GitHub quede verde antes del merge.
 
+4. Registrar URL y estado **ABIERTO** en [`pr-merge-evidence.md`](pr-merge-evidence.md).
+
 ## Post-merge
 
+- Actualizar evidencia a **MERGED** en [`pr-merge-evidence.md`](pr-merge-evidence.md).
 - Tag opcional de hito (ej. `mvp-2026-11`).
-- Siguiente foco recomendado: [`tienda-piloto-indice.md`](tienda-piloto-indice.md) (demo, BLE, SII) o estabilización en `main`.
+- Siguiente foco: [`tienda-piloto-indice.md`](tienda-piloto-indice.md) (demo, BLE, SII) o estabilización en `main`.
