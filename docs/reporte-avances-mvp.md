@@ -13,9 +13,9 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–29 + **30–40**; PR GitHub pendiente (handoff operador); **9** opcional sin iniciar |
+| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–29 + **30–41** (41 = prep registro; SC-030-01 pendiente URL); **9** opcional sin iniciar |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 40 archivos `test/acceptance/slice_*.md` |
+| Escenarios acceptance | 41 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **27** (widget/e2e); cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
 | Merge a `main` | **PR no abierto** — bloqueo: sin `origin` + `gh auth`; ver [`github-remote-setup.md`](../runbooks/github-remote-setup.md) |
@@ -158,7 +158,7 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Media | Integración `main` | SLICE-40: operador abre PR ([`slice-40-operador-pr-checklist.md`](../runbooks/slice-40-operador-pr-checklist.md)); pegar URL → cierre SC-030-01 |
+| Media | Integración `main` | SLICE-41: registrar PR ([`slice_41_pr_registrado.md`](../test/acceptance/slice_41_pr_registrado.md)); pegar URL en chat → ABIERTO + SC-030-01 |
 | Baja | BLE manual SC-011-BLE-01, RF-061/062, SLICE-9 | Rama BLE en índice tienda; evidencia hija **CERRADO** |
 
 ---

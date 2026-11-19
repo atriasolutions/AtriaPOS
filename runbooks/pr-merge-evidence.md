@@ -95,6 +95,18 @@ Estado actual: **NO_ABIERTO**
 
 **Siguiente paso:** operador completa checklist §2–3; agente en turno con URL actualiza tabla “Al abrir PR” y **SC-030-01** en `12b`.
 
+## SLICE-41 — Registro PR (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| Gate implementación | **URL del PR** obligatoria en chat — no recibida en este turno |
+| Operador | Indicó que aún no tiene URL para registrar |
+| `ci-local.ps1` | Verde (114 + 25 + 27) en HEAD `f8fe8b0` |
+| `gh auth` / `origin` | Sin sesión / sin remoto en sesión agente |
+| Estado global | **NO_ABIERTO** (sin marcar SC-030-01) |
+
+**Siguiente paso:** al abrir el PR, pegar **URL completa** en chat; agente completa tabla “Al abrir PR”, estado **ABIERTO** y **SC-030-01** en `12b` (mismo turno o SLICE-41 bis).
+
 ## Al abrir el PR
 
 | Campo | Valor |

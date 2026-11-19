@@ -64,5 +64,6 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-038-00 | — | — | — | — | Docs — reintento SLICE-38 en `pr-merge-evidence.md` |
 | SC-039-00 | — | — | — | — | Docs — reintento SLICE-39 en `pr-merge-evidence.md` |
 | SC-040-00 | — | — | — | — | Docs — handoff SLICE-40; `slice-40-operador-pr-checklist.md` |
+| SC-041-00 | — | — | — | — | Docs — registro SLICE-41; gate URL; `slice_41_pr_registrado.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.
