@@ -1,10 +1,14 @@
+import 'dart:io' show Platform;
+
 import 'package:adapters/adapters.dart';
 import 'package:core/api/api.dart';
 import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
 import 'package:core/pos_barrio_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../config/store_config.dart';
+import '../scanner/ble_central_scanner_ingress.dart';
 import '../scanner/scanner_ingress.dart';
 
 /// Cableado local-first: Drift + carrito in-memory + DTE fake.
@@ -128,8 +132,7 @@ class PosComposition {
     final clockPersist = DriftClockStateRepository(db);
     final trustedClock = trustedClockOverride ??
         NtpShoaTrustedClock(MutableTrustedClock(), clockPersist);
-    final scannerIngress =
-        scannerIngressOverride ?? StreamScannerIngress();
+    final scannerIngress = scannerIngressOverride ?? _defaultScannerIngress();
 
     return PosComposition._(
       database: db,
@@ -234,4 +237,11 @@ class PosComposition {
   }
 
   Future<void> close() => closePosDatabase(database);
+
+  static ScannerIngress _defaultScannerIngress() {
+    if (!kIsWeb && Platform.isWindows) {
+      return BleCentralScannerIngress();
+    }
+    return StreamScannerIngress();
+  }
 }

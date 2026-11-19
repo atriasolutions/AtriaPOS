@@ -5,6 +5,8 @@ import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 
 import '../di/pos_composition.dart';
+import '../scanner/ble_central_scanner_ingress.dart';
+import '../scanner/scanner_connection_state.dart';
 import '../widgets/checkout_dialog.dart';
 import 'close_shift_screen.dart';
 import 'daily_sales_screen.dart';
@@ -34,6 +36,8 @@ class _SaleScreenState extends State<SaleScreen> {
   List<ProductSearchItem> _searchResults = [];
   bool _loading = false;
   StreamSubscription<String>? _scanSub;
+  StreamSubscription<ScannerConnectionState>? _scannerStateSub;
+  ScannerConnectionState _scannerState = ScannerConnectionState.disconnected;
 
   @override
   void initState() {
@@ -41,11 +45,23 @@ class _SaleScreenState extends State<SaleScreen> {
     _ensureCart();
     _scanSub = widget.composition.scannerIngress.scans.listen(_onScan);
     unawaited(widget.composition.scannerIngress.start());
+    final ble = _bleIngress;
+    if (ble != null) {
+      _scannerStateSub = ble.connectionState.listen((s) {
+        if (mounted) setState(() => _scannerState = s);
+      });
+    }
+  }
+
+  BleCentralScannerIngress? get _bleIngress {
+    final ingress = widget.composition.scannerIngress;
+    return ingress is BleCentralScannerIngress ? ingress : null;
   }
 
   @override
   void dispose() {
     _scanSub?.cancel();
+    _scannerStateSub?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -53,8 +69,78 @@ class _SaleScreenState extends State<SaleScreen> {
   Future<void> _onScan(String raw) async {
     _searchController.text = raw;
     await _search();
+    if (_searchResults.isEmpty) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sin productos para: $raw')),
+      );
+      return;
+    }
     if (_searchResults.length == 1) {
       await _addProduct(_searchResults.first);
+    }
+  }
+
+  Future<void> _openScannerPairing() async {
+    final ble = _bleIngress;
+    if (ble == null) return;
+    final code = ble.pairingCode ?? ble.generatePairingCode();
+    unawaited(ble.startPairing(pairingCode: code));
+    if (!mounted) return;
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return AlertDialog(
+          title: const Text('Pareo escáner'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Ingrese este código en la app escáner del teléfono:',
+              ),
+              const SizedBox(height: 12),
+              Text(
+                code,
+                key: const Key('scanner_pairing_code'),
+                style: Theme.of(ctx).textTheme.headlineMedium,
+                textAlign: TextAlign.center,
+              ),
+              if (_scannerState == ScannerConnectionState.connected)
+                const Padding(
+                  padding: EdgeInsets.only(top: 12),
+                  child: Text(
+                    'Escáner conectado',
+                    key: Key('scanner_status_connected'),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Cerrar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String _scannerStatusLabel() {
+    switch (_scannerState) {
+      case ScannerConnectionState.connected:
+        return 'Conectado';
+      case ScannerConnectionState.scanning:
+        return 'Buscando…';
+      case ScannerConnectionState.connecting:
+        return 'Conectando…';
+      case ScannerConnectionState.error:
+        return 'Error BLE';
+      case ScannerConnectionState.disconnected:
+        return 'Desconectado';
     }
   }
 
@@ -203,6 +289,16 @@ class _SaleScreenState extends State<SaleScreen> {
       appBar: AppBar(
         title: const Text('Vender'),
         actions: [
+          if (_bleIngress != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: TextButton.icon(
+                key: const Key('scanner_connect_button'),
+                onPressed: _openScannerPairing,
+                icon: const Icon(Icons.bluetooth),
+                label: Text('Escáner: ${_scannerStatusLabel()}'),
+              ),
+            ),
           if (hasOpsMenu)
             PopupMenuButton<String>(
               key: const Key('operation_menu_button'),

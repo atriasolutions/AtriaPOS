@@ -21,6 +21,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 15 | SLICE-15 | Hora SHOA en UI y eventos | RNF-040 | TrustedClock, reloj esquina |
 | 16 | SLICE-16 | QR por producto | RF-010/011 | qr_payload + imagen |
 | 17 | SLICE-17 | Escáner companion BLE | RNF-041 | `scanner_companion` + ingress |
+| 18 | SLICE-18 | BLE GATT companion→POS | RNF-041 | Codec, `BleCentralScannerIngress`, NOTIFY |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

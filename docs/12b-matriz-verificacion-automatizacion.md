@@ -30,7 +30,9 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-031-03 | RF-031 | ✅ | — | ✅ | diálogo checkout `createdAt` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |
 | SC-011-QR-01 | RF-011 | ✅ | ✅ | — | `search_products_test` |
-| SC-011-BLE-01 | RNF-041 | — | — | ⬜ | Manual — `runbooks/ble-scanner-pairing.md` |
+| SC-011-BLE-01 | RNF-041 | — | — | 🔶 | Manual — `runbooks/ble-scanner-pairing.md` |
+| SC-011-BLE-02 | RNF-041 | ✅ | — | — | `scan_payload_codec_test` |
+| SC-011-BLE-UI-01 | RNF-041 | — | ✅ | ✅ | `scanner_ble_ui_test`, `scanner_ble_push_test` |
 | SC-080-03 | RF-003 | — | — | ⬜ | Piloto cert SII — ver `runbooks/sii-cert-pilot-evidence.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

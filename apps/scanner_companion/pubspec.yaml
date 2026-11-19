@@ -10,9 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   mobile_scanner: ^6.0.2
-  flutter_blue_plus: ^1.35.5
   core:
     path: ../../packages/core
+  flutter_ble_peripheral: ^3.2.0
 
 dev_dependencies:
   flutter_test:
