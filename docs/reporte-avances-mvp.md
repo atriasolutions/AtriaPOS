@@ -2,23 +2,23 @@
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
 **Fecha de reporte:** 2026-11-19  
-**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `8862344`)  
+**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `38f9047`)  
 **Organización:** Atria Solutions SpA  
 
 ---
 
 ## 1. Resumen ejecutivo
 
-El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-29** (kit merge alineado), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
+El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-30** (ejecución PR bloqueada en auth/remoto), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–28 + **29** (alineación merge); **9** opcional sin iniciar |
+| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–29 + **30** (intento PR); **9** opcional sin iniciar |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 28 archivos `test/acceptance/slice_*.md` |
+| Escenarios acceptance | 29 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **26** (widget/e2e) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
-| Merge a `main` | **Listo para PR** — título `slices 0-28`; [`pr-merge-evidence.md`](../runbooks/pr-merge-evidence.md) estado **NO_ABIERTO** |
+| Merge a `main` | **PR no abierto** — bloqueo: sin `origin` + `gh auth`; ver [`github-remote-setup.md`](../runbooks/github-remote-setup.md) |
 | Ruta tienda piloto | [`runbooks/tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md); evidencia agregada PREPARADO por defecto |
 | Piloto SII real | **Preparado, evidencia pendiente** — ramo SII en índice tienda; `SC-080-03` ⬜ hasta CERRADO |
 
@@ -56,7 +56,8 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 | 26 | `86c5cbe` | — | `ci-local.ps1`, plantilla PR SC-026 |
 | 27 | `70516a1` | RNF-041 | Índice piloto BLE, guía UI SC-011-PREP |
 | 28 | `7e3db65` | — | Índice tienda piloto SC-028 |
-| 29 | `8862344` | — | Kit merge 0–28, `pr-merge-evidence.md` SC-029 |
+| 29 | `62ec8f1` | — | Kit merge 0–28, `pr-merge-evidence.md` SC-029 |
+| 30 | `38f9047` | — | `github-remote-setup`; intento PR SC-030 |
 
 Decisiones por slice: `docs/decisiones/DEC-*-slice*.md`.
 
@@ -156,7 +157,7 @@ cd apps/pos_app && flutter pub get && flutter test
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
 | Alta | Piloto certificación SII (RF-003 / SLICE-8 DoD) | Desde [`tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md) → SII; evidencia hasta **CERRADO** |
-| Media | Integración `main` | Kit SLICE-29: `gh pr create` título 0–28; completar `pr-merge-evidence.md` al abrir PR |
+| Media | Integración `main` | SLICE-30: completar `github-remote-setup.md`; push; `gh pr create` título 0-29 |
 | Baja | BLE manual SC-011-BLE-01, RF-061/062, SLICE-9 | Rama BLE en índice tienda; evidencia hija **CERRADO** |
 
 ---

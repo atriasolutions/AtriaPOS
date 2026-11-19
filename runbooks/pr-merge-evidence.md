@@ -2,7 +2,7 @@
 
 Completar cuando el operador abra o cierre el PR (no commitear tokens ni capturas con secretos).
 
-Runbook merge: [`merge-mvp-hito.md`](merge-mvp-hito.md).
+Runbook merge: [`merge-mvp-hito.md`](merge-mvp-hito.md). Pre-vuelo: [`github-remote-setup.md`](github-remote-setup.md).
 
 ## Estado del documento
 
@@ -12,7 +12,17 @@ Runbook merge: [`merge-mvp-hito.md`](merge-mvp-hito.md).
 | ABIERTO | PR en GitHub; CI en seguimiento |
 | MERGED | Integrado en `main` |
 
-Estado actual: **NO_ABIERTO** _(operador actualiza al avanzar)_
+Estado actual: **NO_ABIERTO**
+
+## Intento SLICE-30 (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| `ci-local.ps1` | Verde |
+| `git remote` | Sin `origin` configurado |
+| `gh auth` | Pendiente (`gh auth login` device) |
+
+**Siguiente paso:** completar [`github-remote-setup.md`](github-remote-setup.md), push y `gh pr create`; actualizar esta tabla a **ABIERTO** con URL.
 
 ## Al abrir el PR
 
@@ -20,10 +30,10 @@ Estado actual: **NO_ABIERTO** _(operador actualiza al avanzar)_
 |-------|-------|
 | Fecha apertura | _(completar)_ |
 | Operador | _(completar)_ |
-| Rama origen | _(ej. feat/slice-0-scaffold)_ |
+| Rama origen | `feat/slice-0-scaffold` |
 | Commit HEAD (`git rev-parse --short HEAD`) | _(completar)_ |
 | URL del PR | _(completar)_ |
-| Título usado | `MVP POS: slices 0-28` |
+| Título usado | `MVP POS: slices 0-29` |
 | Check **CI** verde en GitHub | ☐ Sí |
 
 ## Al mergear

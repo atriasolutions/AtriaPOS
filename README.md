@@ -36,6 +36,6 @@ Ruta operativa unificada (demo fake, BLE, SII, PR opcional): [`runbooks/tienda-p
 
 ## Estado
 
-**SLICE-29:** kit merge alineado (PR **slices 0–28**). Evidencia PR: [`runbooks/pr-merge-evidence.md`](runbooks/pr-merge-evidence.md). Índice tienda: [`runbooks/tienda-piloto-indice.md`](runbooks/tienda-piloto-indice.md). Reporte: [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md).
+**SLICE-30:** integración PR — pre-vuelo [`runbooks/github-remote-setup.md`](runbooks/github-remote-setup.md). Evidencia: [`runbooks/pr-merge-evidence.md`](runbooks/pr-merge-evidence.md) (completar auth + remoto para abrir PR). Reporte: [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md).
 
 CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md). Plan: [`docs/10-plan-entregas.md`](docs/10-plan-entregas.md).

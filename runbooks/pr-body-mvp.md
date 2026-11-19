@@ -21,7 +21,7 @@ Local: [`scripts/ci-local.ps1`](../scripts/ci-local.ps1) o [`runbooks/merge-mvp-
 
 - Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](../docs/12b-matriz-verificacion-automatizacion.md)
 - Reporte: [`docs/reporte-avances-mvp.md`](../docs/reporte-avances-mvp.md)
-- Aceptación: `test/acceptance/slice_*.md` (0–29)
+- Aceptación: `test/acceptance/slice_*.md` (0–30)
 
 ## Operación piloto
 
@@ -34,7 +34,7 @@ Ruta unificada en tienda: [`runbooks/tienda-piloto-indice.md`](tienda-piloto-ind
 
 ## Tras abrir el PR
 
-Registrar metadatos (URL, CI) en [`runbooks/pr-merge-evidence.md`](pr-merge-evidence.md). Título sugerido: `MVP POS: slices 0-28` _(actualizar al cerrar slices nuevos)_.
+Registrar metadatos (URL, CI) en [`runbooks/pr-merge-evidence.md`](pr-merge-evidence.md). Título sugerido: `MVP POS: slices 0-29` _(actualizar al cerrar slices nuevos)_.
 
 ## CI
 
