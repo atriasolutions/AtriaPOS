@@ -67,7 +67,7 @@ Estado actual: **NO_ABIERTO**
 | `gh auth` | Sin sesión (`gh auth status`: not logged in) |
 | `git push` | Falló: `fatal: 'origin' does not appear to be a git repository` |
 | `gh pr create` | No ejecutado |
-| HEAD | `81684d2` (pre-slice-38 docs) |
+| HEAD | `18a8314` (commit slice-38 kit) |
 
 **Siguiente paso:** [`github-remote-setup.md`](github-remote-setup.md); `gh auth login`; `git remote add origin <url>`; `git push -u origin HEAD`; `gh pr create` título **`MVP POS: slices 0-37`**; actualizar estado **ABIERTO** abajo.
 

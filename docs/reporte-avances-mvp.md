@@ -13,9 +13,9 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–29 + **30–37**; PR GitHub pendiente; **9** opcional sin iniciar |
+| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–29 + **30–38**; PR GitHub pendiente; **9** opcional sin iniciar |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 37 archivos `test/acceptance/slice_*.md` |
+| Escenarios acceptance | 38 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **27** (widget/e2e); cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
 | Merge a `main` | **PR no abierto** — bloqueo: sin `origin` + `gh auth`; ver [`github-remote-setup.md`](../runbooks/github-remote-setup.md) |
