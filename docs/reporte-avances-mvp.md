@@ -1,24 +1,25 @@
 # Reporte de avances — Sistema POS segmento D
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
-**Fecha de reporte:** 2026-11-19  
-**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD ver `git rev-parse --short HEAD` local)  
+**Fecha de reporte:** 2026-11-19 (revisión integral — [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md))  
+**Rama estable:** `main` en remoto (`20dad83`, merge PR #1); desarrollo local puede seguir en `feat/slice-0-scaffold`  
+**Repositorio:** [github.com/mmb21894-ux/pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d)  
 **Organización:** Atria Solutions SpA  
 
 ---
 
 ## 1. Resumen ejecutivo
 
-El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-37** (piloto certificación SII SC-080-03 cerrado en evidencia), con **PR abierto** hacia `main` ([PR #1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1)), arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay y **emisión live en cert** validada en operación, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
+El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-37** (piloto certificación SII SC-080-03 cerrado en evidencia), con **MVP integrado en `main`** vía [PR #1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1) (MERGED), arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay y **emisión live en cert** validada en operación, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–29 + **30–41** (SC-030-01 ✅); **9** opcional sin iniciar |
+| Slices cerrados (plan 10) | 0–8, 10–29 + **30–42** (merge + revisión); **9** opcional sin iniciar |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 41 archivos `test/acceptance/slice_*.md` |
+| Escenarios acceptance | 40 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **27** (widget/e2e); cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
-| Merge a `main` | **PR abierto** — [mmb21894-ux/pos-barrio-segmento-d#1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1); merge tras CI → SLICE-42 |
+| Merge a `main` | **MERGED** — `main` @ `20dad83` ([PR #1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1)); CI verde pre-merge |
 | Ruta tienda piloto | [`runbooks/tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md); evidencia agregada PREPARADO por defecto |
 | Piloto SII real | **SC-080-03 CERRADO** (SLICE-37); folio/`sale_id` en bitácora local; demo con `SII_GATEWAY=fake` |
 
@@ -58,6 +59,8 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 | 28 | `7e3db65` | — | Índice tienda piloto SC-028 |
 | 29 | `62ec8f1` | — | Kit merge 0–28, `pr-merge-evidence.md` SC-029 |
 | 30 | `38f9047` | — | `github-remote-setup`; intento PR SC-030 |
+| 38–41 | `18a8314`…`22ddccc` | — | Reintentos PR, handoff operador, registro SC-030-01 |
+| 42 | `20dad83` | — | Merge PR #1; acta revisión doc 19 |
 
 Decisiones por slice: `docs/decisiones/DEC-*-slice*.md`.
 
@@ -158,14 +161,15 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Media | Integración `main` | SLICE-42: CI verde + merge PR #1; evidencia **MERGED** |
-| Baja | BLE manual SC-011-BLE-01, RF-061/062, SLICE-9 | Rama BLE en índice tienda; evidencia hija **CERRADO** |
+| Baja | Piloto BLE SC-011-BLE-01 | Evidencia manual [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) |
+| Baja | Gate 2, DEC P0 ⬜, SLICE-9, RF-050 prod | Ver acta §5–6 en [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md) |
+| Baja | Tag hito `mvp-2026-11` | Opcional post-merge |
 
 ---
 
 ## 6. Riesgos y supuestos declarados
 
-- **Rama larga:** trabajo en `feat/slice-0-scaffold`; SLICE-26 entrega kit PR; merge físico a `main` queda a cargo del operador.
+- **Rama larga:** histórico en `feat/slice-0-scaffold`; merge MVP en `main` (`20dad83`, 2026-11-19).
 - **Gate 2:** documento [`17-cierre-gate-2.md`](17-cierre-gate-2.md) sigue en estado abierto [OBSERVADO]; implementación avanzó con TDD igualmente.
 - **DTE producción:** depende de certificado vigente y piloto; modo `FakeDteGateway` válido para demos.
 
