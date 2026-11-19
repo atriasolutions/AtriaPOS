@@ -400,6 +400,35 @@ Errores: `CREDENCIAL_INVALIDA` (401). Operaciones privilegiadas sin sesión o ro
 
 **Tests SLICE-7 (SC-070-01…04):** login válido; PIN malo; cajero bloqueado en ajuste/cierre/catálogo; dueño crea usuario.
 
+### `createUser` (in-process, SLICE-7 / UI SLICE-19)
+
+Solo rol **DUENO** (`Permission.gestionarUsuarios`).
+
+**Request**
+
+```json
+{
+  "userId": "usr_cajero2",
+  "displayName": "María",
+  "role": "CAJERO",
+  "pin": "1234"
+}
+```
+
+`role`: `CAJERO` | `SUPERVISOR` (no crear `DUENO` desde UI).
+
+**Response 201**
+
+```json
+{
+  "userId": "usr_cajero2",
+  "role": "CAJERO",
+  "displayName": "María"
+}
+```
+
+Errores: `PERMISO_DENEGADO` (403), `VALIDACION` (400, PIN &lt; 4), `CONFLICTO` (409, `userId` duplicado).
+
 ---
 
 ## API-008 — Reportes (RF-060)

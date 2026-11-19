@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-19: RF-002 — pantalla nuevo usuario (solo dueño), menú operación, SC-070-UI-01/02.
 - SLICE-18: BLE GATT end-to-end — `scan_payload_codec`, `BleCentralScannerIngress`, UI pareo en Vender, companion `ble_peripheral` + NOTIFY; DEC-018.
 - SLICE-15–17: hora SHOA (`TrustedClock`, `clock_state` v10), QR producto (v11), companion `scanner_companion`, ingress BLE, reloj UI.
 - SLICE-14: RF-060 — `ReportService` (API-008), ventas del día en app, SC-060-02 / SC-060-UI-01.

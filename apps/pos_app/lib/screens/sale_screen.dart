@@ -14,6 +14,7 @@ import 'dte_queue_screen.dart';
 import 'shift_sales_screen.dart';
 import 'product_create_screen.dart';
 import 'stock_adjust_screen.dart';
+import 'user_create_screen.dart';
 
 class SaleScreen extends StatefulWidget {
   const SaleScreen({
@@ -272,12 +273,15 @@ class _SaleScreenState extends State<SaleScreen> {
     final canDailyReport = canDteQueue;
     final canCreateProduct = session != null &&
         AuthPolicy.allows(session.role, Permission.configurarCatalogo);
+    final canManageUsers = session != null &&
+        AuthPolicy.allows(session.role, Permission.gestionarUsuarios);
     final hasOpsMenu = canVoidSales ||
         canCloseShift ||
         canAdjustStock ||
         canDteQueue ||
         canCreateProduct ||
-        canDailyReport;
+        canDailyReport ||
+        canManageUsers;
 
     void openScreen(Widget screen) {
       Navigator.of(context).push(
@@ -330,6 +334,10 @@ class _SaleScreenState extends State<SaleScreen> {
                     openScreen(
                       ProductCreateScreen(composition: widget.composition),
                     );
+                  case 'users':
+                    openScreen(
+                      UserCreateScreen(composition: widget.composition),
+                    );
                 }
               },
               itemBuilder: (context) => [
@@ -379,6 +387,14 @@ class _SaleScreenState extends State<SaleScreen> {
                     child: Text(
                       'Nuevo producto',
                       key: Key('operation_menu_product'),
+                    ),
+                  ),
+                if (canManageUsers)
+                  const PopupMenuItem(
+                    value: 'users',
+                    child: Text(
+                      'Nuevo usuario',
+                      key: Key('operation_menu_users'),
                     ),
                   ),
               ],

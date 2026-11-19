@@ -33,6 +33,8 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-011-BLE-01 | RNF-041 | — | — | 🔶 | Manual — `runbooks/ble-scanner-pairing.md` |
 | SC-011-BLE-02 | RNF-041 | ✅ | — | — | `scan_payload_codec_test` |
 | SC-011-BLE-UI-01 | RNF-041 | — | ✅ | ✅ | `scanner_ble_ui_test`, `scanner_ble_push_test` |
+| SC-070-UI-01 | RF-002 | — | — | ✅ | `user_create_ui_e2e_test.dart` |
+| SC-070-UI-02 | RF-002 | — | — | ✅ | Mismo archivo |
 | SC-080-03 | RF-003 | — | — | ⬜ | Piloto cert SII — ver `runbooks/sii-cert-pilot-evidence.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.
