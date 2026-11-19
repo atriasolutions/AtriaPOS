@@ -46,6 +46,18 @@ Estado actual: **NO_ABIERTO**
 
 **Siguiente paso:** `gh auth login` + `git remote add origin <url>`; push; `gh pr create` título **`MVP POS: slices 0-31`**; evidencia **ABIERTO**.
 
+## Intento SLICE-34 (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| `ci-local.ps1` | Verde (114 + 25 + 27) |
+| `git remote` | Sin `origin` |
+| `gh auth` | Sin sesión (`gh auth status` falla) |
+| `git push` | No ejecutado (sin remoto) |
+| `gh pr create` | No ejecutado |
+
+**Siguiente paso:** operador completa auth en navegador **antes del timeout (~15 min)**; configura `origin`; push; `gh pr create` título **`MVP POS: slices 0-33`**.
+
 ## Al abrir el PR
 
 | Campo | Valor |
@@ -55,7 +67,7 @@ Estado actual: **NO_ABIERTO**
 | Rama origen | `feat/slice-0-scaffold` |
 | Commit HEAD (`git rev-parse --short HEAD`) | _(completar)_ |
 | URL del PR | _(completar)_ |
-| Título usado | `MVP POS: slices 0-31` |
+| Título usado | `MVP POS: slices 0-33` |
 | Check **CI** verde en GitHub | ☐ Sí |
 
 ## Al mergear

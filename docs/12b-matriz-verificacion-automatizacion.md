@@ -59,5 +59,6 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-030-02 | — | — | — | — | Evidencia ABIERTO con HEAD/rama |
 | SC-031-00 | — | — | — | — | Docs — reintento SLICE-31 en `pr-merge-evidence.md` |
 | SC-032-00 | — | — | — | — | Docs — reintento SLICE-32 en `pr-merge-evidence.md` |
+| SC-034-00 | — | — | — | — | Docs — reintento SLICE-34 en `pr-merge-evidence.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

@@ -1,4 +1,4 @@
-# Pre-vuelo GitHub — remoto y `gh` (SLICE-30 / SLICE-31)
+# Pre-vuelo GitHub — remoto y `gh` (SLICE-30–34)
 
 Requisito antes de `git push` y `gh pr create`. No incluir tokens en el repo.
 
@@ -8,6 +8,8 @@ Requisito antes de `git push` y `gh pr create`. No incluir tokens en el repo.
 gh auth login -h github.com -p https -w
 gh auth status
 ```
+
+Tras `gh auth login`, autorizar en [github.com/login/device](https://github.com/login/device) **de inmediato** (el código expira; timeout típico ~15 min → `context deadline exceeded`).
 
 ## 2. Remoto `origin`
 

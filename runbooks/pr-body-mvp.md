@@ -1,6 +1,6 @@
 ## Summary
 
-MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tests), **10–31** (+ **29–32** kit/evidencia merge en la rama); **SLICE-9** (terminal de pago) fuera de alcance.
+MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tests), **10–33** (+ **29–34** kit/evidencia merge en la rama); **SLICE-9** (terminal de pago) fuera de alcance.
 
 - Tienda, usuarios y roles (PIN), turno y cierre de caja
 - Venta, stock, anulaciones, catálogo, reportes y auditoría
@@ -21,7 +21,7 @@ Local: [`scripts/ci-local.ps1`](../scripts/ci-local.ps1) o [`runbooks/merge-mvp-
 
 - Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](../docs/12b-matriz-verificacion-automatizacion.md)
 - Reporte: [`docs/reporte-avances-mvp.md`](../docs/reporte-avances-mvp.md)
-- Aceptación: `test/acceptance/slice_*.md` (0–32)
+- Aceptación: `test/acceptance/slice_*.md` (0–34)
 
 ## Operación piloto
 
@@ -34,7 +34,7 @@ Ruta unificada en tienda: [`runbooks/tienda-piloto-indice.md`](tienda-piloto-ind
 
 ## Tras abrir el PR
 
-Registrar metadatos (URL, CI) en [`runbooks/pr-merge-evidence.md`](pr-merge-evidence.md). Título sugerido: `MVP POS: slices 0-31` _(actualizar al cerrar slices nuevos)_.
+Registrar metadatos (URL, CI) en [`runbooks/pr-merge-evidence.md`](pr-merge-evidence.md). Título sugerido: `MVP POS: slices 0-33` _(actualizar al cerrar slices nuevos)_.
 
 ## CI
 
