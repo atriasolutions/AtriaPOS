@@ -123,7 +123,12 @@ class _CloseShiftScreenState extends State<CloseShiftScreen> {
     if (_loadError != null || _openShift == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Cerrar caja')),
-        body: Center(child: Text(_loadError ?? 'Sin turno abierto.')),
+        body: Center(
+          child: Text(
+            key: const Key('close_shift_no_open_message'),
+            _loadError ?? 'Sin turno abierto.',
+          ),
+        ),
       );
     }
     final shift = _openShift!;

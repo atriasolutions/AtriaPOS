@@ -70,6 +70,32 @@ void main() {
     expect(find.byKey(const Key('shift_open_button')), findsOneWidget);
   });
 
+  testWidgets('SC-041-UI-03 cierre sin turno abierto', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await composition.ensureDemoStore();
+    await composition.ensureDemoUsers();
+    await composition.authService.login(
+      kDemoStoreId,
+      const LoginRequest(userId: 'usr_supervisor', pin: PosComposition.demoPin),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: SaleScreen(composition: composition),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('operation_menu_button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('operation_menu_close')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('close_shift_no_open_message')), findsOneWidget);
+    expect(find.byKey(const Key('close_shift_confirm_button')), findsNothing);
+  });
+
   testWidgets('SC-041-UI-02 cajero no ve menú operación en vender', (tester) async {
     final composition = PosComposition.memory();
     addTearDown(composition.close);

@@ -26,6 +26,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 20 | SLICE-20 | Auditoría del día | RF-070 | API-009; `confirmedByUserId`; pantalla supervisor |
 | 21 | SLICE-21 | Estado certificado SII | RF-003 | API-010; menú supervisor/dueño; sin carga .pfx en app |
 | 22 | SLICE-22 | Drift reportes y auditoría | RF-060, RF-070 | Tests adapters SC-060-02 / SC-070-01 |
+| 23 | SLICE-23 | Cierre sin turno en UI | RF-041 | SC-041-UI-03; Key `close_shift_no_open_message` |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

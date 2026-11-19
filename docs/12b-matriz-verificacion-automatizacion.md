@@ -5,9 +5,10 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | ID | RF | Core | Adapters | App | Manual / nota |
 |----|-----|------|----------|-----|----------------|
 | SC-041-01 | RF-041 | ✅ | ✅ | ✅ SLICE-11 | — |
-| SC-041-02 | RF-041 | ✅ | — | 🔶 | Sin UI dedicada |
+| SC-041-02 | RF-041 | ✅ | — | ✅ | SC-041-UI-03 en `close_shift_ui_e2e_test.dart` |
 | SC-041-UI-01 | RF-041 | — | — | ✅ | `close_shift_ui_e2e_test.dart` |
 | SC-041-UI-02 | RF-041 | — | — | ✅ | Mismo archivo |
+| SC-041-UI-03 | RF-041 | — | — | ✅ | Cierre sin turno abierto |
 | SC-051-01 | RF-051 | ✅ | ✅ | — | — |
 | SC-051-02 | RF-051 | ✅ | — | ✅ SLICE-11 | `dte_queue_ui_e2e_test.dart` |
 | SC-051-UI-01 | RF-051 | — | — | ✅ | Cola + reintento UI |

@@ -74,7 +74,7 @@ Leyenda: **✅** implementado y con tests automatizados relevantes | **🔶** pa
 | RF-031 | Confirmar venta | ✅ | Checkout, stock, DTE estado |
 | RF-032 | Anular venta | ✅ | `void_sale_ui_e2e_test.dart` |
 | RF-040 | Apertura turno | ✅ | App shell + venta |
-| RF-041 | Cierre caja | ✅ | `close_shift_ui_e2e_test.dart` (SC-041-02 sin UI dedicada) |
+| RF-041 | Cierre caja | ✅ | `close_shift_ui_e2e_test.dart` (SC-041-UI-01/02/03) |
 | RF-050 | Emitir DTE | 🔶 | Fake/replay/live en tests; producción = piloto |
 | RF-051 | Cola DTE | ✅ | `dte_queue_ui_e2e_test.dart` |
 | RF-060 | Ventas del día | ✅ | SC-060-02 core/API, SC-060-UI-01 |
@@ -121,7 +121,7 @@ cd packages/adapters && dart pub get && dart test
 cd apps/pos_app && flutter pub get && flutter test
 ```
 
-Última verificación al generar este reporte: **114 + 25 + 23** tests en verde en entorno local.
+Última verificación al generar este reporte: **114 + 25 + 24** tests en verde en entorno local.
 
 ### 4.3 Contratos y aceptación
 
