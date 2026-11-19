@@ -29,6 +29,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 23 | SLICE-23 | Cierre sin turno en UI | RF-041 | SC-041-UI-03; Key `close_shift_no_open_message` |
 | 24 | SLICE-24 | Hito merge MVP | — | Runbook PR; reporte/README; suites verdes locales |
 | 25 | SLICE-25 | Prep piloto SII | RF-003 | Índice runbooks; guía UI; SC-080-PREP; SC-080-03 sigue manual |
+| 26 | SLICE-26 | Hito merge MVP | — | `ci-local.ps1`, `pr-body-mvp.md`; SC-026; listo para PR (merge manual) |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

@@ -2,6 +2,8 @@
 
 Preparación para integrar la rama de trabajo (p. ej. `feat/slice-0-scaffold`) en `main` con evidencia de CI equivalente a local.
 
+SLICE-26 actualiza este kit (plantilla PR + script local). SLICE-24 introdujo el runbook base.
+
 ## Pre-requisitos
 
 - Flutter **stable** (misma línea que [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)).
@@ -10,7 +12,13 @@ Preparación para integrar la rama de trabajo (p. ej. `feat/slice-0-scaffold`) e
 
 ## Suite local (= CI)
 
-Desde la raíz del repositorio:
+**Opción A** — desde la raíz del repositorio:
+
+```powershell
+.\scripts\ci-local.ps1
+```
+
+**Opción B** — mismos pasos que CI, manualmente:
 
 ```powershell
 cd packages\core
@@ -26,14 +34,15 @@ flutter pub get
 flutter test
 ```
 
-Criterio: los tres comandos terminan en verde. Evidencia SLICE-24: **114 + 25 + 24** tests (core + adapters + app) al 2026-11-19.
+Criterio: los tres bloques terminan en verde. Evidencia SLICE-26: **114 + 25 + 25** tests (core + adapters + app). El workflow CI ejecuta el mismo orden sin contar tests individualmente.
 
 ## Checklist antes del PR
 
 | Ítem | Hecho |
 |------|-------|
+| `git fetch` y revisar `git log main..HEAD` (alcance del PR) | ☐ |
 | `git status` limpio (o solo cambios intencionados del hito) | ☐ |
-| Suites locales verdes (bloque anterior) | ☐ |
+| Suites locales verdes (`ci-local.ps1` o bloques anteriores) — SLICE-26 | ☐ |
 | Sin archivos sensibles en `git diff --stat` | ☐ |
 | [`docs/reporte-avances-mvp.md`](../docs/reporte-avances-mvp.md) al día | ☐ |
 | [`docs/12b-matriz-verificacion-automatizacion.md`](../docs/12b-matriz-verificacion-automatizacion.md) revisada | ☐ |
@@ -47,23 +56,15 @@ Criterio: los tres comandos terminan en verde. Evidencia SLICE-24: **114 + 25 + 
    git push -u origin HEAD
    ```
 
-2. Crear PR hacia `main` (ejemplo con `gh`):
+2. Crear PR hacia `main` (ejemplo con `gh`, desde la raíz del repo):
 
    ```bash
-   gh pr create --base main --title "MVP POS: slices 0-23" --body-file pr-body.md
+   gh pr create --base main --title "MVP POS: slices 0-25" --body-file runbooks/pr-body-mvp.md
    ```
 
-3. Cuerpo sugerido para `pr-body.md`:
-
-   - Resumen: núcleo MVP operativo (tienda, roles, venta, turno, DTE fake/replay, reportes, auditoría, certificado consultable).
-   - Tests: 114 core + 25 adapters + 24 app.
-   - Matriz: [`docs/12b`](../docs/12b-matriz-verificacion-automatizacion.md).
-   - Pendiente producción fiscal: [`runbooks/sii-cert-pilot-evidence.md`](sii-cert-pilot-evidence.md).
-   - CI: workflow `CI` en push/PR a `main` y `feat/**`.
-
-4. Verificar que el check **CI** en GitHub quede verde antes del merge.
+3. Verificar que el check **CI** en GitHub quede verde antes del merge.
 
 ## Post-merge
 
 - Tag opcional de hito (ej. `mvp-2026-11`).
-- Siguiente foco: piloto certificación SII o PR de estabilización según prioridad de negocio.
+- Siguiente foco recomendado: piloto certificación SII ([`sii-piloto-indice.md`](sii-piloto-indice.md)) o estabilización en `main`.

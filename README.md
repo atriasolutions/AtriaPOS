@@ -18,25 +18,20 @@ packages/adapters/  # SQLite, DTE, integraciones (futuro)
 ## Comandos
 
 ```powershell
-# Tests núcleo
-cd packages\core
-dart pub get
-dart test
+# Paridad con CI (desde la raíz del repo)
+.\scripts\ci-local.ps1
 
-# Tests adaptadores
-cd ..\adapters
-dart pub get
-dart test
-
-# App (desde raíz del repo)
-cd ..\..\apps\pos_app
+# App
+cd apps\pos_app
 flutter pub get
 flutter test
 flutter run -d windows
 ```
 
+Detalle por paquete: [`runbooks/merge-mvp-hito.md`](runbooks/merge-mvp-hito.md).
+
 ## Estado
 
-**SLICE-24:** hito prep merge a `main` (runbook + reporte). Últimos slices de producto: **20–23** (auditoría, certificado SII, drift reportes, cierre sin turno). Ver [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md) y [`runbooks/merge-mvp-hito.md`](runbooks/merge-mvp-hito.md).
+**SLICE-26:** MVP **listo para PR** a `main` (kit merge; integración manual del operador). Slices recientes **21–25**: certificado SII, drift reportes/auditoría, cierre sin turno, prep piloto SII. Plantilla PR: [`runbooks/pr-body-mvp.md`](runbooks/pr-body-mvp.md). Reporte: [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md).
 
 CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md). Plan: [`docs/10-plan-entregas.md`](docs/10-plan-entregas.md).

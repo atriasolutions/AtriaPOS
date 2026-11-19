@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-26: Hito merge MVP — `scripts/ci-local.ps1`, `runbooks/pr-body-mvp.md`, runbook merge al día (slices 0–25), SC-026-01/02; PR a `main` sigue manual.
 - SLICE-25: Prep piloto SII — `runbooks/sii-piloto-indice.md`, guía en pantalla certificado (`certificate_pilot_guide`), SC-080-PREP-01/ UI-01; SC-080-03 sigue manual.
 - SLICE-24: Hito integración — `runbooks/merge-mvp-hito.md`, reporte MVP al día (slices 15–23, API-009/010), SC-024-01/02.
 - SLICE-23: RF-041 — mensaje UI sin turno (`close_shift_no_open_message`), SC-041-UI-03.
