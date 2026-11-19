@@ -57,7 +57,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-029-02 | — | — | — | — | Docs — `runbooks/pr-merge-evidence.md` |
 | SC-030-00 | — | — | — | — | Docs — `github-remote-setup.md` |
 | SC-030-01 | — | — | — | ✅ | PR abierto — https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1 |
-| SC-030-02 | — | — | — | — | Evidencia ABIERTO con HEAD/rama |
+| SC-030-02 | — | — | — | ✅ | Evidencia MERGED; `main` `20dad83`; feature `22ddccc` |
 | SC-031-00 | — | — | — | — | Docs — reintento SLICE-31 en `pr-merge-evidence.md` |
 | SC-032-00 | — | — | — | — | Docs — reintento SLICE-32 en `pr-merge-evidence.md` |
 | SC-034-00 | — | — | — | — | Docs — reintento SLICE-34 en `pr-merge-evidence.md` |
@@ -65,5 +65,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-039-00 | — | — | — | — | Docs — reintento SLICE-39 en `pr-merge-evidence.md` |
 | SC-040-00 | — | — | — | — | Docs — handoff SLICE-40; `slice-40-operador-pr-checklist.md` |
 | SC-041-00 | — | — | — | — | Docs — registro SLICE-41; gate URL; `slice_41_pr_registrado.md` |
+| SC-042-00 | — | — | — | — | Docs — merge PR #1 + acta `19-revision-progreso-20251119.md` |
+| SC-043-00 | — | — | — | — | Docs — alinear main PR #2; `slice_43_main_alineado.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

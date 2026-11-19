@@ -12,7 +12,7 @@ Runbook merge: [`merge-mvp-hito.md`](merge-mvp-hito.md). Pre-vuelo: [`github-rem
 | ABIERTO | PR en GitHub; CI en seguimiento |
 | MERGED | Integrado en `main` |
 
-Estado actual: **ABIERTO**
+Estado actual: **MERGED**
 
 ## Intento SLICE-30 (2026-11-19)
 
@@ -104,9 +104,18 @@ Estado actual: **ABIERTO**
 | PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1 |
 | HEAD rama feature publicada | `16bc091` (`chore: abrir PR MVP`; MVP en ancestro `3f1ee4f`) |
 | Validación | Título **0-38**; base `main` ← head `feat/slice-0-scaffold` |
-| Estado global | **ABIERTO** — **SC-030-01** en `12b` |
+| Estado global | **MERGED** (SLICE-42 documental 2026-11-19) |
 
-**Siguiente paso (SLICE-42):** CI verde en GitHub → merge → evidencia **MERGED**.
+**Siguiente paso:** tag opcional `mvp-2026-11`; ramas futuras desde `main`.
+
+## SLICE-43 — Docs en `main` (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| Commit docs | `5b5339f` (`feat/slice-42)` — acta doc 19 + evidencia MERGED |
+| PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2 |
+| `origin/main` pre-PR #2 | `20dad83` |
+| Siguiente | Merge PR #2 cuando CI verde; luego `main` = fuente de trabajo |
 
 ## Al abrir el PR
 
@@ -115,18 +124,28 @@ Estado actual: **ABIERTO**
 | Fecha apertura | 2026-11-19 |
 | Operador | mmb21894-ux (local `gh` + cmd) |
 | Rama origen | `feat/slice-0-scaffold` |
-| Commit HEAD (`git rev-parse --short HEAD`) | `16bc091` en remoto (commit vacío PR); MVP `3f1ee4f` |
+| Commit HEAD (`git rev-parse --short HEAD`) | `22ddccc` en feature (incl. docs slice-41); ancestro MVP `3f1ee4f` |
 | URL del PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1 |
 | Título usado | `MVP POS: slices 0-38` |
-| Check **CI** verde en GitHub | ☐ Sí |
+| Check **CI** verde en GitHub | ☑ Sí (2026-11-19, CI `test` SUCCESS) |
+
+## SLICE-42 — Merge PR #1 (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| Merge | Operador en GitHub; `gh pr view 1` → state **MERGED** |
+| `mergedAt` | 2026-11-19T20:34:50Z |
+| Commit `main` | `20dad83` |
+| CI pre-merge | SUCCESS (pull_request + push) |
+| Tag | Pendiente decisión |
 
 ## Al mergear
 
 | Campo | Valor |
 |-------|-------|
-| Fecha merge | _(completar)_ |
-| Commit en `main` post-merge | _(completar)_ |
-| Tag hito (opcional) | _(ej. mvp-2026-11)_ |
+| Fecha merge | 2026-11-19 |
+| Commit en `main` post-merge | `20dad83` |
+| Tag hito (opcional) | _(pendiente — ej. mvp-2026-11)_ |
 
 ## Notas
 

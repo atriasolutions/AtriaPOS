@@ -45,7 +45,9 @@ Cada slice entrega valor demostrable y tests verdes.
 | 39 | SLICE-39 | Ejecutar PR MVP | — | Reintento título **0-38**; SC-030-01 ABIERTO si remoto+gh en sesión activa |
 | 40 | SLICE-40 | Cierre PR operador | — | Checklist handoff; SC-030-01 ABIERTO al registrar URL |
 | 41 | SLICE-41 | Registrar PR | — | SC-030-01 ABIERTO; PR #1 en `pos-barrio-segmento-d` |
-| 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
+| 42 | SLICE-42 | Merge MVP `main` | — | PR #1 MERGED; evidencia + acta [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md) |
+| 43 | SLICE-43 | Alinear `main` post-merge | — | PR #2 docs; `main` con acta; backlog §8 acta |
+| 9 | SLICE-9 | Integración terminal pago | — | **N/A** — diferido explícito; no bloquea slices 43+ |
 
 ## Orden TDD sugerido (semana orientativa)
 
