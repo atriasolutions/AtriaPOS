@@ -24,6 +24,17 @@ Estado actual: **NO_ABIERTO**
 
 **Siguiente paso:** completar [`github-remote-setup.md`](github-remote-setup.md), push y `gh pr create`; actualizar esta tabla a **ABIERTO** con URL.
 
+## Intento SLICE-31 (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| `ci-local.ps1` | Verde (114 + 25 + 26) |
+| `git remote` | Sin `origin` configurado |
+| `gh auth` | Sin sesión; device login `0A7E-07BB` en https://github.com/login/device |
+| `git push` / `gh pr create` | No ejecutados (bloqueante) |
+
+**Siguiente paso:** operador completa auth + remoto; reejecutar push y `gh pr create` (título `MVP POS: slices 0-30`); actualizar estado **ABIERTO** abajo.
+
 ## Al abrir el PR
 
 | Campo | Valor |
@@ -33,7 +44,7 @@ Estado actual: **NO_ABIERTO**
 | Rama origen | `feat/slice-0-scaffold` |
 | Commit HEAD (`git rev-parse --short HEAD`) | _(completar)_ |
 | URL del PR | _(completar)_ |
-| Título usado | `MVP POS: slices 0-29` |
+| Título usado | `MVP POS: slices 0-30` |
 | Check **CI** verde en GitHub | ☐ Sí |
 
 ## Al mergear

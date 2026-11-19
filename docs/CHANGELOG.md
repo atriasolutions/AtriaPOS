@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-31: Cierre PR — reintento integración, título `0-30` en kit merge, aceptación `slice_31_pr_cierre.md`; SC-030 sigue abierto sin `gh`/remoto.
 - SLICE-30: Ejecutar PR — `github-remote-setup.md`, intento integración; SC-030 (PR abierto pendiente de `gh`/remoto).
 - SLICE-29: Alineación kit merge — título PR slices 0–28, `runbooks/pr-merge-evidence.md`, SC-029-01/02.
 - SLICE-28: Índice tienda piloto — `runbooks/tienda-piloto-indice.md`, evidencia agregada, SC-028-01/02; enlaces desde BLE/SII y kit merge.

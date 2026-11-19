@@ -1,4 +1,4 @@
-# Pre-vuelo GitHub — remoto y `gh` (SLICE-30)
+# Pre-vuelo GitHub — remoto y `gh` (SLICE-30 / SLICE-31)
 
 Requisito antes de `git push` y `gh pr create`. No incluir tokens en el repo.
 
