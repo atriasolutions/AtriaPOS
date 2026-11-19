@@ -9,18 +9,18 @@
 
 ## 1. Resumen ejecutivo
 
-El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-32** (PR GitHub bloqueado en auth/remoto), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
+El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0 hasta **SLICE-33** (asistencia UI piloto SII; PR GitHub sigue pendiente), con arquitectura Flutter + dominio Dart (`packages/core`) y persistencia Drift (`packages/adapters`). La operación diaria de una tienda piloto es **demostrable en app**: alta de tienda, usuarios, login por PIN, turno, venta con stock, DTE fake/replay, cierre de caja, anulaciones, ajuste de stock, catálogo, reportes, auditoría, consulta de certificado, escáner companion (BLE) y hora SHOA.
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–29 + **30–32** (PR GitHub pendiente); **9** opcional sin iniciar |
+| Slices cerrados (plan 10) | 0–8 (fases A/B), 10–29 + **30–33**; PR GitHub pendiente; **9** opcional sin iniciar |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 32 archivos `test/acceptance/slice_*.md` |
-| Tests automatizados | Core **114**, adapters **25**, app **26** (widget/e2e) |
+| Escenarios acceptance | 33 archivos `test/acceptance/slice_*.md` |
+| Tests automatizados | Core **114**, adapters **25**, app **27** (widget/e2e) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
 | Merge a `main` | **PR no abierto** — bloqueo: sin `origin` + `gh auth`; ver [`github-remote-setup.md`](../runbooks/github-remote-setup.md) |
 | Ruta tienda piloto | [`runbooks/tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md); evidencia agregada PREPARADO por defecto |
-| Piloto SII real | **Preparado, evidencia pendiente** — ramo SII en índice tienda; `SC-080-03` ⬜ hasta CERRADO |
+| Piloto SII real | **Asistencia UI lista** (`sale_id` post-checkout); `SC-080-03` ⬜ hasta evidencia **CERRADO** |
 
 **Lectura de madurez:** listo para **piloto operativo en tienda** con DTE fake/replay y certificación como hito explícito; no listo para declarar “producción fiscal” sin completar evidencia SC-080-03.
 
@@ -156,7 +156,7 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Alta | Piloto certificación SII (RF-003 / SLICE-8 DoD) | Desde [`tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md) → SII; evidencia hasta **CERRADO** |
+| Alta | Piloto certificación SII (RF-003 / SLICE-8 DoD) | UI `sale_id` en checkout (SLICE-33); piloto manual → [`sii-cert-pilot-evidence.md`](../runbooks/sii-cert-pilot-evidence.md) **CERRADO** |
 | Media | Integración `main` | SLICE-32: `github-remote-setup.md`; `gh auth`; push; `gh pr create` título **0-31**; SC-030-01 |
 | Baja | BLE manual SC-011-BLE-01, RF-061/062, SLICE-9 | Rama BLE en índice tienda; evidencia hija **CERRADO** |
 

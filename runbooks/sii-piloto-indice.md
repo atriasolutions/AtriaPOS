@@ -16,7 +16,7 @@ Guía operativa para Fase B en ambiente **certificación** (no producción). No 
    Seguir Fase B en [`sii-cert.md`](sii-cert.md) (`SII_GATEWAY=live`, `SII_AMBIENTE=cert`, etc.).
 
 4. **Verificación en app**  
-   Menú Operación → Certificado SII: estado **Válido** (`API-010`). Turno abierto → venta de prueba → `dteStatus` **EMITIDA** y folio.
+   Menú Operación → Certificado SII: estado **Válido** (`API-010`). Turno abierto → venta de prueba → diálogo **Venta registrada** con `dteStatus` **EMITIDA**, folio y **sale_id** (línea `Venta (sale_id): …`).
 
 5. **Evidencia SC-080-03**  
    Registrar en [`sii-cert-pilot-evidence.md`](sii-cert-pilot-evidence.md) (folio, `sale_id`, captura portal fuera del repo).

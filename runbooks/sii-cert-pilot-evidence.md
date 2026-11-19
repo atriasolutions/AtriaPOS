@@ -36,5 +36,6 @@ Estado actual: **PREPARADO** _(operador actualiza a CERRADO al terminar)_
 
 ## Notas
 
+- El campo **Venta `sale_id` local** coincide con la línea `Venta (sale_id): …` del diálogo post-checkout en la pantalla Vender.
 - Si el SII rechaza el XML, registrar `dteStatus` y mensaje en cola/logs locales.
 - Tras piloto exitoso (estado **CERRADO**), marcar DoD SLICE-8 en [`docs/10-plan-entregas.md`](../docs/10-plan-entregas.md).

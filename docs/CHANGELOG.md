@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-33: Asistencia piloto SII — `sale_id` en diálogo post-checkout, guías y runbooks; SC-080-ASSIST-UI-01; SC-080-03 manual.
 - SLICE-32: Ejecutar PR — reintento SC-030, kit merge título `0-31`, `slice_32_merge_pr_abierto.md`; bloqueado sin `gh`/remoto.
 - SLICE-31: Cierre PR — reintento integración, título `0-30` en kit merge, aceptación `slice_31_pr_cierre.md`; SC-030 sigue abierto sin `gh`/remoto.
 - SLICE-30: Ejecutar PR — `github-remote-setup.md`, intento integración; SC-030 (PR abierto pendiente de `gh`/remoto).

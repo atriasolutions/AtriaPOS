@@ -13,7 +13,7 @@ MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tes
 |---------|-------|
 | `packages/core` | 114 |
 | `packages/adapters` | 25 |
-| `apps/pos_app` | 26 |
+| `apps/pos_app` | 27 |
 
 Local: [`scripts/ci-local.ps1`](../scripts/ci-local.ps1) o [`runbooks/merge-mvp-hito.md`](merge-mvp-hito.md).
 

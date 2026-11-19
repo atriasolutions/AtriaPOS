@@ -226,17 +226,28 @@ class _SaleScreenState extends State<SaleScreen> {
     );
     if (response == null || !mounted) return;
 
-    final folioText =
-        response.folio != null ? ' Folio ${response.folio}.' : '';
+    final folioLine =
+        response.folio != null ? 'Folio: ${response.folio}' : null;
     await showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         key: const Key('checkout_result_dialog'),
         title: const Text('Venta registrada'),
-        content: Text(
-          'Total: \$${response.totalClp}\n'
-          'Fecha: ${formatChileDateTime(DateTime.parse(response.createdAt))}\n'
-          'Boleta: ${response.dteStatus}.$folioText',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Total: \$${response.totalClp}'),
+            Text(
+              'Fecha: ${formatChileDateTime(DateTime.parse(response.createdAt))}',
+            ),
+            Text('Boleta: ${response.dteStatus}'),
+            if (folioLine != null) Text(folioLine),
+            Text(
+              key: const Key('checkout_sale_id_label'),
+              'Venta (sale_id): ${response.saleId}',
+            ),
+          ],
         ),
         actions: [
           TextButton(

@@ -46,6 +46,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-003-UI-02 | RF-003 | — | — | ✅ | Mismo archivo |
 | SC-080-PREP-01 | RF-003 | — | — | — | Docs — `runbooks/sii-piloto-indice.md`, pre-vuelo evidencia |
 | SC-080-PREP-UI-01 | RF-003 | — | — | ✅ | `certificate_status_ui_e2e_test.dart` — `certificate_pilot_guide` |
+| SC-080-ASSIST-UI-01 | RF-003 | — | — | ✅ | `sii_checkout_evidence_ui_test.dart` — `checkout_sale_id_label` |
 | SC-080-03 | RF-003 | — | — | ⬜ | Piloto cert SII real — `runbooks/sii-cert-pilot-evidence.md` (hasta estado CERRADO) |
 | SC-026-01 | — | — | — | — | Paridad local/CI — `scripts/ci-local.ps1`, `merge-mvp-hito.md` |
 | SC-026-02 | — | — | — | — | Kit PR — `pr-body-mvp.md`, README/reporte |
