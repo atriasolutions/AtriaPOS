@@ -1,5 +1,7 @@
 # Índice — piloto escáner BLE (SC-011-BLE-01)
 
+Ruta tienda piloto (maestro): [`tienda-piloto-indice.md`](tienda-piloto-indice.md).
+
 Guía operativa para validar companion Android ↔ POS Windows en tienda piloto. No incluir capturas con datos sensibles en el repositorio.
 
 ## Orden recomendado

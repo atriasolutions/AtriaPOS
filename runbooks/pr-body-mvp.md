@@ -1,6 +1,6 @@
 ## Summary
 
-MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tests), **10–27**; **SLICE-9** (terminal de pago) fuera de alcance.
+MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tests), **10–28**; **SLICE-9** (terminal de pago) fuera de alcance.
 
 - Tienda, usuarios y roles (PIN), turno y cierre de caja
 - Venta, stock, anulaciones, catálogo, reportes y auditoría
@@ -21,7 +21,11 @@ Local: [`scripts/ci-local.ps1`](../scripts/ci-local.ps1) o [`runbooks/merge-mvp-
 
 - Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](../docs/12b-matriz-verificacion-automatizacion.md)
 - Reporte: [`docs/reporte-avances-mvp.md`](../docs/reporte-avances-mvp.md)
-- Aceptación: `test/acceptance/slice_*.md` (0–26)
+- Aceptación: `test/acceptance/slice_*.md` (0–28)
+
+## Operación piloto
+
+Ruta unificada en tienda: [`runbooks/tienda-piloto-indice.md`](tienda-piloto-indice.md) (evidencia [`tienda-piloto-evidencia.md`](tienda-piloto-evidencia.md)).
 
 ## Pendiente post-merge (no bloquea este PR)
 

@@ -49,5 +49,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-080-03 | RF-003 | — | — | ⬜ | Piloto cert SII real — `runbooks/sii-cert-pilot-evidence.md` (hasta estado CERRADO) |
 | SC-026-01 | — | — | — | — | Paridad local/CI — `scripts/ci-local.ps1`, `merge-mvp-hito.md` |
 | SC-026-02 | — | — | — | — | Kit PR — `pr-body-mvp.md`, README/reporte |
+| SC-028-01 | — | — | — | — | Docs — `runbooks/tienda-piloto-indice.md` |
+| SC-028-02 | — | — | — | — | Docs — `runbooks/tienda-piloto-evidencia.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

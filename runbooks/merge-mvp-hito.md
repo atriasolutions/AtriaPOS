@@ -67,4 +67,4 @@ Criterio: los tres bloques terminan en verde. Evidencia post SLICE-27: **114 + 2
 ## Post-merge
 
 - Tag opcional de hito (ej. `mvp-2026-11`).
-- Siguiente foco recomendado: piloto certificación SII ([`sii-piloto-indice.md`](sii-piloto-indice.md)) o estabilización en `main`.
+- Siguiente foco recomendado: [`tienda-piloto-indice.md`](tienda-piloto-indice.md) (demo, BLE, SII) o estabilización en `main`.

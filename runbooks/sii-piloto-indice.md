@@ -1,5 +1,7 @@
 # Índice — piloto certificación SII (SC-080-03)
 
+Ruta tienda piloto (maestro): [`tienda-piloto-indice.md`](tienda-piloto-indice.md).
+
 Guía operativa para Fase B en ambiente **certificación** (no producción). No incluir secretos ni capturas con datos sensibles en el repositorio.
 
 ## Orden recomendado
