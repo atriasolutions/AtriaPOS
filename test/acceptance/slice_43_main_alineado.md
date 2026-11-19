@@ -10,7 +10,7 @@ Cuando se publica la acta de revisión y evidencia MERGED en main
 Entonces origin/main incluye docs/19-revision-progreso-20251119.md
 ```
 
-Vía PR #2: https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2 (merge pendiente operador si CI verde).
+PR #2 MERGED: https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2 — `main` `6032997`.
 
 ## SC-043-01 — Rama de trabajo futura
 
