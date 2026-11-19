@@ -2,7 +2,7 @@
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
 **Fecha de reporte:** 2026-11-19  
-**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `a728144`)  
+**Rama de trabajo:** `feat/slice-0-scaffold` (HEAD `f77d002`)  
 **Organización:** Atria Solutions SpA  
 
 ---
