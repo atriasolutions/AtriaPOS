@@ -71,6 +71,18 @@ Estado actual: **NO_ABIERTO**
 
 **Siguiente paso:** [`github-remote-setup.md`](github-remote-setup.md); `gh auth login`; `git remote add origin <url>`; `git push -u origin HEAD`; `gh pr create` título **`MVP POS: slices 0-37`**; actualizar estado **ABIERTO** abajo.
 
+## Intento SLICE-39 (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| `ci-local.ps1` | Verde (114 + 25 + 27) |
+| `git remote` | Sin `origin` en sesión agente |
+| `gh auth` | Sin sesión (`gh auth status`: not logged in); `gh auth login` requiere flujo interactivo en terminal del operador |
+| `git push` / `gh pr create` | No ejecutados |
+| HEAD base | `c763e32` |
+
+**Siguiente paso:** operador ejecuta en PowerShell local (con gh + origin ya configurados): `git push -u origin HEAD`; `gh pr create --base main --title "MVP POS: slices 0-38" --body-file runbooks/pr-body-mvp.md`; pegar URL y pasar estado **ABIERTO** abajo.
+
 ## Al abrir el PR
 
 | Campo | Valor |
@@ -80,7 +92,7 @@ Estado actual: **NO_ABIERTO**
 | Rama origen | `feat/slice-0-scaffold` |
 | Commit HEAD (`git rev-parse --short HEAD`) | _(completar)_ |
 | URL del PR | _(completar)_ |
-| Título usado | `MVP POS: slices 0-37` |
+| Título usado | `MVP POS: slices 0-38` |
 | Check **CI** verde en GitHub | ☐ Sí |
 
 ## Al mergear

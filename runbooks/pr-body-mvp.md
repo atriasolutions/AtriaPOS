@@ -1,6 +1,6 @@
 ## Summary
 
-MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tests), **10–37** (+ **29–38** kit/evidencia merge en la rama); **SLICE-9** (terminal de pago) fuera de alcance.
+MVP POS barrio (segmento D): slices **0–8** (incl. DTE fake/replay/live en tests), **10–38** (+ **29–39** kit/evidencia merge en la rama); **SLICE-9** (terminal de pago) fuera de alcance.
 
 - Tienda, usuarios y roles (PIN), turno y cierre de caja
 - Venta, stock, anulaciones, catálogo, reportes y auditoría
@@ -36,7 +36,7 @@ Ruta unificada en tienda: [`runbooks/tienda-piloto-indice.md`](tienda-piloto-ind
 
 ## Tras abrir el PR
 
-Registrar metadatos (URL, CI) en [`runbooks/pr-merge-evidence.md`](pr-merge-evidence.md). Título sugerido: `MVP POS: slices 0-37`.
+Registrar metadatos (URL, CI) en [`runbooks/pr-merge-evidence.md`](pr-merge-evidence.md). Título sugerido: `MVP POS: slices 0-38`.
 
 ## CI
 

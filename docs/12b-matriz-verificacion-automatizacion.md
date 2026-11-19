@@ -62,5 +62,6 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-032-00 | — | — | — | — | Docs — reintento SLICE-32 en `pr-merge-evidence.md` |
 | SC-034-00 | — | — | — | — | Docs — reintento SLICE-34 en `pr-merge-evidence.md` |
 | SC-038-00 | — | — | — | — | Docs — reintento SLICE-38 en `pr-merge-evidence.md` |
+| SC-039-00 | — | — | — | — | Docs — reintento SLICE-39 en `pr-merge-evidence.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

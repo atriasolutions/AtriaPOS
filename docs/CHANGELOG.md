@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-39: Ejecutar PR — kit título **0-38**, reintento SC-030; bloqueado sin `gh`/remoto en sesión agente; evidencia SLICE-39.
 - SLICE-38: Ejecutar PR — kit merge slices **0-37**, reintento SC-030; bloqueado sin `gh`/remoto; evidencia SLICE-38 en `pr-merge-evidence.md`.
 - SLICE-37: Piloto certificación SII SC-080-03 — evidencia **CERRADO**, Gate 0, rollback fake; folio/`sale_id` en bitácora local.
 - SLICE-36: Diagnóstico pruebas pre–próximo slice — `docs/18-diagnostico-pruebas.md`, cobertura core 81,2 %, recomendación SC-080-03 operativo.
