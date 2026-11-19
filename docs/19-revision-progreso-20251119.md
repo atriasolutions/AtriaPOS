@@ -11,9 +11,9 @@
 | Ítem | Esperado | Observado |
 |------|----------|-----------|
 | `origin` | Configurado | `https://github.com/mmb21894-ux/pos-barrio-segmento-d.git` |
-| HEAD local (rama feature) | `22ddccc` | `22ddccc` — `feat(slice-41): evidencia PR ABIERTO SC-030-01.` |
 | `origin/main` post-merge PR #1 | MERGED | `20dad83` (2026-11-19T20:34:50Z) |
-| Acta en `main` | PR #2 | [pull/2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) — merge pendiente; commit `5b5339f` en remoto `feat/slice-0-scaffold` |
+| Acta en `main` | PR #2 MERGED | `6032997` — [pull/2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) (2026-11-19) |
+| HEAD `main` actual | `6032997` | Incluye acta doc 19 + slices 42–43 |
 | `ci-local.ps1` | 114 + 25 + 27 | Verde (2026-11-19, sesión revisión) |
 | PR #1 estado | ABIERTO o MERGED | **MERGED** — [pull/1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1) |
 | CI GitHub | SUCCESS | `CI / test` (pull_request y push), conclusión SUCCESS |
@@ -97,4 +97,4 @@ Todos los RF **[M]** de [`04-requisitos-funcionales.md`](04-requisitos-funcional
 | SLICE-9 | Terminal de pago | **N/A** — diferido; ver plan 10 |
 | SII `prod` | Producción fiscal | **N/A** — fuera MVP; cert SC-080-03 cerrado |
 
-**Gate SLICE-43:** merge [PR #2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) → `git checkout main && git pull`.
+**SLICE-43:** cerrado en remoto (`6032997`). Local: `git checkout main && git pull origin main`.

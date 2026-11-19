@@ -19,7 +19,7 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 | Escenarios acceptance | 41 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **27** (widget/e2e); cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
-| Merge a `main` | MVP en `main` @ `20dad83` ([PR #1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1)); acta vía [PR #2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) |
+| Merge a `main` | `main` @ `6032997` — [PR #1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1) + [PR #2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) MERGED |
 | Ruta tienda piloto | [`runbooks/tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md); evidencia agregada PREPARADO por defecto |
 | Piloto SII real | **SC-080-03 CERRADO** (SLICE-37); folio/`sale_id` en bitácora local; demo con `SII_GATEWAY=fake` |
 
@@ -161,7 +161,6 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Alta (cierre 43) | Merge [PR #2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) | Acta en `origin/main`; luego `git pull` en `main` |
 | Baja | Backlog §8 acta | BLE 44, Gate 2 45, tag 46; SLICE-9 y SII prod **N/A** |
 
 ---
