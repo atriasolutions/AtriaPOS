@@ -101,7 +101,7 @@ Estado actual: **NO_ABIERTO**
 |-----------|---------|
 | Gate implementación | **URL del PR** obligatoria en chat — no recibida en este turno |
 | Operador | Indicó que aún no tiene URL para registrar |
-| `ci-local.ps1` | Verde (114 + 25 + 27) en HEAD `f8fe8b0` |
+| `ci-local.ps1` | Verde (114 + 25 + 27) en HEAD `f8fe8b0`; commit docs `20d4e77` |
 | `gh auth` / `origin` | Sin sesión / sin remoto en sesión agente |
 | Estado global | **NO_ABIERTO** (sin marcar SC-030-01) |
 
