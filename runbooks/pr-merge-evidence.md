@@ -79,7 +79,7 @@ Estado actual: **NO_ABIERTO**
 | `git remote` | Sin `origin` en sesión agente |
 | `gh auth` | Sin sesión (`gh auth status`: not logged in); `gh auth login` requiere flujo interactivo en terminal del operador |
 | `git push` / `gh pr create` | No ejecutados |
-| HEAD base | `c763e32` |
+| HEAD base | `ed7d78a` (commit slice-39 kit) |
 
 **Siguiente paso:** operador ejecuta en PowerShell local (con gh + origin ya configurados): `git push -u origin HEAD`; `gh pr create --base main --title "MVP POS: slices 0-38" --body-file runbooks/pr-body-mvp.md`; pegar URL y pasar estado **ABIERTO** abajo.
 
