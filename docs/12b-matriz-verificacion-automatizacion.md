@@ -66,5 +66,6 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-040-00 | — | — | — | — | Docs — handoff SLICE-40; `slice-40-operador-pr-checklist.md` |
 | SC-041-00 | — | — | — | — | Docs — registro SLICE-41; gate URL; `slice_41_pr_registrado.md` |
 | SC-042-00 | — | — | — | — | Docs — merge PR #1 + acta `19-revision-progreso-20251119.md` |
+| SC-043-00 | — | — | — | — | Docs — alinear main PR #2; `slice_43_main_alineado.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

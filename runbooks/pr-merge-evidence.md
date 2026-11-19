@@ -108,6 +108,15 @@ Estado actual: **MERGED**
 
 **Siguiente paso:** tag opcional `mvp-2026-11`; ramas futuras desde `main`.
 
+## SLICE-43 — Docs en `main` (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| Commit docs | `5b5339f` (`feat/slice-42)` — acta doc 19 + evidencia MERGED |
+| PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2 |
+| `origin/main` pre-PR #2 | `20dad83` |
+| Siguiente | Merge PR #2 cuando CI verde; luego `main` = fuente de trabajo |
+
 ## Al abrir el PR
 
 | Campo | Valor |

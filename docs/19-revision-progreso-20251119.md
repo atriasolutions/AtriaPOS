@@ -12,7 +12,8 @@
 |------|----------|-----------|
 | `origin` | Configurado | `https://github.com/mmb21894-ux/pos-barrio-segmento-d.git` |
 | HEAD local (rama feature) | `22ddccc` | `22ddccc` — `feat(slice-41): evidencia PR ABIERTO SC-030-01.` |
-| `origin/main` post-merge | Merge PR #1 | `20dad83` (merge commit 2026-11-19T20:34:50Z) |
+| `origin/main` post-merge PR #1 | MERGED | `20dad83` (2026-11-19T20:34:50Z) |
+| Acta en `main` | PR #2 | [pull/2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) — merge pendiente; commit `5b5339f` en remoto `feat/slice-0-scaffold` |
 | `ci-local.ps1` | 114 + 25 + 27 | Verde (2026-11-19, sesión revisión) |
 | PR #1 estado | ABIERTO o MERGED | **MERGED** — [pull/1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1) |
 | CI GitHub | SUCCESS | `CI / test` (pull_request y push), conclusión SUCCESS |
@@ -83,3 +84,17 @@ Todos los RF **[M]** de [`04-requisitos-funcionales.md`](04-requisitos-funcional
 - [x] RF **[M]** mapeados
 - [x] Evidencia PR **MERGED** + CI ☑
 - [x] Acta (este documento) + reporte actualizado
+
+---
+
+## 8. Backlog post-MVP (no bloquea próximo slice de producto)
+
+| ID propuesto | Tema | Disparador |
+|--------------|------|------------|
+| SLICE-44 | Piloto BLE SC-011-BLE-01 | Hardware; [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) |
+| SLICE-45 | Gate 2 DEC P0 retroactivos (004, 005, 011, 012) | Antes de slice que cambie checkout/contratos |
+| SLICE-46 | Tag `mvp-2026-11` | Tras `main` estable con acta (post PR #2) |
+| SLICE-9 | Terminal de pago | **N/A** — diferido; ver plan 10 |
+| SII `prod` | Producción fiscal | **N/A** — fuera MVP; cert SC-080-03 cerrado |
+
+**Gate SLICE-43:** merge [PR #2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) → `git checkout main && git pull`.

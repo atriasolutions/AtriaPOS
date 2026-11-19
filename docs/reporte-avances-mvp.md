@@ -14,12 +14,12 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8, 10–29 + **30–42** (merge + revisión); **9** opcional sin iniciar |
+| Slices cerrados (plan 10) | 0–8, 10–29 + **30–43** (43 = alinear main, PR #2); **9** N/A diferido |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 40 archivos `test/acceptance/slice_*.md` |
+| Escenarios acceptance | 41 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **27** (widget/e2e); cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
-| Merge a `main` | **MERGED** — `main` @ `20dad83` ([PR #1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1)); CI verde pre-merge |
+| Merge a `main` | MVP en `main` @ `20dad83` ([PR #1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1)); acta vía [PR #2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) |
 | Ruta tienda piloto | [`runbooks/tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md); evidencia agregada PREPARADO por defecto |
 | Piloto SII real | **SC-080-03 CERRADO** (SLICE-37); folio/`sale_id` en bitácora local; demo con `SII_GATEWAY=fake` |
 
@@ -161,9 +161,8 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Baja | Piloto BLE SC-011-BLE-01 | Evidencia manual [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) |
-| Baja | Gate 2, DEC P0 ⬜, SLICE-9, RF-050 prod | Ver acta §5–6 en [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md) |
-| Baja | Tag hito `mvp-2026-11` | Opcional post-merge |
+| Alta (cierre 43) | Merge [PR #2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) | Acta en `origin/main`; luego `git pull` en `main` |
+| Baja | Backlog §8 acta | BLE 44, Gate 2 45, tag 46; SLICE-9 y SII prod **N/A** |
 
 ---
 

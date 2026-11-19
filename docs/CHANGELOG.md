@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-43: Alinear main — PR #2 docs; acceptance `slice_43_main_alineado.md`; backlog acta §8; SLICE-9 N/A en plan 10.
 - Revisión progreso MVP — [`docs/19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md); evidencia PR **MERGED**; SC-030-02 ✅.
 - SLICE-42: Merge PR #1 a `main` (`20dad83`); CI GitHub verde documentado.
 - SLICE-41: Evidencia PR **ABIERTO** SC-030-01 — https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1 (repo `pos-barrio-segmento-d`).
