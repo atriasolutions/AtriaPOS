@@ -121,7 +121,7 @@ cd packages/adapters && dart pub get && dart test
 cd apps/pos_app && flutter pub get && flutter test
 ```
 
-Última verificación al generar este reporte: **114 + 22 + 23** tests en verde en entorno local.
+Última verificación al generar este reporte: **114 + 25 + 23** tests en verde en entorno local.
 
 ### 4.3 Contratos y aceptación
 

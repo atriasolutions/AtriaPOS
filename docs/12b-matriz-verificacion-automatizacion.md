@@ -15,7 +15,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-021-UI-01 | RF-021 | — | — | ✅ | Merma UI |
 | SC-032-UI-01 | RF-032 | — | — | ✅ | `void_sale_ui_e2e_test.dart` |
 | SC-060-01 | RF-030 | — | — | ✅ | `sale_flow_e2e_test.dart` |
-| SC-060-02 | RF-060 | ✅ | 🔶 | — | `get_daily_sales_report_test`, `report_service_test`; drift filtro fecha |
+| SC-060-02 | RF-060 | ✅ | ✅ | — | `get_daily_sales_report_test`, `report_service_test`, `drift_daily_report_test` |
 | SC-060-UI-01 | RF-060 | — | — | ✅ | `daily_sales_ui_e2e_test.dart` |
 | SC-010-UI-01 | RF-010 | — | — | ✅ | `product_create_ui_e2e_test.dart` |
 | SC-010-UI-02 | RF-010 | — | — | ✅ | Mismo archivo |
@@ -33,7 +33,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-011-BLE-01 | RNF-041 | — | — | 🔶 | Manual — `runbooks/ble-scanner-pairing.md` |
 | SC-011-BLE-02 | RNF-041 | ✅ | — | — | `scan_payload_codec_test` |
 | SC-011-BLE-UI-01 | RNF-041 | — | ✅ | ✅ | `scanner_ble_ui_test`, `scanner_ble_push_test` |
-| SC-070-01 | RF-070 | ✅ | 🔶 | — | `get_audit_trail_test`, `report_service_test` |
+| SC-070-01 | RF-070 | ✅ | ✅ | — | `get_audit_trail_test`, `report_service_test`, `drift_audit_trail_test`, `drift_stock_movement_range_test` |
 | SC-070-UI-01 | RF-070 | — | — | ✅ | `audit_trail_ui_e2e_test.dart` |
 | SC-070-UI-02 | RF-070 | — | — | ✅ | Mismo archivo |
 | SC-002-UI-01 | RF-002 | — | — | ✅ | `user_create_ui_e2e_test.dart` |

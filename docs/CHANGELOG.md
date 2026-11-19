@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-22: Tests Drift para reporte diario y auditoría (SC-060-02 / SC-070-01 adapters).
 - SLICE-21: RF-003 — `GetCertificateStatus`, `FiscalService` (API-010), pantalla certificado SII, SC-003-01 / SC-003-UI-01/02.
 - SLICE-20: RF-070 — `confirmedByUserId`, `GetAuditTrail` (API-009), pantalla auditoría del día, SC-070-01 / SC-070-UI-01/02.
 - SLICE-19: RF-002 — pantalla nuevo usuario (solo dueño), menú operación, SC-002-UI-01/02.
