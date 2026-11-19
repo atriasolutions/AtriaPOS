@@ -63,7 +63,7 @@ Criterio: los tres bloques terminan en verde. Evidencia post SLICE-27: **114 + 2
 2. Crear PR hacia `main` (ejemplo con `gh`, desde la raíz del repo):
 
    ```bash
-   gh pr create --base main --title "MVP POS: slices 0-30" --body-file runbooks/pr-body-mvp.md
+   gh pr create --base main --title "MVP POS: slices 0-31" --body-file runbooks/pr-body-mvp.md
    ```
 
 3. Verificar que el check **CI** en GitHub quede verde antes del merge.

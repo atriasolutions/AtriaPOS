@@ -36,6 +36,6 @@ Ruta operativa unificada (demo fake, BLE, SII, PR opcional): [`runbooks/tienda-p
 
 ## Estado
 
-**SLICE-31:** cierre PR MVP — [`runbooks/github-remote-setup.md`](runbooks/github-remote-setup.md) (`gh auth` + `origin`), push y `gh pr create` título `MVP POS: slices 0-30`. Evidencia: [`runbooks/pr-merge-evidence.md`](runbooks/pr-merge-evidence.md). Aceptación: [`test/acceptance/slice_31_pr_cierre.md`](test/acceptance/slice_31_pr_cierre.md). Reporte: [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md).
+**SLICE-32:** ejecutar PR MVP — [`runbooks/github-remote-setup.md`](runbooks/github-remote-setup.md), push y `gh pr create` título `MVP POS: slices 0-31`. Evidencia: [`runbooks/pr-merge-evidence.md`](runbooks/pr-merge-evidence.md) (estado **ABIERTO** cuando exista URL). Aceptación: [`test/acceptance/slice_32_merge_pr_abierto.md`](test/acceptance/slice_32_merge_pr_abierto.md). Reporte: [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md).
 
 CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md). Plan: [`docs/10-plan-entregas.md`](docs/10-plan-entregas.md).

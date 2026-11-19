@@ -35,6 +35,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 29 | SLICE-29 | Alineación kit merge | — | PR título 0–28; `pr-merge-evidence.md`; SC-029; merge manual |
 | 30 | SLICE-30 | Ejecutar PR MVP | — | push + `gh pr create`; SC-030; merge manual |
 | 31 | SLICE-31 | Cierre PR MVP | — | Reintento SC-030; evidencia ABIERTO; título 0-30; sin merge |
+| 32 | SLICE-32 | Ejecutar PR SC-030 | — | Push; `gh pr create` 0-31; SC-030; sin merge |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)
