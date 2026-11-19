@@ -63,8 +63,8 @@ Leyenda: **✅** implementado y con tests automatizados relevantes | **🔶** pa
 | RF | Nombre | Estado | Evidencia principal |
 |----|--------|--------|---------------------|
 | RF-001 | Alta de tienda | ✅ | Core, drift, `store_setup_ui_e2e_test.dart` |
-| RF-002 | Usuarios y roles | 🔶 | Login + matriz permisos; **sin UI alta de usuarios** |
-| RF-003 | Certificado SII | 🔶 | `CertificateStore`, gateways; piloto ⬜ |
+| RF-002 | Usuarios y roles | ✅ | Login, permisos, alta usuario UI (SLICE-19) |
+| RF-003 | Certificado SII | 🔶 | Consulta UI API-010; piloto SC-080-03 ⬜ manual |
 | RF-010 | Crear producto | ✅ | API + `product_create_ui_e2e_test.dart` |
 | RF-011 | Buscar producto | ✅ | Core + flujo venta UI |
 | RF-012 | Stock inicial | ✅ | Create product (opcional UI) |
@@ -107,6 +107,7 @@ Flujos cubiertos por pruebas e2e (reproducibles manualmente):
 | SC-010-UI-* | Nuevo producto | `product_create_ui_e2e_test.dart` |
 | SC-060-UI-01 | Ventas del día | `daily_sales_ui_e2e_test.dart` |
 | SC-070-UI-01 | Auditoría del día | `audit_trail_ui_e2e_test.dart` |
+| SC-003-UI-01 | Certificado SII | `certificate_status_ui_e2e_test.dart` |
 
 **Credenciales demo [documentadas en código]:** usuario `usr_supervisor` / `usr_cajero` / `usr_dueno`, PIN `2468` (`PosComposition.demoPin`).
 
@@ -120,7 +121,7 @@ cd packages/adapters && dart pub get && dart test
 cd apps/pos_app && flutter pub get && flutter test
 ```
 
-Última verificación al generar este reporte: **108 + 22 + 21** tests en verde en entorno local.
+Última verificación al generar este reporte: **114 + 22 + 23** tests en verde en entorno local.
 
 ### 4.3 Contratos y aceptación
 

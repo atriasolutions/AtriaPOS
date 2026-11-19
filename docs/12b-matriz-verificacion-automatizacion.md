@@ -38,6 +38,9 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-070-UI-02 | RF-070 | — | — | ✅ | Mismo archivo |
 | SC-002-UI-01 | RF-002 | — | — | ✅ | `user_create_ui_e2e_test.dart` |
 | SC-002-UI-02 | RF-002 | — | — | ✅ | Mismo archivo |
+| SC-003-01 | RF-003 | ✅ | — | — | `get_certificate_status_*`, `fiscal_service_test` |
+| SC-003-UI-01 | RF-003 | — | — | ✅ | `certificate_status_ui_e2e_test.dart` |
+| SC-003-UI-02 | RF-003 | — | — | ✅ | Mismo archivo |
 | SC-080-03 | RF-003 | — | — | ⬜ | Piloto cert SII — ver `runbooks/sii-cert-pilot-evidence.md` |
 
 Actualizar esta tabla al cerrar cada slice con escenarios UI nuevos.

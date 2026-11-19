@@ -11,6 +11,13 @@ import 'src/database.dart';
 
 enum DteGatewayMode { fake, replay, live }
 
+/// Certificado activo para emisión y consulta fiscal (DEC-021).
+CertificateStore createCertificateStore({
+  InMemoryCertificateStore? override,
+}) {
+  return override ?? FileCertificateStore.fromEnvironment();
+}
+
 DteGatewayMode dteGatewayModeFromEnvironment() {
   const raw = String.fromEnvironment('SII_GATEWAY', defaultValue: 'fake');
   return switch (raw) {
@@ -25,20 +32,20 @@ DteGateway createDteGateway({
   DteGatewayMode? mode,
   AppDatabase? database,
   StoreRepository? stores,
-  InMemoryCertificateStore? certificateStoreForReplay,
+  CertificateStore? certificateStoreForReplay,
   SiiReplayScenario? replayScenario,
 }) {
   final resolved = mode ?? dteGatewayModeFromEnvironment();
   switch (resolved) {
     case DteGatewayMode.replay:
-      final certs = certificateStoreForReplay ?? FileCertificateStore.fromEnvironment();
+      final certs = certificateStoreForReplay ?? createCertificateStore();
       return SiiCertReplayDteGateway(
         sales: sales,
         certificates: certs,
         scenario: replayScenario ?? SiiReplayScenario.success,
       );
     case DteGatewayMode.live:
-      final certs = certificateStoreForReplay ?? FileCertificateStore.fromEnvironment();
+      final certs = certificateStoreForReplay ?? createCertificateStore();
       final folios = database != null
           ? DriftFolioAllocator(database)
           : InMemoryFolioAllocator();

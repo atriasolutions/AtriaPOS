@@ -10,6 +10,7 @@ import '../scanner/scanner_connection_state.dart';
 import '../widgets/checkout_dialog.dart';
 import 'close_shift_screen.dart';
 import 'audit_trail_screen.dart';
+import 'certificate_status_screen.dart';
 import 'daily_sales_screen.dart';
 import 'dte_queue_screen.dart';
 import 'shift_sales_screen.dart';
@@ -323,6 +324,10 @@ class _SaleScreenState extends State<SaleScreen> {
                     openScreen(
                       DteQueueScreen(composition: widget.composition),
                     );
+                  case 'certificate':
+                    openScreen(
+                      CertificateStatusScreen(composition: widget.composition),
+                    );
                   case 'daily':
                     openScreen(
                       DailySalesScreen(composition: widget.composition),
@@ -368,6 +373,14 @@ class _SaleScreenState extends State<SaleScreen> {
                     child: Text(
                       'Cola DTE',
                       key: Key('operation_menu_dte'),
+                    ),
+                  ),
+                if (canDteQueue)
+                  const PopupMenuItem(
+                    value: 'certificate',
+                    child: Text(
+                      'Certificado SII',
+                      key: Key('operation_menu_certificate'),
                     ),
                   ),
                 if (canDailyReport)

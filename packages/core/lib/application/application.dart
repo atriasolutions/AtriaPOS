@@ -3,6 +3,7 @@ export 'auth_helpers.dart';
 export 'in_memory_certificate_store.dart';
 export 'ports/certificate_store.dart';
 export 'validate_certificate.dart';
+export 'get_certificate_status.dart';
 export 'authenticate_user.dart';
 export 'bcrypt_pin_hasher.dart';
 export 'create_user.dart';

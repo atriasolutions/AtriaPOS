@@ -326,9 +326,7 @@ Reintenta pendientes. Response: `{ "processed": 2, "failed": 0 }`.
 
 Lista pendientes para UI supervisor.
 
-### Estado certificado (opcional SLICE-8)
-
-`GET /v0/stores/{storeId}/fiscal/certificate` — `VALIDO` | `VENCIDO` | `NO_CONFIGURADO` (implementación UI/API posterior; validación hoy en `DteGateway` replay).
+Consulta de certificado: ver **API-010**.
 
 ---
 
@@ -492,6 +490,31 @@ Solo supervisor y dueño (403 cajero). Ventas anuladas no aparecen. Movimientos 
 
 ---
 
+## API-010 — Certificado fiscal (RF-003)
+
+### `GET /v0/stores/{storeId}/fiscal/certificate`
+
+Solo supervisor y dueño (403 cajero).
+
+**Response 200**
+
+```json
+{
+  "status": "VALIDO",
+  "subject": "CN=Emisor Demo",
+  "validFrom": "2025-01-01T00:00:00.000Z",
+  "validTo": "2026-12-31T23:59:59.000Z"
+}
+```
+
+`status`: `VALIDO` | `VENCIDO` | `NO_CONFIGURADO` (sin certificado en dispositivo).
+
+`FiscalService.getCertificate` (in-process). No expone PEM ni rutas de archivo.
+
+**Tests:** SC-003-01 (core/API).
+
+---
+
 ## Matriz RF ↔ API
 
 | RF | Endpoints |
@@ -505,3 +528,4 @@ Solo supervisor y dueño (403 cajero). Ventas anuladas no aparecen. Movimientos 
 | RF-001 | API-007 |
 | RF-060 | API-008 |
 | RF-070 | API-009 |
+| RF-003 | API-010 |

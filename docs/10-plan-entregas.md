@@ -24,6 +24,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 18 | SLICE-18 | BLE GATT companion→POS | RNF-041 | Codec, `BleCentralScannerIngress`, NOTIFY |
 | 19 | SLICE-19 | Usuarios en UI | RF-002 | Dueño crea cajero/supervisor |
 | 20 | SLICE-20 | Auditoría del día | RF-070 | API-009; `confirmedByUserId`; pantalla supervisor |
+| 21 | SLICE-21 | Estado certificado SII | RF-003 | API-010; menú supervisor/dueño; sin carga .pfx en app |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

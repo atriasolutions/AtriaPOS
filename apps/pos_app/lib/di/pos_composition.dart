@@ -32,6 +32,8 @@ class PosComposition {
     required this.saleService,
     required this.inventoryService,
     required this.dteService,
+    required this.fiscalService,
+    required this.certificateStore,
     required this.reportService,
     required this.trustedClock,
     required this.scannerIngress,
@@ -56,6 +58,8 @@ class PosComposition {
   final SaleService saleService;
   final InventoryService inventoryService;
   final DteService dteService;
+  final FiscalService fiscalService;
+  final CertificateStore certificateStore;
   final ReportService reportService;
   final NtpShoaTrustedClock trustedClock;
   final ScannerIngress scannerIngress;
@@ -76,6 +80,7 @@ class PosComposition {
 
   factory PosComposition.memory({
     DteGateway? dteGateway,
+    CertificateStore? certificateStore,
     ScannerIngress? scannerIngress,
     NtpShoaTrustedClock? trustedClock,
   }) {
@@ -83,6 +88,7 @@ class PosComposition {
     return PosComposition._fromDatabase(
       db,
       dteGatewayOverride: dteGateway,
+      certificateStoreOverride: certificateStore,
       scannerIngressOverride: scannerIngress,
       trustedClockOverride: trustedClock,
     );
@@ -99,6 +105,7 @@ class PosComposition {
   static PosComposition _fromDatabase(
     AppDatabase db, {
     DteGateway? dteGatewayOverride,
+    CertificateStore? certificateStoreOverride,
     ScannerIngress? scannerIngressOverride,
     NtpShoaTrustedClock? trustedClockOverride,
   }) {
@@ -109,11 +116,14 @@ class PosComposition {
     final movements = DriftStockMovementRepository(db);
     final shifts = DriftShiftRepository(db);
     final dteQueue = DriftDteQueueRepository(db);
+    final certificateStore =
+        certificateStoreOverride ?? createCertificateStore();
     final dteGateway = dteGatewayOverride ??
         createDteGateway(
           sales: sales,
           database: db,
           stores: storeRepo,
+          certificateStoreForReplay: certificateStore,
         );
     final users = DriftUserRepository(db);
     final sessions = InMemorySessionProvider();
@@ -179,6 +189,11 @@ class PosComposition {
         saleRepository: sales,
         dteGateway: dteGateway,
       ),
+      fiscalService: FiscalService(
+        certificateStore: certificateStore,
+        sessionProvider: sessions,
+      ),
+      certificateStore: certificateStore,
       reportService: ReportService(
         saleRepository: sales,
         stockMovementRepository: movements,

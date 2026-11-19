@@ -16,3 +16,5 @@ export 'store_dtos.dart';
 export 'store_service.dart';
 export 'report_dtos.dart';
 export 'report_service.dart';
+export 'fiscal_dtos.dart';
+export 'fiscal_service.dart';
