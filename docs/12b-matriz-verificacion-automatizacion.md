@@ -56,7 +56,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-029-01 | — | — | — | — | Docs — título PR 0–28 en `merge-mvp-hito.md` |
 | SC-029-02 | — | — | — | — | Docs — `runbooks/pr-merge-evidence.md` |
 | SC-030-00 | — | — | — | — | Docs — `github-remote-setup.md` |
-| SC-030-01 | — | — | — | ⬜ | PR abierto — URL en `pr-merge-evidence.md` |
+| SC-030-01 | — | — | — | ✅ | PR abierto — https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1 |
 | SC-030-02 | — | — | — | — | Evidencia ABIERTO con HEAD/rama |
 | SC-031-00 | — | — | — | — | Docs — reintento SLICE-31 en `pr-merge-evidence.md` |
 | SC-032-00 | — | — | — | — | Docs — reintento SLICE-32 en `pr-merge-evidence.md` |

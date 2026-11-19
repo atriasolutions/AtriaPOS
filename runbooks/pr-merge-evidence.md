@@ -12,7 +12,7 @@ Runbook merge: [`merge-mvp-hito.md`](merge-mvp-hito.md). Pre-vuelo: [`github-rem
 | ABIERTO | PR en GitHub; CI en seguimiento |
 | MERGED | Integrado en `main` |
 
-Estado actual: **NO_ABIERTO**
+Estado actual: **ABIERTO**
 
 ## Intento SLICE-30 (2026-11-19)
 
@@ -90,8 +90,8 @@ Estado actual: **NO_ABIERTO**
 | Modelo | Operador abre PR; agente cierra evidencia con URL (sin `gh auth login` en agente) |
 | Checklist | [`slice-40-operador-pr-checklist.md`](slice-40-operador-pr-checklist.md) |
 | `ci-local.ps1` | Verde (114 + 25 + 27) en HEAD `d5d75ea` |
-| URL del PR | **Pendiente** — pegar en chat tras `gh pr create` |
-| Estado global | **NO_ABIERTO** hasta registrar URL abajo |
+| URL del PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1 |
+| Estado global | Cerrado por SLICE-41 (registro en tabla abajo) |
 
 **Siguiente paso:** operador completa checklist §2–3; agente en turno con URL actualiza tabla “Al abrir PR” y **SC-030-01** en `12b`.
 
@@ -99,23 +99,24 @@ Estado actual: **NO_ABIERTO**
 
 | Resultado | Detalle |
 |-----------|---------|
-| Gate implementación | **URL del PR** obligatoria en chat — no recibida en este turno |
-| Operador | Indicó que aún no tiene URL para registrar |
-| `ci-local.ps1` | Verde (114 + 25 + 27) en HEAD `f8fe8b0`; commit docs `20d4e77` |
-| `gh auth` / `origin` | Sin sesión / sin remoto en sesión agente |
-| Estado global | **NO_ABIERTO** (sin marcar SC-030-01) |
+| Gate | URL del PR confirmada (evidencia captura / operador) |
+| Remoto | `https://github.com/mmb21894-ux/pos-barrio-segmento-d.git` |
+| PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1 |
+| HEAD rama feature publicada | `16bc091` (`chore: abrir PR MVP`; MVP en ancestro `3f1ee4f`) |
+| Validación | Título **0-38**; base `main` ← head `feat/slice-0-scaffold` |
+| Estado global | **ABIERTO** — **SC-030-01** en `12b` |
 
-**Siguiente paso:** al abrir el PR, pegar **URL completa** en chat; agente completa tabla “Al abrir PR”, estado **ABIERTO** y **SC-030-01** en `12b` (mismo turno o SLICE-41 bis).
+**Siguiente paso (SLICE-42):** CI verde en GitHub → merge → evidencia **MERGED**.
 
 ## Al abrir el PR
 
 | Campo | Valor |
 |-------|-------|
-| Fecha apertura | _(completar)_ |
-| Operador | _(completar)_ |
+| Fecha apertura | 2026-11-19 |
+| Operador | mmb21894-ux (local `gh` + cmd) |
 | Rama origen | `feat/slice-0-scaffold` |
-| Commit HEAD (`git rev-parse --short HEAD`) | _(completar)_ |
-| URL del PR | _(completar)_ |
+| Commit HEAD (`git rev-parse --short HEAD`) | `16bc091` en remoto (commit vacío PR); MVP `3f1ee4f` |
+| URL del PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1 |
 | Título usado | `MVP POS: slices 0-38` |
 | Check **CI** verde en GitHub | ☐ Sí |
 
