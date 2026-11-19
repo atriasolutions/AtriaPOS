@@ -9,6 +9,7 @@ void main() {
   late InMemorySaleRepository sales;
   late InMemoryStockMovementRepository movements;
   late InMemoryShiftRepository shifts;
+  late InMemorySessionProvider sessions;
   late OpenShift openShift;
   late CreateProduct createProduct;
   late CreateCart createCart;
@@ -23,7 +24,7 @@ void main() {
     movements = InMemoryStockMovementRepository();
     shifts = InMemoryShiftRepository();
     openShift = OpenShift(shifts);
-    final sessions = InMemorySessionProvider.supervisor();
+    sessions = InMemorySessionProvider.supervisor();
     createProduct = CreateProduct(products, sessions);
     createCart = CreateCart(carts, shifts);
     addCartLine = AddCartLine(carts, products);
@@ -35,6 +36,7 @@ void main() {
       shifts,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
+      sessions,
     );
     getProductStock = GetProductStock(products);
     await openShift(storeId, 0);
@@ -170,6 +172,7 @@ void main() {
       closeShifts,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
+      sessions,
     );
     final ctx = await panCart();
     expect(

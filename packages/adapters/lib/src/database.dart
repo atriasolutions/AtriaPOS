@@ -74,6 +74,7 @@ class Sales extends Table {
       text().withDefault(const Constant('PENDIENTE_DTE'))();
   IntColumn get folio => integer().nullable()();
   TextColumn get pdfUrl => text().nullable()();
+  TextColumn get confirmedByUserId => text().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -168,7 +169,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -239,6 +240,9 @@ WHERE (
           }
           if (from < 11) {
             await m.addColumn(products, products.qrPayload);
+          }
+          if (from < 12) {
+            await m.addColumn(sales, sales.confirmedByUserId);
           }
         },
       );

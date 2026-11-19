@@ -23,6 +23,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 17 | SLICE-17 | Escáner companion BLE | RNF-041 | `scanner_companion` + ingress |
 | 18 | SLICE-18 | BLE GATT companion→POS | RNF-041 | Codec, `BleCentralScannerIngress`, NOTIFY |
 | 19 | SLICE-19 | Usuarios en UI | RF-002 | Dueño crea cajero/supervisor |
+| 20 | SLICE-20 | Auditoría del día | RF-070 | API-009; `confirmedByUserId`; pantalla supervisor |
 | 9 | SLICE-9 | Integración terminal pago | — | Opcional post-MVP |
 
 ## Orden TDD sugerido (semana orientativa)

@@ -40,6 +40,7 @@ class DriftSaleRepository implements SaleRepository {
               dteStatus: Value(sale.dteStatus.apiValue),
               folio: Value(sale.folio),
               pdfUrl: Value(sale.pdfUrl),
+              confirmedByUserId: Value(sale.confirmedByUserId),
             ),
           );
       for (final line in sale.lines) {
@@ -168,5 +169,6 @@ class DriftSaleRepository implements SaleRepository {
         dteStatus: DteStatus.fromApi(row.dteStatus),
         folio: row.folio,
         pdfUrl: row.pdfUrl,
+        confirmedByUserId: row.confirmedByUserId,
       );
 }

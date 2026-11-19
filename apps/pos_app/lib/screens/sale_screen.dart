@@ -9,6 +9,7 @@ import '../scanner/ble_central_scanner_ingress.dart';
 import '../scanner/scanner_connection_state.dart';
 import '../widgets/checkout_dialog.dart';
 import 'close_shift_screen.dart';
+import 'audit_trail_screen.dart';
 import 'daily_sales_screen.dart';
 import 'dte_queue_screen.dart';
 import 'shift_sales_screen.dart';
@@ -326,6 +327,10 @@ class _SaleScreenState extends State<SaleScreen> {
                     openScreen(
                       DailySalesScreen(composition: widget.composition),
                     );
+                  case 'audit':
+                    openScreen(
+                      AuditTrailScreen(composition: widget.composition),
+                    );
                   case 'stock':
                     openScreen(
                       StockAdjustScreen(composition: widget.composition),
@@ -371,6 +376,14 @@ class _SaleScreenState extends State<SaleScreen> {
                     child: Text(
                       'Ventas del día',
                       key: Key('operation_menu_daily_report'),
+                    ),
+                  ),
+                if (canVoidSales)
+                  const PopupMenuItem(
+                    value: 'audit',
+                    child: Text(
+                      'Auditoría del día',
+                      key: Key('operation_menu_audit'),
                     ),
                   ),
                 if (canAdjustStock)

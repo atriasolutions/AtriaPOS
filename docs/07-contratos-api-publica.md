@@ -454,6 +454,44 @@ Solo supervisor y dueño (403 cajero). Ventas `ANULADA` no cuentan.
 
 ---
 
+## API-009 — Auditoría del día (RF-070)
+
+### `GET /v0/stores/{storeId}/reports/audit-trail`
+
+Query opcional: `date=YYYY-MM-DD` (día calendario local; default hoy).
+
+**Response 200**
+
+```json
+{
+  "date": "2026-03-18",
+  "items": [
+    {
+      "occurredAt": "2026-03-18T13:00:00.000Z",
+      "type": "CONFIRMA_VENTA",
+      "actorUserId": "usr_supervisor",
+      "summary": "Venta confirmada: $500",
+      "refId": "sal_..."
+    },
+    {
+      "occurredAt": "2026-03-18T14:00:00.000Z",
+      "type": "AJUSTE_STOCK",
+      "actorUserId": "usr_supervisor",
+      "summary": "MERMA · Pan (-1)",
+      "refId": "mov_..."
+    }
+  ]
+}
+```
+
+Solo supervisor y dueño (403 cajero). Ventas anuladas no aparecen. Movimientos `VENTA` se excluyen (la venta ya consta como `CONFIRMA_VENTA`).
+
+`ReportService.getAuditTrail` (in-process).
+
+**Tests:** SC-070-01 (core/API).
+
+---
+
 ## Matriz RF ↔ API
 
 | RF | Endpoints |
@@ -466,3 +504,4 @@ Solo supervisor y dueño (403 cajero). Ventas `ANULADA` no cuentan.
 | RF-002 | API-006 |
 | RF-001 | API-007 |
 | RF-060 | API-008 |
+| RF-070 | API-009 |

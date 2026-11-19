@@ -69,6 +69,69 @@ void main() {
     expect(data.averageTicketClp, 1250);
   });
 
+  test('SC-070-01 API auditoría del día', () async {
+    final sales = InMemorySaleRepository();
+    final movements = InMemoryStockMovementRepository();
+    final products = InMemoryProductRepository();
+    const day = '2026-03-18';
+    await products.save(
+      Product.create(
+        id: 'p1',
+        storeId: storeId,
+        name: 'Pan',
+        salePriceClp: 500,
+        initialStock: 10,
+      ),
+    );
+    await sales.save(
+      Sale(
+        id: 's1',
+        storeId: storeId,
+        shiftId: 'sh1',
+        cartId: 'c1',
+        lines: const [],
+        payments: [
+          Payment.create(method: PaymentMethod.efectivo, amountClp: 500),
+        ],
+        totalClp: 500,
+        changeClp: 0,
+        createdAt: DateTime(2026, 3, 18, 10),
+        confirmedByUserId: 'usr_supervisor',
+      ),
+    );
+    await movements.save(
+      StockMovement(
+        id: 'm1',
+        storeId: storeId,
+        productId: 'p1',
+        delta: -1,
+        reason: StockAdjustmentReason.merma,
+        createdAt: DateTime(2026, 3, 18, 11),
+        actorId: 'usr_supervisor',
+      ),
+    );
+
+    final service = ReportService(
+      saleRepository: sales,
+      stockMovementRepository: movements,
+      productRepository: products,
+      sessionProvider: InMemorySessionProvider.supervisor(),
+    );
+    final result = await service.getAuditTrail(storeId, date: day);
+    expect(result, isA<ApiSuccess<AuditTrailResponse>>());
+    final data = (result as ApiSuccess<AuditTrailResponse>).data;
+    expect(data.date, day);
+    expect(data.items.length, 2);
+    expect(
+      data.items.any((i) => i.type == 'CONFIRMA_VENTA'),
+      isTrue,
+    );
+    expect(
+      data.items.any((i) => i.type == 'AJUSTE_STOCK'),
+      isTrue,
+    );
+  });
+
   test('fecha inválida', () async {
     final service = ReportService(
       sessionProvider: InMemorySessionProvider.supervisor(),

@@ -2091,6 +2091,18 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _confirmedByUserIdMeta = const VerificationMeta(
+    'confirmedByUserId',
+  );
+  @override
+  late final GeneratedColumn<String> confirmedByUserId =
+      GeneratedColumn<String>(
+        'confirmed_by_user_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2104,6 +2116,7 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     dteStatus,
     folio,
     pdfUrl,
+    confirmedByUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2194,6 +2207,15 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         pdfUrl.isAcceptableOrUnknown(data['pdf_url']!, _pdfUrlMeta),
       );
     }
+    if (data.containsKey('confirmed_by_user_id')) {
+      context.handle(
+        _confirmedByUserIdMeta,
+        confirmedByUserId.isAcceptableOrUnknown(
+          data['confirmed_by_user_id']!,
+          _confirmedByUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2247,6 +2269,10 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         DriftSqlType.string,
         data['${effectivePrefix}pdf_url'],
       ),
+      confirmedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}confirmed_by_user_id'],
+      ),
     );
   }
 
@@ -2268,6 +2294,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
   final String dteStatus;
   final int? folio;
   final String? pdfUrl;
+  final String? confirmedByUserId;
   const SaleRow({
     required this.id,
     required this.storeId,
@@ -2280,6 +2307,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     required this.dteStatus,
     this.folio,
     this.pdfUrl,
+    this.confirmedByUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2298,6 +2326,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     }
     if (!nullToAbsent || pdfUrl != null) {
       map['pdf_url'] = Variable<String>(pdfUrl);
+    }
+    if (!nullToAbsent || confirmedByUserId != null) {
+      map['confirmed_by_user_id'] = Variable<String>(confirmedByUserId);
     }
     return map;
   }
@@ -2319,6 +2350,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       pdfUrl: pdfUrl == null && nullToAbsent
           ? const Value.absent()
           : Value(pdfUrl),
+      confirmedByUserId: confirmedByUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(confirmedByUserId),
     );
   }
 
@@ -2339,6 +2373,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       dteStatus: serializer.fromJson<String>(json['dteStatus']),
       folio: serializer.fromJson<int?>(json['folio']),
       pdfUrl: serializer.fromJson<String?>(json['pdfUrl']),
+      confirmedByUserId: serializer.fromJson<String?>(
+        json['confirmedByUserId'],
+      ),
     );
   }
   @override
@@ -2356,6 +2393,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       'dteStatus': serializer.toJson<String>(dteStatus),
       'folio': serializer.toJson<int?>(folio),
       'pdfUrl': serializer.toJson<String?>(pdfUrl),
+      'confirmedByUserId': serializer.toJson<String?>(confirmedByUserId),
     };
   }
 
@@ -2371,6 +2409,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     String? dteStatus,
     Value<int?> folio = const Value.absent(),
     Value<String?> pdfUrl = const Value.absent(),
+    Value<String?> confirmedByUserId = const Value.absent(),
   }) => SaleRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -2383,6 +2422,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     dteStatus: dteStatus ?? this.dteStatus,
     folio: folio.present ? folio.value : this.folio,
     pdfUrl: pdfUrl.present ? pdfUrl.value : this.pdfUrl,
+    confirmedByUserId: confirmedByUserId.present
+        ? confirmedByUserId.value
+        : this.confirmedByUserId,
   );
   SaleRow copyWithCompanion(SalesCompanion data) {
     return SaleRow(
@@ -2397,6 +2439,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       dteStatus: data.dteStatus.present ? data.dteStatus.value : this.dteStatus,
       folio: data.folio.present ? data.folio.value : this.folio,
       pdfUrl: data.pdfUrl.present ? data.pdfUrl.value : this.pdfUrl,
+      confirmedByUserId: data.confirmedByUserId.present
+          ? data.confirmedByUserId.value
+          : this.confirmedByUserId,
     );
   }
 
@@ -2413,7 +2458,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           ..write('status: $status, ')
           ..write('dteStatus: $dteStatus, ')
           ..write('folio: $folio, ')
-          ..write('pdfUrl: $pdfUrl')
+          ..write('pdfUrl: $pdfUrl, ')
+          ..write('confirmedByUserId: $confirmedByUserId')
           ..write(')'))
         .toString();
   }
@@ -2431,6 +2477,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     dteStatus,
     folio,
     pdfUrl,
+    confirmedByUserId,
   );
   @override
   bool operator ==(Object other) =>
@@ -2446,7 +2493,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           other.status == this.status &&
           other.dteStatus == this.dteStatus &&
           other.folio == this.folio &&
-          other.pdfUrl == this.pdfUrl);
+          other.pdfUrl == this.pdfUrl &&
+          other.confirmedByUserId == this.confirmedByUserId);
 }
 
 class SalesCompanion extends UpdateCompanion<SaleRow> {
@@ -2461,6 +2509,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
   final Value<String> dteStatus;
   final Value<int?> folio;
   final Value<String?> pdfUrl;
+  final Value<String?> confirmedByUserId;
   final Value<int> rowid;
   const SalesCompanion({
     this.id = const Value.absent(),
@@ -2474,6 +2523,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.dteStatus = const Value.absent(),
     this.folio = const Value.absent(),
     this.pdfUrl = const Value.absent(),
+    this.confirmedByUserId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SalesCompanion.insert({
@@ -2488,6 +2538,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.dteStatus = const Value.absent(),
     this.folio = const Value.absent(),
     this.pdfUrl = const Value.absent(),
+    this.confirmedByUserId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -2508,6 +2559,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Expression<String>? dteStatus,
     Expression<int>? folio,
     Expression<String>? pdfUrl,
+    Expression<String>? confirmedByUserId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2522,6 +2574,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       if (dteStatus != null) 'dte_status': dteStatus,
       if (folio != null) 'folio': folio,
       if (pdfUrl != null) 'pdf_url': pdfUrl,
+      if (confirmedByUserId != null) 'confirmed_by_user_id': confirmedByUserId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2538,6 +2591,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Value<String>? dteStatus,
     Value<int?>? folio,
     Value<String?>? pdfUrl,
+    Value<String?>? confirmedByUserId,
     Value<int>? rowid,
   }) {
     return SalesCompanion(
@@ -2552,6 +2606,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       dteStatus: dteStatus ?? this.dteStatus,
       folio: folio ?? this.folio,
       pdfUrl: pdfUrl ?? this.pdfUrl,
+      confirmedByUserId: confirmedByUserId ?? this.confirmedByUserId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2592,6 +2647,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     if (pdfUrl.present) {
       map['pdf_url'] = Variable<String>(pdfUrl.value);
     }
+    if (confirmedByUserId.present) {
+      map['confirmed_by_user_id'] = Variable<String>(confirmedByUserId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2612,6 +2670,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
           ..write('dteStatus: $dteStatus, ')
           ..write('folio: $folio, ')
           ..write('pdfUrl: $pdfUrl, ')
+          ..write('confirmedByUserId: $confirmedByUserId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -5852,6 +5911,7 @@ typedef $$SalesTableCreateCompanionBuilder =
       Value<String> dteStatus,
       Value<int?> folio,
       Value<String?> pdfUrl,
+      Value<String?> confirmedByUserId,
       Value<int> rowid,
     });
 typedef $$SalesTableUpdateCompanionBuilder =
@@ -5867,6 +5927,7 @@ typedef $$SalesTableUpdateCompanionBuilder =
       Value<String> dteStatus,
       Value<int?> folio,
       Value<String?> pdfUrl,
+      Value<String?> confirmedByUserId,
       Value<int> rowid,
     });
 
@@ -5930,6 +5991,11 @@ class $$SalesTableFilterComposer extends Composer<_$AppDatabase, $SalesTable> {
 
   ColumnFilters<String> get pdfUrl => $composableBuilder(
     column: $table.pdfUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get confirmedByUserId => $composableBuilder(
+    column: $table.confirmedByUserId,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -5997,6 +6063,11 @@ class $$SalesTableOrderingComposer
     column: $table.pdfUrl,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get confirmedByUserId => $composableBuilder(
+    column: $table.confirmedByUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SalesTableAnnotationComposer
@@ -6040,6 +6111,11 @@ class $$SalesTableAnnotationComposer
 
   GeneratedColumn<String> get pdfUrl =>
       $composableBuilder(column: $table.pdfUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get confirmedByUserId => $composableBuilder(
+    column: $table.confirmedByUserId,
+    builder: (column) => column,
+  );
 }
 
 class $$SalesTableTableManager
@@ -6081,6 +6157,7 @@ class $$SalesTableTableManager
                 Value<String> dteStatus = const Value.absent(),
                 Value<int?> folio = const Value.absent(),
                 Value<String?> pdfUrl = const Value.absent(),
+                Value<String?> confirmedByUserId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion(
                 id: id,
@@ -6094,6 +6171,7 @@ class $$SalesTableTableManager
                 dteStatus: dteStatus,
                 folio: folio,
                 pdfUrl: pdfUrl,
+                confirmedByUserId: confirmedByUserId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6109,6 +6187,7 @@ class $$SalesTableTableManager
                 Value<String> dteStatus = const Value.absent(),
                 Value<int?> folio = const Value.absent(),
                 Value<String?> pdfUrl = const Value.absent(),
+                Value<String?> confirmedByUserId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion.insert(
                 id: id,
@@ -6122,6 +6201,7 @@ class $$SalesTableTableManager
                 dteStatus: dteStatus,
                 folio: folio,
                 pdfUrl: pdfUrl,
+                confirmedByUserId: confirmedByUserId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

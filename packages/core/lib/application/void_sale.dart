@@ -59,6 +59,7 @@ class VoidSale {
       );
     }
 
+    final actorId = requireActiveSession(_sessions).userId;
     for (final line in sale.lines) {
       final product = await _products.findById(storeId, line.productId);
       if (product == null) {
@@ -76,6 +77,7 @@ class VoidSale {
           delta: line.quantity,
           reason: StockAdjustmentReason.anulacionVenta,
           note: 'Anulación venta $saleId',
+          actorId: actorId,
         ),
       );
     }

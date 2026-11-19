@@ -22,6 +22,7 @@ class Sale {
     this.dteStatus = DteStatus.pendienteDte,
     this.folio,
     this.pdfUrl,
+    this.confirmedByUserId,
   });
 
   final SaleId id;
@@ -37,6 +38,7 @@ class Sale {
   final DteStatus dteStatus;
   final int? folio;
   final String? pdfUrl;
+  final String? confirmedByUserId;
 
   bool get isAnulada => status == SaleStatus.anulada;
 
@@ -54,6 +56,7 @@ class Sale {
         dteStatus: dteStatus,
         folio: folio,
         pdfUrl: pdfUrl,
+        confirmedByUserId: confirmedByUserId,
       );
 
   Sale withDte({
@@ -75,5 +78,6 @@ class Sale {
         dteStatus: dteStatus,
         folio: folio ?? this.folio,
         pdfUrl: pdfUrl ?? this.pdfUrl,
+        confirmedByUserId: confirmedByUserId,
       );
 }

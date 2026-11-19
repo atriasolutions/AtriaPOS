@@ -18,4 +18,20 @@ class InMemoryStockMovementRepository implements StockMovementRepository {
         .where((m) => m.storeId == storeId && m.productId == productId)
         .toList();
   }
+
+  @override
+  Future<List<StockMovement>> listByStoreCreatedBetween(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  ) async {
+    return _movements
+        .where(
+          (m) =>
+              m.storeId == storeId &&
+              !m.createdAt.isBefore(fromInclusive) &&
+              m.createdAt.isBefore(toExclusive),
+        )
+        .toList();
+  }
 }

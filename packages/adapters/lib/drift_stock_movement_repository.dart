@@ -38,6 +38,26 @@ class DriftStockMovementRepository implements StockMovementRepository {
     return rows.map(_map).toList();
   }
 
+  @override
+  Future<List<StockMovement>> listByStoreCreatedBetween(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  ) async {
+    final fromIso = fromInclusive.toUtc().toIso8601String();
+    final toIso = toExclusive.toUtc().toIso8601String();
+    final rows = await (_db.select(_db.stockMovements)
+          ..where(
+            (t) =>
+                t.storeId.equals(storeId) &
+                t.createdAt.isBiggerOrEqualValue(fromIso) &
+                t.createdAt.isSmallerThanValue(toIso),
+          )
+          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
+        .get();
+    return rows.map(_map).toList();
+  }
+
   StockMovement _map(StockMovementRow row) => StockMovement(
         id: row.id,
         storeId: row.storeId,

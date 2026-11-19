@@ -40,6 +40,7 @@ void main() {
           shifts,
           FakeDteGateway(),
           InMemoryDteQueueRepository(),
+          sessions,
         );
   });
 

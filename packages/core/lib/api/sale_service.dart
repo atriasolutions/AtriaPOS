@@ -63,6 +63,7 @@ class SaleService {
           shifts,
           dte,
           dteQueue,
+          sessions,
           clock,
         ),
         _voidSale = VoidSale(

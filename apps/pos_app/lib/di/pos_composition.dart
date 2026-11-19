@@ -181,6 +181,8 @@ class PosComposition {
       ),
       reportService: ReportService(
         saleRepository: sales,
+        stockMovementRepository: movements,
+        productRepository: products,
         sessionProvider: sessions,
       ),
       trustedClock: trustedClock,

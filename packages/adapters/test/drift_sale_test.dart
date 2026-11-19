@@ -38,6 +38,7 @@ void main() {
       shifts,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
+      sessions,
     );
     getProductStock = GetProductStock(products);
   });

@@ -39,6 +39,7 @@ void main() {
       shifts,
       FakeDteGateway(mode: FakeDteMode.alwaysFailure),
       dteQueue,
+      sessions,
     );
   });
 

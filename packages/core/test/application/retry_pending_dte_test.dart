@@ -14,6 +14,7 @@ void main() {
   late CreateProduct createProduct;
   late CreateCart createCart;
   late AddCartLine addCartLine;
+  late InMemorySessionProvider sessions;
 
   setUp(() async {
     carts = InMemoryCartRepository();
@@ -23,7 +24,7 @@ void main() {
     shifts = InMemoryShiftRepository();
     dteQueue = InMemoryDteQueueRepository();
     openShift = OpenShift(shifts);
-    final sessions = InMemorySessionProvider.supervisor();
+    sessions = InMemorySessionProvider.supervisor();
     createProduct = CreateProduct(products, sessions);
     createCart = CreateCart(carts, shifts);
     addCartLine = AddCartLine(carts, products);
@@ -57,6 +58,7 @@ void main() {
       shifts,
       failGateway,
       dteQueue,
+      sessions,
     );
     final result = await checkout(
       ConfirmCheckoutInput(

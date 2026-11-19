@@ -7,4 +7,10 @@ abstract class StockMovementRepository {
     StoreId storeId,
     ProductId productId,
   );
+
+  Future<List<StockMovement>> listByStoreCreatedBetween(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  );
 }

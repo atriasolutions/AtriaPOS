@@ -1,5 +1,7 @@
 import '../domain/domain.dart';
+import 'auth_helpers.dart';
 import 'emit_sale_dte.dart';
+import 'ports/session_provider.dart';
 import 'ports/cart_repository.dart';
 import 'ports/dte_gateway.dart';
 import 'ports/dte_queue_repository.dart';
@@ -59,7 +61,8 @@ class ConfirmCheckout {
     this._movements,
     this._shifts,
     this._dte,
-    this._dteQueue, [
+    this._dteQueue,
+    this._sessions, [
     TrustedClock? clock,
   ]) : _clock = clock ?? MutableTrustedClock();
 
@@ -70,9 +73,13 @@ class ConfirmCheckout {
   final ShiftRepository _shifts;
   final DteGateway _dte;
   final DteQueueRepository _dteQueue;
+  final SessionProvider _sessions;
   final TrustedClock _clock;
 
   Future<ConfirmCheckoutResult> call(ConfirmCheckoutInput input) async {
+    final session = requireActiveSession(_sessions);
+    AuthPolicy.require(session, Permission.vender);
+    final actorId = session.userId;
     final openShift = await _shifts.findOpenByStore(input.storeId);
     if (openShift == null) {
       throw const TurnClosedFailure(
@@ -135,6 +142,7 @@ class ConfirmCheckout {
       totalClp: totalClp,
       changeClp: input.changeClp,
       createdAt: _clock.now(),
+      confirmedByUserId: actorId,
     );
 
     for (final line in cart.lines) {
@@ -154,6 +162,8 @@ class ConfirmCheckout {
           delta: -line.quantity,
           reason: StockAdjustmentReason.venta,
           note: 'Venta ${sale.id}',
+          actorId: actorId,
+          createdAt: sale.createdAt,
         ),
       );
     }

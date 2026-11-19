@@ -31,18 +31,25 @@ DateTime parseCalendarDateYmd(String date) {
 class ReportService {
   factory ReportService({
     SaleRepository? saleRepository,
+    StockMovementRepository? stockMovementRepository,
+    ProductRepository? productRepository,
     SessionProvider? sessionProvider,
   }) {
     final sales = saleRepository ?? InMemorySaleRepository();
+    final movements =
+        stockMovementRepository ?? InMemoryStockMovementRepository();
+    final products = productRepository ?? InMemoryProductRepository();
     final sessions = sessionProvider ?? InMemorySessionProvider();
     return ReportService._(
       GetDailySalesReport(sales, sessions),
+      GetAuditTrail(sales, movements, products, sessions),
     );
   }
 
-  ReportService._(this._getDaily);
+  ReportService._(this._getDaily, this._getAudit);
 
   final GetDailySalesReport _getDaily;
+  final GetAuditTrail _getAudit;
 
   Future<ApiResult<DailySalesReportResponse>> getDailySales(
     StoreId storeId, {
@@ -58,6 +65,48 @@ class ReportService {
           salesTotalClp: report.salesTotalClp,
           transactionCount: report.transactionCount,
           averageTicketClp: report.averageTicketClp,
+        ),
+        statusCode: 200,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  Future<ApiResult<AuditTrailResponse>> getAuditTrail(
+    StoreId storeId, {
+    String? date,
+  }) async {
+    try {
+      final calendarDay =
+          date == null ? null : parseCalendarDateYmd(date.trim());
+      final trail = await _getAudit(storeId, calendarDayLocal: calendarDay);
+      return ApiSuccess(
+        AuditTrailResponse(
+          date: formatCalendarDateYmd(trail.calendarDayLocal),
+          items: [
+            for (final item in trail.items)
+              AuditTrailItemResponse(
+                occurredAt: item.occurredAt.toUtc().toIso8601String(),
+                type: item.type,
+                actorUserId: item.actorUserId,
+                summary: item.summary,
+                refId: item.refId,
+              ),
+          ],
         ),
         statusCode: 200,
       );

@@ -10,6 +10,7 @@ void main() {
   late InMemoryStockMovementRepository movements;
   late InMemoryShiftRepository shifts;
   late InMemoryDteQueueRepository dteQueue;
+  late InMemorySessionProvider sessions;
   late OpenShift openShift;
   late CreateProduct createProduct;
   late CreateCart createCart;
@@ -24,7 +25,7 @@ void main() {
     shifts = InMemoryShiftRepository();
     dteQueue = InMemoryDteQueueRepository();
     openShift = OpenShift(shifts);
-    final sessions = InMemorySessionProvider.supervisor();
+    sessions = InMemorySessionProvider.supervisor();
     createProduct = CreateProduct(products, sessions);
     createCart = CreateCart(carts, shifts);
     addCartLine = AddCartLine(carts, products);
@@ -63,6 +64,7 @@ void main() {
       shifts,
       FakeDteGateway(startingFolio: 1000),
       dteQueue,
+      sessions,
     );
     final result = await checkout(
       ConfirmCheckoutInput(
@@ -97,6 +99,7 @@ void main() {
       shifts,
       FakeDteGateway(mode: FakeDteMode.alwaysFailure),
       dteQueue,
+      sessions,
     );
     final result = await checkout(
       ConfirmCheckoutInput(
@@ -130,6 +133,7 @@ void main() {
       shifts,
       FakeDteGateway(mode: FakeDteMode.rechazadaSii),
       dteQueue,
+      sessions,
     );
     final result = await checkout(
       ConfirmCheckoutInput(

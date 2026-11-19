@@ -78,7 +78,7 @@ Leyenda: **✅** implementado y con tests automatizados relevantes | **🔶** pa
 | RF-050 | Emitir DTE | 🔶 | Fake/replay/live en tests; producción = piloto |
 | RF-051 | Cola DTE | ✅ | `dte_queue_ui_e2e_test.dart` |
 | RF-060 | Ventas del día | ✅ | SC-060-02 core/API, SC-060-UI-01 |
-| RF-070 | Auditoría mínima | 🔶 | Movimientos con `actorId`; sin RF/slice dedicado |
+| RF-070 | Auditoría mínima | ✅ | SC-070-01 core/API, SC-070-UI-01/02 |
 | RF-061…062, 022, 033…034, 042, 052, 013 | Should/Could | ⬜ | Fuera slices actuales |
 
 Detalle escenario ↔ test: [`docs/12b-matriz-verificacion-automatizacion.md`](12b-matriz-verificacion-automatizacion.md).
@@ -106,6 +106,7 @@ Flujos cubiertos por pruebas e2e (reproducibles manualmente):
 | SC-021-UI-01 | Merma stock | `stock_adjust_ui_e2e_test.dart` |
 | SC-010-UI-* | Nuevo producto | `product_create_ui_e2e_test.dart` |
 | SC-060-UI-01 | Ventas del día | `daily_sales_ui_e2e_test.dart` |
+| SC-070-UI-01 | Auditoría del día | `audit_trail_ui_e2e_test.dart` |
 
 **Credenciales demo [documentadas en código]:** usuario `usr_supervisor` / `usr_cajero` / `usr_dueno`, PIN `2468` (`PosComposition.demoPin`).
 
@@ -119,7 +120,7 @@ cd packages/adapters && dart pub get && dart test
 cd apps/pos_app && flutter pub get && flutter test
 ```
 
-Última verificación al generar este reporte: **98 + 22 + 14** tests en verde en entorno local.
+Última verificación al generar este reporte: **108 + 22 + 21** tests en verde en entorno local.
 
 ### 4.3 Contratos y aceptación
 
@@ -134,8 +135,6 @@ cd apps/pos_app && flutter pub get && flutter test
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
 | Alta | Piloto certificación SII (RF-003 / SLICE-8 DoD) | Completar [`runbooks/sii-cert-pilot-evidence.md`](../runbooks/sii-cert-pilot-evidence.md) |
-| Media | Gestión usuarios en UI (RF-002) | Nuevo slice + SC-070-UI |
-| Media | Auditoría consultable (RF-070) | Slice + tests |
 | Baja | RF-061/062, terminal pago (SLICE-9), merge `main` | Roadmap post-piloto |
 
 ---

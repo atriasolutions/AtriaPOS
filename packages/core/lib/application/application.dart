@@ -29,6 +29,7 @@ export 'confirm_checkout.dart';
 export 'void_sale.dart';
 export 'list_shift_sales.dart';
 export 'get_daily_sales_report.dart';
+export 'get_audit_trail.dart';
 export 'create_cart.dart';
 export 'get_open_shift.dart';
 export 'create_product.dart';
