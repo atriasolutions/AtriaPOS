@@ -12,6 +12,7 @@ SLICE-29 alinea título PR (slices 0–28) y evidencia [`pr-merge-evidence.md`](
 - Dart incluido con Flutter.
 - **No** incluir en el diff: `.env`, certificados, `.pfx`, claves, `dart-define` con secretos.
 - GitHub: [`github-remote-setup.md`](github-remote-setup.md) (`gh auth`, remoto `origin`).
+- Handoff operador (SLICE-40): [`slice-40-operador-pr-checklist.md`](slice-40-operador-pr-checklist.md).
 
 ## Suite local (= CI)
 

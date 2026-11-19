@@ -83,6 +83,18 @@ Estado actual: **NO_ABIERTO**
 
 **Siguiente paso:** operador ejecuta en PowerShell local (con gh + origin ya configurados): `git push -u origin HEAD`; `gh pr create --base main --title "MVP POS: slices 0-38" --body-file runbooks/pr-body-mvp.md`; pegar URL y pasar estado **ABIERTO** abajo.
 
+## SLICE-40 — Cierre operador (2026-11-19)
+
+| Resultado | Detalle |
+|-----------|---------|
+| Modelo | Operador abre PR; agente cierra evidencia con URL (sin `gh auth login` en agente) |
+| Checklist | [`slice-40-operador-pr-checklist.md`](slice-40-operador-pr-checklist.md) |
+| `ci-local.ps1` | Verde (114 + 25 + 27) en HEAD `d5d75ea` |
+| URL del PR | **Pendiente** — pegar en chat tras `gh pr create` |
+| Estado global | **NO_ABIERTO** hasta registrar URL abajo |
+
+**Siguiente paso:** operador completa checklist §2–3; agente en turno con URL actualiza tabla “Al abrir PR” y **SC-030-01** en `12b`.
+
 ## Al abrir el PR
 
 | Campo | Valor |

@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-40: Handoff PR operador — checklist `slice-40-operador-pr-checklist.md`; SC-030-01 pendiente URL del PR.
 - SLICE-39: Ejecutar PR — kit título **0-38**, reintento SC-030; bloqueado sin `gh`/remoto en sesión agente; evidencia SLICE-39.
 - SLICE-38: Ejecutar PR — kit merge slices **0-37**, reintento SC-030; bloqueado sin `gh`/remoto; evidencia SLICE-38 en `pr-merge-evidence.md`.
 - SLICE-37: Piloto certificación SII SC-080-03 — evidencia **CERRADO**, Gate 0, rollback fake; folio/`sale_id` en bitácora local.
