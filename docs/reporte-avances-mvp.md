@@ -158,7 +158,7 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Media | Integración `main` | SLICE-38: auth+`origin`; push; `gh pr create` título **0-37**; SC-030-01 |
+| Media | Integración `main` | SLICE-38 **bloqueado** (sin `origin`/`gh`); operador: [`github-remote-setup.md`](../runbooks/github-remote-setup.md) → push → PR **0-37**; SC-030-01 
 | Baja | BLE manual SC-011-BLE-01, RF-061/062, SLICE-9 | Rama BLE en índice tienda; evidencia hija **CERRADO** |
 
 ---

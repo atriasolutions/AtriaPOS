@@ -37,7 +37,7 @@ flutter pub get
 flutter test
 ```
 
-Criterio: los tres bloques terminan en verde. Evidencia post SLICE-27: **114 + 25 + 26** tests (core + adapters + app). El workflow CI ejecuta el mismo orden sin contar tests individualmente.
+Criterio: los tres bloques terminan en verde. Evidencia post SLICE-37: **114 + 25 + 27** tests (core + adapters + app). El workflow CI ejecuta el mismo orden sin contar tests individualmente.
 
 ## Checklist antes del PR
 
@@ -49,7 +49,7 @@ Criterio: los tres bloques terminan en verde. Evidencia post SLICE-27: **114 + 2
 | Sin archivos sensibles en `git diff --stat` | ☐ |
 | [`docs/reporte-avances-mvp.md`](../docs/reporte-avances-mvp.md) al día | ☐ |
 | [`docs/12b-matriz-verificacion-automatizacion.md`](../docs/12b-matriz-verificacion-automatizacion.md) revisada | ☐ |
-| Piloto SII (`SC-080-03`) **pendiente** — no bloquea merge MVP con DTE fake | ☐ |
+| Piloto SII (`SC-080-03`) **CERRADO** (SLICE-37) — no bloquea merge | ☑ |
 | Evidencia PR preparada — [`pr-merge-evidence.md`](pr-merge-evidence.md) | ☐ |
 
 ## Abrir PR (operador)
@@ -63,7 +63,7 @@ Criterio: los tres bloques terminan en verde. Evidencia post SLICE-27: **114 + 2
 2. Crear PR hacia `main` (ejemplo con `gh`, desde la raíz del repo):
 
    ```bash
-   gh pr create --base main --title "MVP POS: slices 0-33" --body-file runbooks/pr-body-mvp.md
+   gh pr create --base main --title "MVP POS: slices 0-37" --body-file runbooks/pr-body-mvp.md
    ```
 
 3. Verificar que el check **CI** en GitHub quede verde antes del merge.
