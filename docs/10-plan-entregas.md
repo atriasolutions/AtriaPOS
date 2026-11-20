@@ -48,6 +48,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 42 | SLICE-42 | Merge MVP `main` | — | PR #1 MERGED; evidencia + acta [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md) |
 | 43 | SLICE-43 | Alinear `main` post-merge | — | PR #2 MERGED; `main` `6032997`; backlog §8 acta |
 | 44 | SLICE-44 | Piloto BLE documental | RNF-041 | Acceptance SC-011-BLE-01; handoff evidencia **PREPARADO**; SC-011-BLE-01 manual hasta CERRADO |
+| 45 | SLICE-45 | Gate 2 DEC retroactivos | — | ADR DEC-004/005/011/012; doc 16/17 parcial; sin cambio checkout |
 | 9 | SLICE-9 | Integración terminal pago | — | **N/A** — diferido explícito; no bloquea slices 43+ |
 
 ## Orden TDD sugerido (semana orientativa)

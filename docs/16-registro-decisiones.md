@@ -9,15 +9,15 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-001 | P0 | Monorepo (Melos / manual / VGV) | ✅ | [ADR](decisiones/DEC-001-monorepo-manual.md) | F1 |
 | DEC-002 | P0 | ORM SQLite (drift vs sqflite) | ✅ | [ADR](decisiones/DEC-002-003-catalogo-slice1.md) + 08b | F1/F4 |
 | DEC-003 | P0 | IDs entidades (UUID v4 / ULID) | ✅ | [ADR](decisiones/DEC-002-003-catalogo-slice1.md) | F1 |
-| DEC-004 | P0 | Transacción única checkout | ⬜ | 06 + ADR | F1 |
-| DEC-005 | P0 | API in-process vs HTTP tests | ⬜ | 07 + ADR | F1 |
+| DEC-004 | P0 | Transacción única checkout | ✅ | [ADR](decisiones/DEC-004-checkout-transaccion.md) | SLICE-45 |
+| DEC-005 | P0 | API in-process vs HTTP tests | ✅ | [ADR](decisiones/DEC-005-api-in-process.md) | SLICE-45 |
 | DEC-006 | P0 | Catálogo códigos error API | ✅ | [ADR](decisiones/DEC-006-010-precios-catalogo.md) + 07 | F1 |
 | DEC-007 | P0 | IVA: precio con IVA incluido | ✅ | [ADR](decisiones/DEC-006-010-precios-catalogo.md) | F2 |
 | DEC-008 | P0 | Redondeo CLP (línea vs total) | ✅ | [ADR](decisiones/DEC-006-010-precios-catalogo.md) | F2 |
 | DEC-009 | P0 | Pesables en MVP (sí/no) | ✅ | [ADR](decisiones/DEC-006-010-precios-catalogo.md) | F2 |
 | DEC-010 | P0 | Barcode duplicado (rechazar/advertir) | ✅ | [ADR](decisiones/DEC-006-010-precios-catalogo.md) | F2 |
-| DEC-011 | P0 | Carro: uno por cajero / por turno | ⬜ | 07 | F2 |
-| DEC-012 | P0 | Medios de pago MVP (EFECTIVO, OTRO, …) | ⬜ | 07 | F2 |
+| DEC-011 | P0 | Carro: uno por cajero / por turno | ✅ | [ADR](decisiones/DEC-011-carro-turno.md) | SLICE-45 |
+| DEC-012 | P0 | Medios de pago MVP (EFECTIVO, OTRO, …) | ✅ | [ADR](decisiones/DEC-012-medios-pago.md) | SLICE-45 |
 | DEC-013 | P0 | Un turno abierto por dispositivo | ✅ | [ADR](decisiones/DEC-turno-slice4.md) (MVP: por tienda) | F2 |
 | DEC-014 | P0 | Anulación venta: ventana y stock | ✅ | [DEC-anulacion-slice10](decisiones/DEC-anulacion-slice10.md) | SLICE-10 |
 | DEC-015 | P0 | Tolerancia diferencia cierre caja | ✅ | [ADR](decisiones/DEC-turno-slice4.md) (solo reporte S4) | F2 |
@@ -40,7 +40,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-031 | P2 | Eventos sync Kora (complemento) | ⬜ | 14 + ADR | F7 |
 | DEC-032 | P2 | Backend sync (sí/no/cuándo) | ⏸ | 06 | F7 |
 | DEC-033 | P1 | CI GitHub Actions | ✅ | [DEC-ci-slice11](decisiones/DEC-ci-slice11.md) | SLICE-11 |
-| DEC-034 | P0 | Inyección dependencias core | 🔄 | [DEC-ui-slice6](decisiones/DEC-ui-slice6.md) + session S7 | SLICE-7 |
+| DEC-034 | P0 | Inyección dependencias core | ✅ | [DEC-ui-slice6](decisiones/DEC-ui-slice6.md) + [DEC-005](decisiones/DEC-005-api-in-process.md) | SLICE-7 |
 | DEC-035 | P1 | Soft delete productos | ⬜ | 08b | F4 |
 | DEC-036 | P1 | Backup export local | ⬜ | ADR | F4 |
 | DEC-037 | P2 | OpenAPI desde contrato 07 | ⬜ | spec | F7 |
@@ -76,3 +76,5 @@ Copia completa en [`decisiones/DEC-XXX-slug.md`](decisiones/README.md).
 | P3 | 1 | 0 | 1 |
 
 **Gate 2 mínimo:** todos **P0** en ✅ (salvo DEC explícitamente pospuesto con riesgo aceptado documentado en `11`).
+
+**Gate 2 global (2026-11-20):** **parcial** — SLICE-45 cerró retroactivamente DEC-004, 005, 011, 012 (y DEC-034). Resto P0 abierto sin bloquear demo MVP; ver [`17-cierre-gate-2.md`](17-cierre-gate-2.md) § Retroactivo SLICE-45.

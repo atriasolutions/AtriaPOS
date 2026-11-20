@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-45: Gate 2 parcial — ADRs DEC-004/005/011/012; `slice_45_gate2_dec.md`; doc 16/17 retroactivo; DEC-034 alineado.
 - SLICE-44: Piloto BLE documental — `slice_44_ble_pilot.md`, handoff SC-011-BLE-01; evidencia **PREPARADO**; `analysis_options` monorepo companion.
 - SLICE-43: Cierre — PR #2 MERGED; main `6032997`; docs alineados post-merge.
 - Revisión progreso MVP — [`docs/19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md); evidencia PR **MERGED**; SC-030-02 ✅.
