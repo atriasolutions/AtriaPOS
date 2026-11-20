@@ -22,6 +22,6 @@ Entonces ve la guía con Key scanner_pilot_guide y referencias a los runbooks
 
 Verificación: `apps/pos_app/test/scanner_ble_ui_test.dart` (SC-011-PREP-UI-01).
 
-## SC-011-BLE-01 — Piloto real (manual, fuera de slice)
+## SC-011-BLE-01 — Piloto real (manual)
 
-Permanece pendiente hasta completar evidencia en dispositivo: `runbooks/ble-scanner-pilot-evidence.md` estado **CERRADO**.
+Trazabilidad documental en **SLICE-44**: `test/acceptance/slice_44_ble_pilot.md`. Evidencia en dispositivo: `runbooks/ble-scanner-pilot-evidence.md` estado **CERRADO** (hasta entonces **PREPARADO**).

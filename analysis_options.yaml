@@ -2,4 +2,5 @@
 analyzer:
   exclude:
     - apps/pos_app/**
+    - apps/scanner_companion/**
     - packages/**

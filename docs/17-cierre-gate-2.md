@@ -52,4 +52,20 @@ Pendiente Gate 2 completo: DEC fiscal 019–023, resto P0, contratos sin TBD en 
 
 ---
 
+## Retroactivo SLICE-45 (2026-11-20)
+
+Cierre documental post-MVP de decisiones ya implementadas (sin cambio de código):
+
+| DEC | ADR |
+|-----|-----|
+| DEC-004 Transacción checkout | [`decisiones/DEC-004-checkout-transaccion.md`](decisiones/DEC-004-checkout-transaccion.md) |
+| DEC-005 API in-process | [`decisiones/DEC-005-api-in-process.md`](decisiones/DEC-005-api-in-process.md) |
+| DEC-011 Carro / turno | [`decisiones/DEC-011-carro-turno.md`](decisiones/DEC-011-carro-turno.md) |
+| DEC-012 Medios de pago | [`decisiones/DEC-012-medios-pago.md`](decisiones/DEC-012-medios-pago.md) |
+
+- Aceptación: [`test/acceptance/slice_45_gate2_dec.md`](../test/acceptance/slice_45_gate2_dec.md)
+- **Este documento (17) sigue 🟡 Abierto** — checklist A–D completo no marcado; MVP opera con Gate 2 parcial.
+
+---
+
 *Firmas / fecha: pendiente*
