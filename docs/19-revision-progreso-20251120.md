@@ -1,7 +1,7 @@
 # 19 — Acta de revisión post-tag MVP
 
 **Fecha:** 2026-11-20  
-**Alcance:** SLICE 44–49; estado tras tag `mvp-2026-11` (revisión SLICE-49 integración remoto)  
+**Alcance:** SLICE 44–51; estado tras tag `mvp-2026-11` (revisión SLICE-51 backlog; SLICE-50 ABIERTO)  
 **Repositorio remoto:** [mmb21894-ux/pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d)  
 **Acta anterior (histórica):** [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md)
 
@@ -11,11 +11,11 @@
 
 | Ítem | Esperado | Observado |
 |------|----------|-----------|
-| `origin/main` HEAD | Slices 44–48 integrados | `c5a1fda` ([PR #7](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/7)); merge código histórico `ddd071e` ([PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5)) |
-| Tag hito | `mvp-2026-11` publicado | Apunta a `ddd071e` (sin mover en SLICE-49) |
-| `ci-local.ps1` | 114 + 25 + 27 + 1 | Verde SLICE-48/49 (`scanner_companion`) |
-| CI GitHub PR #6–#7 | SUCCESS | `test` verde pre-merge |
-| Acceptance Gherkin | Slices documentados | hasta `slice_49_integracion_main.md` |
+| `origin/main` HEAD | Slices 44–49 docs integrados | `2f10165` ([PR #8](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/8)); código BLE via PR #7 `c5a1fda`; merge histórico `ddd071e` ([PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5)) |
+| Tag hito | `mvp-2026-11` publicado | Apunta a `ddd071e` (sin mover) |
+| `ci-local.ps1` | 114 + 25 + 27 + 1 | Verde SLICE-48/49/51 (`scanner_companion`) |
+| CI GitHub PR #6–#8 | SUCCESS | `test` verde pre-merge |
+| Acceptance Gherkin | Slices documentados | hasta `slice_51_acta_backlog.md` |
 | Gate 2 DEC P0 004/005/011/012 | ✅ SLICE-45 | ADRs en `docs/decisiones/`; doc 17 **parcial** |
 
 ---
@@ -29,7 +29,9 @@
 | SLICE-46 | PR #5 + tag `mvp-2026-11` | CERRADO |
 | SLICE-47 | Acta post-tag | CERRADO — [PR #6](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/6) MERGED |
 | SLICE-48 | Pre-piloto BLE + companion CI | CERRADO — [PR #7](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/7) MERGED |
-| SLICE-49 | Integración `main` 47–48 + evidencia | CERRADO documental |
+| SLICE-49 | Integración `main` 47–48 + evidencia | CERRADO — [PR #8](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/8) MERGED |
+| SLICE-50 | Piloto BLE evidencia SC-011-BLE-01 | **ABIERTO** — prep/ci-local; guía [`ble-piloto-dia-cero.md`](../runbooks/ble-piloto-dia-cero.md); evidencia **PREPARADO** |
+| SLICE-51 | Acta backlog (piloto diferido) | CERRADO documental |
 
 ---
 
@@ -37,7 +39,7 @@
 
 | ID | Estado | Acción |
 |----|--------|--------|
-| SC-011-BLE-01 | ⬜ | Piloto hardware; [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) |
+| SC-011-BLE-01 | ⬜ | **SLICE-50 ABIERTO** — piloto hardware diferido; [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) **PREPARADO** |
 | SC-080-03 | CERRADO | SLICE-37 |
 | Gate 2 doc 17 | 🟡 | Parcial; ver § Retroactivo SLICE-45 |
 | SLICE-9 / SII prod | N/A | Plan 10 |
@@ -47,7 +49,7 @@
 ## 4. Integración GitHub
 
 - **PR #5:** MERGED — slices 44–45 en `main`.
-- **PR #6–#7:** MERGED — slices 47–48 en `main` (`c5a1fda`).
+- **PR #6–#8:** MERGED — slices 47–49 en `main` (`2f10165`).
 - **Tag:** `mvp-2026-11` en remoto (`ddd071e`).
 - **Ramas futuras:** `git checkout main && git pull` → `feat/slice-N-...`.
 
@@ -66,9 +68,20 @@
 
 ## 6. Cola de trabajo sugerida
 
-1. Piloto BLE con hardware → evidencia **CERRADO**.
-2. Gate 2 completo o excepciones en [`11-riesgos-y-supuestos.md`](11-riesgos-y-supuestos.md).
-3. Features negocio (impresión, backup, etc.) — nuevo slice bajo demanda.
+1. **SLICE-50** — piloto BLE en hardware cuando disponible → [`ble-piloto-dia-cero.md`](../runbooks/ble-piloto-dia-cero.md) → evidencia **CERRADO**.
+2. Gate 2 completo o excepciones en [`11-riesgos-y-supuestos.md`](11-riesgos-y-supuestos.md) (candidato SLICE-52).
+3. Features negocio (impresión, backup, etc.) — slice bajo demanda.
+
+---
+
+## 8. Backlog revisado (SLICE-51)
+
+| ID | Estado | Disparador |
+|----|--------|------------|
+| SLICE-50 | ABIERTO | Hardware listo; operador cierra SC-011-BLE-01 |
+| SLICE-51 | CERRADO | Acta/backlog al día con `main` `2f10165` |
+| SLICE-52 | Propuesto | Gate 2 formal o feature negocio (elegir al cerrar 50 o en paralelo) |
+| SLICE-9 / SII prod | N/A | Plan 10 |
 
 ---
 
@@ -79,3 +92,4 @@
 - [x] Backlog explícito post-MVP
 - [x] Acta publicada + reporte alineado (SLICE-47)
 - [x] SLICE-49: `origin/main` alineado con PR #6/#7 y evidencia actualizada
+- [x] SLICE-51: backlog explícito; SLICE-50 ABIERTO sin cierre falso de evidencia
