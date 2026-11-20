@@ -145,7 +145,18 @@ Estado actual: **MERGED**
 |-------|-------|
 | Fecha merge | 2026-11-19 |
 | Commit en `main` post-merge | `20dad83` |
-| Tag hito (opcional) | _(pendiente — ej. mvp-2026-11)_ |
+| Tag hito (opcional) | **`mvp-2026-11`** → `ddd071e` (SLICE-46, 2026-11-20) |
+
+## SLICE-46 — Slices 44–45 + tag (2026-11-20)
+
+| Resultado | Detalle |
+|-----------|---------|
+| PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5 |
+| Merge | **MERGED** → `main` `ddd071e` |
+| CI PR | `test` SUCCESS |
+| Tag | `mvp-2026-11` (anotado, push origin) |
+| Contenido | SLICE-44 BLE handoff + SLICE-45 ADRs Gate 2 parcial |
+| Siguiente | Piloto BLE CERRADO; Gate 2 completo opcional; ramas desde `main` o tag |
 
 ## Notas
 

@@ -161,7 +161,7 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Baja | Backlog §8 acta | **SLICE-45** Gate 2 parcial (4 DEC); BLE evidencia PREPARADO; tag **46**; SLICE-9 y SII prod **N/A** |
+| Baja | Backlog §8 acta | Tag **`mvp-2026-11`** (`ddd071e`); BLE PREPARADO; Gate 2 parcial; SLICE-9 y SII prod **N/A** |
 
 ---
 

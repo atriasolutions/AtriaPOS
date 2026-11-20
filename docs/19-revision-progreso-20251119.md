@@ -93,7 +93,7 @@ Todos los RF **[M]** de [`04-requisitos-funcionales.md`](04-requisitos-funcional
 |--------------|------|------------|
 | SLICE-44 | Piloto BLE SC-011-BLE-01 | Hardware; [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) |
 | SLICE-45 | Gate 2 DEC P0 retroactivos (004, 005, 011, 012) | Antes de slice que cambie checkout/contratos |
-| SLICE-46 | Tag `mvp-2026-11` | Tras `main` estable con acta (post PR #2) |
+| SLICE-46 | Tag `mvp-2026-11` | **CERRADO** — PR #5, `main` `ddd071e`, tag publicado |
 | SLICE-9 | Terminal de pago | **N/A** — diferido; ver plan 10 |
 | SII `prod` | Producción fiscal | **N/A** — fuera MVP; cert SC-080-03 cerrado |
 

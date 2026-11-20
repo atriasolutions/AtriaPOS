@@ -36,6 +36,6 @@ Ruta operativa unificada (demo fake, BLE, SII, PR opcional): [`runbooks/tienda-p
 
 ## Estado
 
-**SLICE-35:** piloto SII — botón **Copiar sale_id** tras checkout. Índice: [`runbooks/sii-piloto-indice.md`](runbooks/sii-piloto-indice.md). Aceptación: [`test/acceptance/slice_35_sii_copy_sale_id.md`](test/acceptance/slice_35_sii_copy_sale_id.md). PR MVP: [`runbooks/pr-merge-evidence.md`](runbooks/pr-merge-evidence.md). Reporte: [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md).
+**Hito MVP:** tag git `mvp-2026-11` en `main` (slices 0–45). Detalle: [`test/acceptance/slice_46_mvp_tag.md`](test/acceptance/slice_46_mvp_tag.md). Reporte: [`docs/reporte-avances-mvp.md`](docs/reporte-avances-mvp.md). Evidencia merge: [`runbooks/pr-merge-evidence.md`](runbooks/pr-merge-evidence.md).
 
 CI en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Matriz: [`docs/12b-matriz-verificacion-automatizacion.md`](docs/12b-matriz-verificacion-automatizacion.md). Plan: [`docs/10-plan-entregas.md`](docs/10-plan-entregas.md).
