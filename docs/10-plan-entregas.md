@@ -52,7 +52,9 @@ Cada slice entrega valor demostrable y tests verdes.
 | 46 | SLICE-46 | Tag MVP `mvp-2026-11` | — | PR #5 merge 44–45; tag en `main` `ddd071e`; acceptance SC-046 |
 | 47 | SLICE-47 | Acta post-tag | — | `19-revision-progreso-20251120.md`; reporte/evidencia; higiene ramas doc |
 | 48 | SLICE-48 | Pre-piloto BLE | RNF-041 | Companion en CI; `ble-piloto-dia-cero.md`; SC-011-BLE-01 manual hasta CERRADO |
-| 49 | SLICE-49 | Integración main 47–48 | — | PR #6/#7 MERGED; acta/evidencia; tag sin mover |
+| 49 | SLICE-49 | Integración main 47–48 | — | PR #6/#7/#8 MERGED; acta/evidencia; tag sin mover |
+| 50 | SLICE-50 | Piloto BLE evidencia | RNF-041 | **ABIERTO** — SC-011-BLE-01; evidencia CERRADO en hardware |
+| 51 | SLICE-51 | Acta backlog | — | `main` `2f10165`; SLICE-50 ABIERTO explícito; §8 acta |
 | 9 | SLICE-9 | Integración terminal pago | — | **N/A** — diferido explícito; no bloquea slices 43+ |
 
 ## Orden TDD sugerido (semana orientativa)

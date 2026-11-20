@@ -1,8 +1,8 @@
 # Reporte de avances — Sistema POS segmento D
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
-**Fecha de reporte:** 2026-11-20 (post-tag — [`19-revision-progreso-20251120.md`](19-revision-progreso-20251120.md); revisión SLICE-49)  
-**Rama estable:** `main` `c5a1fda`; hito git **`mvp-2026-11`** → `ddd071e`  
+**Fecha de reporte:** 2026-11-20 (post-tag — [`19-revision-progreso-20251120.md`](19-revision-progreso-20251120.md); revisión SLICE-51)  
+**Rama estable:** `main` `2f10165`; hito git **`mvp-2026-11`** → `ddd071e`  
 **Repositorio:** [github.com/mmb21894-ux/pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d)  
 **Organización:** Atria Solutions SpA  
 
@@ -14,12 +14,12 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8, 10–**49** (46 = tag; 47–48 = PR #6–#7; 49 = integración main); **9** N/A diferido |
+| Slices cerrados (plan 10) | 0–8, 10–**49**, **51**; **50 ABIERTO** (piloto BLE); **9** N/A diferido |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 47 archivos `test/acceptance/slice_*.md` |
+| Escenarios acceptance | 48 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **27**, companion **1**; cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
 | CI | GitHub Actions: core + adapters + pos_app + `scanner_companion` (`.github/workflows/ci.yml`) |
-| Merge a `main` | `main` @ `c5a1fda` — PR #1–#2, [PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5), [PR #6](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/6), [PR #7](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/7); tag `mvp-2026-11` |
+| Merge a `main` | `main` @ `2f10165` — PR #1–#2, [PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5)–[PR #8](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/8); tag `mvp-2026-11` |
 | Ruta tienda piloto | [`runbooks/tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md); evidencia agregada PREPARADO por defecto |
 | Piloto SII real | **SC-080-03 CERRADO** (SLICE-37); folio/`sale_id` en bitácora local; demo con `SII_GATEWAY=fake` |
 
@@ -161,8 +161,8 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Baja | Post-hito (acta 20-nov) | BLE PREPARADO — SLICE-48: companion en CI + `ble-piloto-dia-cero.md`; piloto hardware pendiente |
-| Baja | Post-hito | Gate 2 parcial; higiene ramas; SLICE-9 y SII prod **N/A** |
+| Media | **SLICE-50 ABIERTO** | Piloto BLE diferido — guía [`ble-piloto-dia-cero.md`](../runbooks/ble-piloto-dia-cero.md); evidencia **PREPARADO** |
+| Baja | Post-hito (acta SLICE-51) | Gate 2 parcial (SLICE-52 candidato); SLICE-9 y SII prod **N/A** |
 
 ---
 

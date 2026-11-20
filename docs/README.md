@@ -25,7 +25,7 @@
 | 16 | [Registro decisiones DEC](16-registro-decisiones.md) | 40 decisiones P0–P3 |
 | 17 | [Cierre Gate 2](17-cierre-gate-2.md) | Autorización SLICE-1+ |
 | 18 | [Diagnóstico pruebas](18-diagnostico-pruebas.md) | Baseline suites, cobertura core, foco pre-slice |
-| 19 | [Revisión progreso post-tag 2026-11-20](19-revision-progreso-20251120.md) | Acta vigente (SLICE-47/49: `main` post PR #6–#7) |
+| 19 | [Revisión progreso post-tag 2026-11-20](19-revision-progreso-20251120.md) | Acta vigente (SLICE-51: `main` `2f10165`; SLICE-50 ABIERTO) |
 | 19 (hist.) | [Revisión progreso 2025-11-19](19-revision-progreso-20251119.md) | Acta MVP merge PR #1/#2 (histórica) |
 | 08b | [Esquema SQLite v1 borrador](08b-esquema-sqlite-v1.md) | DDL pendiente Gate 2 |
 | — | [ADRs](decisiones/README.md) | Plantilla decisiones |

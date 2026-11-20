@@ -194,6 +194,23 @@ Estado actual: **MERGED**
 | Acceptance | `test/acceptance/slice_49_integracion_main.md` |
 | Siguiente | Piloto BLE hardware (SLICE-50 propuesto); Gate 2 opcional |
 
+## SLICE-49 — PR #8 merge docs (2026-11-20)
+
+| Resultado | Detalle |
+|-----------|---------|
+| PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/8 |
+| Merge | **MERGED** → `main` `2f10165` |
+| Contenido | Acta/evidencia SLICE-49 |
+
+## SLICE-51 — Acta backlog (2026-11-20)
+
+| Resultado | Detalle |
+|-----------|---------|
+| `origin/main` vigente | `2f10165` |
+| SLICE-50 | **ABIERTO** — piloto BLE manual diferido; evidencia PREPARADO |
+| Acceptance | `test/acceptance/slice_51_acta_backlog.md` |
+| Siguiente | Cerrar SLICE-50 con hardware; o SLICE-52 Gate 2 / feature |
+
 ## Higiene de ramas (opcional, confirmar antes de borrar)
 
 Ramas típicamente **ya mergeadas** en remoto; candidatas a borrar local/remoto tras `git fetch --prune`:
