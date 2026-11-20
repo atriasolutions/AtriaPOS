@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-44: Piloto BLE documental — `slice_44_ble_pilot.md`, handoff SC-011-BLE-01; evidencia **PREPARADO**; `analysis_options` monorepo companion.
 - SLICE-43: Cierre — PR #2 MERGED; main `6032997`; docs alineados post-merge.
 - Revisión progreso MVP — [`docs/19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md); evidencia PR **MERGED**; SC-030-02 ✅.
 - SLICE-42: Merge PR #1 a `main` (`20dad83`); CI GitHub verde documentado.

@@ -36,6 +36,17 @@ Estado actual: **PREPARADO** _(operador actualiza a CERRADO al terminar)_
 | Scan QR agrega producto correcto al carro | ☐ Sí |
 | Capturas POS + companion | ☐ Adjuntar fuera del repo |
 
+## Pendiente operador (SLICE-44 handoff)
+
+Checklist mínimo hasta pasar a **CERRADO** (detalle Gherkin en [`slice_44_ble_pilot.md`](../test/acceptance/slice_44_ble_pilot.md)):
+
+1. Suites locales verdes (`scripts/ci-local.ps1`).
+2. POS Windows + companion Android en dispositivos reales.
+3. Turno → **Vender** → **Conectar escáner**; anotar código de 4 dígitos.
+4. Companion: código → pareo → estado **Conectado** en POS.
+5. Escanear QR de producto; verificar ítem en carro.
+6. Completar tablas arriba; capturas fuera del repo; actualizar 12b cuando cierre.
+
 ## Notas
 
 - Registrar mensajes de error BT o timeouts si el carro no recibe el payload.

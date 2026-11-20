@@ -41,7 +41,7 @@ Estado actual: **PREPARADO** _(operador actualiza según avance)_
 
 | Piloto | Runbook evidencia | Estado hijo |
 |--------|-------------------|-------------|
-| BLE SC-011-BLE-01 | [`ble-scanner-pilot-evidence.md`](ble-scanner-pilot-evidence.md) | ☐ N/A / PREPARADO / CERRADO |
+| BLE SC-011-BLE-01 | [`ble-scanner-pilot-evidence.md`](ble-scanner-pilot-evidence.md) | **PREPARADO** — handoff SLICE-44; [`slice_44_ble_pilot.md`](../test/acceptance/slice_44_ble_pilot.md) |
 | SII SC-080-03 | [`sii-cert-pilot-evidence.md`](sii-cert-pilot-evidence.md) | **CERRADO** (SLICE-37) |
 
 Declarar **producción fiscal** solo si la fila SII está **CERRADO**.
