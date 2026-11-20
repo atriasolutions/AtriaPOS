@@ -158,6 +158,31 @@ Estado actual: **MERGED**
 | Contenido | SLICE-44 BLE handoff + SLICE-45 ADRs Gate 2 parcial |
 | Siguiente | Piloto BLE CERRADO; Gate 2 completo opcional; ramas desde `main` o tag |
 
+## SLICE-47 — Acta post-tag (2026-11-20)
+
+| Resultado | Detalle |
+|-----------|---------|
+| `main` HEAD docs | `75a6f6f` (posterior a merge `ddd071e`) |
+| Acta vigente | [`docs/19-revision-progreso-20251120.md`](../docs/19-revision-progreso-20251120.md) |
+| Acceptance | `test/acceptance/slice_47_acta_post_tag.md` |
+
+## Higiene de ramas (opcional, confirmar antes de borrar)
+
+Ramas típicamente **ya mergeadas** en remoto; candidatas a borrar local/remoto tras `git fetch --prune`:
+
+- `feat/slice-0-scaffold`
+- `docs/slice-43-cierre`
+- `feat/slice-44-piloto-ble` / `feat/slice-45-gate2-dec` (si el remoto ya las eliminó post PR #5)
+
+Comandos **solo con confirmación explícita:**
+
+```powershell
+git branch -d <rama-local>
+git push origin --delete <rama-remota>
+```
+
+Trabajo futuro: siempre `git checkout main` → `git pull` → `feat/slice-N-...` desde `main`.
+
 ## Notas
 
 - Plantilla cuerpo: [`pr-body-mvp.md`](pr-body-mvp.md).
