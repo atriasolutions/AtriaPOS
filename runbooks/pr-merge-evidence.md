@@ -166,6 +166,34 @@ Estado actual: **MERGED**
 | Acta vigente | [`docs/19-revision-progreso-20251120.md`](../docs/19-revision-progreso-20251120.md) |
 | Acceptance | `test/acceptance/slice_47_acta_post_tag.md` |
 
+## SLICE-47 — PR merge (2026-11-20)
+
+| Resultado | Detalle |
+|-----------|---------|
+| PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/6 |
+| Merge | **MERGED** — commit merge `a2b05c8` |
+| CI PR | `test` SUCCESS |
+| Contenido | Acta post-tag, reporte, higiene ramas doc |
+
+## SLICE-48 — PR merge (2026-11-20)
+
+| Resultado | Detalle |
+|-----------|---------|
+| PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/7 |
+| Merge | **MERGED** → `main` `c5a1fda` |
+| CI PR | `test` SUCCESS (incl. `scanner_companion`) |
+| Contenido | CI companion; `ble-piloto-dia-cero.md`; acceptance `slice_48_ble_pre_pilot.md` |
+| Tag | `mvp-2026-11` sin mover (`ddd071e`) |
+
+## SLICE-49 — Integración main 47–48 (2026-11-20)
+
+| Resultado | Detalle |
+|-----------|---------|
+| `origin/main` | `c5a1fda` (merge PR #7; incluye PR #6) |
+| `ci-local.ps1` | 114 + 25 + 27 + 1 |
+| Acceptance | `test/acceptance/slice_49_integracion_main.md` |
+| Siguiente | Piloto BLE hardware (SLICE-50 propuesto); Gate 2 opcional |
+
 ## Higiene de ramas (opcional, confirmar antes de borrar)
 
 Ramas típicamente **ya mergeadas** en remoto; candidatas a borrar local/remoto tras `git fetch --prune`:

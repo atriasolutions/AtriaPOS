@@ -1,7 +1,7 @@
 # 19 — Acta de revisión post-tag MVP
 
 **Fecha:** 2026-11-20  
-**Alcance:** SLICE 44–47; estado tras tag `mvp-2026-11`  
+**Alcance:** SLICE 44–49; estado tras tag `mvp-2026-11` (revisión SLICE-49 integración remoto)  
 **Repositorio remoto:** [mmb21894-ux/pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d)  
 **Acta anterior (histórica):** [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md)
 
@@ -11,11 +11,11 @@
 
 | Ítem | Esperado | Observado |
 |------|----------|-----------|
-| `origin/main` HEAD | Slices 44–46 integrados | `75a6f6f` (docs SLICE-46); merge código `ddd071e` ([PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5)) |
-| Tag hito | `mvp-2026-11` publicado | Apunta a `ddd071e` (merge PR #5) |
-| `ci-local.ps1` | 114 + 25 + 27 | Verde en sesión SLICE-46/47 |
-| CI GitHub PR #5 | SUCCESS | `test` verde pre-merge |
-| Acceptance Gherkin | Slices documentados | 44–46 + pendientes en `slice_46_mvp_tag.md` |
+| `origin/main` HEAD | Slices 44–48 integrados | `c5a1fda` ([PR #7](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/7)); merge código histórico `ddd071e` ([PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5)) |
+| Tag hito | `mvp-2026-11` publicado | Apunta a `ddd071e` (sin mover en SLICE-49) |
+| `ci-local.ps1` | 114 + 25 + 27 + 1 | Verde SLICE-48/49 (`scanner_companion`) |
+| CI GitHub PR #6–#7 | SUCCESS | `test` verde pre-merge |
+| Acceptance Gherkin | Slices documentados | hasta `slice_49_integracion_main.md` |
 | Gate 2 DEC P0 004/005/011/012 | ✅ SLICE-45 | ADRs en `docs/decisiones/`; doc 17 **parcial** |
 
 ---
@@ -27,7 +27,9 @@
 | SLICE-44 | Handoff piloto BLE SC-011-BLE-01 | CERRADO documental; evidencia **PREPARADO** |
 | SLICE-45 | ADRs DEC-004, 005, 011, 012 (+ 034) | CERRADO |
 | SLICE-46 | PR #5 + tag `mvp-2026-11` | CERRADO |
-| SLICE-47 | Acta post-tag (este documento) | CERRADO documental |
+| SLICE-47 | Acta post-tag | CERRADO — [PR #6](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/6) MERGED |
+| SLICE-48 | Pre-piloto BLE + companion CI | CERRADO — [PR #7](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/7) MERGED |
+| SLICE-49 | Integración `main` 47–48 + evidencia | CERRADO documental |
 
 ---
 
@@ -45,8 +47,9 @@
 ## 4. Integración GitHub
 
 - **PR #5:** MERGED — slices 44–45 en `main`.
-- **Tag:** `mvp-2026-11` en remoto.
-- **Ramas futuras:** desde `main` o checkout del tag para reproducir hito.
+- **PR #6–#7:** MERGED — slices 47–48 en `main` (`c5a1fda`).
+- **Tag:** `mvp-2026-11` en remoto (`ddd071e`).
+- **Ramas futuras:** `git checkout main && git pull` → `feat/slice-N-...`.
 
 ---
 
@@ -75,3 +78,4 @@
 - [x] Slices 44–46 trazados
 - [x] Backlog explícito post-MVP
 - [x] Acta publicada + reporte alineado (SLICE-47)
+- [x] SLICE-49: `origin/main` alineado con PR #6/#7 y evidencia actualizada
