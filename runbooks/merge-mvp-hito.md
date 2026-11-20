@@ -74,5 +74,6 @@ Criterio: los tres bloques terminan en verde. Evidencia post SLICE-37: **114 + 2
 ## Post-merge
 
 - Actualizar evidencia a **MERGED** en [`pr-merge-evidence.md`](pr-merge-evidence.md).
-- Tag opcional de hito (ej. `mvp-2026-11`).
+- Tag opcional de hito (ej. `mvp-2026-11`) — aplicado SLICE-46.
 - Siguiente foco: [`tienda-piloto-indice.md`](tienda-piloto-indice.md) (demo, BLE, SII) o estabilización en `main`.
+- **Higiene ramas:** lista en [`pr-merge-evidence.md`](pr-merge-evidence.md) § Higiene; no borrar remotas sin confirmación del operador.

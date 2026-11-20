@@ -1,8 +1,8 @@
 # Reporte de avances — Sistema POS segmento D
 
 **Proyecto:** POS barrio (Chile), núcleo local-first  
-**Fecha de reporte:** 2026-11-19 (revisión integral — [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md))  
-**Rama estable:** `main` en remoto (`20dad83`, merge PR #1); desarrollo local puede seguir en `feat/slice-0-scaffold`  
+**Fecha de reporte:** 2026-11-20 (post-tag — [`19-revision-progreso-20251120.md`](19-revision-progreso-20251120.md))  
+**Rama estable:** `main` `75a6f6f`; hito git **`mvp-2026-11`** → `ddd071e`  
 **Repositorio:** [github.com/mmb21894-ux/pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d)  
 **Organización:** Atria Solutions SpA  
 
@@ -14,12 +14,12 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8, 10–29 + **30–43** (43 = alinear main, PR #2); **9** N/A diferido |
+| Slices cerrados (plan 10) | 0–8, 10–**47** (46 = tag; 47 = acta post-tag); **9** N/A diferido |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 41 archivos `test/acceptance/slice_*.md` |
+| Escenarios acceptance | 45 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **27** (widget/e2e); cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
-| Merge a `main` | `main` @ `6032997` — [PR #1](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/1) + [PR #2](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/2) MERGED |
+| Merge a `main` | `main` @ `75a6f6f` — PR #1–#2 + [PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5) (slices 44–45); tag `mvp-2026-11` |
 | Ruta tienda piloto | [`runbooks/tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md); evidencia agregada PREPARADO por defecto |
 | Piloto SII real | **SC-080-03 CERRADO** (SLICE-37); folio/`sale_id` en bitácora local; demo con `SII_GATEWAY=fake` |
 
@@ -161,7 +161,7 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Baja | Backlog §8 acta | Tag **`mvp-2026-11`** (`ddd071e`); BLE PREPARADO; Gate 2 parcial; SLICE-9 y SII prod **N/A** |
+| Baja | Post-hito (acta 20-nov) | BLE PREPARADO; Gate 2 parcial; higiene ramas; SLICE-9 y SII prod **N/A** |
 
 ---
 

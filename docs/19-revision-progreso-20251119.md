@@ -98,3 +98,7 @@ Todos los RF **[M]** de [`04-requisitos-funcionales.md`](04-requisitos-funcional
 | SII `prod` | Producción fiscal | **N/A** — fuera MVP; cert SC-080-03 cerrado |
 
 **SLICE-43:** cerrado en remoto (`6032997`). Local: `git checkout main && git pull origin main`.
+
+---
+
+**Estado vigente:** ver acta post-tag [`19-revision-progreso-20251120.md`](19-revision-progreso-20251120.md) (SLICE-47).
