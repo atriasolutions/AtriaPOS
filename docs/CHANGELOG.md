@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-48: Pre-piloto BLE — `scanner_companion` en CI local/GitHub; `ble-piloto-dia-cero.md`, `slice_48_ble_pre_pilot.md`; SC-011-BLE-01 sigue PREPARADO.
 - SLICE-47: Acta post-tag — `19-revision-progreso-20251120.md`, `slice_47_acta_post_tag.md`, reporte y higiene ramas.
 - SLICE-46: Hito tag `mvp-2026-11` en `main` `ddd071e` (PR #5); `slice_46_mvp_tag.md`; pendientes BLE/Gate 2 documentados.
 - SLICE-45: Gate 2 parcial — ADRs DEC-004/005/011/012; `slice_45_gate2_dec.md`; doc 16/17 retroactivo; DEC-034 alineado.

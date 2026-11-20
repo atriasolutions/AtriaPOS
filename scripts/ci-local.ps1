@@ -31,5 +31,11 @@ Invoke-Step 'pos_app' {
     flutter test
 }
 
-Write-Host 'All suites passed (core, adapters, pos_app).' -ForegroundColor Green
+Invoke-Step 'scanner_companion' {
+    Set-Location (Join-Path $root 'apps\scanner_companion')
+    flutter pub get
+    flutter test
+}
+
+Write-Host 'All suites passed (core, adapters, pos_app, scanner_companion).' -ForegroundColor Green
 exit 0

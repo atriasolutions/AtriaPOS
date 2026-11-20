@@ -16,7 +16,7 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 |-----------|-------------------|
 | Slices cerrados (plan 10) | 0–8, 10–**47** (46 = tag; 47 = acta post-tag); **9** N/A diferido |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
-| Escenarios acceptance | 45 archivos `test/acceptance/slice_*.md` |
+| Escenarios acceptance | 46 archivos `test/acceptance/slice_*.md` |
 | Tests automatizados | Core **114**, adapters **25**, app **27** (widget/e2e); cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
 | CI | GitHub Actions: core + adapters + `flutter test` (`.github/workflows/ci.yml`) |
 | Merge a `main` | `main` @ `75a6f6f` — PR #1–#2 + [PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5) (slices 44–45); tag `mvp-2026-11` |
@@ -161,7 +161,8 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Baja | Post-hito (acta 20-nov) | BLE PREPARADO; Gate 2 parcial; higiene ramas; SLICE-9 y SII prod **N/A** |
+| Baja | Post-hito (acta 20-nov) | BLE PREPARADO — SLICE-48: companion en CI + `ble-piloto-dia-cero.md`; piloto hardware pendiente |
+| Baja | Post-hito | Gate 2 parcial; higiene ramas; SLICE-9 y SII prod **N/A** |
 
 ---
 

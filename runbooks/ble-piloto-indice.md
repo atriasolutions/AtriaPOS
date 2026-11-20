@@ -4,6 +4,8 @@ Ruta tienda piloto (maestro): [`tienda-piloto-indice.md`](tienda-piloto-indice.m
 
 Guía operativa para validar companion Android ↔ POS Windows en tienda piloto. No incluir capturas con datos sensibles en el repositorio.
 
+**Antes del hardware (SLICE-48):** [`ble-piloto-dia-cero.md`](ble-piloto-dia-cero.md) — CI verde, builds y checklist de sesión.
+
 ## Orden recomendado
 
 1. **Requisitos hardware y apps**  

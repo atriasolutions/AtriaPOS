@@ -51,6 +51,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 45 | SLICE-45 | Gate 2 DEC retroactivos | — | ADR DEC-004/005/011/012; doc 16/17 parcial; sin cambio checkout |
 | 46 | SLICE-46 | Tag MVP `mvp-2026-11` | — | PR #5 merge 44–45; tag en `main` `ddd071e`; acceptance SC-046 |
 | 47 | SLICE-47 | Acta post-tag | — | `19-revision-progreso-20251120.md`; reporte/evidencia; higiene ramas doc |
+| 48 | SLICE-48 | Pre-piloto BLE | RNF-041 | Companion en CI; `ble-piloto-dia-cero.md`; SC-011-BLE-01 manual hasta CERRADO |
 | 9 | SLICE-9 | Integración terminal pago | — | **N/A** — diferido explícito; no bloquea slices 43+ |
 
 ## Orden TDD sugerido (semana orientativa)
