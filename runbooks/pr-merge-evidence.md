@@ -207,8 +207,10 @@ Estado actual: **MERGED**
 | Resultado | Detalle |
 |-----------|---------|
 | Repo org | https://github.com/atriasolutions/AtriaPOS |
-| Mirror | `main` @ `77cb3f4` + tag `mvp-2026-11` |
-| Privado | Confirmar en Settings org (API edit 404 en sesión agente) |
+| Mirror | `main` @ `550eafc` + tag `mvp-2026-11` |
+| Privado | **Pendiente operador** — `gh repo edit` → 404 sin admin org (repo aún PUBLIC) |
+| CI org | Verificar en Actions tras push; `ci-local` verde en `550eafc` |
+| PR org | No aplica: mirror directo a `main`; este commit cierra evidencia SLICE-58 |
 | Personal intermedio | `mmb21894-ux/atria-pos` — README redirect + **archivado** |
 | DEC | [DEC-046-repo-org-atriasolutions.md](../docs/decisiones/DEC-046-repo-org-atriasolutions.md) |
 
