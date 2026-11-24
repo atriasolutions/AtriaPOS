@@ -1,6 +1,8 @@
+import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 
 import '../di/pos_composition.dart';
+import '../menu/pos_menu_ui.dart';
 import '../screens/product_create_screen.dart';
 import '../screens/shift_sales_screen.dart';
 import 'sale_operation_menu.dart';
@@ -9,24 +11,12 @@ class AtriaSaleTopBar extends StatelessWidget {
   const AtriaSaleTopBar({
     super.key,
     required this.composition,
-    required this.canVoidSales,
-    required this.canCloseShift,
-    required this.canAdjustStock,
-    required this.canDteQueue,
-    required this.canDailyReport,
-    required this.canCreateProduct,
-    required this.canManageUsers,
+    required this.visibleEntries,
     this.scannerAction,
   });
 
   final PosComposition composition;
-  final bool canVoidSales;
-  final bool canCloseShift;
-  final bool canAdjustStock;
-  final bool canDteQueue;
-  final bool canDailyReport;
-  final bool canCreateProduct;
-  final bool canManageUsers;
+  final List<PosMenuEntry> visibleEntries;
   final Widget? scannerAction;
 
   void _open(BuildContext context, Widget screen) {
@@ -37,15 +27,13 @@ class AtriaSaleTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final entries = visibleEntries.toSet();
+    final showShiftSales = entries.contains(PosMenuEntry.shiftSales);
+    final showProducts = entries.contains(PosMenuEntry.productCreate);
+
     final menu = SaleOperationMenu(
       composition: composition,
-      canVoidSales: canVoidSales,
-      canCloseShift: canCloseShift,
-      canAdjustStock: canAdjustStock,
-      canDteQueue: canDteQueue,
-      canDailyReport: canDailyReport,
-      canCreateProduct: canCreateProduct,
-      canManageUsers: canManageUsers,
+      visibleEntries: visibleEntries,
       menuAnchor: Builder(
         builder: (context) {
           final cs = Theme.of(context).colorScheme;
@@ -68,15 +56,23 @@ class AtriaSaleTopBar extends StatelessWidget {
       ),
     );
 
+    final hasBarContent =
+        visibleEntries.isNotEmpty || showShiftSales || showProducts;
+
+    if (!hasBarContent && scannerAction == null) {
+      return const SizedBox.shrink();
+    }
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            menu,
-            const SizedBox(width: 8),
-            if (canVoidSales)
+            if (visibleEntries.isNotEmpty) menu,
+            if (visibleEntries.isNotEmpty && (showShiftSales || scannerAction != null))
+              const SizedBox(width: 8),
+            if (showShiftSales)
               OutlinedButton(
                 key: const Key('sale_top_shift_sales'),
                 onPressed: () => _open(
@@ -89,7 +85,7 @@ class AtriaSaleTopBar extends StatelessWidget {
               const SizedBox(width: 8),
               scannerAction!,
             ],
-            if (canCreateProduct) ...[
+            if (showProducts) ...[
               const SizedBox(width: 8),
               FilledButton.icon(
                 key: const Key('sale_top_products'),

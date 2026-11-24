@@ -35,11 +35,20 @@ class _SaleScreenState extends State<SaleScreen> {
   StreamSubscription<String>? _scanSub;
   StreamSubscription<ScannerConnectionState>? _scannerStateSub;
   ScannerConnectionState _scannerState = ScannerConnectionState.disconnected;
+  PosTemplateId _templateId = PosTemplateId.atriaPos;
+  bool _templateResolved = false;
 
   @override
   void initState() {
     super.initState();
-    _ensureCart();
+    unawaited(_bootstrapSaleScreen());
+  }
+
+  Future<void> _bootstrapSaleScreen() async {
+    await _loadTemplateId();
+    if (!mounted) return;
+    setState(() => _templateResolved = true);
+    await _ensureCart();
     _scanSub = widget.composition.scannerIngress.scans.listen(_onScan);
     unawaited(widget.composition.scannerIngress.start());
     final ble = _bleIngress;
@@ -57,6 +66,17 @@ class _SaleScreenState extends State<SaleScreen> {
         }
       });
     }
+  }
+
+  Future<void> _loadTemplateId() async {
+    final id = await widget.composition.resolveActiveTemplateId();
+    if (!mounted) return;
+    setState(() => _templateId = id);
+  }
+
+  List<PosMenuEntry> _visibleMenuEntries(UserRole? role) {
+    if (role == null) return const [];
+    return PosMenuPolicy.visibleForTemplateId(role, _templateId);
   }
 
   BleCentralScannerIngress? get _bleIngress {
@@ -312,29 +332,19 @@ class _SaleScreenState extends State<SaleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_templateResolved) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     final cart = _cart;
     final session = widget.composition.sessionProvider.current;
     final role = session?.role;
-    final canVoidSales = session != null &&
-        AuthPolicy.allows(session.role, Permission.anularVenta);
-    final canCloseShift = session != null &&
-        AuthPolicy.allows(session.role, Permission.cerrarCaja);
-    final canAdjustStock = session != null &&
-        AuthPolicy.allows(session.role, Permission.ajustarInventario);
-    final canDteQueue =
-        role == UserRole.dueno || role == UserRole.supervisor;
-    final canDailyReport = canDteQueue;
-    final canCreateProduct = session != null &&
-        AuthPolicy.allows(session.role, Permission.configurarCatalogo);
-    final canManageUsers = session != null &&
-        AuthPolicy.allows(session.role, Permission.gestionarUsuarios);
-    final hasOpsMenu = canVoidSales ||
-        canCloseShift ||
-        canAdjustStock ||
-        canDteQueue ||
-        canCreateProduct ||
-        canDailyReport ||
-        canManageUsers;
+    final visibleMenu = _visibleMenuEntries(role);
+    final requiresSellerCode =
+        CheckoutTemplatePolicy.requiresSellerCode(_templateId);
+    final hasOpsMenu = visibleMenu.isNotEmpty;
 
     final cartHasLines = cart != null && cart.lines.isNotEmpty;
     final totalClp = cart?.totalClp ?? 0;
@@ -353,16 +363,10 @@ class _SaleScreenState extends State<SaleScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (hasOpsMenu)
+          if (hasOpsMenu || scannerAction != null)
             AtriaSaleTopBar(
               composition: widget.composition,
-              canVoidSales: canVoidSales,
-              canCloseShift: canCloseShift,
-              canAdjustStock: canAdjustStock,
-              canDteQueue: canDteQueue,
-              canDailyReport: canDailyReport,
-              canCreateProduct: canCreateProduct,
-              canManageUsers: canManageUsers,
+              visibleEntries: visibleMenu,
               scannerAction: scannerAction,
             )
           else if (scannerAction != null)
@@ -570,6 +574,7 @@ class _SaleScreenState extends State<SaleScreen> {
                         cartId: _cartId,
                         totalClp: totalClp,
                         enabled: cartHasLines,
+                        requiresSellerCode: requiresSellerCode,
                         onSuccess: _onCheckoutSuccess,
                       ),
                     ),

@@ -30,6 +30,18 @@ enum PosMenuEntry {
     feature: PosFeature.stockAdjust,
     permission: Permission.ajustarInventario,
   ),
+  stockReceipt(
+    feature: PosFeature.stockReceiptGuiaLote,
+    permission: Permission.ajustarInventario,
+  ),
+  inventoryClose(
+    feature: PosFeature.inventoryClose,
+    permission: Permission.ajustarInventario,
+  ),
+  stockInsights(
+    feature: PosFeature.stockInsights,
+    permission: Permission.consultarReportes,
+  ),
   productCreate(
     feature: PosFeature.productCreate,
     permission: Permission.configurarCatalogo,

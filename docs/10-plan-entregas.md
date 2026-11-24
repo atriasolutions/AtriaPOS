@@ -87,7 +87,7 @@ Detalle: [`20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md). *
 | 73 | SLICE-73 | R2-B | UI stock / ingreso | RF-085, RF-087 | SC-*-UI-01 ✅ |
 | 74 | SLICE-74 | R2-B | UI auditoría / inventario | RF-086–088 | SC-*-UI-01 ✅ |
 | 75 | SLICE-75 | R2-B | UI shell Atria (tema, Vender) | — | SC-075-UI-* ✅ |
-| 76 | SLICE-76 | R2-B | UI menú plantilla | RF-089 | SC-*-UI-01 |
+| 76 | SLICE-76 | R2-B | UI menú plantilla | RF-089 | SC-076-UI-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

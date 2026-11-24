@@ -10,6 +10,7 @@ class CheckoutPanel extends StatefulWidget {
     required this.cartId,
     required this.totalClp,
     required this.enabled,
+    required this.requiresSellerCode,
     required this.onSuccess,
   });
 
@@ -17,6 +18,7 @@ class CheckoutPanel extends StatefulWidget {
   final String? cartId;
   final int totalClp;
   final bool enabled;
+  final bool requiresSellerCode;
   final Future<void> Function(CheckoutResponse response) onSuccess;
 
   @override
@@ -34,8 +36,29 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
   @override
   void initState() {
     super.initState();
-    _loadActiveCollaborators();
+    if (widget.requiresSellerCode) {
+      _loadActiveCollaborators();
+    } else {
+      _loadingCollaborators = false;
+    }
     _sellerCodeController.addListener(_onManualCodeChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant CheckoutPanel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.requiresSellerCode != widget.requiresSellerCode) {
+      if (widget.requiresSellerCode) {
+        _loadActiveCollaborators();
+      } else {
+        setState(() {
+          _loadingCollaborators = false;
+          _loadError = null;
+          _active = [];
+          _selectedSellerCode = null;
+        });
+      }
+    }
   }
 
   @override
@@ -80,24 +103,32 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     return _selectedSellerCode;
   }
 
-  bool get _canConfirm =>
-      widget.enabled &&
-      widget.cartId != null &&
-      !_loadingCollaborators &&
-      !_confirming &&
-      (_effectiveSellerCode ?? '').isNotEmpty;
+  bool get _canConfirm {
+    if (!widget.enabled || widget.cartId == null || _confirming) {
+      return false;
+    }
+    if (!widget.requiresSellerCode) return true;
+    if (_loadingCollaborators) return false;
+    return (_effectiveSellerCode ?? '').isNotEmpty;
+  }
 
   Future<void> _confirm() async {
-    final sellerCode = _effectiveSellerCode;
     final cartId = widget.cartId;
-    if (sellerCode == null || sellerCode.isEmpty || cartId == null) return;
+    if (cartId == null) return;
+    final sellerCode = widget.requiresSellerCode
+        ? _effectiveSellerCode
+        : '';
+    if (widget.requiresSellerCode &&
+        (sellerCode == null || sellerCode.isEmpty)) {
+      return;
+    }
 
     setState(() => _confirming = true);
     final result = await widget.composition.saleService.checkout(
       widget.composition.requireStoreId,
       cartId,
       CheckoutRequest(
-        sellerCode: sellerCode,
+        sellerCode: sellerCode ?? '',
         payments: [
           CheckoutPaymentDto(
             method: 'EFECTIVO',
@@ -173,18 +204,20 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
           'Pago: efectivo por el total exacto.',
           style: theme.textTheme.bodySmall,
         ),
-        const SizedBox(height: 16),
-        const Text('Vendedor'),
-        if (_loadingCollaborators)
+        if (widget.requiresSellerCode) ...[
+          const SizedBox(height: 16),
+          const Text('Vendedor'),
+        ],
+        if (widget.requiresSellerCode && _loadingCollaborators)
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 12),
             child: Center(child: CircularProgressIndicator()),
           )
-        else if (_loadError != null)
+        else if (widget.requiresSellerCode && _loadError != null)
           Text(_loadError!)
-        else if (_active.isEmpty)
+        else if (widget.requiresSellerCode && _active.isEmpty)
           const Text('No hay colaboradores activos. Configure la planilla.')
-        else ...[
+        else if (widget.requiresSellerCode) ...[
           DropdownButtonFormField<String>(
             key: const Key('checkout_seller_dropdown'),
             value: _selectedSellerCode,

@@ -224,7 +224,7 @@ Supervisor o dueño consultan en un reporte: productos con **stock bajo** (stock
 
 ### RF-089 [M] Modelo plantilla Atria POS (SLICE-69)
 
-Cada tienda tiene `posTemplateId`; en R2-A solo **ATRIA_POS** es asignable en bootstrap. La plantilla define **features** del producto (qué módulos existen); el **rol** sigue restringiendo operación (DEC-048). Consulta `GET .../pos-template` devuelve `templateId`, `displayName` y `features[]`. Checkout exige código vendedor solo si la plantilla incluye `sellerCodeCheckout` (Atria: sí). ID desconocido en persistencia → fallback **ATRIA_POS**. Menú dinámico en UI: SLICE-76.
+Cada tienda tiene `posTemplateId`; en R2-A solo **ATRIA_POS** es asignable en bootstrap. La plantilla define **features** del producto (qué módulos existen); el **rol** sigue restringiendo operación (DEC-048). Consulta `GET .../pos-template` devuelve `templateId`, `displayName` y `features[]`. Checkout exige código vendedor solo si la plantilla incluye `sellerCodeCheckout` (Atria: sí). ID desconocido en persistencia → fallback **ATRIA_POS**. Menú dinámico en UI según `PosMenuPolicy` (plantilla × rol): **SLICE-76**.
 
 ### RF-088 [M] Cierre inventario (SLICE-68)
 

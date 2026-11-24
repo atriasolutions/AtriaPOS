@@ -56,6 +56,10 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-075-UI-01 | — | — | — | ✅ | `ui_shell_sale_e2e_test.dart` |
 | SC-075-UI-02 | — | — | — | ✅ | Mismo archivo |
 | SC-075-UI-03 | — | — | — | ✅ | Mismo archivo |
+| SC-076-UI-01 | RF-089 | — | — | ✅ | `pos_menu_template_ui_e2e_test.dart` |
+| SC-076-UI-02 | RF-089 | — | — | ✅ | Mismo archivo |
+| SC-076-UI-03 | RF-089 | — | — | ✅ | Mismo archivo |
+| SC-076-UI-04 | RF-089 | — | — | ✅ | Mismo archivo |
 | SC-002-UI-01 | RF-002 | — | — | ✅ | `user_create_ui_e2e_test.dart` |
 | SC-002-UI-02 | RF-002 | — | — | ✅ | Mismo archivo |
 | SC-003-01 | RF-003 | ✅ | — | — | `get_certificate_status_*`, `fiscal_service_test` |

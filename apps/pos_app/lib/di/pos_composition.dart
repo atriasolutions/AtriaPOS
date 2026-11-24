@@ -178,6 +178,7 @@ class PosComposition {
         stockMovementRepository: movements,
         shiftRepository: shifts,
         collaboratorRepository: collaborators,
+        storeRepository: storeRepo,
         dteGateway: dteGateway,
         dteQueueRepository: dteQueue,
         sessionProvider: sessions,
@@ -226,19 +227,46 @@ class PosComposition {
   }
 
   /// Seed para tests de regresión (id fijo `tienda_demo`).
-  Future<void> ensureDemoStore() async {
-    if (await stores.count() > 0) {
+  Future<void> ensureDemoStore({
+    PosTemplateId templateId = PosTemplateId.atriaPos,
+  }) async {
+    final existing = await stores.findById(kDemoStoreId);
+    if (existing != null && existing.posTemplateId == templateId) {
       await refreshActiveStore();
       return;
     }
-    final store = Store.create(
-      id: kDemoStoreId,
-      rutRaw: '12.345.678-5',
-      legalName: 'Tienda demo',
-      businessLine: 'Comercio',
-    );
+    if (existing != null) {
+      await (database.delete(database.stores)
+            ..where((t) => t.id.equals(kDemoStoreId)))
+          .go();
+    } else if (await stores.count() > 0) {
+      await database.delete(database.stores).go();
+    }
+    final store = templateId == PosTemplateId.atriaPos
+        ? Store.create(
+            id: kDemoStoreId,
+            rutRaw: '12.345.678-5',
+            legalName: 'Tienda demo',
+            businessLine: 'Comercio',
+          )
+        : Store(
+            id: kDemoStoreId,
+            rut: '12.345.678-5',
+            legalName: 'Tienda demo',
+            businessLine: 'Comercio',
+            taxConfig: const TaxConfig(),
+            createdAt: DateTime.utc(2026, 1, 1),
+            posTemplateId: templateId,
+          );
     await stores.save(store);
     activeStoreId = kDemoStoreId;
+  }
+
+  Future<PosTemplateId> resolveActiveTemplateId() async {
+    final storeId = activeStoreId ?? await storeService.activeStoreId();
+    if (storeId == null) return PosTemplateId.atriaPos;
+    final store = await stores.findById(storeId);
+    return store?.posTemplateId ?? PosTemplateId.atriaPos;
   }
 
   Future<void> ensureDemoUsers() async {
