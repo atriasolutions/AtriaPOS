@@ -262,15 +262,9 @@ Estado actual: **MERGED**
 | Remoto | `origin` → `atriasolutions/AtriaPOS` |
 | `ci-local.ps1` | Verde pre-push |
 | Commit cierre docs | `dc481e8` feat(slice-77) |
-| HEAD local pre-push | Incluye `2fc7594` feat(slice-76) … `317105b` feat(slice-59) |
+| `origin/main` post-push | `f5eba61` (2026-11-24) |
+| Rango R2 en remoto | `317105b` feat(slice-59) … `2fc7594` feat(slice-76) + cierre docs |
 | SLICE-50 | **ABIERTO** — piloto BLE manual |
-
-Actualizar fila **origin/main** tras push:
-
-```powershell
-git fetch origin
-git rev-parse origin/main
-```
 
 ## SLICE-51 — Acta backlog (2026-11-20)
 

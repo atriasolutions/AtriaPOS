@@ -71,7 +71,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-084-UI-02 | RF-084 | — | — | ✅ | Mismo archivo |
 | SC-084-UI-03 | RF-084 | — | — | ✅ | Mismo archivo |
 | SC-077-01 | — | — | — | — | `ci-local.ps1` en SLICE-77 |
-| SC-077-02 | — | — | — | — | Push `origin/main` — `pr-merge-evidence.md` § SLICE-77 |
+| SC-077-02 | — | — | — | — | Push `origin/main` `f5eba61` — `pr-merge-evidence.md` § SLICE-77 |
 | SC-077-03 | — | — | — | — | Acta 19 §12 |
 | SC-077-04 | — | — | — | — | Doc 20 estado R2 cerrada |
 | SC-002-UI-01 | RF-002 | — | — | ✅ | `user_create_ui_e2e_test.dart` |

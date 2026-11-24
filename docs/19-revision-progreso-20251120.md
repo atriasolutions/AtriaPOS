@@ -155,7 +155,7 @@
 | Slices R2-A 60–69 en `main` | CERRADO |
 | Slices R2-B 70–76 en `main` | CERRADO |
 | `scripts/ci-local.ps1` en commit cierre | CERRADO |
-| Push directo `origin/main` (atriasolutions/AtriaPOS) | Ver [`pr-merge-evidence.md`](../runbooks/pr-merge-evidence.md) § SLICE-77 |
+| Push directo `origin/main` (atriasolutions/AtriaPOS) | CERRADO — `origin/main` `f5eba61` ([`pr-merge-evidence.md`](../runbooks/pr-merge-evidence.md) § SLICE-77) |
 | SLICE-50 / SC-011-BLE-01 hardware | **ABIERTO** |
 
 ### DoD revisión 2
