@@ -1,6 +1,6 @@
 # 20 — Plan revisión 2 (Atria POS)
 
-**Estado:** plan documental — **Gate R2 pendiente**  
+**Estado:** **Revisión 2 cerrada** (SLICE-77, 2026-11-24) — acta [`19-revision-progreso-20251120.md`](19-revision-progreso-20251120.md) §12  
 **Prerrequisito revisión 1:** SLICE-54 cerrado; org `atriasolutions/AtriaPOS` (DEC-046).  
 **Prerrequisito código R2:** **Gate R2** (SLICE-59) antes de lógica de negocio revisión 2.  
 **TDD:** [`09-estrategia-tdd.md`](09-estrategia-tdd.md) (ciclo vertical obligatorio).  
@@ -193,7 +193,7 @@ No “horizontal dump” de tests; un escenario → implementación mínima → 
 
 ## §7 — Roadmap revisión 3 (puntero)
 
-Cierre revisión 2 con acta actualizada (§11 futuro en acta 19 o documento hermano).  
+Cierre revisión 2: **cerrado** en SLICE-77 — acta 19 §12 + push `origin/main`.  
 Contenido fiscal Kora: [`20b-esbozo-revision-3.md`](20b-esbozo-revision-3.md).
 
 ---

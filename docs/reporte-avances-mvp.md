@@ -1,7 +1,7 @@
 # Reporte de avances — Atria POS
 
 **Proyecto:** Atria POS (Chile, segmento D), núcleo local-first  
-**Fecha de reporte:** 2026-11-24 (SLICE-55 marca + repo canónico)  
+**Fecha de reporte:** 2026-11-24 (SLICE-77 cierre revisión 2)  
 **Rama estable:** `main` en repo canónico; hito git **`mvp-2026-11`** → `ddd071e`  
 **Repositorio canónico:** [github.com/atriasolutions/AtriaPOS](https://github.com/atriasolutions/AtriaPOS) — histórico: [pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d), [atria-pos personal](https://github.com/mmb21894-ux/atria-pos) (archivados)  
 **Organización:** Atria Solutions SpA  
@@ -14,16 +14,18 @@ El producto cuenta con un **MVP vertical implementado en código** desde SLICE-0
 
 | Indicador | Valor [OBSERVADO] |
 |-----------|-------------------|
-| Slices cerrados (plan 10) | 0–8, 10–**49**, **51**, **52**, **53**; **50 ABIERTO** (piloto BLE); **9** N/A diferido |
+| Slices cerrados (plan 10) | 0–8, 10–**49**, **51**–**53**, **55**–**58**, **59**–**77** (R2); **50 ABIERTO** (piloto BLE); **9** N/A diferido |
 | Contratos API publicados | API-001 … API-010 (`docs/07-contratos-api-publica.md`) |
 | Escenarios acceptance | 48 archivos `test/acceptance/slice_*.md` |
-| Tests automatizados | Core **114**, adapters **25**, app **27**, companion **1**; cobertura core **81,2 %** ([`18-diagnostico-pruebas.md`](18-diagnostico-pruebas.md)) |
+| Tests automatizados | `ci-local.ps1`: core + adapters + pos_app (**57+** widget/e2e) + companion **1**; cobertura core ≥ **80 %** (último baseline doc 18: 81,2 %) |
 | CI | GitHub Actions: core + adapters + pos_app + `scanner_companion` (`.github/workflows/ci.yml`) |
 | Merge a `main` | `main` @ `2f10165` — PR #1–#2, [PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5)–[PR #8](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/8); tag `mvp-2026-11` |
 | Ruta tienda piloto | [`runbooks/tienda-piloto-indice.md`](../runbooks/tienda-piloto-indice.md); evidencia **PARCIAL** (demo fake OK; BLE pendiente) |
 | Piloto SII real | **SC-080-03 CERRADO** (SLICE-37); folio/`sale_id` en bitácora local; demo con `SII_GATEWAY=fake` |
 
-**Lectura de madurez:** listo para **piloto operativo en tienda** con certificación SII ejecutada en ambiente cert; producción fiscal (`SII_AMBIENTE=prod`) sigue fuera de MVP.
+**Revisión 2 (Atria POS):** RF-080…089 en dominio y UI (permisos, carrito, planilla/vendedor, stock, auditoría, plantilla/menú, shell Vender). Cierre documental **SLICE-77**.
+
+**Lectura de madurez:** listo para **piloto operativo en tienda** con certificación SII ejecutada en ambiente cert; producción fiscal (`SII_AMBIENTE=prod`) y Kora → **revisión 3**.
 
 ---
 
@@ -161,9 +163,9 @@ cd apps/pos_app && flutter pub get && flutter test
 
 | Prioridad | Ítem | Acción para evidenciar |
 |-----------|------|-------------------------|
-| Media | **SLICE-50 ABIERTO** | Piloto BLE — `main` con SLICE-52; [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) **PREPARADO** |
-| Baja | Smoke SC-052-03 | Prueba hardware central Windows + companion (aceptance SLICE-52) |
-| Baja | Revisión 2 | SLICE-50 BLE; smoke SC-052-03; Gate 2 completo si aplica |
+| Media | **SLICE-50 ABIERTO** | Piloto BLE — [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) **PREPARADO** (no bloquea R2 cerrada) |
+| Baja | Smoke SC-052-03 | Prueba hardware central Windows + companion (acceptance SLICE-52) |
+| Baja | **Revisión 3** | Plan [`20b-esbozo-revision-3.md`](20b-esbozo-revision-3.md) — SII productivo vía Kora |
 | Baja | Gate 2 parcial | SLICE-9 y SII prod **N/A** |
 
 ---

@@ -142,6 +142,30 @@
 | Revisión 3 (stub) | [`20b-esbozo-revision-3.md`](20b-esbozo-revision-3.md) — SII vía Kora, fuera de R2 |
 | Deuda paralela | SLICE-50 BLE ABIERTO (no prerequisito Gate R2) |
 
+**Estado handoff §11:** revisión 2 **cerrada** (SLICE-77). Planificación siguiente: [`20b-esbozo-revision-3.md`](20b-esbozo-revision-3.md).
+
+---
+
+## 12. Cierre revisión 2 (SLICE-77)
+
+**Objetivo:** cola SLICE-59…76 en `main` local integrada en `origin/main`; documentación y CI alineados. BLE (SLICE-50) **no bloquea** este cierre.
+
+| Ítem | Estado |
+|------|--------|
+| Slices R2-A 60–69 en `main` | CERRADO |
+| Slices R2-B 70–76 en `main` | CERRADO |
+| `scripts/ci-local.ps1` en commit cierre | CERRADO |
+| Push directo `origin/main` (atriasolutions/AtriaPOS) | Ver [`pr-merge-evidence.md`](../runbooks/pr-merge-evidence.md) § SLICE-77 |
+| SLICE-50 / SC-011-BLE-01 hardware | **ABIERTO** |
+
+### DoD revisión 2
+
+- [x] Plan [`20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md) con estado R2 cerrada
+- [x] Fila SLICE-59…76 ✅ en [`10-plan-entregas.md`](10-plan-entregas.md)
+- [x] Acceptance [`slice_77_revision_2_cierre.md`](../test/acceptance/slice_77_revision_2_cierre.md)
+- [x] `ci-local.ps1` verde antes del push
+- [x] SLICE-50 documentado ABIERTO (sin cierre falso)
+
 ---
 
 ## 7. DoD revisión 2026-11-20

@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-77: Cierre revisión 2 — acta §12, plan R2 cerrado, push `origin/main`, `slice_77_revision_2_cierre.md`; SLICE-50 BLE sigue ABIERTO.
 - SLICE-76: UI menú operación según plantilla y rol RF-089, `PosMenuPolicy` en Vender, panel cobro según plantilla, `SaleService` con `storeRepository` Drift, `slice_76_pos_menu_template.md`.
 - SLICE-75: UI shell Atria (tema morado/naranja, Vender dos paneles, panel de cobro), `slice_75_ui_shell_atria.md`; menú plantilla → SLICE-76.
 - SLICE-74: UI auditoría rango/categoría RF-086 y cierre inventario RF-088, cableo `InventoryService` en app, `slice_74_ui_auditoria_inventario.md`.

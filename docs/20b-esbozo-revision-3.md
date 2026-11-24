@@ -1,7 +1,7 @@
 # 20b — Esbozo revisión 3 (SII / Kora)
 
 **Estado:** stub — sin slices ni fechas  
-**Prerrequisito:** revisión 2 cerrada (acta + Gate cierre R2)  
+**Prerrequisito:** revisión 2 cerrada — **cumplido** (acta 19 §12, SLICE-77, 2026-11-24)  
 **No forma parte de la revisión 2** ([`20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md)).
 
 ---

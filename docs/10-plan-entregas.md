@@ -70,24 +70,25 @@ Detalle: [`20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md). *
 
 | # | Slice | Fase | Resumen | RF prop. | DoD resumido |
 |---|-------|------|---------|----------|--------------|
-| 59 | SLICE-59 | Gate | Gate R2 + plan R2 | — | Checklist §3 doc 20; `slice_59_gate_revision_2.md` |
-| 60 | SLICE-60 | R2-A | Perfil usuario; credenciales sin ñ | RF-080 | Tests dominio/auth |
-| 61 | SLICE-61 | R2-A | Permisos heredados | RF-081 | `auth_policy_test` |
-| 62 | SLICE-62 | R2-A | Carrito editable (roles venta) | RF-082 | API carrito verde |
-| 63 | SLICE-63 | R2-A | Planilla colaboradores | RF-083 | CRUD + persistencia |
-| 64 | SLICE-64 | R2-A | Código vendedor en venta | RF-084 | checkout trazable |
-| 65 | SLICE-65 | R2-A | Ingreso stock + guía/lote | RF-085 | inventario + auditoría |
-| 66 | SLICE-66 | R2-A | Auditoría rango/categoría | RF-086 | extiende RF-070 |
-| 67 | SLICE-67 | R2-A | Stock insights | RF-087 | queries reporte |
-| 68 | SLICE-68 | R2-A | Cierre inventario | RF-088 | caso de uso |
-| 69 | SLICE-69 | R2-A | Modelo plantilla Atria POS | RF-089 | config dominio |
-| 70 | SLICE-70 | R2-B | UI usuarios | RF-080 | SC-*-UI-01 |
-| 71 | SLICE-71 | R2-B | UI carrito | RF-082 | SC-*-UI-01 |
-| 72 | SLICE-72 | R2-B | UI código vendedor | RF-084 | SC-*-UI-01 |
+| 59 | SLICE-59 | Gate | Gate R2 + plan R2 | — | Checklist §3 doc 20; `slice_59_gate_revision_2.md` ✅ |
+| 60 | SLICE-60 | R2-A | Perfil usuario; credenciales sin ñ | RF-080 | Tests dominio/auth ✅ |
+| 61 | SLICE-61 | R2-A | Permisos heredados | RF-081 | `auth_policy_test` ✅ |
+| 62 | SLICE-62 | R2-A | Carrito editable (roles venta) | RF-082 | API carrito verde ✅ |
+| 63 | SLICE-63 | R2-A | Planilla colaboradores | RF-083 | CRUD + persistencia ✅ |
+| 64 | SLICE-64 | R2-A | Código vendedor en venta | RF-084 | checkout trazable ✅ |
+| 65 | SLICE-65 | R2-A | Ingreso stock + guía/lote | RF-085 | inventario + auditoría ✅ |
+| 66 | SLICE-66 | R2-A | Auditoría rango/categoría | RF-086 | extiende RF-070 ✅ |
+| 67 | SLICE-67 | R2-A | Stock insights | RF-087 | queries reporte ✅ |
+| 68 | SLICE-68 | R2-A | Cierre inventario | RF-088 | caso de uso ✅ |
+| 69 | SLICE-69 | R2-A | Modelo plantilla Atria POS | RF-089 | config dominio ✅ |
+| 70 | SLICE-70 | R2-B | UI usuarios | RF-080 | SC-*-UI-01 ✅ |
+| 71 | SLICE-71 | R2-B | UI carrito | RF-082 | SC-*-UI-01 ✅ |
+| 72 | SLICE-72 | R2-B | UI código vendedor | RF-084 | SC-*-UI-01 ✅ |
 | 73 | SLICE-73 | R2-B | UI stock / ingreso | RF-085, RF-087 | SC-*-UI-01 ✅ |
 | 74 | SLICE-74 | R2-B | UI auditoría / inventario | RF-086–088 | SC-*-UI-01 ✅ |
 | 75 | SLICE-75 | R2-B | UI shell Atria (tema, Vender) | — | SC-075-UI-* ✅ |
 | 76 | SLICE-76 | R2-B | UI menú plantilla | RF-089 | SC-076-UI-* ✅ |
+| 77 | SLICE-77 | Cierre | Cierre revisión 2 + push `main` | — | SC-077-* |
 
 ## Orden TDD sugerido (semana orientativa)
 

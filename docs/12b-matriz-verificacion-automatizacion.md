@@ -60,6 +60,20 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-076-UI-02 | RF-089 | — | — | ✅ | Mismo archivo |
 | SC-076-UI-03 | RF-089 | — | — | ✅ | Mismo archivo |
 | SC-076-UI-04 | RF-089 | — | — | ✅ | Mismo archivo |
+| SC-080-UI-01 | RF-080 | — | — | ✅ | `user_management_ui_e2e_test.dart` |
+| SC-080-UI-02 | RF-080 | — | — | ✅ | Mismo archivo |
+| SC-080-UI-03 | RF-080 | — | — | ✅ | Mismo archivo |
+| SC-080-UI-04 | RF-080 | — | — | ✅ | Mismo archivo |
+| SC-082-UI-01 | RF-082 | — | — | ✅ | `cart_editable_ui_e2e_test.dart` |
+| SC-082-UI-02 | RF-082 | — | — | ✅ | Mismo archivo |
+| SC-082-UI-03 | RF-082 | — | — | ✅ | Mismo archivo |
+| SC-084-UI-01 | RF-084 | — | — | ✅ | `seller_code_checkout_ui_e2e_test.dart` |
+| SC-084-UI-02 | RF-084 | — | — | ✅ | Mismo archivo |
+| SC-084-UI-03 | RF-084 | — | — | ✅ | Mismo archivo |
+| SC-077-01 | — | — | — | — | `ci-local.ps1` en SLICE-77 |
+| SC-077-02 | — | — | — | — | Push `origin/main` — `pr-merge-evidence.md` § SLICE-77 |
+| SC-077-03 | — | — | — | — | Acta 19 §12 |
+| SC-077-04 | — | — | — | — | Doc 20 estado R2 cerrada |
 | SC-002-UI-01 | RF-002 | — | — | ✅ | `user_create_ui_e2e_test.dart` |
 | SC-002-UI-02 | RF-002 | — | — | ✅ | Mismo archivo |
 | SC-003-01 | RF-003 | ✅ | — | — | `get_certificate_status_*`, `fiscal_service_test` |
