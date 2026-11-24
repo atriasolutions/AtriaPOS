@@ -62,6 +62,7 @@ void main() {
       movements,
       shifts,
       collaborators,
+      InMemoryStoreRepository(),
       failGateway,
       dteQueue,
       sessions,

@@ -10,6 +10,7 @@ class Stores extends Table {
   TextColumn get businessLine => text()();
   TextColumn get taxConfig => text()();
   TextColumn get createdAt => text()();
+  TextColumn get posTemplateId => text().withDefault(const Constant('ATRIA_POS'))();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -227,7 +228,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 19;
+  int get schemaVersion => 20;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -351,6 +352,13 @@ WHERE (
           if (from < 19) {
             await m.createTable(inventoryCloses);
             await m.createTable(inventoryCloseLines);
+          }
+          if (from < 20) {
+            await m.addColumn(stores, stores.posTemplateId);
+            await customStatement(
+              "UPDATE stores SET pos_template_id = 'ATRIA_POS' "
+              'WHERE pos_template_id IS NULL',
+            );
           }
         },
       );

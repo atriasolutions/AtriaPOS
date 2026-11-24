@@ -10,6 +10,7 @@ import 'ports/product_repository.dart';
 import 'ports/sale_repository.dart';
 import 'ports/shift_repository.dart';
 import 'ports/stock_movement_repository.dart';
+import 'ports/store_repository.dart';
 import 'ports/trusted_clock.dart';
 
 class CheckoutPaymentInput {
@@ -66,6 +67,7 @@ class ConfirmCheckout {
     this._movements,
     this._shifts,
     this._collaborators,
+    this._stores,
     this._dte,
     this._dteQueue,
     this._sessions, [
@@ -78,6 +80,7 @@ class ConfirmCheckout {
   final StockMovementRepository _movements;
   final ShiftRepository _shifts;
   final CollaboratorRepository _collaborators;
+  final StoreRepository _stores;
   final DteGateway _dte;
   final DteQueueRepository _dteQueue;
   final SessionProvider _sessions;
@@ -87,16 +90,24 @@ class ConfirmCheckout {
     final session = requireActiveSession(_sessions);
     AuthPolicy.require(session, Permission.vender);
     final actorId = session.userId;
-    if (input.sellerCode.trim().isEmpty) {
-      throw const ValidationFailure('Ingrese el código vendedor');
-    }
-    final sellerCode = SellerCodePolicy.normalize(input.sellerCode);
-    final collaborator =
-        await _collaborators.findActiveBySellerCode(input.storeId, sellerCode);
-    if (collaborator == null) {
-      throw const ValidationFailure(
-        'Código vendedor inválido o colaborador inactivo',
+    final store = await _stores.findById(input.storeId);
+    final templateId = store?.posTemplateId ?? PosTemplateId.atriaPos;
+    final requiresSeller = CheckoutTemplatePolicy.requiresSellerCode(templateId);
+    String? sellerCode;
+    if (requiresSeller) {
+      if (input.sellerCode.trim().isEmpty) {
+        throw const ValidationFailure('Ingrese el código vendedor');
+      }
+      sellerCode = SellerCodePolicy.normalize(input.sellerCode);
+      final collaborator = await _collaborators.findActiveBySellerCode(
+        input.storeId,
+        sellerCode,
       );
+      if (collaborator == null) {
+        throw const ValidationFailure(
+          'Código vendedor inválido o colaborador inactivo',
+        );
+      }
     }
     final openShift = await _shifts.findOpenByStore(input.storeId);
     if (openShift == null) {
@@ -195,7 +206,7 @@ class ConfirmCheckout {
     return ConfirmCheckoutResult(
       saleId: sale.id,
       totalClp: totalClp,
-      sellerCode: sellerCode,
+      sellerCode: sellerCode ?? '',
       dteStatus: sale.dteStatus,
       createdAt: sale.createdAt,
       folio: sale.folio,

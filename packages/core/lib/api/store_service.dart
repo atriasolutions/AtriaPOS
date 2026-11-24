@@ -25,10 +25,12 @@ class StoreService {
     SessionProvider sessions,
   )   : _bootstrap = BootstrapStore(stores, users, hasher, sessions),
         _getActive = GetActiveStore(stores),
+        _getPosTemplate = GetPosTemplate(stores),
         _stores = stores;
 
   final BootstrapStore _bootstrap;
   final GetActiveStore _getActive;
+  final GetPosTemplate _getPosTemplate;
   final StoreRepository _stores;
 
   Future<ApiResult<BootstrapStoreResponse>> bootstrap(
@@ -98,4 +100,25 @@ class StoreService {
   }
 
   StoreRepository get storeRepository => _stores;
+
+  Future<ApiResult<PosTemplateResponse>> getPosTemplate(StoreId storeId) async {
+    try {
+      final template = await _getPosTemplate(storeId);
+      final features =
+          template.features.map((f) => f.apiValue).toList()..sort();
+      return ApiSuccess(
+        PosTemplateResponse(
+          templateId: template.id.apiValue,
+          displayName: template.displayName,
+          features: features,
+        ),
+        statusCode: 200,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    }
+  }
 }

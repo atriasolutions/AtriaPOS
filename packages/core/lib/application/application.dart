@@ -22,6 +22,7 @@ export 'ports/dte_queue_repository.dart';
 export 'retry_pending_dte.dart';
 export 'bootstrap_store.dart';
 export 'get_active_store.dart';
+export 'get_pos_template.dart';
 export 'in_memory_store_repository.dart';
 export 'ports/store_repository.dart';
 export 'adjust_stock.dart';

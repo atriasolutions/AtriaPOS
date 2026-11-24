@@ -51,3 +51,15 @@ class ActiveStoreResponse {
   final String businessLine;
   final Map<String, dynamic> taxConfig;
 }
+
+class PosTemplateResponse {
+  const PosTemplateResponse({
+    required this.templateId,
+    required this.displayName,
+    required this.features,
+  });
+
+  final String templateId;
+  final String displayName;
+  final List<String> features;
+}

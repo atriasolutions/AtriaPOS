@@ -15,6 +15,7 @@ class SaleService {
     DteQueueRepository? dteQueueRepository,
     SessionProvider? sessionProvider,
     CollaboratorRepository? collaboratorRepository,
+    StoreRepository? storeRepository,
     TrustedClock? clock,
   }) {
     final carts = cartRepository ?? InMemoryCartRepository();
@@ -26,6 +27,7 @@ class SaleService {
     final shifts = shiftRepository ?? InMemoryShiftRepository();
     final collaborators =
         collaboratorRepository ?? InMemoryCollaboratorRepository();
+    final stores = storeRepository ?? InMemoryStoreRepository();
     final dte = dteGateway ?? FakeDteGateway();
     final dteQueue = dteQueueRepository ?? InMemoryDteQueueRepository();
     final sessions =
@@ -37,6 +39,7 @@ class SaleService {
       movements,
       shifts,
       collaborators,
+      stores,
       dte,
       dteQueue,
       sessions,
@@ -51,6 +54,7 @@ class SaleService {
     StockMovementRepository movements,
     ShiftRepository shifts,
     CollaboratorRepository collaborators,
+    StoreRepository stores,
     DteGateway dte,
     DteQueueRepository dteQueue,
     SessionProvider sessions,
@@ -67,6 +71,7 @@ class SaleService {
           movements,
           shifts,
           collaborators,
+          stores,
           dte,
           dteQueue,
           sessions,

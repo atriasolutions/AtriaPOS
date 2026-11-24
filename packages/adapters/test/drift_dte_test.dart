@@ -43,6 +43,7 @@ void main() {
       movements,
       shifts,
       collaborators,
+      InMemoryStoreRepository(),
       FakeDteGateway(mode: FakeDteMode.alwaysFailure),
       dteQueue,
       sessions,

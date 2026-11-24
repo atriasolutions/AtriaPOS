@@ -44,6 +44,7 @@ void main() {
           movements,
           shifts,
           collaborators,
+          InMemoryStoreRepository(),
           FakeDteGateway(),
           InMemoryDteQueueRepository(),
           sessions,

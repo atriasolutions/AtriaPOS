@@ -70,6 +70,18 @@ class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _posTemplateIdMeta = const VerificationMeta(
+    'posTemplateId',
+  );
+  @override
+  late final GeneratedColumn<String> posTemplateId = GeneratedColumn<String>(
+    'pos_template_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('ATRIA_POS'),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -78,6 +90,7 @@ class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
     businessLine,
     taxConfig,
     createdAt,
+    posTemplateId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -139,6 +152,15 @@ class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('pos_template_id')) {
+      context.handle(
+        _posTemplateIdMeta,
+        posTemplateId.isAcceptableOrUnknown(
+          data['pos_template_id']!,
+          _posTemplateIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -172,6 +194,10 @@ class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
         DriftSqlType.string,
         data['${effectivePrefix}created_at'],
       )!,
+      posTemplateId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pos_template_id'],
+      )!,
     );
   }
 
@@ -188,6 +214,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
   final String businessLine;
   final String taxConfig;
   final String createdAt;
+  final String posTemplateId;
   const StoreRow({
     required this.id,
     required this.rut,
@@ -195,6 +222,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     required this.businessLine,
     required this.taxConfig,
     required this.createdAt,
+    required this.posTemplateId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -205,6 +233,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     map['business_line'] = Variable<String>(businessLine);
     map['tax_config'] = Variable<String>(taxConfig);
     map['created_at'] = Variable<String>(createdAt);
+    map['pos_template_id'] = Variable<String>(posTemplateId);
     return map;
   }
 
@@ -216,6 +245,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
       businessLine: Value(businessLine),
       taxConfig: Value(taxConfig),
       createdAt: Value(createdAt),
+      posTemplateId: Value(posTemplateId),
     );
   }
 
@@ -231,6 +261,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
       businessLine: serializer.fromJson<String>(json['businessLine']),
       taxConfig: serializer.fromJson<String>(json['taxConfig']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
+      posTemplateId: serializer.fromJson<String>(json['posTemplateId']),
     );
   }
   @override
@@ -243,6 +274,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
       'businessLine': serializer.toJson<String>(businessLine),
       'taxConfig': serializer.toJson<String>(taxConfig),
       'createdAt': serializer.toJson<String>(createdAt),
+      'posTemplateId': serializer.toJson<String>(posTemplateId),
     };
   }
 
@@ -253,6 +285,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     String? businessLine,
     String? taxConfig,
     String? createdAt,
+    String? posTemplateId,
   }) => StoreRow(
     id: id ?? this.id,
     rut: rut ?? this.rut,
@@ -260,6 +293,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     businessLine: businessLine ?? this.businessLine,
     taxConfig: taxConfig ?? this.taxConfig,
     createdAt: createdAt ?? this.createdAt,
+    posTemplateId: posTemplateId ?? this.posTemplateId,
   );
   StoreRow copyWithCompanion(StoresCompanion data) {
     return StoreRow(
@@ -271,6 +305,9 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
           : this.businessLine,
       taxConfig: data.taxConfig.present ? data.taxConfig.value : this.taxConfig,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      posTemplateId: data.posTemplateId.present
+          ? data.posTemplateId.value
+          : this.posTemplateId,
     );
   }
 
@@ -282,14 +319,22 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
           ..write('legalName: $legalName, ')
           ..write('businessLine: $businessLine, ')
           ..write('taxConfig: $taxConfig, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('posTemplateId: $posTemplateId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, rut, legalName, businessLine, taxConfig, createdAt);
+  int get hashCode => Object.hash(
+    id,
+    rut,
+    legalName,
+    businessLine,
+    taxConfig,
+    createdAt,
+    posTemplateId,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -299,7 +344,8 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
           other.legalName == this.legalName &&
           other.businessLine == this.businessLine &&
           other.taxConfig == this.taxConfig &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.posTemplateId == this.posTemplateId);
 }
 
 class StoresCompanion extends UpdateCompanion<StoreRow> {
@@ -309,6 +355,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
   final Value<String> businessLine;
   final Value<String> taxConfig;
   final Value<String> createdAt;
+  final Value<String> posTemplateId;
   final Value<int> rowid;
   const StoresCompanion({
     this.id = const Value.absent(),
@@ -317,6 +364,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     this.businessLine = const Value.absent(),
     this.taxConfig = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.posTemplateId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   StoresCompanion.insert({
@@ -326,6 +374,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     required String businessLine,
     required String taxConfig,
     required String createdAt,
+    this.posTemplateId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        rut = Value(rut),
@@ -340,6 +389,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     Expression<String>? businessLine,
     Expression<String>? taxConfig,
     Expression<String>? createdAt,
+    Expression<String>? posTemplateId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -349,6 +399,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
       if (businessLine != null) 'business_line': businessLine,
       if (taxConfig != null) 'tax_config': taxConfig,
       if (createdAt != null) 'created_at': createdAt,
+      if (posTemplateId != null) 'pos_template_id': posTemplateId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -360,6 +411,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     Value<String>? businessLine,
     Value<String>? taxConfig,
     Value<String>? createdAt,
+    Value<String>? posTemplateId,
     Value<int>? rowid,
   }) {
     return StoresCompanion(
@@ -369,6 +421,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
       businessLine: businessLine ?? this.businessLine,
       taxConfig: taxConfig ?? this.taxConfig,
       createdAt: createdAt ?? this.createdAt,
+      posTemplateId: posTemplateId ?? this.posTemplateId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -394,6 +447,9 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
     }
+    if (posTemplateId.present) {
+      map['pos_template_id'] = Variable<String>(posTemplateId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -409,6 +465,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
           ..write('businessLine: $businessLine, ')
           ..write('taxConfig: $taxConfig, ')
           ..write('createdAt: $createdAt, ')
+          ..write('posTemplateId: $posTemplateId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6794,6 +6851,7 @@ typedef $$StoresTableCreateCompanionBuilder =
       required String businessLine,
       required String taxConfig,
       required String createdAt,
+      Value<String> posTemplateId,
       Value<int> rowid,
     });
 typedef $$StoresTableUpdateCompanionBuilder =
@@ -6804,6 +6862,7 @@ typedef $$StoresTableUpdateCompanionBuilder =
       Value<String> businessLine,
       Value<String> taxConfig,
       Value<String> createdAt,
+      Value<String> posTemplateId,
       Value<int> rowid,
     });
 
@@ -6843,6 +6902,11 @@ class $$StoresTableFilterComposer
 
   ColumnFilters<String> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get posTemplateId => $composableBuilder(
+    column: $table.posTemplateId,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6885,6 +6949,11 @@ class $$StoresTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get posTemplateId => $composableBuilder(
+    column: $table.posTemplateId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$StoresTableAnnotationComposer
@@ -6915,6 +6984,11 @@ class $$StoresTableAnnotationComposer
 
   GeneratedColumn<String> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get posTemplateId => $composableBuilder(
+    column: $table.posTemplateId,
+    builder: (column) => column,
+  );
 }
 
 class $$StoresTableTableManager
@@ -6951,6 +7025,7 @@ class $$StoresTableTableManager
                 Value<String> businessLine = const Value.absent(),
                 Value<String> taxConfig = const Value.absent(),
                 Value<String> createdAt = const Value.absent(),
+                Value<String> posTemplateId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StoresCompanion(
                 id: id,
@@ -6959,6 +7034,7 @@ class $$StoresTableTableManager
                 businessLine: businessLine,
                 taxConfig: taxConfig,
                 createdAt: createdAt,
+                posTemplateId: posTemplateId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6969,6 +7045,7 @@ class $$StoresTableTableManager
                 required String businessLine,
                 required String taxConfig,
                 required String createdAt,
+                Value<String> posTemplateId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StoresCompanion.insert(
                 id: id,
@@ -6977,6 +7054,7 @@ class $$StoresTableTableManager
                 businessLine: businessLine,
                 taxConfig: taxConfig,
                 createdAt: createdAt,
+                posTemplateId: posTemplateId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

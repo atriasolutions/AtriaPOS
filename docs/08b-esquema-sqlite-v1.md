@@ -194,6 +194,7 @@ CREATE TABLE dte_queue (
 | business_line | TEXT NOT NULL | giro |
 | tax_config | TEXT NOT NULL | JSON mínimo |
 | created_at | TEXT NOT NULL | ISO-8601 UTC |
+| pos_template_id | TEXT NOT NULL | default `ATRIA_POS` (SLICE-69) |
 
 ```sql
 CREATE TABLE stores (
@@ -202,7 +203,8 @@ CREATE TABLE stores (
   legal_name TEXT NOT NULL,
   business_line TEXT NOT NULL,
   tax_config TEXT NOT NULL,
-  created_at TEXT NOT NULL
+  created_at TEXT NOT NULL,
+  pos_template_id TEXT NOT NULL DEFAULT 'ATRIA_POS'
 );
 ```
 
@@ -283,3 +285,11 @@ Migración desde v17: `addColumn` nullable.
 | inventory_close_lines | id, close_id, product_id, system_stock, counted_stock, variance, units_sold_in_shift |
 
 Migración desde v18: `createTable` ambas.
+
+## Revisión 2 — Plantilla POS schema v20 (SLICE-69)
+
+| Tabla | Columna | Notas |
+|-------|---------|-------|
+| stores | pos_template_id | TEXT NOT NULL default `ATRIA_POS`; desconocido se normaliza a Atria al leer |
+
+Migración desde v19: `addColumn` + `UPDATE stores SET pos_template_id = 'ATRIA_POS' WHERE pos_template_id IS NULL`.

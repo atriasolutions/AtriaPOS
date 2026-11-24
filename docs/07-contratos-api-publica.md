@@ -469,6 +469,37 @@ Sin tienda → `NO_ENCONTRADO` (404).
 
 **Tests comportamiento (SC-001-01…03)**
 
+### `GET /v0/stores/{storeId}/pos-template` (RF-089)
+
+**Response 200**
+
+```json
+{
+  "templateId": "ATRIA_POS",
+  "displayName": "Atria POS",
+  "features": [
+    "auditTrail",
+    "closeShift",
+    "collaboratorPlanilla",
+    "dailySalesReport",
+    "dteQueue",
+    "fiscalCertificate",
+    "inventoryClose",
+    "productCreate",
+    "sellerCodeCheckout",
+    "shiftSalesList",
+    "stockAdjust",
+    "stockInsights",
+    "stockReceiptGuiaLote",
+    "userManagement"
+  ]
+}
+```
+
+Tienda inexistente → `NO_ENCONTRADO` (404).
+
+**Tests comportamiento (SC-089-02)**
+
 ---
 
 ## API-006 — Autenticación (MVP local)
@@ -708,7 +739,7 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 | RF-020–021, RF-085, RF-088 | API-004 |
 | RF-051 | API-005 |
 | RF-002 | API-006 |
-| RF-001 | API-007 |
+| RF-001, RF-089 | API-007 |
 | RF-060, RF-087 | API-008 |
 | RF-070, RF-086 | API-009 |
 | RF-003 | API-010 |

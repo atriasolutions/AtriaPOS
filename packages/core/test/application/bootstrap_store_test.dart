@@ -30,6 +30,7 @@ void main() {
     final result = await bootstrap(_bootstrapOwner);
     expect(await stores.count(), 1);
     expect(result.store.legalName, 'Minimarket');
+    expect(result.store.posTemplateId, PosTemplateId.atriaPos);
     expect(result.user.role, UserRole.dueno);
     expect(result.user.username, 'jperez');
     expect(sessions.current?.userId, result.user.id);

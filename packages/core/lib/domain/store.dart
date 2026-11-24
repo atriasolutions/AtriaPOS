@@ -1,3 +1,4 @@
+import 'pos_template_id.dart';
 import 'rut_chile.dart';
 import 'store_id.dart';
 import 'tax_config.dart';
@@ -11,6 +12,7 @@ class Store {
     required this.businessLine,
     required this.taxConfig,
     required this.createdAt,
+    this.posTemplateId = PosTemplateId.atriaPos,
   });
 
   final StoreId id;
@@ -20,6 +22,7 @@ class Store {
   final String businessLine;
   final TaxConfig taxConfig;
   final DateTime createdAt;
+  final PosTemplateId posTemplateId;
 
   factory Store.create({
     required StoreId id,
@@ -28,6 +31,7 @@ class Store {
     required String businessLine,
     TaxConfig? taxConfig,
     DateTime? createdAt,
+    PosTemplateId? posTemplateId,
   }) {
     final name = legalName.trim();
     final giro = businessLine.trim();
@@ -40,6 +44,12 @@ class Store {
     if (!RutChile.isValid(rutRaw)) {
       throw const ValidationFailure('RUT inválido');
     }
+    final template = posTemplateId ?? PosTemplateId.atriaPos;
+    if (!PosTemplateId.isBootstrapAllowed(template)) {
+      throw const ValidationFailure(
+        'Solo la plantilla Atria POS está disponible en este release',
+      );
+    }
     return Store(
       id: id,
       rut: RutChile.formatDisplay(rutRaw),
@@ -47,6 +57,7 @@ class Store {
       businessLine: giro,
       taxConfig: taxConfig ?? const TaxConfig(),
       createdAt: createdAt ?? DateTime.now().toUtc(),
+      posTemplateId: template,
     );
   }
 }

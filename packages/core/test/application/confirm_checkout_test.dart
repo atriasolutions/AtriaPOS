@@ -40,6 +40,7 @@ void main() {
       movements,
       shifts,
       collaborators,
+      InMemoryStoreRepository(),
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
       sessions,
@@ -270,6 +271,7 @@ void main() {
       movements,
       closeShifts,
       collaborators,
+      InMemoryStoreRepository(),
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
       sessions,
@@ -292,5 +294,50 @@ void main() {
       ),
       throwsA(isA<TurnClosedFailure>()),
     );
+  });
+
+  test('plantilla sin sellerCodeCheckout permite checkout sin vendedor', () async {
+    final templateStores = InMemoryStoreRepository();
+    await templateStores.save(
+      Store(
+        id: storeId,
+        rut: '12.345.678-5',
+        legalName: 'Test',
+        businessLine: 'X',
+        taxConfig: const TaxConfig(),
+        createdAt: DateTime.now().toUtc(),
+        posTemplateId: PosTemplateId.barrioMinTest,
+      ),
+    );
+    final checkout = ConfirmCheckout(
+      carts,
+      products,
+      sales,
+      movements,
+      shifts,
+      collaborators,
+      templateStores,
+      FakeDteGateway(),
+      InMemoryDteQueueRepository(),
+      sessions,
+    );
+    final ctx = await panCart();
+    final result = await checkout(
+      ConfirmCheckoutInput(
+        storeId: storeId,
+        cartId: ctx.cartId,
+        sellerCode: '',
+        payments: const [
+          CheckoutPaymentInput(
+            method: PaymentMethod.efectivo,
+            amountClp: 1000,
+          ),
+        ],
+        changeClp: 0,
+      ),
+    );
+    expect(result.sellerCode, '');
+    final stored = await sales.findById(storeId, result.saleId);
+    expect(stored!.sellerCode, isNull);
   });
 }

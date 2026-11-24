@@ -1,4 +1,5 @@
 import 'package:core/atria_pos_core.dart';
+import 'package:drift/drift.dart';
 
 import 'src/database.dart';
 
@@ -39,6 +40,7 @@ class DriftStoreRepository implements StoreRepository {
             businessLine: store.businessLine,
             taxConfig: store.taxConfig.toJsonString(),
             createdAt: store.createdAt.toUtc().toIso8601String(),
+            posTemplateId: Value(store.posTemplateId.apiValue),
           ),
         );
   }
@@ -51,6 +53,7 @@ class DriftStoreRepository implements StoreRepository {
       businessLine: row.businessLine,
       taxConfig: TaxConfig.parse(row.taxConfig),
       createdAt: DateTime.parse(row.createdAt).toUtc(),
+      posTemplateId: PosTemplateId.normalize(row.posTemplateId),
     );
   }
 }
