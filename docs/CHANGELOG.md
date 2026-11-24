@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-71: UI carrito editable RF-082, controles cantidad/quitar en Vender, `slice_71_ui_carrito_editable.md`.
 - SLICE-70: UI usuarios RF-080, `ListUsers`/`UpdateUser`, API-006 list/update, `slice_70_ui_usuarios.md`.
 - SLICE-69: Modelo plantilla Atria POS RF-089, API-007 pos-template, Drift v20 `pos_template_id`, `slice_69_modelo_plantilla_atria.md`.
 - SLICE-68: Cierre inventario RF-088, API-004 preview/closes, Drift v19, `slice_68_cierre_inventario.md`.

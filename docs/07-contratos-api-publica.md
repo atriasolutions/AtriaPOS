@@ -161,6 +161,8 @@ Métodos: `EFECTIVO`, `OTRO`.
 - `POST/GET` carro y `POST/PATCH/DELETE` líneas: sesión activa y `Permission.vender` (matriz RF-081 / plantilla Atria POS: cajero, supervisor, dueño).
 - Sin sesión → `401`; tests `SC-082-01`…`05` en `cart_auth_test.dart`.
 
+**SLICE-71 (UI RF-082):** pantalla Vender usa `updateLine` y `removeLine` in-process; tests `SC-082-UI-01`…`03` en `cart_editable_ui_e2e_test.dart`.
+
 **SLICE-64 (RF-084)**
 
 - Checkout exige `sellerCode` de colaborador activo; ausente/inactivo → `VALIDACION`.

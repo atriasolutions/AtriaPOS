@@ -219,6 +219,45 @@ class _SaleScreenState extends State<SaleScreen> {
     }
   }
 
+  Future<void> _updateLineQuantity(String lineId, int newQuantity) async {
+    final cartId = _cartId;
+    if (cartId == null || newQuantity < 1) return;
+    final result = await widget.composition.saleService.updateLine(
+      widget.composition.requireStoreId,
+      cartId,
+      lineId,
+      UpdateCartLineRequest(quantity: newQuantity),
+    );
+    if (!mounted) return;
+    switch (result) {
+      case ApiSuccess<CartResponse>():
+        await _refreshCart();
+      case ApiFailure<CartResponse>(error: final e):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message)),
+        );
+    }
+  }
+
+  Future<void> _removeLine(String lineId) async {
+    final cartId = _cartId;
+    if (cartId == null) return;
+    final result = await widget.composition.saleService.removeLine(
+      widget.composition.requireStoreId,
+      cartId,
+      lineId,
+    );
+    if (!mounted) return;
+    switch (result) {
+      case ApiSuccess<void>():
+        await _refreshCart();
+      case ApiFailure<void>(error: final e):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message)),
+        );
+    }
+  }
+
   Future<void> _checkout() async {
     final cart = _cart;
     final cartId = _cartId;
@@ -554,10 +593,74 @@ class _SaleScreenState extends State<SaleScreen> {
                             itemCount: cart.lines.length,
                             itemBuilder: (context, index) {
                               final line = cart.lines[index];
-                              return ListTile(
-                                title: Text(line.name),
-                                subtitle: Text(
-                                  '${line.quantity} x \$${line.unitPriceClp}',
+                              return Card(
+                                key: Key('cart_line_${line.lineId}'),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              line.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            ),
+                                            Text(
+                                              '\$${line.unitPriceClp} c/u',
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      IconButton(
+                                        key: Key(
+                                          'cart_line_qty_minus_${line.lineId}',
+                                        ),
+                                        onPressed: line.quantity > 1
+                                            ? () => _updateLineQuantity(
+                                                  line.lineId,
+                                                  line.quantity - 1,
+                                                )
+                                            : null,
+                                        icon: const Icon(Icons.remove),
+                                      ),
+                                      Text(
+                                        key: Key(
+                                          'cart_line_qty_label_${line.lineId}',
+                                        ),
+                                        '${line.quantity}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
+                                      ),
+                                      IconButton(
+                                        key: Key(
+                                          'cart_line_qty_plus_${line.lineId}',
+                                        ),
+                                        onPressed: () => _updateLineQuantity(
+                                          line.lineId,
+                                          line.quantity + 1,
+                                        ),
+                                        icon: const Icon(Icons.add),
+                                      ),
+                                      IconButton(
+                                        key: Key(
+                                          'cart_line_remove_${line.lineId}',
+                                        ),
+                                        tooltip: 'Quitar',
+                                        onPressed: () =>
+                                            _removeLine(line.lineId),
+                                        icon: const Icon(Icons.delete_outline),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },

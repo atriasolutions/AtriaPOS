@@ -124,6 +124,8 @@ Complementa RF-030 en revisión 2: operaciones de carro (API-002) requieren **se
 - Dado sin sesión, cuando invoca endpoints de carro, entonces rechaza con credencial inválida (401).
 - Dado cantidad de línea ≤ 0 al actualizar, entonces `VALIDACION`.
 
+UI (SLICE-71): en pantalla **Vender**, cada línea del carro muestra cantidad con botones **− / +** y acción **quitar**; actualiza total vía API-002; roles con `vender` (cajero, supervisor, dueño).
+
 ### RF-083 [M] Planilla colaboradores (SLICE-63)
 
 Colaboradores de mostrador con **código vendedor**, separados de usuarios POS (DEC-049).
