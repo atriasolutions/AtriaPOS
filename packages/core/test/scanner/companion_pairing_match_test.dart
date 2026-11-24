@@ -15,9 +15,9 @@ void main() {
     );
   });
 
-  test('SC-011-BLE-03 matchea por nombre POS-Barrio-{código}', () {
+  test('SC-011-BLE-03 matchea por nombre Atria-POS-{código}', () {
     expect(
-      companionPairingMatches('1234', advName: 'POS-Barrio-1234'),
+      companionPairingMatches('1234', advName: 'Atria-POS-1234'),
       isTrue,
     );
     expect(

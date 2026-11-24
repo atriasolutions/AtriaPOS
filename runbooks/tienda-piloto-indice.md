@@ -2,6 +2,8 @@
 
 Punto de entrada para validar el MVP en tienda: demo con DTE fake, pilotos opcionales BLE/SII e integración a `main` si corresponde. Evidencia agregada: [`tienda-piloto-evidencia.md`](tienda-piloto-evidencia.md).
 
+**Repo canónico:** [mmb21894-ux/atria-pos](https://github.com/mmb21894-ux/atria-pos). Tras SLICE-56: `git pull`, rebuild POS + companion Android y **re-pareo BLE** (`Atria-POS-{código}`) antes del piloto escáner.
+
 ## 1. Pre-requisitos
 
 - Flutter **stable** y suites locales verdes: [`scripts/ci-local.ps1`](../scripts/ci-local.ps1)
@@ -27,6 +29,8 @@ Modo por defecto de la app (`FakeDteGateway` / sin `SII_GATEWAY=live`).
 Referencia automatizada: `apps/pos_app/test/sale_flow_e2e_test.dart` (SC-060-01).
 
 ## 4. Piloto escáner BLE (opcional)
+
+SLICE-56: nombre anuncio **`Atria-POS-{código}`**; reconstruir POS + companion en el mismo commit y volver a parear.
 
 Índice: [`ble-piloto-indice.md`](ble-piloto-indice.md) — evidencia [`ble-scanner-pilot-evidence.md`](ble-scanner-pilot-evidence.md).
 

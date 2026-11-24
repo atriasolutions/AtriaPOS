@@ -5,7 +5,7 @@
 **Modular monolith** local-first, preparado para sync posterior.
 
 ```
-pos_barrio/
+atria_pos/
 ├── apps/
 │   └── pos_app/              # Flutter UI
 ├── packages/

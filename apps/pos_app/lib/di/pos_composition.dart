@@ -4,7 +4,7 @@ import 'package:adapters/adapters.dart';
 import 'package:core/api/api.dart';
 import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
-import 'package:core/pos_barrio_core.dart';
+import 'package:core/atria_pos_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../config/store_config.dart';

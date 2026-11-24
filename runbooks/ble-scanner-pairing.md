@@ -18,4 +18,6 @@
 5. Escanear QR de un producto; verificar match único en carro.
 6. Registrar evidencia en [`ble-scanner-pilot-evidence.md`](ble-scanner-pilot-evidence.md) (SC-011-BLE-01).
 
-UUIDs: `packages/core/lib/scanner/scanner_ble_constants.dart`
+UUIDs y prefijo GAP `Atria-POS-{código}`: `packages/core/lib/scanner/scanner_ble_constants.dart`.
+
+Tras **SLICE-56**: recompilar POS Windows y APK companion en el **mismo commit**; volver a parear (prefijo anterior `POS-Barrio` ya no aplica).

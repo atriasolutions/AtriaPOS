@@ -1,4 +1,4 @@
-import 'package:core/pos_barrio_core.dart';
+import 'package:core/atria_pos_core.dart';
 
 /// Configuración fiscal emisor — puente piloto hasta RF-001.
 class SiiEmisorConfig {
