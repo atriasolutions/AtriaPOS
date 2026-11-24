@@ -17,6 +17,8 @@ import 'dte_queue_screen.dart';
 import 'shift_sales_screen.dart';
 import 'product_create_screen.dart';
 import 'stock_adjust_screen.dart';
+import 'stock_insights_screen.dart';
+import 'stock_receipt_screen.dart';
 import 'user_list_screen.dart';
 
 class SaleScreen extends StatefulWidget {
@@ -414,6 +416,14 @@ class _SaleScreenState extends State<SaleScreen> {
                     openScreen(
                       StockAdjustScreen(composition: widget.composition),
                     );
+                  case 'stock_receipt':
+                    openScreen(
+                      StockReceiptScreen(composition: widget.composition),
+                    );
+                  case 'stock_insights':
+                    openScreen(
+                      StockInsightsScreen(composition: widget.composition),
+                    );
                   case 'product':
                     openScreen(
                       ProductCreateScreen(composition: widget.composition),
@@ -479,6 +489,22 @@ class _SaleScreenState extends State<SaleScreen> {
                     child: Text(
                       'Ajuste de stock',
                       key: Key('operation_menu_stock'),
+                    ),
+                  ),
+                if (canAdjustStock)
+                  const PopupMenuItem(
+                    value: 'stock_receipt',
+                    child: Text(
+                      'Ingreso existencias',
+                      key: Key('operation_menu_stock_receipt'),
+                    ),
+                  ),
+                if (canDailyReport)
+                  const PopupMenuItem(
+                    value: 'stock_insights',
+                    child: Text(
+                      'Stock insights',
+                      key: Key('operation_menu_stock_insights'),
                     ),
                   ),
                 if (canCreateProduct)

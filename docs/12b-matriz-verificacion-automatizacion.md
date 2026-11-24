@@ -14,6 +14,12 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-051-UI-01 | RF-051 | — | — | ✅ | Cola + reintento UI |
 | SC-021-01 | RF-021 | ✅ | ✅ | ✅ SLICE-11 | `stock_adjust_ui_e2e_test.dart` |
 | SC-021-UI-01 | RF-021 | — | — | ✅ | Merma UI |
+| SC-085-UI-01 | RF-085 | — | — | ✅ | `stock_receipt_ui_e2e_test.dart` |
+| SC-085-UI-02 | RF-085 | — | — | ✅ | Mismo archivo |
+| SC-085-UI-03 | RF-085 | — | — | ✅ | `stock_menu_cajero_ui_test.dart` |
+| SC-087-UI-01 | RF-087 | — | — | ✅ | `stock_insights_ui_e2e_test.dart` |
+| SC-087-UI-02 | RF-087 | — | — | ✅ | Mismo archivo |
+| SC-087-UI-03 | RF-087 | — | — | ✅ | `stock_menu_cajero_ui_test.dart` |
 | SC-032-UI-01 | RF-032 | — | — | ✅ | `void_sale_ui_e2e_test.dart` |
 | SC-060-01 | RF-030 | — | — | ✅ | `sale_flow_e2e_test.dart` |
 | SC-060-02 | RF-060 | ✅ | ✅ | — | `get_daily_sales_report_test`, `report_service_test`, `drift_daily_report_test` |

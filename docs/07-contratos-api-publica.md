@@ -366,6 +366,8 @@ Referencia guía/lote: 1–32 caracteres, `A–Z`, `0–9`, `-`, `_`, sin `ñ`.
 - Cantidad ≤ 0 o refs inválidas → `VALIDACION`.
 - Cajero → 403.
 
+**SLICE-73 (UI RF-085):** `StockReceiptScreen` en menú Operación; tests `SC-085-UI-01`…`03` en `stock_receipt_ui_e2e_test.dart`, `stock_menu_cajero_ui_test.dart`.
+
 ---
 
 ### `GET /v0/stores/{storeId}/inventory-close/preview` (RF-088)
@@ -659,6 +661,8 @@ Solo supervisor y dueño (403 cajero). Ventas `ANULADA` no cuentan en `topSeller
 `ReportService.getStockInsights` (in-process).
 
 **Tests:** SC-087-01…08 (core/API/adapters).
+
+**SLICE-73 (UI RF-087):** `StockInsightsScreen` en menú Operación; tests `SC-087-UI-01`…`03` en `stock_insights_ui_e2e_test.dart`, `stock_menu_cajero_ui_test.dart`.
 
 ---
 

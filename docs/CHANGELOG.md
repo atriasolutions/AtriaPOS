@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-73: UI ingreso guía/lote RF-085 y stock insights RF-087, menú Operación, `slice_73_ui_stock_ingreso.md`.
 - SLICE-72: UI código vendedor en checkout RF-084, `CollaboratorService` en app, `slice_72_ui_codigo_vendedor.md`.
 - SLICE-71: UI carrito editable RF-082, controles cantidad/quitar en Vender, `slice_71_ui_carrito_editable.md`.
 - SLICE-70: UI usuarios RF-080, `ListUsers`/`UpdateUser`, API-006 list/update, `slice_70_ui_usuarios.md`.

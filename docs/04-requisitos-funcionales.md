@@ -92,9 +92,9 @@ Por producto: cantidad disponible.
 - Dado supervisor, cuando registra merma con motivo, entonces decrementa stock y audita movimiento.
 - Dado cantidad resultante &lt; 0 y política estricta, entonces rechaza.
 
-### RF-085 [M] Ingreso existencias con guía y lote (SLICE-65)
+### RF-085 [M] Ingreso existencias con guía y lote (SLICE-65, UI SLICE-73)
 
-Complementa inventario barrio: recepción trazable sin crear SKU en el acto.
+Complementa inventario barrio: recepción trazable sin crear SKU en el acto. Pantalla **Ingreso existencias** en menú Operación (supervisor/dueño).
 
 - Dado supervisor (o rol con `ajustarInventario`), cuando registra ingreso sobre **producto existente** con cantidad &gt; 0, **guía** y **lote** válidos, entonces incrementa stock y persiste movimiento `RECEPCION` con referencias.
 - Dado producto inexistente, entonces `NO_ENCONTRADO`.
@@ -220,7 +220,7 @@ Supervisor o dueño consultan eventos entre fechas locales (máx. **31 días** i
 
 ### RF-087 [M] Stock insights (SLICE-67)
 
-Supervisor o dueño consultan en un reporte: productos con **stock bajo** (stock ≤ umbral efectivo: `lowStockThreshold` por producto o default **5** unidades) y **ranking de más vendidos** en los últimos **30 días** calendario (unidades, ventas anuladas excluidas). Query `asOf` opcional; `limit` del ranking (default 10, máx. 50). Sin UI en este slice (SLICE-73).
+Supervisor o dueño consultan en un reporte: productos con **stock bajo** (stock ≤ umbral efectivo: `lowStockThreshold` por producto o default **5** unidades) y **ranking de más vendidos** en los últimos **30 días** calendario (unidades, ventas anuladas excluidas). Query `asOf` opcional; `limit` del ranking (default 10, máx. 50). Pantalla **Stock insights** en menú Operación (SLICE-73).
 
 ### RF-089 [M] Modelo plantilla Atria POS (SLICE-69)
 
