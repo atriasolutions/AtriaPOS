@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-63: Planilla colaboradores RF-083, API-011, Drift v14, DEC-049, `slice_63_planilla_colaboradores.md`.
 - SLICE-62: Carrito editable RF-082 — auth `vender` en API-002, `cart_auth_test`, `slice_62_carrito_editable.md`.
 - SLICE-61: Permisos heredados RF-081, RoleCapabilities, DEC-048, `slice_61_permisos_heredados.md`.
 - SLICE-60: Perfil usuario RF-080 — UUID, username login, credenciales sin ñ, Drift v13, DEC-047, `slice_60_perfil_usuario.md`.

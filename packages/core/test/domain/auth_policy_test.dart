@@ -63,6 +63,17 @@ void main() {
       );
     });
 
+    test('SC-083-03 solo dueño gestiona planilla', () {
+      expect(
+        AuthPolicy.allows(UserRole.dueno, Permission.gestionarPlanilla),
+        isTrue,
+      );
+      expect(
+        AuthPolicy.allows(UserRole.supervisor, Permission.gestionarPlanilla),
+        isFalse,
+      );
+    });
+
     test('require lanza PERMISO_DENEGADO', () {
       final session = AuthSession(
         userId: 'usr_cajero',

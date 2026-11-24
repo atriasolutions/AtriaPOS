@@ -531,6 +531,38 @@ Solo supervisor y dueño (403 cajero).
 
 ---
 
+## API-011 — Planilla colaboradores (RF-083)
+
+Solo **dueño** (`Permission.gestionarPlanilla`). Colaborador ≠ usuario POS (DEC-049).
+
+### `POST /v0/stores/{storeId}/collaborators`
+
+```json
+{
+  "sellerCode": "V01",
+  "firstName": "Colab",
+  "lastName": "Uno"
+}
+```
+
+**Response 201** — `CollaboratorResponse` con `id`, `sellerCode`, `firstName`, `lastName`, `active`.
+
+### `GET /v0/stores/{storeId}/collaborators`
+
+**Response 200** — lista con campo `active` (administración).
+
+### `PATCH /v0/stores/{storeId}/collaborators/{id}`
+
+Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
+
+### `DELETE /v0/stores/{storeId}/collaborators/{id}`
+
+**Response 200** — desactiva (`active: false`); no borra fila.
+
+**Tests:** SC-083-01…06 (`collaborator_service_test`, `collaborator_auth_test`).
+
+---
+
 ## Matriz RF ↔ API
 
 | RF | Endpoints |
@@ -545,3 +577,4 @@ Solo supervisor y dueño (403 cajero).
 | RF-060 | API-008 |
 | RF-070 | API-009 |
 | RF-003 | API-010 |
+| RF-083 | API-011 |

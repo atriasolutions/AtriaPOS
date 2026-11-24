@@ -104,6 +104,15 @@ Complementa RF-030 en revisión 2: operaciones de carro (API-002) requieren **se
 - Dado sin sesión, cuando invoca endpoints de carro, entonces rechaza con credencial inválida (401).
 - Dado cantidad de línea ≤ 0 al actualizar, entonces `VALIDACION`.
 
+### RF-083 [M] Planilla colaboradores (SLICE-63)
+
+Colaboradores de mostrador con **código vendedor**, separados de usuarios POS (DEC-049).
+
+- Dado jefe de tienda autenticado, cuando crea, lista, actualiza o desactiva colaborador con datos válidos, entonces persiste en planilla de la tienda.
+- Dado código vendedor duplicado entre activos, cuando guarda, entonces `CONFLICTO`.
+- Dado supervisor o cajero, cuando intenta administrar planilla, entonces `PERMISO_DENEGADO`.
+- Dado código con ñ o fuera de formato (2–8, A–Z, 0–9), entonces `VALIDACION`.
+
 ### RF-031 [M] Confirmar venta
 
 - Descuenta stock (si aplica).

@@ -230,3 +230,16 @@ CREATE TABLE dte_folio_counters (
 ## Revisión 2 — `users` schema v13 (SLICE-60)
 
 Columnas nuevas: `username`, `first_name`, `last_name`, `user_rut`. Índice único `(store_id, username)`. Migración desde v12: `username = id`, `first_name = display_name`.
+
+## Revisión 2 — `collaborators` schema v14 (SLICE-63)
+
+| Columna | Tipo | Notas |
+|---------|------|-------|
+| id | TEXT PK | UUID |
+| store_id | TEXT NOT NULL | |
+| seller_code | TEXT NOT NULL | mayúsculas A–Z, 0–9 |
+| first_name | TEXT NOT NULL | |
+| last_name | TEXT NOT NULL | |
+| active | INTEGER NOT NULL DEFAULT 1 | 0/1 |
+
+Índice único parcial: `(store_id, seller_code) WHERE active = 1`.

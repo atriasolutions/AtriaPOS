@@ -22,6 +22,12 @@ void main() {
       final owner = RoleCapabilities.forRole(UserRole.dueno);
       expect(owner, containsAll(sup));
       expect(owner, contains(Permission.gestionarUsuarios));
+      expect(owner, contains(Permission.gestionarPlanilla));
+    });
+
+    test('SC-083-03 supervisor sin gestionar planilla', () {
+      final caps = RoleCapabilities.forRole(UserRole.supervisor);
+      expect(caps, isNot(contains(Permission.gestionarPlanilla)));
     });
   });
 }

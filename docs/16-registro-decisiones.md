@@ -54,6 +54,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-046 | P1 | Repo org atriasolutions/AtriaPOS | ✅ | [ADR](decisiones/DEC-046-repo-org-atriasolutions.md) | SLICE-58 |
 | DEC-047 | P0 | Username/PIN sin ñ; UUID usuario | ✅ | [ADR](decisiones/DEC-047-credenciales-username-pin.md) | SLICE-60 |
 | DEC-048 | P0 | Permisos herencia Atria POS | ✅ | [ADR](decisiones/DEC-048-permisos-herencia-atria-pos.md) | SLICE-61 |
+| DEC-049 | P0 | Planilla vs usuario POS | ✅ | [ADR](decisiones/DEC-049-planilla-vs-usuario-pos.md) | SLICE-63 |
 
 ---
 

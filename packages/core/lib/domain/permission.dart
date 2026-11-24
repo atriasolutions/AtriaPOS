@@ -9,5 +9,6 @@ enum Permission {
   cerrarCaja,
   configurarCatalogo,
   gestionarUsuarios,
+  gestionarPlanilla,
   anularVenta,
 }

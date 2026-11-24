@@ -4328,6 +4328,417 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
   }
 }
 
+class $CollaboratorsTable extends Collaborators
+    with TableInfo<$CollaboratorsTable, CollaboratorRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CollaboratorsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _storeIdMeta = const VerificationMeta(
+    'storeId',
+  );
+  @override
+  late final GeneratedColumn<String> storeId = GeneratedColumn<String>(
+    'store_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sellerCodeMeta = const VerificationMeta(
+    'sellerCode',
+  );
+  @override
+  late final GeneratedColumn<String> sellerCode = GeneratedColumn<String>(
+    'seller_code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _firstNameMeta = const VerificationMeta(
+    'firstName',
+  );
+  @override
+  late final GeneratedColumn<String> firstName = GeneratedColumn<String>(
+    'first_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastNameMeta = const VerificationMeta(
+    'lastName',
+  );
+  @override
+  late final GeneratedColumn<String> lastName = GeneratedColumn<String>(
+    'last_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    storeId,
+    sellerCode,
+    firstName,
+    lastName,
+    active,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'collaborators';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CollaboratorRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('store_id')) {
+      context.handle(
+        _storeIdMeta,
+        storeId.isAcceptableOrUnknown(data['store_id']!, _storeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_storeIdMeta);
+    }
+    if (data.containsKey('seller_code')) {
+      context.handle(
+        _sellerCodeMeta,
+        sellerCode.isAcceptableOrUnknown(data['seller_code']!, _sellerCodeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sellerCodeMeta);
+    }
+    if (data.containsKey('first_name')) {
+      context.handle(
+        _firstNameMeta,
+        firstName.isAcceptableOrUnknown(data['first_name']!, _firstNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_firstNameMeta);
+    }
+    if (data.containsKey('last_name')) {
+      context.handle(
+        _lastNameMeta,
+        lastName.isAcceptableOrUnknown(data['last_name']!, _lastNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lastNameMeta);
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CollaboratorRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CollaboratorRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      storeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}store_id'],
+      )!,
+      sellerCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}seller_code'],
+      )!,
+      firstName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}first_name'],
+      )!,
+      lastName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_name'],
+      )!,
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+    );
+  }
+
+  @override
+  $CollaboratorsTable createAlias(String alias) {
+    return $CollaboratorsTable(attachedDatabase, alias);
+  }
+}
+
+class CollaboratorRow extends DataClass implements Insertable<CollaboratorRow> {
+  final String id;
+  final String storeId;
+  final String sellerCode;
+  final String firstName;
+  final String lastName;
+  final bool active;
+  const CollaboratorRow({
+    required this.id,
+    required this.storeId,
+    required this.sellerCode,
+    required this.firstName,
+    required this.lastName,
+    required this.active,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['store_id'] = Variable<String>(storeId);
+    map['seller_code'] = Variable<String>(sellerCode);
+    map['first_name'] = Variable<String>(firstName);
+    map['last_name'] = Variable<String>(lastName);
+    map['active'] = Variable<bool>(active);
+    return map;
+  }
+
+  CollaboratorsCompanion toCompanion(bool nullToAbsent) {
+    return CollaboratorsCompanion(
+      id: Value(id),
+      storeId: Value(storeId),
+      sellerCode: Value(sellerCode),
+      firstName: Value(firstName),
+      lastName: Value(lastName),
+      active: Value(active),
+    );
+  }
+
+  factory CollaboratorRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CollaboratorRow(
+      id: serializer.fromJson<String>(json['id']),
+      storeId: serializer.fromJson<String>(json['storeId']),
+      sellerCode: serializer.fromJson<String>(json['sellerCode']),
+      firstName: serializer.fromJson<String>(json['firstName']),
+      lastName: serializer.fromJson<String>(json['lastName']),
+      active: serializer.fromJson<bool>(json['active']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'storeId': serializer.toJson<String>(storeId),
+      'sellerCode': serializer.toJson<String>(sellerCode),
+      'firstName': serializer.toJson<String>(firstName),
+      'lastName': serializer.toJson<String>(lastName),
+      'active': serializer.toJson<bool>(active),
+    };
+  }
+
+  CollaboratorRow copyWith({
+    String? id,
+    String? storeId,
+    String? sellerCode,
+    String? firstName,
+    String? lastName,
+    bool? active,
+  }) => CollaboratorRow(
+    id: id ?? this.id,
+    storeId: storeId ?? this.storeId,
+    sellerCode: sellerCode ?? this.sellerCode,
+    firstName: firstName ?? this.firstName,
+    lastName: lastName ?? this.lastName,
+    active: active ?? this.active,
+  );
+  CollaboratorRow copyWithCompanion(CollaboratorsCompanion data) {
+    return CollaboratorRow(
+      id: data.id.present ? data.id.value : this.id,
+      storeId: data.storeId.present ? data.storeId.value : this.storeId,
+      sellerCode: data.sellerCode.present
+          ? data.sellerCode.value
+          : this.sellerCode,
+      firstName: data.firstName.present ? data.firstName.value : this.firstName,
+      lastName: data.lastName.present ? data.lastName.value : this.lastName,
+      active: data.active.present ? data.active.value : this.active,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CollaboratorRow(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('sellerCode: $sellerCode, ')
+          ..write('firstName: $firstName, ')
+          ..write('lastName: $lastName, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, storeId, sellerCode, firstName, lastName, active);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CollaboratorRow &&
+          other.id == this.id &&
+          other.storeId == this.storeId &&
+          other.sellerCode == this.sellerCode &&
+          other.firstName == this.firstName &&
+          other.lastName == this.lastName &&
+          other.active == this.active);
+}
+
+class CollaboratorsCompanion extends UpdateCompanion<CollaboratorRow> {
+  final Value<String> id;
+  final Value<String> storeId;
+  final Value<String> sellerCode;
+  final Value<String> firstName;
+  final Value<String> lastName;
+  final Value<bool> active;
+  final Value<int> rowid;
+  const CollaboratorsCompanion({
+    this.id = const Value.absent(),
+    this.storeId = const Value.absent(),
+    this.sellerCode = const Value.absent(),
+    this.firstName = const Value.absent(),
+    this.lastName = const Value.absent(),
+    this.active = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CollaboratorsCompanion.insert({
+    required String id,
+    required String storeId,
+    required String sellerCode,
+    required String firstName,
+    required String lastName,
+    this.active = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       storeId = Value(storeId),
+       sellerCode = Value(sellerCode),
+       firstName = Value(firstName),
+       lastName = Value(lastName);
+  static Insertable<CollaboratorRow> custom({
+    Expression<String>? id,
+    Expression<String>? storeId,
+    Expression<String>? sellerCode,
+    Expression<String>? firstName,
+    Expression<String>? lastName,
+    Expression<bool>? active,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (storeId != null) 'store_id': storeId,
+      if (sellerCode != null) 'seller_code': sellerCode,
+      if (firstName != null) 'first_name': firstName,
+      if (lastName != null) 'last_name': lastName,
+      if (active != null) 'active': active,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CollaboratorsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? storeId,
+    Value<String>? sellerCode,
+    Value<String>? firstName,
+    Value<String>? lastName,
+    Value<bool>? active,
+    Value<int>? rowid,
+  }) {
+    return CollaboratorsCompanion(
+      id: id ?? this.id,
+      storeId: storeId ?? this.storeId,
+      sellerCode: sellerCode ?? this.sellerCode,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      active: active ?? this.active,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (storeId.present) {
+      map['store_id'] = Variable<String>(storeId.value);
+    }
+    if (sellerCode.present) {
+      map['seller_code'] = Variable<String>(sellerCode.value);
+    }
+    if (firstName.present) {
+      map['first_name'] = Variable<String>(firstName.value);
+    }
+    if (lastName.present) {
+      map['last_name'] = Variable<String>(lastName.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CollaboratorsCompanion(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('sellerCode: $sellerCode, ')
+          ..write('firstName: $firstName, ')
+          ..write('lastName: $lastName, ')
+          ..write('active: $active, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $DteFolioCountersTable extends DteFolioCounters
     with TableInfo<$DteFolioCountersTable, DteFolioCounterRow> {
   @override
@@ -5082,6 +5493,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $PaymentsTable payments = $PaymentsTable(this);
   late final $DteQueueTable dteQueue = $DteQueueTable(this);
   late final $UsersTable users = $UsersTable(this);
+  late final $CollaboratorsTable collaborators = $CollaboratorsTable(this);
   late final $DteFolioCountersTable dteFolioCounters = $DteFolioCountersTable(
     this,
   );
@@ -5100,6 +5512,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     payments,
     dteQueue,
     users,
+    collaborators,
     dteFolioCounters,
     clockState,
   ];
@@ -7293,6 +7706,227 @@ typedef $$UsersTableProcessedTableManager =
       UserRow,
       PrefetchHooks Function()
     >;
+typedef $$CollaboratorsTableCreateCompanionBuilder =
+    CollaboratorsCompanion Function({
+      required String id,
+      required String storeId,
+      required String sellerCode,
+      required String firstName,
+      required String lastName,
+      Value<bool> active,
+      Value<int> rowid,
+    });
+typedef $$CollaboratorsTableUpdateCompanionBuilder =
+    CollaboratorsCompanion Function({
+      Value<String> id,
+      Value<String> storeId,
+      Value<String> sellerCode,
+      Value<String> firstName,
+      Value<String> lastName,
+      Value<bool> active,
+      Value<int> rowid,
+    });
+
+class $$CollaboratorsTableFilterComposer
+    extends Composer<_$AppDatabase, $CollaboratorsTable> {
+  $$CollaboratorsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sellerCode => $composableBuilder(
+    column: $table.sellerCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get firstName => $composableBuilder(
+    column: $table.firstName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastName => $composableBuilder(
+    column: $table.lastName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CollaboratorsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CollaboratorsTable> {
+  $$CollaboratorsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sellerCode => $composableBuilder(
+    column: $table.sellerCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get firstName => $composableBuilder(
+    column: $table.firstName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastName => $composableBuilder(
+    column: $table.lastName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CollaboratorsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CollaboratorsTable> {
+  $$CollaboratorsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get storeId =>
+      $composableBuilder(column: $table.storeId, builder: (column) => column);
+
+  GeneratedColumn<String> get sellerCode => $composableBuilder(
+    column: $table.sellerCode,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get firstName =>
+      $composableBuilder(column: $table.firstName, builder: (column) => column);
+
+  GeneratedColumn<String> get lastName =>
+      $composableBuilder(column: $table.lastName, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+}
+
+class $$CollaboratorsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CollaboratorsTable,
+          CollaboratorRow,
+          $$CollaboratorsTableFilterComposer,
+          $$CollaboratorsTableOrderingComposer,
+          $$CollaboratorsTableAnnotationComposer,
+          $$CollaboratorsTableCreateCompanionBuilder,
+          $$CollaboratorsTableUpdateCompanionBuilder,
+          (
+            CollaboratorRow,
+            BaseReferences<_$AppDatabase, $CollaboratorsTable, CollaboratorRow>,
+          ),
+          CollaboratorRow,
+          PrefetchHooks Function()
+        > {
+  $$CollaboratorsTableTableManager(_$AppDatabase db, $CollaboratorsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CollaboratorsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CollaboratorsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CollaboratorsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> storeId = const Value.absent(),
+                Value<String> sellerCode = const Value.absent(),
+                Value<String> firstName = const Value.absent(),
+                Value<String> lastName = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CollaboratorsCompanion(
+                id: id,
+                storeId: storeId,
+                sellerCode: sellerCode,
+                firstName: firstName,
+                lastName: lastName,
+                active: active,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String storeId,
+                required String sellerCode,
+                required String firstName,
+                required String lastName,
+                Value<bool> active = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CollaboratorsCompanion.insert(
+                id: id,
+                storeId: storeId,
+                sellerCode: sellerCode,
+                firstName: firstName,
+                lastName: lastName,
+                active: active,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CollaboratorsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CollaboratorsTable,
+      CollaboratorRow,
+      $$CollaboratorsTableFilterComposer,
+      $$CollaboratorsTableOrderingComposer,
+      $$CollaboratorsTableAnnotationComposer,
+      $$CollaboratorsTableCreateCompanionBuilder,
+      $$CollaboratorsTableUpdateCompanionBuilder,
+      (
+        CollaboratorRow,
+        BaseReferences<_$AppDatabase, $CollaboratorsTable, CollaboratorRow>,
+      ),
+      CollaboratorRow,
+      PrefetchHooks Function()
+    >;
 typedef $$DteFolioCountersTableCreateCompanionBuilder =
     DteFolioCountersCompanion Function({
       required String storeId,
@@ -7731,6 +8365,8 @@ class $AppDatabaseManager {
       $$DteQueueTableTableManager(_db, _db.dteQueue);
   $$UsersTableTableManager get users =>
       $$UsersTableTableManager(_db, _db.users);
+  $$CollaboratorsTableTableManager get collaborators =>
+      $$CollaboratorsTableTableManager(_db, _db.collaborators);
   $$DteFolioCountersTableTableManager get dteFolioCounters =>
       $$DteFolioCountersTableTableManager(_db, _db.dteFolioCounters);
   $$ClockStateTableTableManager get clockState =>

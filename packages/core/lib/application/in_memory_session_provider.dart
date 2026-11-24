@@ -19,6 +19,16 @@ class InMemorySessionProvider implements SessionProvider {
     );
   }
 
+  factory InMemorySessionProvider.dueno({UserId userId = 'usr_dueno'}) {
+    return InMemorySessionProvider(
+      initial: AuthSession(
+        userId: userId,
+        role: UserRole.dueno,
+        expiresAt: DateTime.now().toUtc().add(const Duration(hours: 8)),
+      ),
+    );
+  }
+
   factory InMemorySessionProvider.cajero({UserId userId = 'usr_cajero'}) {
     return InMemorySessionProvider(
       initial: AuthSession(

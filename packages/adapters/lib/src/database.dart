@@ -105,6 +105,19 @@ class SaleLines extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+@DataClassName('CollaboratorRow')
+class Collaborators extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text()();
+  TextColumn get sellerCode => text().named('seller_code')();
+  TextColumn get firstName => text().named('first_name')();
+  TextColumn get lastName => text().named('last_name')();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 @DataClassName('UserRow')
 class Users extends Table {
   TextColumn get id => text()();
@@ -166,6 +179,7 @@ class DteFolioCounters extends Table {
   Payments,
   DteQueue,
   Users,
+  Collaborators,
   DteFolioCounters,
   ClockState,
 ])
@@ -173,7 +187,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 13;
+  int get schemaVersion => 14;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -189,6 +203,10 @@ class AppDatabase extends _$AppDatabase {
           await customStatement(
             'CREATE INDEX idx_stock_movements_product '
             'ON stock_movements (store_id, product_id, created_at)',
+          );
+          await customStatement(
+            'CREATE UNIQUE INDEX idx_collaborators_store_code_active '
+            'ON collaborators (store_id, seller_code) WHERE active = 1',
           );
         },
         onUpgrade: (m, from, to) async {
@@ -261,6 +279,13 @@ WHERE (
             await customStatement(
               'CREATE UNIQUE INDEX IF NOT EXISTS idx_users_store_username '
               'ON users (store_id, username)',
+            );
+          }
+          if (from < 14) {
+            await m.createTable(collaborators);
+            await customStatement(
+              'CREATE UNIQUE INDEX idx_collaborators_store_code_active '
+              'ON collaborators (store_id, seller_code) WHERE active = 1',
             );
           }
         },

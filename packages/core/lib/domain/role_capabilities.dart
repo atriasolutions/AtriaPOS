@@ -21,6 +21,7 @@ class RoleCapabilities {
 
   static const _duenoExtra = {
     Permission.gestionarUsuarios,
+    Permission.gestionarPlanilla,
   };
 
   static Set<Permission> forRole(UserRole role) {
