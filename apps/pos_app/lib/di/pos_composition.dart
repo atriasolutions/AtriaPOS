@@ -235,11 +235,29 @@ class PosComposition {
     final hasher = BcryptPinHasher();
     final hash = hasher.hash(demoPin);
     for (final def in [
-      (id: 'usr_dueno', role: UserRole.dueno, name: 'Dueño'),
-      (id: 'usr_supervisor', role: UserRole.supervisor, name: 'Supervisor'),
-      (id: 'usr_cajero', role: UserRole.cajero, name: 'Cajero'),
+      (
+        id: 'a0000000-0000-4000-8000-000000000001',
+        username: 'usr_dueno',
+        role: UserRole.dueno,
+        firstName: 'Dueño',
+        lastName: 'Demo',
+      ),
+      (
+        id: 'a0000000-0000-4000-8000-000000000002',
+        username: 'usr_supervisor',
+        role: UserRole.supervisor,
+        firstName: 'Supervisor',
+        lastName: 'Demo',
+      ),
+      (
+        id: 'a0000000-0000-4000-8000-000000000003',
+        username: 'usr_cajero',
+        role: UserRole.cajero,
+        firstName: 'Cajero',
+        lastName: 'Demo',
+      ),
     ]) {
-      final existing = await users.findById(storeId, def.id);
+      final existing = await users.findByUsername(storeId, def.username);
       if (existing != null) continue;
       await users.save(
         User(
@@ -247,7 +265,10 @@ class PosComposition {
           storeId: storeId,
           role: def.role,
           pinHash: hash,
-          displayName: def.name,
+          username: def.username,
+          firstName: def.firstName,
+          lastName: def.lastName,
+          rut: '12.345.678-5',
         ),
       );
     }

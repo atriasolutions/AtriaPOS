@@ -25,6 +25,16 @@ Roles MVP: `DUENO`, `SUPERVISOR`, `CAJERO`.
 | Configurar precios/costo | ✓ | ✓ | — |
 | Gestionar usuarios | ✓ | — | — |
 
+### RF-080 [M] Perfil usuario (revisión 2, SLICE-60)
+
+Campos: `id` (UUID), nombre, apellido, RUT persona, `username`, PIN.
+
+- Dado dueño autenticado, cuando crea usuario con datos válidos, entonces persiste UUID y `username` único en la tienda.
+- Dado login, cuando ingresa `username` y PIN correctos, entonces abre sesión con rol correspondiente.
+- Dado `username` o PIN con letra ñ, cuando intenta crear o autenticar, entonces rechaza con `VALIDACION`.
+- Dado RUT persona inválido, cuando crea usuario, entonces rechaza con `VALIDACION`.
+- Dado nombre/apellido con tildes o ñ, cuando crea usuario, entonces acepta (solo credenciales sin ñ).
+
 ### RF-003 [S] Certificado SII
 
 Carga de certificado y validación de vigencia (sin almacenar clave en texto plano en logs).

@@ -15,7 +15,10 @@ void main() {
         rut: '12.345.678-5',
         legalName: 'Minimarket',
         businessLine: 'Almacén',
-        ownerDisplayName: 'Dueño',
+        ownerFirstName: 'Dueño',
+        ownerLastName: 'Tienda',
+        ownerUsername: 'jperez',
+        ownerRut: '12.345.678-5',
         ownerPin: '2468',
       ),
     );
@@ -29,7 +32,10 @@ void main() {
         rut: '12.345.678-0',
         legalName: 'X',
         businessLine: 'Y',
-        ownerDisplayName: 'Dueño',
+        ownerFirstName: 'A',
+        ownerLastName: 'B',
+        ownerUsername: 'ab',
+        ownerRut: '12.345.678-5',
         ownerPin: '2468',
       ),
     );

@@ -13,7 +13,7 @@ void main() {
     await composition.ensureDemoUsers();
     await composition.authService.login(
       kDemoStoreId,
-      const LoginRequest(userId: 'usr_cajero', pin: PosComposition.demoPin),
+      const LoginRequest(username: 'usr_cajero', pin: PosComposition.demoPin),
     );
 
     await tester.pumpWidget(

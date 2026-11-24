@@ -2,6 +2,17 @@ import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
+const _bootstrapOwner = BootstrapStoreInput(
+  rut: '12.345.678-5',
+  legalName: 'Minimarket',
+  businessLine: 'Almacén',
+  ownerFirstName: 'Dueño',
+  ownerLastName: 'Tienda',
+  ownerUsername: 'jperez',
+  ownerRut: '12.345.678-5',
+  ownerPin: '2468',
+);
+
 void main() {
   late InMemoryStoreRepository stores;
   late InMemoryUserRepository users;
@@ -16,19 +27,12 @@ void main() {
   });
 
   test('SC-001-01 bootstrap tienda y dueño', () async {
-    final result = await bootstrap(
-      const BootstrapStoreInput(
-        rut: '12.345.678-5',
-        legalName: 'Minimarket',
-        businessLine: 'Almacén',
-        ownerDisplayName: 'Dueño',
-        ownerPin: '2468',
-      ),
-    );
+    final result = await bootstrap(_bootstrapOwner);
     expect(await stores.count(), 1);
     expect(result.store.legalName, 'Minimarket');
     expect(result.user.role, UserRole.dueno);
-    expect(sessions.current?.userId, 'usr_dueno');
+    expect(result.user.username, 'jperez');
+    expect(sessions.current?.userId, result.user.id);
   });
 
   test('SC-001-02 RUT inválido', () async {
@@ -38,7 +42,10 @@ void main() {
           rut: '12.345.678-0',
           legalName: 'X',
           businessLine: 'Y',
-          ownerDisplayName: 'Dueño',
+          ownerFirstName: 'A',
+          ownerLastName: 'B',
+          ownerUsername: 'dueno1',
+          ownerRut: '12.345.678-5',
           ownerPin: '2468',
         ),
       ),
@@ -48,22 +55,17 @@ void main() {
   });
 
   test('SC-001-03 segunda tienda CONFLICTO', () async {
-    await bootstrap(
-      const BootstrapStoreInput(
-        rut: '12.345.678-5',
-        legalName: 'A',
-        businessLine: 'B',
-        ownerDisplayName: 'Dueño',
-        ownerPin: '2468',
-      ),
-    );
+    await bootstrap(_bootstrapOwner);
     expect(
       () => bootstrap(
         const BootstrapStoreInput(
           rut: '12.345.678-5',
           legalName: 'Otra',
           businessLine: 'C',
-          ownerDisplayName: 'Dueño',
+          ownerFirstName: 'Otro',
+          ownerLastName: 'Dueño',
+          ownerUsername: 'otro',
+          ownerRut: '12.345.678-5',
           ownerPin: '1357',
         ),
       ),

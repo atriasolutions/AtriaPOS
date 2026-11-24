@@ -12,6 +12,17 @@ class InMemoryUserRepository implements UserRepository {
   }
 
   @override
+  Future<User?> findByUsername(StoreId storeId, String username) async {
+    final normalized = username.trim();
+    for (final user in _users.values) {
+      if (user.storeId == storeId && user.username == normalized) {
+        return user;
+      }
+    }
+    return null;
+  }
+
+  @override
   Future<void> save(User user) async {
     _users[_key(user.storeId, user.id)] = user;
   }

@@ -17,7 +17,7 @@ Future<void> runSaleFlowScenario(WidgetTester tester) async {
   await composition.ensureDemoUsers();
   await composition.authService.login(
     kDemoStoreId,
-    const LoginRequest(userId: 'usr_supervisor', pin: PosComposition.demoPin),
+    const LoginRequest(username: 'usr_supervisor', pin: PosComposition.demoPin),
   );
   final created = await composition.productService.createProduct(
     kDemoStoreId,

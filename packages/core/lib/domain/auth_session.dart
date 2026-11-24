@@ -1,7 +1,8 @@
 import 'failures.dart';
+import 'user_id.dart';
 import 'user_role.dart';
 
-typedef UserId = String;
+export 'user_id.dart' show UserId;
 
 class AuthSession {
   AuthSession({

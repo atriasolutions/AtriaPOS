@@ -15,31 +15,41 @@ class UserCreateScreen extends StatefulWidget {
 }
 
 class _UserCreateScreenState extends State<UserCreateScreen> {
-  final _userIdController = TextEditingController();
-  final _displayNameController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _rutController = TextEditingController();
   final _pinController = TextEditingController();
   UserRole _role = UserRole.cajero;
   bool _submitting = false;
 
   @override
   void dispose() {
-    _userIdController.dispose();
-    _displayNameController.dispose();
+    _usernameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _rutController.dispose();
     _pinController.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
-    final userId = _userIdController.text.trim();
-    final displayName = _displayNameController.text.trim();
+    final username = _usernameController.text.trim();
+    final firstName = _firstNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
+    final rut = _rutController.text.trim();
     final pin = _pinController.text.trim();
 
-    if (userId.isEmpty) {
-      _snack('Ingrese un identificador de usuario.');
+    if (username.isEmpty) {
+      _snack('Ingrese un nombre de usuario.');
       return;
     }
-    if (displayName.isEmpty) {
-      _snack('Ingrese el nombre visible.');
+    if (firstName.isEmpty || lastName.isEmpty) {
+      _snack('Ingrese nombre y apellido.');
+      return;
+    }
+    if (rut.isEmpty) {
+      _snack('Ingrese el RUT.');
       return;
     }
     if (pin.length < 4) {
@@ -51,8 +61,10 @@ class _UserCreateScreenState extends State<UserCreateScreen> {
     final result = await widget.composition.authService.createUser(
       widget.composition.requireStoreId,
       CreateUserRequest(
-        userId: userId,
-        displayName: displayName,
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+        rut: rut,
         role: _role.apiValue,
         pin: pin,
       ),
@@ -92,19 +104,37 @@ class _UserCreateScreenState extends State<UserCreateScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              key: const Key('user_create_id_field'),
-              controller: _userIdController,
+              key: const Key('user_create_username_field'),
+              controller: _usernameController,
               decoration: const InputDecoration(
-                labelText: 'Identificador (ej. usr_cajero2)',
+                labelText: 'Usuario (sin ñ)',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             TextField(
-              key: const Key('user_create_name_field'),
-              controller: _displayNameController,
+              key: const Key('user_create_first_name_field'),
+              controller: _firstNameController,
               decoration: const InputDecoration(
-                labelText: 'Nombre visible',
+                labelText: 'Nombre',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              key: const Key('user_create_last_name_field'),
+              controller: _lastNameController,
+              decoration: const InputDecoration(
+                labelText: 'Apellido',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              key: const Key('user_create_rut_field'),
+              controller: _rutController,
+              decoration: const InputDecoration(
+                labelText: 'RUT',
                 border: OutlineInputBorder(),
               ),
             ),

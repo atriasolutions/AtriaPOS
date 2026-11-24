@@ -3,14 +3,20 @@ class BootstrapStoreRequest {
     required this.rut,
     required this.legalName,
     required this.businessLine,
-    required this.ownerDisplayName,
+    required this.ownerFirstName,
+    required this.ownerLastName,
+    required this.ownerUsername,
+    required this.ownerRut,
     required this.ownerPin,
   });
 
   final String rut;
   final String legalName;
   final String businessLine;
-  final String ownerDisplayName;
+  final String ownerFirstName;
+  final String ownerLastName;
+  final String ownerUsername;
+  final String ownerRut;
   final String ownerPin;
 }
 

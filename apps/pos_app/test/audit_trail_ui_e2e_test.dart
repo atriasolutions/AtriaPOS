@@ -14,7 +14,7 @@ void main() {
     await composition.ensureDemoUsers();
     await composition.authService.login(
       kDemoStoreId,
-      const LoginRequest(userId: 'usr_supervisor', pin: PosComposition.demoPin),
+      const LoginRequest(username: 'usr_supervisor', pin: PosComposition.demoPin),
     );
     await composition.shiftService.openShift(
       kDemoStoreId,
@@ -67,7 +67,10 @@ void main() {
 
     expect(find.byKey(const Key('audit_trail_list')), findsOneWidget);
     expect(find.textContaining('CONFIRMA_VENTA'), findsWidgets);
-    expect(find.textContaining('usr_supervisor'), findsWidgets);
+    expect(
+      find.textContaining('a0000000-0000-4000-8000-000000000002'),
+      findsWidgets,
+    );
     expect(find.textContaining('AJUSTE_STOCK'), findsWidgets);
   });
 
@@ -78,7 +81,7 @@ void main() {
     await composition.ensureDemoUsers();
     await composition.authService.login(
       kDemoStoreId,
-      const LoginRequest(userId: 'usr_cajero', pin: PosComposition.demoPin),
+      const LoginRequest(username: 'usr_cajero', pin: PosComposition.demoPin),
     );
     await composition.shiftService.openShift(
       kDemoStoreId,

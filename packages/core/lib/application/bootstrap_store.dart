@@ -9,17 +9,21 @@ class BootstrapStoreInput {
     required this.rut,
     required this.legalName,
     required this.businessLine,
-    required this.ownerDisplayName,
+    required this.ownerFirstName,
+    required this.ownerLastName,
+    required this.ownerUsername,
+    required this.ownerRut,
     required this.ownerPin,
-    this.ownerUserId = 'usr_dueno',
   });
 
   final String rut;
   final String legalName;
   final String businessLine;
-  final String ownerDisplayName;
+  final String ownerFirstName;
+  final String ownerLastName;
+  final String ownerUsername;
+  final String ownerRut;
   final String ownerPin;
-  final UserId ownerUserId;
 }
 
 class BootstrapStoreResult {
@@ -53,12 +57,23 @@ class BootstrapStore {
     if (await _stores.count() > 0) {
       throw const ConflictFailure('Ya existe una tienda en este dispositivo');
     }
+
+    CredentialPolicy.validateUsername(input.ownerUsername);
+    CredentialPolicy.validatePin(input.ownerPin);
+
     if (input.ownerPin.length < 4) {
       throw const ValidationFailure('El PIN debe tener al menos 4 dígitos');
     }
-    final displayName = input.ownerDisplayName.trim();
-    if (displayName.isEmpty) {
-      throw const ValidationFailure('Ingrese el nombre del dueño');
+    final firstName = input.ownerFirstName.trim();
+    final lastName = input.ownerLastName.trim();
+    if (firstName.isEmpty || lastName.isEmpty) {
+      throw const ValidationFailure('Ingrese nombre y apellido del dueño');
+    }
+    if (!RutChile.isValid(input.rut)) {
+      throw const ValidationFailure('RUT de la tienda inválido');
+    }
+    if (!RutChile.isValid(input.ownerRut)) {
+      throw const ValidationFailure('RUT del dueño inválido');
     }
 
     final store = Store.create(
@@ -70,11 +85,14 @@ class BootstrapStore {
     await _stores.save(store);
 
     final user = User(
-      id: input.ownerUserId,
+      id: newUserId(),
       storeId: store.id,
       role: UserRole.dueno,
       pinHash: _hasher.hash(input.ownerPin),
-      displayName: displayName,
+      username: input.ownerUsername.trim(),
+      firstName: firstName,
+      lastName: lastName,
+      rut: RutChile.formatDisplay(input.ownerRut),
     );
     await _users.save(user);
 

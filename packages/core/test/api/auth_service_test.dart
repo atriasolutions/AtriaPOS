@@ -23,7 +23,7 @@ void main() {
   test('SC-070-01 login válido', () async {
     final result = await auth.login(
       storeId,
-      const LoginRequest(userId: 'usr_cajero', pin: kTestPin),
+      const LoginRequest(username: 'usr_cajero', pin: kTestPin),
     );
     expect(result, isA<ApiSuccess<LoginResponse>>());
     final body = (result as ApiSuccess<LoginResponse>).data;
@@ -34,7 +34,7 @@ void main() {
   test('SC-070-02 PIN incorrecto', () async {
     final result = await auth.login(
       storeId,
-      const LoginRequest(userId: 'usr_cajero', pin: '0000'),
+      const LoginRequest(username: 'usr_cajero', pin: '0000'),
     );
     expect(result, isA<ApiFailure<LoginResponse>>());
     expect((result as ApiFailure<LoginResponse>).error.code, 'CREDENCIAL_INVALIDA');

@@ -7,15 +7,19 @@ import 'ports/user_repository.dart';
 class CreateUserInput {
   const CreateUserInput({
     required this.storeId,
-    required this.userId,
-    required this.displayName,
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.rut,
     required this.role,
     required this.pin,
   });
 
   final StoreId storeId;
-  final UserId userId;
-  final String displayName;
+  final String username;
+  final String firstName;
+  final String lastName;
+  final String rut;
   final UserRole role;
   final String pin;
 }
@@ -33,24 +37,46 @@ class CreateUser {
       Permission.gestionarUsuarios,
     );
 
+    CredentialPolicy.validateUsername(input.username);
+    CredentialPolicy.validatePin(input.pin);
+
     if (input.pin.length < 4) {
       throw const ValidationFailure('El PIN debe tener al menos 4 dígitos');
     }
 
-    final existing = await _users.findById(input.storeId, input.userId);
-    if (existing != null) {
+    final firstName = input.firstName.trim();
+    final lastName = input.lastName.trim();
+    if (firstName.isEmpty) {
+      throw const ValidationFailure('Ingrese el nombre');
+    }
+    if (lastName.isEmpty) {
+      throw const ValidationFailure('Ingrese el apellido');
+    }
+
+    if (!RutChile.isValid(input.rut)) {
+      throw const ValidationFailure('RUT de usuario inválido');
+    }
+    final rutNormalized = RutChile.formatDisplay(input.rut);
+
+    final username = input.username.trim();
+    final existingByUsername =
+        await _users.findByUsername(input.storeId, username);
+    if (existingByUsername != null) {
       throw ConflictFailure(
-        'Ya existe un usuario con ese identificador',
-        details: {'userId': input.userId},
+        'Ya existe un usuario con ese nombre de usuario',
+        details: {'username': username},
       );
     }
 
     final user = User(
-      id: input.userId,
+      id: newUserId(),
       storeId: input.storeId,
       role: input.role,
       pinHash: _hasher.hash(input.pin),
-      displayName: input.displayName,
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      rut: rutNormalized,
     );
     await _users.save(user);
     return user;

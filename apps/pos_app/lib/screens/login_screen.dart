@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final result = await widget.composition.authService.login(
       widget.composition.requireStoreId,
       LoginRequest(
-        userId: _userIdController.text.trim(),
+        username: _userIdController.text.trim(),
         pin: _pinController.text.trim(),
       ),
     );

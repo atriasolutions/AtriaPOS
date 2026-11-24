@@ -1,10 +1,10 @@
 class LoginRequest {
   const LoginRequest({
-    required this.userId,
+    required this.username,
     required this.pin,
   });
 
-  final String userId;
+  final String username;
   final String pin;
 }
 
@@ -22,26 +22,38 @@ class LoginResponse {
 
 class CreateUserRequest {
   const CreateUserRequest({
-    required this.userId,
-    required this.displayName,
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.rut,
     required this.role,
     required this.pin,
   });
 
-  final String userId;
-  final String displayName;
+  final String username;
+  final String firstName;
+  final String lastName;
+  final String rut;
   final String role;
   final String pin;
 }
 
 class CreateUserResponse {
   const CreateUserResponse({
-    required this.userId,
+    required this.id,
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.rut,
     required this.role,
     required this.displayName,
   });
 
-  final String userId;
+  final String id;
+  final String username;
+  final String firstName;
+  final String lastName;
+  final String rut;
   final String role;
   final String displayName;
 }

@@ -112,6 +112,10 @@ class Users extends Table {
   TextColumn get role => text()();
   TextColumn get pinHash => text()();
   TextColumn get displayName => text()();
+  TextColumn get username => text()();
+  TextColumn get firstName => text().named('first_name')();
+  TextColumn get lastName => text().named('last_name')();
+  TextColumn get userRut => text().named('user_rut')();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -169,7 +173,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 12;
+  int get schemaVersion => 13;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -243,6 +247,21 @@ WHERE (
           }
           if (from < 12) {
             await m.addColumn(sales, sales.confirmedByUserId);
+          }
+          if (from < 13) {
+            await m.addColumn(users, users.username);
+            await m.addColumn(users, users.firstName);
+            await m.addColumn(users, users.lastName);
+            await m.addColumn(users, users.userRut);
+            await customStatement(
+              "UPDATE users SET username = id, "
+              "first_name = display_name, last_name = '', user_rut = '' "
+              'WHERE username IS NULL',
+            );
+            await customStatement(
+              'CREATE UNIQUE INDEX IF NOT EXISTS idx_users_store_username '
+              'ON users (store_id, username)',
+            );
           }
         },
       );

@@ -7,12 +7,24 @@ class User {
     required this.storeId,
     required this.role,
     required this.pinHash,
-    required this.displayName,
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.rut,
   });
 
   final UserId id;
   final String storeId;
   final UserRole role;
   final String pinHash;
-  final String displayName;
+  final String username;
+  final String firstName;
+  final String lastName;
+  final String rut;
+
+  /// Nombre visible para listas y auditoría (RF-080).
+  String get displayName {
+    final full = '${firstName.trim()} ${lastName.trim()}'.trim();
+    return full.isEmpty ? username : full;
+  }
 }

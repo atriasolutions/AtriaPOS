@@ -1,4 +1,5 @@
 export 'auth_policy.dart';
+export 'credential_policy.dart';
 export 'certificate_info.dart';
 export 'certificate_status.dart';
 export 'auth_session.dart';
@@ -6,6 +7,7 @@ export 'chile_datetime_format.dart';
 export 'cart.dart';
 export 'permission.dart';
 export 'user.dart';
+export 'user_id.dart';
 export 'user_role.dart';
 export 'dte_queue_entry.dart';
 export 'dte_status.dart';

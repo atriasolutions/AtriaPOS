@@ -52,6 +52,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-044 | P1 | Marca Atria POS y repo canónico | ✅ | [ADR](decisiones/DEC-044-marca-atria-pos.md) | SLICE-55/56 |
 | DEC-045 | P1 | Sin nombres de persona en repo | ✅ | [ADR](decisiones/DEC-045-sin-nombres-persona.md) | SLICE-57 |
 | DEC-046 | P1 | Repo org atriasolutions/AtriaPOS | ✅ | [ADR](decisiones/DEC-046-repo-org-atriasolutions.md) | SLICE-58 |
+| DEC-047 | P0 | Username/PIN sin ñ; UUID usuario | ✅ | [ADR](decisiones/DEC-047-credenciales-username-pin.md) | SLICE-60 |
 
 ---
 

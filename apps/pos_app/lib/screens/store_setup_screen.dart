@@ -22,7 +22,10 @@ class _StoreSetupScreenState extends State<StoreSetupScreen> {
   final _rutController = TextEditingController();
   final _legalNameController = TextEditingController();
   final _businessLineController = TextEditingController();
-  final _ownerNameController = TextEditingController();
+  final _ownerFirstNameController = TextEditingController();
+  final _ownerLastNameController = TextEditingController();
+  final _ownerUsernameController = TextEditingController();
+  final _ownerRutController = TextEditingController();
   final _pinController = TextEditingController();
   bool _loading = false;
 
@@ -31,7 +34,10 @@ class _StoreSetupScreenState extends State<StoreSetupScreen> {
     _rutController.dispose();
     _legalNameController.dispose();
     _businessLineController.dispose();
-    _ownerNameController.dispose();
+    _ownerFirstNameController.dispose();
+    _ownerLastNameController.dispose();
+    _ownerUsernameController.dispose();
+    _ownerRutController.dispose();
     _pinController.dispose();
     super.dispose();
   }
@@ -43,7 +49,10 @@ class _StoreSetupScreenState extends State<StoreSetupScreen> {
         rut: _rutController.text.trim(),
         legalName: _legalNameController.text.trim(),
         businessLine: _businessLineController.text.trim(),
-        ownerDisplayName: _ownerNameController.text.trim(),
+        ownerFirstName: _ownerFirstNameController.text.trim(),
+        ownerLastName: _ownerLastNameController.text.trim(),
+        ownerUsername: _ownerUsernameController.text.trim(),
+        ownerRut: _ownerRutController.text.trim(),
         ownerPin: _pinController.text.trim(),
       ),
     );
@@ -111,10 +120,37 @@ class _StoreSetupScreenState extends State<StoreSetupScreen> {
             const Text('Dueño de la tienda'),
             const SizedBox(height: 8),
             TextField(
-              key: const Key('store_setup_owner_name_field'),
-              controller: _ownerNameController,
+              key: const Key('store_setup_owner_first_name_field'),
+              controller: _ownerFirstNameController,
               decoration: const InputDecoration(
                 labelText: 'Nombre',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              key: const Key('store_setup_owner_last_name_field'),
+              controller: _ownerLastNameController,
+              decoration: const InputDecoration(
+                labelText: 'Apellido',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              key: const Key('store_setup_owner_username_field'),
+              controller: _ownerUsernameController,
+              decoration: const InputDecoration(
+                labelText: 'Usuario (sin ñ)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              key: const Key('store_setup_owner_rut_field'),
+              controller: _ownerRutController,
+              decoration: const InputDecoration(
+                labelText: 'RUT dueño',
                 border: OutlineInputBorder(),
               ),
             ),

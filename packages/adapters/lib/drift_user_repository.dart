@@ -13,14 +13,18 @@ class DriftUserRepository implements UserRepository {
     final row = await (_db.select(_db.users)
           ..where((t) => t.id.equals(userId) & t.storeId.equals(storeId)))
         .getSingleOrNull();
-    if (row == null) return null;
-    return User(
-      id: row.id,
-      storeId: row.storeId,
-      role: UserRole.fromApi(row.role),
-      pinHash: row.pinHash,
-      displayName: row.displayName,
-    );
+    return row == null ? null : _mapRow(row);
+  }
+
+  @override
+  Future<User?> findByUsername(StoreId storeId, String username) async {
+    final normalized = username.trim();
+    final row = await (_db.select(_db.users)
+          ..where(
+            (t) => t.storeId.equals(storeId) & t.username.equals(normalized),
+          ))
+        .getSingleOrNull();
+    return row == null ? null : _mapRow(row);
   }
 
   @override
@@ -32,7 +36,24 @@ class DriftUserRepository implements UserRepository {
             role: user.role.apiValue,
             pinHash: user.pinHash,
             displayName: user.displayName,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            userRut: user.rut,
           ),
         );
+  }
+
+  User _mapRow(UserRow row) {
+    return User(
+      id: row.id,
+      storeId: row.storeId,
+      role: UserRole.fromApi(row.role),
+      pinHash: row.pinHash,
+      username: row.username,
+      firstName: row.firstName,
+      lastName: row.lastName,
+      rut: row.userRut,
+    );
   }
 }

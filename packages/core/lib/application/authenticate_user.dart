@@ -16,8 +16,9 @@ class AuthenticateUser {
   final SessionProvider _sessions;
   final Duration sessionTtl;
 
-  Future<AuthSession> call(StoreId storeId, UserId userId, String pin) async {
-    final user = await _users.findById(storeId, userId);
+  Future<AuthSession> call(StoreId storeId, String username, String pin) async {
+    CredentialPolicy.validatePin(pin);
+    final user = await _users.findByUsername(storeId, username);
     if (user == null || !_hasher.verify(pin, user.pinHash)) {
       throw const CredentialFailure('Usuario o PIN incorrectos');
     }

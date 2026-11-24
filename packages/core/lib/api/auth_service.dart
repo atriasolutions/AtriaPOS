@@ -34,7 +34,8 @@ class AuthService {
     LoginRequest request,
   ) async {
     try {
-      final session = await _authenticate(storeId, request.userId, request.pin);
+      final session =
+          await _authenticate(storeId, request.username, request.pin);
       return ApiSuccess(
         LoginResponse(
           token: session.token,
@@ -59,15 +60,21 @@ class AuthService {
       final user = await _createUser(
         CreateUserInput(
           storeId: storeId,
-          userId: request.userId,
-          displayName: request.displayName,
+          username: request.username,
+          firstName: request.firstName,
+          lastName: request.lastName,
+          rut: request.rut,
           role: UserRole.fromApi(request.role),
           pin: request.pin,
         ),
       );
       return ApiSuccess(
         CreateUserResponse(
-          userId: user.id,
+          id: user.id,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          rut: user.rut,
           role: user.role.apiValue,
           displayName: user.displayName,
         ),

@@ -40,7 +40,10 @@ class StoreService {
           rut: request.rut,
           legalName: request.legalName,
           businessLine: request.businessLine,
-          ownerDisplayName: request.ownerDisplayName,
+          ownerFirstName: request.ownerFirstName,
+          ownerLastName: request.ownerLastName,
+          ownerUsername: request.ownerUsername,
+          ownerRut: request.ownerRut,
           ownerPin: request.ownerPin,
         ),
       );

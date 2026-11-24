@@ -226,3 +226,7 @@ CREATE TABLE dte_folio_counters (
   PRIMARY KEY (store_id, document_type)
 );
 ```
+
+## Revisión 2 — `users` schema v13 (SLICE-60)
+
+Columnas nuevas: `username`, `first_name`, `last_name`, `user_rut`. Índice único `(store_id, username)`. Migración desde v12: `username = id`, `first_name = display_name`.

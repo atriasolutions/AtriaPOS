@@ -115,13 +115,13 @@ Expansión de nombres y permisos; enums técnicos pueden conservar `dueno` / `su
 
 | ID | Criterio | Estado |
 |----|----------|--------|
-| G2-01 | Plantilla Atria POS acotada (§1) confirmada por producto | ⬜ |
-| G2-02 | Fuera de alcance R2/R3 explicitado (§2, doc 20b) | ⬜ |
-| G2-03 | Política credenciales: username/PIN sin `ñ`; nombre/apellido con español Chile | ⬜ |
-| G2-04 | Herencia de permisos documentada (§4, epic E2; DEC pendiente SLICE-61) | ⬜ |
-| G2-05 | SLICE-50 declarado paralelo (§0.4) | ⬜ |
-| G2-06 | Fila SLICE-59 en doc 10 = autorizado para `feat/slice-60-*` | ⬜ |
-| G2-07 | Equipo leyó doc 20 + doc 09 | ⬜ |
+| G2-01 | Plantilla Atria POS acotada (§1) confirmada por producto | ✅ |
+| G2-02 | Fuera de alcance R2/R3 explicitado (§2, doc 20b) | ✅ |
+| G2-03 | Política credenciales: username/PIN sin `ñ`; nombre/apellido con español Chile | ✅ |
+| G2-04 | Herencia de permisos documentada (§4, epic E2; DEC pendiente SLICE-61) | ✅ |
+| G2-05 | SLICE-50 declarado paralelo (§0.4) | ✅ |
+| G2-06 | Fila SLICE-59 en doc 10 = autorizado para `feat/slice-60-*` | ✅ |
+| G2-07 | Equipo leyó doc 20 + doc 09 | ✅ |
 
 ### §3.2 Criterio de hecho
 

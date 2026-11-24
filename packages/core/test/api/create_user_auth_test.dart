@@ -15,7 +15,7 @@ void main() {
 
     final cajeroSession = InMemorySessionProvider(
       initial: AuthSession(
-        userId: 'usr_cajero',
+        userId: kTestCajeroId,
         role: UserRole.cajero,
         expiresAt: DateTime.now().toUtc().add(const Duration(hours: 1)),
       ),
@@ -28,8 +28,10 @@ void main() {
     final fail = await denied.createUser(
       storeId,
       const CreateUserRequest(
-        userId: 'usr_nuevo',
-        displayName: 'Nuevo',
+        username: 'usr_nuevo',
+        firstName: 'Nuevo',
+        lastName: 'Cajero',
+        rut: '12.345.678-5',
         role: 'CAJERO',
         pin: '9999',
       ),
@@ -39,7 +41,7 @@ void main() {
 
     final duenoSession = InMemorySessionProvider(
       initial: AuthSession(
-        userId: 'usr_dueno',
+        userId: kTestDuenoId,
         role: UserRole.dueno,
         expiresAt: DateTime.now().toUtc().add(const Duration(hours: 1)),
       ),
@@ -52,12 +54,18 @@ void main() {
     final created = await ok.createUser(
       storeId,
       const CreateUserRequest(
-        userId: 'usr_nuevo',
-        displayName: 'Nuevo',
+        username: 'usr_nuevo',
+        firstName: 'Nuevo',
+        lastName: 'Cajero',
+        rut: '12.345.678-5',
         role: 'CAJERO',
         pin: '9999',
       ),
     );
     expect(created, isA<ApiSuccess<CreateUserResponse>>());
+    final body = (created as ApiSuccess<CreateUserResponse>).data;
+    expect(body.username, 'usr_nuevo');
+    expect(body.id, isNotEmpty);
+    expect(body.id, isNot('usr_nuevo'));
   });
 }

@@ -12,7 +12,7 @@ void main() {
     await composition.refreshActiveStore();
     expect(composition.activeStoreId, isNull);
 
-  var completed = false;
+    var completed = false;
     await tester.pumpWidget(
       MaterialApp(
         home: StoreSetupScreen(
@@ -36,13 +36,27 @@ void main() {
       'Almacén',
     );
     await tester.enterText(
-      find.byKey(const Key('store_setup_owner_name_field')),
+      find.byKey(const Key('store_setup_owner_first_name_field')),
       'Dueño',
+    );
+    await tester.enterText(
+      find.byKey(const Key('store_setup_owner_last_name_field')),
+      'Tienda',
+    );
+    await tester.enterText(
+      find.byKey(const Key('store_setup_owner_username_field')),
+      'jperez',
+    );
+    await tester.enterText(
+      find.byKey(const Key('store_setup_owner_rut_field')),
+      '12.345.678-5',
     );
     await tester.enterText(
       find.byKey(const Key('store_setup_pin_field')),
       PosComposition.demoPin,
     );
+    await tester.ensureVisible(find.byKey(const Key('store_setup_submit_button')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('store_setup_submit_button')));
     await tester.pumpAndSettle();
 

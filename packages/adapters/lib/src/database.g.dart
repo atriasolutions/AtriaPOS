@@ -3822,6 +3822,50 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _usernameMeta = const VerificationMeta(
+    'username',
+  );
+  @override
+  late final GeneratedColumn<String> username = GeneratedColumn<String>(
+    'username',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _firstNameMeta = const VerificationMeta(
+    'firstName',
+  );
+  @override
+  late final GeneratedColumn<String> firstName = GeneratedColumn<String>(
+    'first_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastNameMeta = const VerificationMeta(
+    'lastName',
+  );
+  @override
+  late final GeneratedColumn<String> lastName = GeneratedColumn<String>(
+    'last_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _userRutMeta = const VerificationMeta(
+    'userRut',
+  );
+  @override
+  late final GeneratedColumn<String> userRut = GeneratedColumn<String>(
+    'user_rut',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3829,6 +3873,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
     role,
     pinHash,
     displayName,
+    username,
+    firstName,
+    lastName,
+    userRut,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3882,6 +3930,38 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
     } else if (isInserting) {
       context.missing(_displayNameMeta);
     }
+    if (data.containsKey('username')) {
+      context.handle(
+        _usernameMeta,
+        username.isAcceptableOrUnknown(data['username']!, _usernameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_usernameMeta);
+    }
+    if (data.containsKey('first_name')) {
+      context.handle(
+        _firstNameMeta,
+        firstName.isAcceptableOrUnknown(data['first_name']!, _firstNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_firstNameMeta);
+    }
+    if (data.containsKey('last_name')) {
+      context.handle(
+        _lastNameMeta,
+        lastName.isAcceptableOrUnknown(data['last_name']!, _lastNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lastNameMeta);
+    }
+    if (data.containsKey('user_rut')) {
+      context.handle(
+        _userRutMeta,
+        userRut.isAcceptableOrUnknown(data['user_rut']!, _userRutMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userRutMeta);
+    }
     return context;
   }
 
@@ -3911,6 +3991,22 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
         DriftSqlType.string,
         data['${effectivePrefix}display_name'],
       )!,
+      username: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}username'],
+      )!,
+      firstName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}first_name'],
+      )!,
+      lastName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_name'],
+      )!,
+      userRut: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user_rut'],
+      )!,
     );
   }
 
@@ -3926,12 +4022,20 @@ class UserRow extends DataClass implements Insertable<UserRow> {
   final String role;
   final String pinHash;
   final String displayName;
+  final String username;
+  final String firstName;
+  final String lastName;
+  final String userRut;
   const UserRow({
     required this.id,
     required this.storeId,
     required this.role,
     required this.pinHash,
     required this.displayName,
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.userRut,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3941,6 +4045,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     map['role'] = Variable<String>(role);
     map['pin_hash'] = Variable<String>(pinHash);
     map['display_name'] = Variable<String>(displayName);
+    map['username'] = Variable<String>(username);
+    map['first_name'] = Variable<String>(firstName);
+    map['last_name'] = Variable<String>(lastName);
+    map['user_rut'] = Variable<String>(userRut);
     return map;
   }
 
@@ -3951,6 +4059,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       role: Value(role),
       pinHash: Value(pinHash),
       displayName: Value(displayName),
+      username: Value(username),
+      firstName: Value(firstName),
+      lastName: Value(lastName),
+      userRut: Value(userRut),
     );
   }
 
@@ -3965,6 +4077,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       role: serializer.fromJson<String>(json['role']),
       pinHash: serializer.fromJson<String>(json['pinHash']),
       displayName: serializer.fromJson<String>(json['displayName']),
+      username: serializer.fromJson<String>(json['username']),
+      firstName: serializer.fromJson<String>(json['firstName']),
+      lastName: serializer.fromJson<String>(json['lastName']),
+      userRut: serializer.fromJson<String>(json['userRut']),
     );
   }
   @override
@@ -3976,6 +4092,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       'role': serializer.toJson<String>(role),
       'pinHash': serializer.toJson<String>(pinHash),
       'displayName': serializer.toJson<String>(displayName),
+      'username': serializer.toJson<String>(username),
+      'firstName': serializer.toJson<String>(firstName),
+      'lastName': serializer.toJson<String>(lastName),
+      'userRut': serializer.toJson<String>(userRut),
     };
   }
 
@@ -3985,12 +4105,20 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     String? role,
     String? pinHash,
     String? displayName,
+    String? username,
+    String? firstName,
+    String? lastName,
+    String? userRut,
   }) => UserRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
     role: role ?? this.role,
     pinHash: pinHash ?? this.pinHash,
     displayName: displayName ?? this.displayName,
+    username: username ?? this.username,
+    firstName: firstName ?? this.firstName,
+    lastName: lastName ?? this.lastName,
+    userRut: userRut ?? this.userRut,
   );
   UserRow copyWithCompanion(UsersCompanion data) {
     return UserRow(
@@ -4001,6 +4129,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       displayName: data.displayName.present
           ? data.displayName.value
           : this.displayName,
+      username: data.username.present ? data.username.value : this.username,
+      firstName: data.firstName.present ? data.firstName.value : this.firstName,
+      lastName: data.lastName.present ? data.lastName.value : this.lastName,
+      userRut: data.userRut.present ? data.userRut.value : this.userRut,
     );
   }
 
@@ -4011,13 +4143,27 @@ class UserRow extends DataClass implements Insertable<UserRow> {
           ..write('storeId: $storeId, ')
           ..write('role: $role, ')
           ..write('pinHash: $pinHash, ')
-          ..write('displayName: $displayName')
+          ..write('displayName: $displayName, ')
+          ..write('username: $username, ')
+          ..write('firstName: $firstName, ')
+          ..write('lastName: $lastName, ')
+          ..write('userRut: $userRut')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, storeId, role, pinHash, displayName);
+  int get hashCode => Object.hash(
+    id,
+    storeId,
+    role,
+    pinHash,
+    displayName,
+    username,
+    firstName,
+    lastName,
+    userRut,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4026,7 +4172,11 @@ class UserRow extends DataClass implements Insertable<UserRow> {
           other.storeId == this.storeId &&
           other.role == this.role &&
           other.pinHash == this.pinHash &&
-          other.displayName == this.displayName);
+          other.displayName == this.displayName &&
+          other.username == this.username &&
+          other.firstName == this.firstName &&
+          other.lastName == this.lastName &&
+          other.userRut == this.userRut);
 }
 
 class UsersCompanion extends UpdateCompanion<UserRow> {
@@ -4035,6 +4185,10 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
   final Value<String> role;
   final Value<String> pinHash;
   final Value<String> displayName;
+  final Value<String> username;
+  final Value<String> firstName;
+  final Value<String> lastName;
+  final Value<String> userRut;
   final Value<int> rowid;
   const UsersCompanion({
     this.id = const Value.absent(),
@@ -4042,6 +4196,10 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     this.role = const Value.absent(),
     this.pinHash = const Value.absent(),
     this.displayName = const Value.absent(),
+    this.username = const Value.absent(),
+    this.firstName = const Value.absent(),
+    this.lastName = const Value.absent(),
+    this.userRut = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UsersCompanion.insert({
@@ -4050,18 +4208,30 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     required String role,
     required String pinHash,
     required String displayName,
+    required String username,
+    required String firstName,
+    required String lastName,
+    required String userRut,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
        role = Value(role),
        pinHash = Value(pinHash),
-       displayName = Value(displayName);
+       displayName = Value(displayName),
+       username = Value(username),
+       firstName = Value(firstName),
+       lastName = Value(lastName),
+       userRut = Value(userRut);
   static Insertable<UserRow> custom({
     Expression<String>? id,
     Expression<String>? storeId,
     Expression<String>? role,
     Expression<String>? pinHash,
     Expression<String>? displayName,
+    Expression<String>? username,
+    Expression<String>? firstName,
+    Expression<String>? lastName,
+    Expression<String>? userRut,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -4070,6 +4240,10 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
       if (role != null) 'role': role,
       if (pinHash != null) 'pin_hash': pinHash,
       if (displayName != null) 'display_name': displayName,
+      if (username != null) 'username': username,
+      if (firstName != null) 'first_name': firstName,
+      if (lastName != null) 'last_name': lastName,
+      if (userRut != null) 'user_rut': userRut,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -4080,6 +4254,10 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     Value<String>? role,
     Value<String>? pinHash,
     Value<String>? displayName,
+    Value<String>? username,
+    Value<String>? firstName,
+    Value<String>? lastName,
+    Value<String>? userRut,
     Value<int>? rowid,
   }) {
     return UsersCompanion(
@@ -4088,6 +4266,10 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
       role: role ?? this.role,
       pinHash: pinHash ?? this.pinHash,
       displayName: displayName ?? this.displayName,
+      username: username ?? this.username,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      userRut: userRut ?? this.userRut,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -4110,6 +4292,18 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     if (displayName.present) {
       map['display_name'] = Variable<String>(displayName.value);
     }
+    if (username.present) {
+      map['username'] = Variable<String>(username.value);
+    }
+    if (firstName.present) {
+      map['first_name'] = Variable<String>(firstName.value);
+    }
+    if (lastName.present) {
+      map['last_name'] = Variable<String>(lastName.value);
+    }
+    if (userRut.present) {
+      map['user_rut'] = Variable<String>(userRut.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -4124,6 +4318,10 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
           ..write('role: $role, ')
           ..write('pinHash: $pinHash, ')
           ..write('displayName: $displayName, ')
+          ..write('username: $username, ')
+          ..write('firstName: $firstName, ')
+          ..write('lastName: $lastName, ')
+          ..write('userRut: $userRut, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6831,6 +7029,10 @@ typedef $$UsersTableCreateCompanionBuilder =
       required String role,
       required String pinHash,
       required String displayName,
+      required String username,
+      required String firstName,
+      required String lastName,
+      required String userRut,
       Value<int> rowid,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
@@ -6840,6 +7042,10 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<String> role,
       Value<String> pinHash,
       Value<String> displayName,
+      Value<String> username,
+      Value<String> firstName,
+      Value<String> lastName,
+      Value<String> userRut,
       Value<int> rowid,
     });
 
@@ -6873,6 +7079,26 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get displayName => $composableBuilder(
     column: $table.displayName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get username => $composableBuilder(
+    column: $table.username,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get firstName => $composableBuilder(
+    column: $table.firstName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastName => $composableBuilder(
+    column: $table.lastName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get userRut => $composableBuilder(
+    column: $table.userRut,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6910,6 +7136,26 @@ class $$UsersTableOrderingComposer
     column: $table.displayName,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get username => $composableBuilder(
+    column: $table.username,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get firstName => $composableBuilder(
+    column: $table.firstName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastName => $composableBuilder(
+    column: $table.lastName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get userRut => $composableBuilder(
+    column: $table.userRut,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$UsersTableAnnotationComposer
@@ -6937,6 +7183,18 @@ class $$UsersTableAnnotationComposer
     column: $table.displayName,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get username =>
+      $composableBuilder(column: $table.username, builder: (column) => column);
+
+  GeneratedColumn<String> get firstName =>
+      $composableBuilder(column: $table.firstName, builder: (column) => column);
+
+  GeneratedColumn<String> get lastName =>
+      $composableBuilder(column: $table.lastName, builder: (column) => column);
+
+  GeneratedColumn<String> get userRut =>
+      $composableBuilder(column: $table.userRut, builder: (column) => column);
 }
 
 class $$UsersTableTableManager
@@ -6972,6 +7230,10 @@ class $$UsersTableTableManager
                 Value<String> role = const Value.absent(),
                 Value<String> pinHash = const Value.absent(),
                 Value<String> displayName = const Value.absent(),
+                Value<String> username = const Value.absent(),
+                Value<String> firstName = const Value.absent(),
+                Value<String> lastName = const Value.absent(),
+                Value<String> userRut = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
@@ -6979,6 +7241,10 @@ class $$UsersTableTableManager
                 role: role,
                 pinHash: pinHash,
                 displayName: displayName,
+                username: username,
+                firstName: firstName,
+                lastName: lastName,
+                userRut: userRut,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6988,6 +7254,10 @@ class $$UsersTableTableManager
                 required String role,
                 required String pinHash,
                 required String displayName,
+                required String username,
+                required String firstName,
+                required String lastName,
+                required String userRut,
                 Value<int> rowid = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
@@ -6995,6 +7265,10 @@ class $$UsersTableTableManager
                 role: role,
                 pinHash: pinHash,
                 displayName: displayName,
+                username: username,
+                firstName: firstName,
+                lastName: lastName,
+                userRut: userRut,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

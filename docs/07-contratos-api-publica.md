@@ -341,7 +341,10 @@ Solo si no existe tienda en el dispositivo (MVP una tienda).
   "rut": "12.345.678-5",
   "legalName": "Minimarket La Esquina",
   "businessLine": "Almacén",
-  "ownerDisplayName": "Dueño",
+  "ownerFirstName": "Dueño",
+  "ownerLastName": "Tienda",
+  "ownerUsername": "jperez",
+  "ownerRut": "12.345.678-5",
   "ownerPin": "2468"
 }
 ```
@@ -351,7 +354,7 @@ Solo si no existe tienda en el dispositivo (MVP una tienda).
 ```json
 {
   "storeId": "uuid",
-  "userId": "usr_dueno",
+  "userId": "uuid-dueno",
   "token": "local-session",
   "role": "DUENO",
   "expiresAt": "..."
@@ -385,7 +388,7 @@ Sin tienda → `NO_ENCONTRADO` (404).
 ### `POST /v0/auth/login`
 
 ```json
-{ "userId": "usr_cajero", "pin": "****" }
+{ "username": "usr_cajero", "pin": "****" }
 ```
 
 **Response 200**
@@ -398,7 +401,7 @@ Errores: `CREDENCIAL_INVALIDA` (401). Operaciones privilegiadas sin sesión o ro
 
 **Tests SLICE-7 (SC-070-01…04):** login válido; PIN malo; cajero bloqueado en ajuste/cierre/catálogo; dueño crea usuario.
 
-### `createUser` (in-process, SLICE-7 / UI SLICE-19)
+### `createUser` (in-process, SLICE-60 / RF-080)
 
 Solo rol **DUENO** (`Permission.gestionarUsuarios`).
 
@@ -406,26 +409,32 @@ Solo rol **DUENO** (`Permission.gestionarUsuarios`).
 
 ```json
 {
-  "userId": "usr_cajero2",
-  "displayName": "Cajero",
+  "username": "cajero2",
+  "firstName": "Nombre",
+  "lastName": "Apellido",
+  "rut": "12.345.678-5",
   "role": "CAJERO",
   "pin": "1234"
 }
 ```
 
-`role`: `CAJERO` | `SUPERVISOR` (no crear `DUENO` desde UI).
+`username` y `pin` sin letra ñ. `role`: `CAJERO` | `SUPERVISOR` (no crear `DUENO` desde UI).
 
 **Response 201**
 
 ```json
 {
-  "userId": "usr_cajero2",
+  "id": "uuid",
+  "username": "cajero2",
+  "firstName": "Nombre",
+  "lastName": "Apellido",
+  "rut": "12.345.678-5",
   "role": "CAJERO",
-  "displayName": "Cajero"
+  "displayName": "Nombre Apellido"
 }
 ```
 
-Errores: `PERMISO_DENEGADO` (403), `VALIDACION` (400, PIN &lt; 4), `CONFLICTO` (409, `userId` duplicado).
+Errores: `PERMISO_DENEGADO` (403), `VALIDACION` (400, PIN &lt; 4 / credenciales / RUT), `CONFLICTO` (409, `username` duplicado).
 
 ---
 
