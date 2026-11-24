@@ -13,6 +13,11 @@ function Invoke-Step {
     }
 }
 
+Invoke-Step 'check-no-person-names' {
+    Set-Location $root
+    & (Join-Path $root 'scripts\check-no-person-names.ps1')
+}
+
 Invoke-Step 'core' {
     Set-Location (Join-Path $root 'packages\core')
     dart pub get

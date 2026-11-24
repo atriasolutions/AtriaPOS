@@ -37,7 +37,7 @@ void main() {
     );
     await tester.enterText(
       find.byKey(const Key('store_setup_owner_name_field')),
-      'María',
+      'Dueño',
     );
     await tester.enterText(
       find.byKey(const Key('store_setup_pin_field')),
