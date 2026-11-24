@@ -57,6 +57,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 51 | SLICE-51 | Acta backlog | — | `main` `2f10165`; SLICE-50 ABIERTO explícito; §8 acta |
 | 52 | SLICE-52 | Central BLE Windows | RNF-041 | `flutter_blue_plus_windows`; SC-011-BLE-03; companion service data; smoke manual; SC-011-BLE-01 sigue abierto |
 | 53 | SLICE-53 | Piloto tienda demo | RF-030/031 | Evidencia **PARCIAL**; SC-028-03; BLE (SLICE-50) pendiente |
+| 54 | SLICE-54 | Cierre revisión 1 | — | Evidencia operador; PR 52–53 → `main`; acta §10; revisión 2 = BLE |
 | 9 | SLICE-9 | Integración terminal pago | — | **N/A** — diferido explícito; no bloquea slices 43+ |
 
 ## Orden TDD sugerido (semana orientativa)

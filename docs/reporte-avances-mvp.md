@@ -163,7 +163,7 @@ cd apps/pos_app && flutter pub get && flutter test
 |-----------|------|-------------------------|
 | Media | **SLICE-50 ABIERTO** | Piloto BLE — `main` con SLICE-52; [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) **PREPARADO** |
 | Baja | Smoke SC-052-03 | Prueba hardware central Windows + companion (aceptance SLICE-52) |
-| Baja | Merge PR 52/53 | Rama `feat/slice-53-tienda-piloto-cierre` → `main` |
+| Baja | Revisión 2 | SLICE-50 BLE; smoke SC-052-03; Gate 2 completo si aplica |
 | Baja | Gate 2 parcial | SLICE-9 y SII prod **N/A** |
 
 ---

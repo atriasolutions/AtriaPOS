@@ -29,12 +29,12 @@ Estado actual: **PARCIAL** — demo fake validada (SLICE-53); BLE formal pendien
 |------|-------|
 | Turno → venta → cierre (o flujo acordado) | ☑ |
 | DTE fake/replay sin error bloqueante | ☑ |
-| Fecha / operador anotados abajo | ☐ _(completar operador)_ |
+| Fecha / operador anotados abajo | ☑ |
 
 | Campo | Valor |
 |-------|-------|
-| Fecha demo | _(completar)_ |
-| Operador | _(completar)_ |
+| Fecha demo | 2026-11-24 |
+| Operador | Micael (piloto tienda) |
 | Notas | Piloto núcleo MVP en tienda exitoso; SLICE-53 cierra documentación demo. Bluetooth escáner pendiente (SLICE-50). |
 
 ## Evidencias hijas (según alcance piloto)

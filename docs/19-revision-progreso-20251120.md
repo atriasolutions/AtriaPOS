@@ -95,7 +95,28 @@
 - Piloto tienda núcleo (DTE fake) **exitoso** en operación — registrado en [`tienda-piloto-evidencia.md`](../runbooks/tienda-piloto-evidencia.md) **PARCIAL**.
 - SLICE-52: fix central BLE Windows en rama de entrega; smoke hardware **pendiente**.
 - SLICE-50 / SC-011-BLE-01 **sin cierre** hasta sesión BLE formal.
-- Merge a `origin/main`: ejecutar PR con rama `feat/slice-53-tienda-piloto-cierre` (contiene SLICE-52).
+- Merge a `origin/main`: PR con rama `feat/slice-53-tienda-piloto-cierre` (SLICE-52–54) — ver §10.
+
+---
+
+## 10. Cierre revisión 1 (SLICE-54)
+
+**Objetivo:** núcleo MVP tienda (DTE fake) validado en piloto; código 52–53 integrado en `main`; Bluetooth formal diferido a revisión 2 (SLICE-50).
+
+| Ítem | Estado |
+|------|--------|
+| Demo fake (fecha/operador en evidencia) | CERRADO |
+| Evidencia agregada `tienda-piloto-evidencia` | **PARCIAL** (BLE no exigido en rev. 1) |
+| SLICE-52 / SLICE-53 en `origin/main` | _(actualizar post-merge con PR y HEAD)_ |
+| SLICE-50 / SC-011-BLE-01 | **ABIERTO** |
+
+### DoD revisión 1
+
+- [x] Piloto tienda núcleo exitoso (operador)
+- [x] SC-028-03 cerrado documental (evidencia PARCIAL)
+- [x] Fecha y operador en [`tienda-piloto-evidencia.md`](../runbooks/tienda-piloto-evidencia.md)
+- [ ] `origin/main` integra SLICE-52–54 _(completar al merge)_
+- [x] Revisión 2 explícita: SLICE-50 BLE + smoke SC-052-03
 
 ---
 
