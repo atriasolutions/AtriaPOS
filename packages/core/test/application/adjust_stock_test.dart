@@ -73,6 +73,30 @@ void main() {
     expect(audit, isEmpty);
   });
 
+  test('SC-085-05 RECEPCION en adjustments → VALIDACION', () async {
+    final created = await createProduct(
+      const CreateProductInput(
+        storeId: storeId,
+        name: 'Pan',
+        salePriceClp: 500,
+        initialStock: 5,
+      ),
+    );
+    await expectLater(
+      adjustStock(
+        AdjustStockInput(
+          storeId: storeId,
+          productId: created.id,
+          delta: 5,
+          reason: StockAdjustmentReason.recepcion,
+        ),
+      ),
+      throwsA(isA<ValidationFailure>()),
+    );
+    final view = await getProductStock(storeId, created.id);
+    expect(view.stock, 5);
+  });
+
   test('SC-021-03 delta cero → VALIDACION', () async {
     final created = await createProduct(
       const CreateProductInput(

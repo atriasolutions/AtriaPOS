@@ -25,6 +25,7 @@ export 'get_active_store.dart';
 export 'in_memory_store_repository.dart';
 export 'ports/store_repository.dart';
 export 'adjust_stock.dart';
+export 'record_stock_receipt.dart';
 export 'close_shift.dart';
 export 'confirm_checkout.dart';
 export 'void_sale.dart';

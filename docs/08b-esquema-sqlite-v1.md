@@ -51,6 +51,8 @@ CREATE UNIQUE INDEX idx_products_store_barcode ON products(store_id, barcode)
 | note | TEXT NULL | |
 | actor_id | TEXT NULL | Rol supervisor en SLICE-7 |
 | created_at | TEXT NOT NULL | ISO-8601 UTC |
+| guide_ref | TEXT NULL | Guía ingreso RF-085 (SLICE-65) |
+| lot_ref | TEXT NULL | Lote ingreso RF-085 (SLICE-65) |
 
 Índice: `idx_stock_movements_product` ON `(store_id, product_id, created_at)`.
 
@@ -249,3 +251,7 @@ Columnas nuevas: `username`, `first_name`, `last_name`, `user_rut`. Índice úni
 | Columna | Tipo | Notas |
 |---------|------|-------|
 | seller_code | TEXT NULL | Código planilla al confirmar venta (RF-084) |
+
+## Revisión 2 — `stock_movements` guía/lote schema v16 (SLICE-65)
+
+Migración desde v15: columnas `guide_ref`, `lot_ref` en `stock_movements` (NULL en movimientos históricos).

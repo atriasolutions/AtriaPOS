@@ -86,6 +86,39 @@ void main() {
     );
   });
 
+  test('SC-085-07 auditoría incluye ingreso con guía y lote', () async {
+    final products = InMemoryProductRepository();
+    final sales = InMemorySaleRepository();
+    final movements = InMemoryStockMovementRepository();
+    final sessions = InMemorySessionProvider.supervisor();
+    final createProduct = CreateProduct(products, sessions);
+    final product = await createProduct(
+      const CreateProductInput(
+        storeId: storeId,
+        name: 'Arroz',
+        salePriceClp: 1000,
+        initialStock: 2,
+      ),
+    );
+    final receipt = RecordStockReceipt(products, movements, sessions);
+    await receipt(
+      RecordStockReceiptInput(
+        storeId: storeId,
+        productId: product.id,
+        quantity: 5,
+        guideRef: 'GD-10',
+        lotRef: 'L-20',
+      ),
+    );
+    final audit = GetAuditTrail(sales, movements, products, sessions);
+    final trail = await audit(storeId);
+    final ingreso = trail.items.where((i) => i.type == 'AJUSTE_STOCK');
+    expect(
+      ingreso.any((i) => i.summary.contains('GD-10') && i.summary.contains('L-20')),
+      isTrue,
+    );
+  });
+
   test('SC-070-01 cajero no consulta auditoría', () async {
     final sessions = InMemorySessionProvider.cajero();
     final audit = GetAuditTrail(

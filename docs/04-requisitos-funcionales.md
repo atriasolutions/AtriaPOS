@@ -84,6 +84,16 @@ Por producto: cantidad disponible.
 - Dado supervisor, cuando registra merma con motivo, entonces decrementa stock y audita movimiento.
 - Dado cantidad resultante &lt; 0 y política estricta, entonces rechaza.
 
+### RF-085 [M] Ingreso existencias con guía y lote (SLICE-65)
+
+Complementa inventario barrio: recepción trazable sin crear SKU en el acto.
+
+- Dado supervisor (o rol con `ajustarInventario`), cuando registra ingreso sobre **producto existente** con cantidad &gt; 0, **guía** y **lote** válidos, entonces incrementa stock y persiste movimiento `RECEPCION` con referencias.
+- Dado producto inexistente, entonces `NO_ENCONTRADO`.
+- Dado guía, lote o cantidad inválidos, entonces `VALIDACION`.
+- Dado `POST .../adjustments` con motivo `RECEPCION`, entonces `VALIDACION` (usar ingreso dedicado API-004).
+- El ingreso aparece en auditoría del día (RF-070) con guía y lote en el resumen.
+
 ### RF-022 [S] Alerta stock bajo
 
 Umbral por producto o global.

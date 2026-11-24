@@ -308,7 +308,7 @@ Producto inexistente → `NO_ENCONTRADO`.
 }
 ```
 
-Motivos permitidos: `MERMA`, `AJUSTE`, `RECEPCION`, `CORRECCION`.
+Motivos permitidos: `MERMA`, `AJUSTE`, `CORRECCION` (`RECEPCION` reservado al ingreso con guía/lote, SLICE-65).
 
 **Response 200**
 
@@ -327,6 +327,42 @@ Motivos permitidos: `MERMA`, `AJUSTE`, `RECEPCION`, `CORRECCION`.
 - Ajuste merma válido → 200, stock actualizado y `movementId`.
 - Ajuste dejaría stock &lt; 0 → `VALIDACION`.
 - `delta` 0 o motivo inválido → `VALIDACION`.
+- Motivo `RECEPCION` en adjustments → `VALIDACION` (usar stock-receipts).
+
+---
+
+### `POST /v0/stores/{storeId}/products/{productId}/stock-receipts` (RF-085)
+
+Requiere sesión con `ajustarInventario` (supervisor/dueño). Solo producto existente.
+
+```json
+{
+  "quantity": 10,
+  "guideRef": "GD-12345",
+  "lotRef": "L-202601"
+}
+```
+
+**Response 200**
+
+```json
+{
+  "productId": "prod_01",
+  "stock": 30,
+  "movementId": "mov_01",
+  "guideRef": "GD-12345",
+  "lotRef": "L-202601"
+}
+```
+
+Referencia guía/lote: 1–32 caracteres, `A–Z`, `0–9`, `-`, `_`, sin `ñ`.
+
+**Tests comportamiento**
+
+- Ingreso válido → 200, stock incrementa, movimiento `RECEPCION` con refs.
+- Producto desconocido → `NO_ENCONTRADO`.
+- Cantidad ≤ 0 o refs inválidas → `VALIDACION`.
+- Cajero → 403.
 
 ---
 
@@ -583,7 +619,7 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 | RF-010, RF-011 | API-001 |
 | RF-030–032, RF-082, RF-084 | API-002 |
 | RF-040–041 | API-003 |
-| RF-020–021 | API-004 |
+| RF-020–021, RF-085 | API-004 |
 | RF-051 | API-005 |
 | RF-002 | API-006 |
 | RF-001 | API-007 |

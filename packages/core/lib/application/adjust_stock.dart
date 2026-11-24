@@ -44,6 +44,11 @@ class AdjustStock {
   Future<AdjustStockResult> call(AdjustStockInput input) async {
     final session = requireActiveSession(_sessions);
     AuthPolicy.require(session, Permission.ajustarInventario);
+    if (input.reason == StockAdjustmentReason.recepcion) {
+      throw const ValidationFailure(
+        'Use el ingreso de existencias con guía y lote (stock-receipts)',
+      );
+    }
     final actorId = input.actorId ?? session.userId;
     final product = await _products.findById(input.storeId, input.productId);
     if (product == null) {

@@ -85,13 +85,17 @@ class GetAuditTrail {
       final product = await _products.findById(storeId, mov.productId);
       final productLabel = product?.name ?? mov.productId;
       final reasonLabel = mov.reason.apiValue;
+      var summary =
+          '$reasonLabel · $productLabel (${mov.delta >= 0 ? '+' : ''}${mov.delta})';
+      if (mov.guideRef != null && mov.lotRef != null) {
+        summary += ' · Guía ${mov.guideRef} · Lote ${mov.lotRef}';
+      }
       items.add(
         AuditTrailItem(
           occurredAt: mov.createdAt,
           type: 'AJUSTE_STOCK',
           actorUserId: mov.actorId,
-          summary:
-              '$reasonLabel · $productLabel (${mov.delta >= 0 ? '+' : ''}${mov.delta})',
+          summary: summary,
           refId: mov.id,
         ),
       );

@@ -14,6 +14,8 @@ class StockMovement {
     required this.createdAt,
     this.note,
     this.actorId,
+    this.guideRef,
+    this.lotRef,
   });
 
   final StockMovementId id;
@@ -23,6 +25,8 @@ class StockMovement {
   final StockAdjustmentReason reason;
   final String? note;
   final String? actorId;
+  final String? guideRef;
+  final String? lotRef;
   final DateTime createdAt;
 
   static StockMovement record({
@@ -32,6 +36,8 @@ class StockMovement {
     required StockAdjustmentReason reason,
     String? note,
     String? actorId,
+    String? guideRef,
+    String? lotRef,
     DateTime? createdAt,
   }) {
     if (delta == 0) {
@@ -46,6 +52,8 @@ class StockMovement {
       reason: reason,
       note: note?.trim().isEmpty == true ? null : note?.trim(),
       actorId: actorId,
+      guideRef: guideRef,
+      lotRef: lotRef,
       createdAt: createdAt ?? DateTime.now().toUtc(),
     );
   }

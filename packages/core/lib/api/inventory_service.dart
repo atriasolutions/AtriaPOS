@@ -23,10 +23,16 @@ class InventoryService {
     StockMovementRepository movements,
     SessionProvider sessions,
   )   : _getStock = GetProductStock(products),
-        _adjustStock = AdjustStock(products, movements, sessions);
+        _adjustStock = AdjustStock(products, movements, sessions),
+        _recordStockReceipt = RecordStockReceipt(
+          products,
+          movements,
+          sessions,
+        );
 
   final GetProductStock _getStock;
   final AdjustStock _adjustStock;
+  final RecordStockReceipt _recordStockReceipt;
 
   Future<ApiResult<StockResponse>> getProductStock(
     StoreId storeId,
@@ -67,6 +73,59 @@ class InventoryService {
           productId: result.productId,
           stock: result.stock,
           movementId: result.movementId,
+        ),
+        statusCode: 200,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  Future<ApiResult<StockReceiptResponse>> recordStockReceipt(
+    StoreId storeId,
+    ProductId productId,
+    StockReceiptRequest request,
+  ) async {
+    try {
+      final result = await _recordStockReceipt(
+        RecordStockReceiptInput(
+          storeId: storeId,
+          productId: productId,
+          quantity: request.quantity,
+          guideRef: request.guideRef,
+          lotRef: request.lotRef,
+        ),
+      );
+      return ApiSuccess(
+        StockReceiptResponse(
+          productId: result.productId,
+          stock: result.stock,
+          movementId: result.movementId,
+          guideRef: result.guideRef,
+          lotRef: result.lotRef,
         ),
         statusCode: 200,
       );
