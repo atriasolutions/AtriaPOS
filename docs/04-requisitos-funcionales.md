@@ -216,7 +216,7 @@ Ampliado por **RF-086** (rango y categorías).
 
 ### RF-086 [M] Auditoría por rango y categoría (SLICE-66)
 
-Supervisor o dueño consultan eventos entre fechas locales (máx. **31 días** inclusive), con filtro opcional por categoría: **VENTAS** (`CONFIRMA_VENTA`, `ANULA_VENTA`), **INVENTARIO** (ajustes excepto motivo venta), **USUARIOS** (altas usuario POS), **PAGOS** (stub vacío hasta integración Transbank). Compatibilidad: query `date=` de un día (RF-070). Sin export ni UI ampliada en este slice (SLICE-74).
+Supervisor o dueño consultan eventos entre fechas locales (máx. **31 días** inclusive), con filtro opcional por categoría: **VENTAS** (`CONFIRMA_VENTA`, `ANULA_VENTA`), **INVENTARIO** (ajustes excepto motivo venta), **USUARIOS** (altas usuario POS), **PAGOS** (stub vacío hasta integración Transbank). Compatibilidad: query `date=` de un día (RF-070). Pantalla **Auditoría** con rango y chips de categoría (SLICE-74); sin export.
 
 ### RF-087 [M] Stock insights (SLICE-67)
 
@@ -233,7 +233,7 @@ Con **turno abierto**, supervisor o dueño:
 - Consultan **vista previa** con stock sistema y unidades vendidas en el turno por SKU.
 - Envían **recuento manual** por producto; el sistema calcula `variance = contado - sistema`.
 - Si `variance ≠ 0`, aplica movimiento **CORRECCION** y deja stock al contado; si es cero, solo registra la línea.
-- Persiste cabecera y líneas de cierre para trazabilidad. Sin turno abierto → error alineado a SC-040. Sin UI (SLICE-74).
+- Persiste cabecera y líneas de cierre para trazabilidad. Sin turno abierto → error alineado a SC-040. Pantalla **Cierre inventario** en menú Operación (SLICE-74).
 
 ---
 

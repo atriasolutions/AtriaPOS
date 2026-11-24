@@ -186,6 +186,9 @@ class PosComposition {
       inventoryService: InventoryService(
         productRepository: products,
         stockMovementRepository: movements,
+        shiftRepository: shifts,
+        saleRepository: sales,
+        inventoryCloseRepository: DriftInventoryCloseRepository(db),
         sessionProvider: sessions,
       ),
       dteService: DteService(

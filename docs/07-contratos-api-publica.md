@@ -406,6 +406,8 @@ Validación: lista vacía, `countedQty` negativo, producto duplicado o inexisten
 
 **Tests:** SC-088-01…08.
 
+**SLICE-74 (UI RF-088):** `InventoryCloseScreen` en menú Operación; tests `SC-088-UI-01`…`04` en `inventory_close_ui_e2e_test.dart`, `inventory_close_menu_cajero_ui_test.dart`. `PosComposition` cablea `shiftRepository`, `saleRepository` e `inventoryCloseRepository` en `InventoryService`.
+
 ---
 
 ## API-005 — Cola DTE
@@ -715,6 +717,8 @@ Rango inválido (`to` &lt; `from`, &gt; 31 días, fecha mal formada) → **400**
 `ReportService.getAuditTrail` (in-process): parámetros `date`, `from`, `to`, `categories`.
 
 **Tests:** SC-070-01, SC-086-01…08 (core/API/adapters).
+
+**SLICE-74 (UI RF-086):** `AuditTrailScreen` con rango y filtros; ítem menú Operación sigue visible con permiso `anularVenta` (comportamiento heredado SLICE-20). Tests `SC-086-UI-01`…`03` en `audit_trail_range_ui_e2e_test.dart`; regresión `SC-070-UI-01/02` en `audit_trail_ui_e2e_test.dart`.
 
 ---
 

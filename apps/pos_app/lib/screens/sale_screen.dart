@@ -18,6 +18,7 @@ import 'shift_sales_screen.dart';
 import 'product_create_screen.dart';
 import 'stock_adjust_screen.dart';
 import 'stock_insights_screen.dart';
+import 'inventory_close_screen.dart';
 import 'stock_receipt_screen.dart';
 import 'user_list_screen.dart';
 
@@ -424,6 +425,10 @@ class _SaleScreenState extends State<SaleScreen> {
                     openScreen(
                       StockInsightsScreen(composition: widget.composition),
                     );
+                  case 'inventory_close':
+                    openScreen(
+                      InventoryCloseScreen(composition: widget.composition),
+                    );
                   case 'product':
                     openScreen(
                       ProductCreateScreen(composition: widget.composition),
@@ -497,6 +502,14 @@ class _SaleScreenState extends State<SaleScreen> {
                     child: Text(
                       'Ingreso existencias',
                       key: Key('operation_menu_stock_receipt'),
+                    ),
+                  ),
+                if (canAdjustStock)
+                  const PopupMenuItem(
+                    value: 'inventory_close',
+                    child: Text(
+                      'Cierre inventario',
+                      key: Key('operation_menu_inventory_close'),
                     ),
                   ),
                 if (canDailyReport)

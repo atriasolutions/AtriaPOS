@@ -46,6 +46,13 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-070-01 | RF-070 | ✅ | ✅ | — | `get_audit_trail_test`, `report_service_test`, `drift_audit_trail_test`, `drift_stock_movement_range_test` |
 | SC-070-UI-01 | RF-070 | — | — | ✅ | `audit_trail_ui_e2e_test.dart` |
 | SC-070-UI-02 | RF-070 | — | — | ✅ | Mismo archivo |
+| SC-086-UI-01 | RF-086 | — | — | ✅ | `audit_trail_range_ui_e2e_test.dart` |
+| SC-086-UI-02 | RF-086 | — | — | ✅ | Mismo archivo |
+| SC-086-UI-03 | RF-086 | — | — | ✅ | Mismo archivo |
+| SC-088-UI-01 | RF-088 | — | — | ✅ | `inventory_close_ui_e2e_test.dart` |
+| SC-088-UI-02 | RF-088 | — | — | ✅ | Mismo archivo |
+| SC-088-UI-03 | RF-088 | — | — | ✅ | Mismo archivo |
+| SC-088-UI-04 | RF-088 | — | — | ✅ | `inventory_close_menu_cajero_ui_test.dart` |
 | SC-002-UI-01 | RF-002 | — | — | ✅ | `user_create_ui_e2e_test.dart` |
 | SC-002-UI-02 | RF-002 | — | — | ✅ | Mismo archivo |
 | SC-003-01 | RF-003 | ✅ | — | — | `get_certificate_status_*`, `fiscal_service_test` |
