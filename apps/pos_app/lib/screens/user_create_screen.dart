@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../widgets/atria_text_formatters.dart';
 
 class UserCreateScreen extends StatefulWidget {
   const UserCreateScreen({super.key, required this.composition});
@@ -107,9 +108,10 @@ class _UserCreateScreenState extends State<UserCreateScreen> {
               key: const Key('user_create_username_field'),
               controller: _usernameController,
               decoration: const InputDecoration(
-                labelText: 'Usuario (sin ñ)',
+                labelText: 'Usuario',
                 border: OutlineInputBorder(),
               ),
+              inputFormatters: [LatinNWithoutEnyeFormatter()],
             ),
             const SizedBox(height: 16),
             TextField(
@@ -134,9 +136,10 @@ class _UserCreateScreenState extends State<UserCreateScreen> {
               key: const Key('user_create_rut_field'),
               controller: _rutController,
               decoration: const InputDecoration(
-                labelText: 'RUT',
+                labelText: 'RUT (sin puntos)',
                 border: OutlineInputBorder(),
               ),
+              inputFormatters: [RutChileEntryFormatter()],
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<UserRole>(

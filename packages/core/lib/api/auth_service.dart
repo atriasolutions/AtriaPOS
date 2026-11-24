@@ -9,18 +9,25 @@ class AuthService {
     UserRepository? userRepository,
     PinHasher? pinHasher,
     SessionProvider? sessionProvider,
+    ShiftRepository? shiftRepository,
   }) {
     final users = userRepository ?? InMemoryUserRepository();
     final hasher = pinHasher ?? BcryptPinHasher();
     final sessions = sessionProvider ?? InMemorySessionProvider();
-    return AuthService._(users, hasher, sessions);
+    final shifts = shiftRepository ?? InMemoryShiftRepository();
+    return AuthService._(users, hasher, sessions, shifts);
   }
 
-  AuthService._(UserRepository users, PinHasher hasher, SessionProvider sessions)
-      : _authenticate = AuthenticateUser(users, hasher, sessions),
+  AuthService._(
+    UserRepository users,
+    PinHasher hasher,
+    SessionProvider sessions,
+    ShiftRepository shifts,
+  )   : _authenticate = AuthenticateUser(users, hasher, sessions),
         _createUser = CreateUser(users, hasher, sessions),
         _listUsers = ListUsers(users, sessions),
         _updateUser = UpdateUser(users, hasher, sessions),
+        _endSession = EndSession(sessions, shifts),
         _sessions = sessions,
         _users = users;
 
@@ -28,6 +35,7 @@ class AuthService {
   final CreateUser _createUser;
   final ListUsers _listUsers;
   final UpdateUser _updateUser;
+  final EndSession _endSession;
   final SessionProvider _sessions;
   final UserRepository _users;
 
@@ -190,6 +198,28 @@ class AuthService {
       return ApiFailure(
         ApiErrorBody(code: e.code, message: e.message, details: e.details),
         statusCode: 404,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  Future<ApiResult<void>> endSession(StoreId storeId) async {
+    try {
+      await _endSession(storeId);
+      return ApiSuccess(null, statusCode: 204);
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
       );
     } on SessionExpiredFailure catch (e) {
       return ApiFailure(

@@ -35,10 +35,14 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-040-03 | RF-040 | ✅ | — | ✅ | `shift_open_time_label` en venta |
 | SC-041-03 | RF-041 | ✅ | — | ✅ | `close_shift_screen` timestamps |
 | SC-031-03 | RF-031 | ✅ | — | ✅ | diálogo checkout `createdAt` |
+| SC-078-01 | RF-080 | — | — | ✅ | `credential_policy_test`, formatters UI |
+| SC-079-UI-01 | RF-091 | — | — | ✅ | `product_stock_list_ui_e2e_test.dart` |
+| SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
+| SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |
 | SC-011-QR-01 | RF-011 | ✅ | ✅ | — | `search_products_test` |
 | SC-011-PREP-01 | RNF-041 | — | — | — | Docs — `runbooks/ble-piloto-indice.md`, pre-vuelo evidencia |
-| SC-011-PREP-UI-01 | RNF-041 | — | — | ✅ | `scanner_ble_ui_test.dart` — `scanner_pilot_guide` |
+| SC-080-01 | RNF-041 | — | — | ✅ | `scanner_ble_ui_test.dart` — sin `scanner_pilot_guide` |
 | SC-011-BLE-01 | RNF-041 | — | — | ⬜ | Piloto BLE real — `ble-scanner-pilot-evidence.md` (PREPARADO); SLICE-48 prep — `slice_48_ble_pre_pilot.md`, `ble-piloto-dia-cero.md`; manual hasta CERRADO |
 | SC-011-BLE-02 | RNF-041 | ✅ | — | — | `scan_payload_codec_test` |
 | SC-011-BLE-03 | RNF-041 | ✅ | — | ✅ | `companion_pairing_match_test`; `pos_app` + `flutter_blue_plus_windows` |

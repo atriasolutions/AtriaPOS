@@ -66,4 +66,6 @@ export 'ports/shift_repository.dart';
 export 'ports/stock_movement_repository.dart';
 export 'remove_cart_line.dart';
 export 'search_products.dart';
+export 'list_store_products.dart';
+export 'end_session.dart';
 export 'update_cart_line_quantity.dart';

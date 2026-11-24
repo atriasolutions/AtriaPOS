@@ -46,7 +46,7 @@ void main() {
     await tester.pumpAndSettle();
   });
 
-  testWidgets('SC-011-PREP-UI-01 guía piloto BLE en Vender', (tester) async {
+  testWidgets('SC-080-01 guía piloto BLE no aparece en Vender', (tester) async {
     tester.view.physicalSize = const Size(1280, 900);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
@@ -75,10 +75,6 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byKey(const Key('scanner_pilot_guide')), findsOneWidget);
-    await tester.tap(find.byKey(const Key('scanner_pilot_guide')));
-    await tester.pumpAndSettle();
-    expect(find.textContaining('ble-piloto-indice.md'), findsOneWidget);
-    expect(find.textContaining('ble-scanner-pilot-evidence.md'), findsOneWidget);
+    expect(find.byKey(const Key('scanner_pilot_guide')), findsNothing);
   });
 }

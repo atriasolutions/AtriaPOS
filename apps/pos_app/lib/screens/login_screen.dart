@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../widgets/atria_text_formatters.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.composition, required this.onLoggedIn});
@@ -67,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 labelText: 'Usuario',
                 border: OutlineInputBorder(),
               ),
+              inputFormatters: [LatinNWithoutEnyeFormatter()],
             ),
             const SizedBox(height: 16),
             TextField(

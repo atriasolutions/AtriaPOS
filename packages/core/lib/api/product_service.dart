@@ -19,12 +19,14 @@ class ProductService {
       : _repository = repository,
         _sessions = sessions,
         _create = CreateProduct(repository, sessions),
-        _search = SearchProducts(repository);
+        _search = SearchProducts(repository),
+        _list = ListStoreProducts(repository, sessions);
 
   final ProductRepository _repository;
   final SessionProvider _sessions;
   final CreateProduct _create;
   final SearchProducts _search;
+  final ListStoreProducts _list;
 
   Future<ApiResult<ProductResponse>> createProduct(
     StoreId storeId,
@@ -78,6 +80,34 @@ class ProductService {
     final products = await _search(storeId, query);
     final items = products.map(_toSearchItem).toList();
     return ApiSuccess(SearchProductsResponse(items: items), statusCode: 200);
+  }
+
+  Future<ApiResult<ListStoreProductsResponse>> listStoreProducts(
+    StoreId storeId,
+  ) async {
+    try {
+      final products = await _list(storeId);
+      final items = products.map(_toResponse).toList();
+      return ApiSuccess(
+        ListStoreProductsResponse(items: items),
+        statusCode: 200,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
   }
 
   ProductResponse _toResponse(Product product) => ProductResponse(

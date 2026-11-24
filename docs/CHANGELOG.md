@@ -6,6 +6,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-83: Cierre revisión intermedia piloto UX — `20c` cerrada, acta §13, `slice_83_cierre_revision_intermedia.md`.
+- SLICE-82: Cambiar sesión y expiración RF-093 — `EndSession`, UI `Cambiar sesión`, DEC-050.
+- SLICE-81: Export PDF etiquetas QR RF-092 — grilla A4 3×5 DEC-051, `qr_labels_pdf.dart`.
+- SLICE-80: Retiro guía BLE en Vender — runbook-only, SC-080-01.
+- SLICE-79: Lista stock productos RF-091 — `ListStoreProducts`, `ProductStockListScreen`, botón PRODUCTOS.
+- SLICE-78: Entradas credenciales/RUT — normalización ñ, `RutChile.formatAsUserTypes`, formatters UI.
+
 - SLICE-77: Cierre revisión 2 — acta §12, plan R2 cerrado, push `origin/main`, `slice_77_revision_2_cierre.md`; SLICE-50 BLE sigue ABIERTO.
 - SLICE-76: UI menú operación según plantilla y rol RF-089, `PosMenuPolicy` en Vender, panel cobro según plantilla, `SaleService` con `storeRepository` Drift, `slice_76_pos_menu_template.md`.
 - SLICE-75: UI shell Atria (tema morado/naranja, Vender dos paneles, panel de cobro), `slice_75_ui_shell_atria.md`; menú plantilla → SLICE-76.

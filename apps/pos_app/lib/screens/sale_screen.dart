@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../util/api_failure_handler.dart';
+import 'close_shift_screen.dart';
 import '../scanner/ble_central_scanner_ingress.dart';
 import '../scanner/scanner_connection_state.dart';
 import '../widgets/atria_bordered_panel.dart';
@@ -65,6 +67,63 @@ class _SaleScreenState extends State<SaleScreen> {
           }
         }
       });
+    }
+  }
+
+  Future<void> _changeSession() async {
+    final result = await widget.composition.authService.endSession(
+      widget.composition.requireStoreId,
+    );
+    if (!mounted) return;
+    switch (result) {
+      case ApiSuccess<void>():
+        setState(() {
+          _cartId = null;
+          _cart = null;
+          _searchResults = [];
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Sesión cerrada. El carrito local se reinició. Inicie sesión.',
+            ),
+          ),
+        );
+        widget.composition.notifySessionExpired();
+      case ApiFailure<void>(error: final e):
+        if (handleApiFailure(context, widget.composition, e)) return;
+        if (e.code == 'VALIDACION') {
+          await showDialog<void>(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: const Text('Cambiar sesión'),
+              content: Text(e.message),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Cancelar'),
+                ),
+                FilledButton(
+                  key: const Key('change_session_open_close_shift'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) =>
+                            CloseShiftScreen(composition: widget.composition),
+                      ),
+                    );
+                  },
+                  child: const Text('Ir a cerrar caja'),
+                ),
+              ],
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.message)),
+          );
+        }
     }
   }
 
@@ -345,6 +404,8 @@ class _SaleScreenState extends State<SaleScreen> {
     final requiresSellerCode =
         CheckoutTemplatePolicy.requiresSellerCode(_templateId);
     final hasOpsMenu = visibleMenu.isNotEmpty;
+    final showProductStock = role != null &&
+        AuthPolicy.allows(role, Permission.consultarStock);
 
     final cartHasLines = cart != null && cart.lines.isNotEmpty;
     final totalClp = cart?.totalClp ?? 0;
@@ -363,10 +424,12 @@ class _SaleScreenState extends State<SaleScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (hasOpsMenu || scannerAction != null)
+          if (hasOpsMenu || scannerAction != null || showProductStock)
             AtriaSaleTopBar(
               composition: widget.composition,
               visibleEntries: visibleMenu,
+              showProductStock: showProductStock,
+              onChangeSession: _changeSession,
               scannerAction: scannerAction,
             )
           else if (scannerAction != null)
@@ -533,35 +596,6 @@ class _SaleScreenState extends State<SaleScreen> {
                                     },
                                   ),
                           ),
-                          if (_bleIngress != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: ExpansionTile(
-                                key: const Key('scanner_pilot_guide'),
-                                title: const Text('Piloto escáner BLE'),
-                                initiallyExpanded: false,
-                                children: const [
-                                  ListTile(
-                                    dense: true,
-                                    title: Text(
-                                      '1. Índice: runbooks/ble-piloto-indice.md',
-                                    ),
-                                  ),
-                                  ListTile(
-                                    dense: true,
-                                    title: Text(
-                                      '2. Pareo: runbooks/ble-scanner-pairing.md',
-                                    ),
-                                  ),
-                                  ListTile(
-                                    dense: true,
-                                    title: Text(
-                                      '6. Evidencia: runbooks/ble-scanner-pilot-evidence.md',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                         ],
                       ),
                     ),

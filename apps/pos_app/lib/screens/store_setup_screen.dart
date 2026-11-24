@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../widgets/atria_text_formatters.dart';
 
 class StoreSetupScreen extends StatefulWidget {
   const StoreSetupScreen({
@@ -97,9 +98,10 @@ class _StoreSetupScreenState extends State<StoreSetupScreen> {
               key: const Key('store_setup_rut_field'),
               controller: _rutController,
               decoration: const InputDecoration(
-                labelText: 'RUT empresa',
+                labelText: 'RUT empresa (sin puntos)',
                 border: OutlineInputBorder(),
               ),
+              inputFormatters: [RutChileEntryFormatter()],
             ),
             const SizedBox(height: 12),
             TextField(
@@ -144,18 +146,20 @@ class _StoreSetupScreenState extends State<StoreSetupScreen> {
               key: const Key('store_setup_owner_username_field'),
               controller: _ownerUsernameController,
               decoration: const InputDecoration(
-                labelText: 'Usuario (sin ñ)',
+                labelText: 'Usuario',
                 border: OutlineInputBorder(),
               ),
+              inputFormatters: [LatinNWithoutEnyeFormatter()],
             ),
             const SizedBox(height: 12),
             TextField(
               key: const Key('store_setup_owner_rut_field'),
               controller: _ownerRutController,
               decoration: const InputDecoration(
-                labelText: 'RUT dueño',
+                labelText: 'RUT dueño (sin puntos)',
                 border: OutlineInputBorder(),
               ),
+              inputFormatters: [RutChileEntryFormatter()],
             ),
             const SizedBox(height: 12),
             TextField(

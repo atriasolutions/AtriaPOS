@@ -55,6 +55,8 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-047 | P0 | Username/PIN sin ñ; UUID usuario | ✅ | [ADR](decisiones/DEC-047-credenciales-username-pin.md) | SLICE-60 |
 | DEC-048 | P0 | Permisos herencia Atria POS | ✅ | [ADR](decisiones/DEC-048-permisos-herencia-atria-pos.md) | SLICE-61 |
 | DEC-049 | P0 | Planilla vs usuario POS | ✅ | [ADR](decisiones/DEC-049-planilla-vs-usuario-pos.md) | SLICE-63 |
+| DEC-050 | P1 | Cambio sesión con turno cerrado | ✅ | [ADR](decisiones/DEC-050-cambio-sesion-turno-cerrado.md) | SLICE-82 |
+| DEC-051 | P1 | PDF etiquetas QR A4 3×5 | ✅ | [ADR](decisiones/DEC-051-pdf-etiquetas-qr.md) | SLICE-81 |
 
 ---
 

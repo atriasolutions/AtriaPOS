@@ -52,3 +52,9 @@ class SearchProductsResponse {
 
   final List<ProductSearchItem> items;
 }
+
+class ListStoreProductsResponse {
+  const ListStoreProductsResponse({required this.items});
+
+  final List<ProductResponse> items;
+}

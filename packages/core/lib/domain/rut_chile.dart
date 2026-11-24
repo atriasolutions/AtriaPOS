@@ -28,6 +28,21 @@ class RutChile {
     return '${buffer.toString()}-$dv';
   }
 
+  /// Formato parcial para entrada en UI: sin puntos, guión antes del DV.
+  static String formatAsUserTypes(String raw) {
+    var cleaned = raw
+        .trim()
+        .replaceAll('.', '')
+        .replaceAll('-', '')
+        .replaceAll(' ', '')
+        .toUpperCase();
+    cleaned = cleaned.replaceAll(RegExp(r'[^0-9K]'), '');
+    if (cleaned.length <= 1) return cleaned;
+    final body = cleaned.substring(0, cleaned.length - 1);
+    final dv = cleaned.substring(cleaned.length - 1);
+    return '$body-$dv';
+  }
+
   static bool isValid(String raw) {
     final normalized = normalize(raw);
     final parts = normalized.split('-');

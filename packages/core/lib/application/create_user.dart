@@ -37,7 +37,8 @@ class CreateUser {
       Permission.gestionarUsuarios,
     );
 
-    CredentialPolicy.validateUsername(input.username);
+    final username = CredentialPolicy.normalizeUsername(input.username);
+    CredentialPolicy.validateUsername(username);
     CredentialPolicy.validatePin(input.pin);
 
     if (input.pin.length < 4) {
@@ -58,7 +59,6 @@ class CreateUser {
     }
     final rutNormalized = RutChile.formatDisplay(input.rut);
 
-    final username = input.username.trim();
     final existingByUsername =
         await _users.findByUsername(input.storeId, username);
     if (existingByUsername != null) {

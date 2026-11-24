@@ -90,6 +90,19 @@ Detalle: [`20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md). *
 | 76 | SLICE-76 | R2-B | UI menú plantilla | RF-089 | SC-076-UI-* ✅ |
 | 77 | SLICE-77 | Cierre | Cierre revisión 2 + push `main` | — | SC-077-* ✅ |
 
+## Revisión intermedia piloto UX (post-R2)
+
+Detalle: [`20c-plan-revision-intermedia-operacion.md`](20c-plan-revision-intermedia-operacion.md). SLICE-50 BLE **paralelo**, no bloquea.
+
+| # | Slice | Fase | Resumen | RF prop. | DoD resumido |
+|---|-------|------|---------|----------|--------------|
+| 78 | SLICE-78 | R-INT | Entradas ñ/RUT | RF-080 | SC-078-* ✅ |
+| 79 | SLICE-79 | R-INT | Lista stock productos | RF-091 | SC-079-* ✅ |
+| 80 | SLICE-80 | R-INT | Retiro guía BLE Vender | RNF-041 | SC-080-* ✅ |
+| 81 | SLICE-81 | R-INT | PDF etiquetas QR | RF-092 | SC-081-* ✅ |
+| 82 | SLICE-82 | R-INT | Cambiar / expirar sesión | RF-093 | SC-082-* ✅ |
+| 83 | SLICE-83 | Cierre | Cierre revisión intermedia | — | SC-083-* ✅ |
+
 ## Orden TDD sugerido (semana orientativa)
 
 | Semana | Slice | Entregable demo |

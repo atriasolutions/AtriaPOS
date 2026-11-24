@@ -80,6 +80,11 @@ class PosComposition {
     return id;
   }
 
+  /// Callback cuando la sesión expira o el usuario solicita re-login (SLICE-82).
+  void Function()? onSessionExpired;
+
+  void notifySessionExpired() => onSessionExpired?.call();
+
   factory PosComposition.memory({
     DteGateway? dteGateway,
     CertificateStore? certificateStore,
@@ -135,6 +140,7 @@ class PosComposition {
       userRepository: users,
       pinHasher: hasher,
       sessionProvider: sessions,
+      shiftRepository: shifts,
     );
     final storeSvc = StoreService(
       storeRepository: storeRepo,

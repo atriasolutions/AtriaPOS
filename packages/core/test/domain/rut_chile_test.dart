@@ -14,4 +14,9 @@ void main() {
   test('formatDisplay agrega puntos', () {
     expect(RutChile.formatDisplay('12345678-5'), '12.345.678-5');
   });
+
+  test('formatAsUserTypes sin puntos con guión', () {
+    expect(RutChile.formatAsUserTypes('18922317K'), '18922317-K');
+    expect(RutChile.formatAsUserTypes('18922317'), '1892231-7');
+  });
 }

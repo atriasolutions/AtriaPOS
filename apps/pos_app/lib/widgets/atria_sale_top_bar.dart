@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../di/pos_composition.dart';
 import '../menu/pos_menu_ui.dart';
-import '../screens/product_create_screen.dart';
+import '../screens/product_stock_list_screen.dart';
 import '../screens/shift_sales_screen.dart';
 import 'sale_operation_menu.dart';
 
@@ -12,11 +12,15 @@ class AtriaSaleTopBar extends StatelessWidget {
     super.key,
     required this.composition,
     required this.visibleEntries,
+    this.showProductStock = false,
+    this.onChangeSession,
     this.scannerAction,
   });
 
   final PosComposition composition;
   final List<PosMenuEntry> visibleEntries;
+  final bool showProductStock;
+  final VoidCallback? onChangeSession;
   final Widget? scannerAction;
 
   void _open(BuildContext context, Widget screen) {
@@ -29,7 +33,7 @@ class AtriaSaleTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final entries = visibleEntries.toSet();
     final showShiftSales = entries.contains(PosMenuEntry.shiftSales);
-    final showProducts = entries.contains(PosMenuEntry.productCreate);
+    final showProducts = showProductStock;
 
     final menu = SaleOperationMenu(
       composition: composition,
@@ -56,8 +60,11 @@ class AtriaSaleTopBar extends StatelessWidget {
       ),
     );
 
-    final hasBarContent =
-        visibleEntries.isNotEmpty || showShiftSales || showProducts;
+    final hasBarContent = visibleEntries.isNotEmpty ||
+        showShiftSales ||
+        showProducts ||
+        onChangeSession != null ||
+        scannerAction != null;
 
     if (!hasBarContent && scannerAction == null) {
       return const SizedBox.shrink();
@@ -85,13 +92,21 @@ class AtriaSaleTopBar extends StatelessWidget {
               const SizedBox(width: 8),
               scannerAction!,
             ],
+            if (onChangeSession != null) ...[
+              const SizedBox(width: 8),
+              OutlinedButton(
+                key: const Key('sale_change_session'),
+                onPressed: onChangeSession,
+                child: const Text('Cambiar sesión'),
+              ),
+            ],
             if (showProducts) ...[
               const SizedBox(width: 8),
               FilledButton.icon(
                 key: const Key('sale_top_products'),
                 onPressed: () => _open(
                   context,
-                  ProductCreateScreen(composition: composition),
+                  ProductStockListScreen(composition: composition),
                 ),
                 style: FilledButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.secondary,

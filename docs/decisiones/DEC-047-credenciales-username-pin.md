@@ -12,7 +12,7 @@ Revisión 2 requiere perfil completo de usuario y política de credenciales sin 
 
 1. **Login** solo con `username` + PIN (no `userId` legible en login).
 2. **`id` interno** del usuario = UUID v4 generado en servidor al crear o en bootstrap.
-3. **`username` y PIN** no admiten `ñ`/`Ñ`; nombre y apellido sí admiten español Chile.
+3. **`username`**: se normaliza `ñ`/`Ñ` → `n`/`N` al ingresar (SLICE-78); **PIN** no admite ñ; nombre y apellido sí admiten español Chile.
 4. Migración SQLite v13: `username = id` para filas legadas revisión 1.
 
 ## Consecuencias

@@ -74,6 +74,30 @@ Crea producto en tienda.
 
 ---
 
+### `GET /v0/stores/{storeId}/products` (RF-091, SLICE-79)
+
+Lista catálogo de la tienda con stock (solo lectura).
+
+**Response 200**
+
+```json
+{
+  "items": [
+    {
+      "id": "prod_01",
+      "name": "Pan hallulla",
+      "salePriceClp": 500,
+      "stock": 18,
+      "qrPayload": "atria://..."
+    }
+  ]
+}
+```
+
+**Errores:** `PERMISO_DENEGADO` (403), `SESION_EXPIRADA` (401).
+
+---
+
 ## API-002 — Carro y venta
 
 ### SLICE-3 (sin DTE ni turno)
@@ -523,6 +547,14 @@ Tienda inexistente → `NO_ENCONTRADO` (404).
 ```
 
 Errores: `CREDENCIAL_INVALIDA` (401). Operaciones privilegiadas sin sesión o rol: `PERMISO_DENEGADO` (403). Sesión vencida: `SESION_EXPIRADA` (401).
+
+### `POST /v0/stores/{storeId}/auth/end-session` (RF-093, SLICE-82)
+
+Cierra sesión local. Precondición: **sin turno abierto** (DEC-050).
+
+**Response 204** sin cuerpo.
+
+**Errores:** `VALIDACION` (400) si hay turno abierto («Cierre la caja antes de cambiar de usuario»); `SESION_EXPIRADA` (401).
 
 **Tests SLICE-7 / SLICE-61 (SC-070-01…04, SC-081-xx):** login válido; PIN malo; matriz RF-081 (`RoleCapabilities`); cajero bloqueado en reportes/ajuste/cierre; dueño crea usuario.
 

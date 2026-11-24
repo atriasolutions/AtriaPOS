@@ -12,15 +12,11 @@ Entonces encuentra índice en runbooks/ble-piloto-indice.md enlazado a ble-scann
 
 Verificación: `runbooks/ble-piloto-indice.md`, `runbooks/ble-scanner-pilot-evidence.md`, enlaces en `ble-scanner-pairing.md`.
 
-## SC-011-PREP-UI-01 — Guía piloto en Vender
+## SC-011-PREP-UI-01 — Guía piloto (runbook-only, SLICE-80)
 
-```gherkin
-Dado un cajero con ingress BLE en la app
-Cuando abre turno y pantalla Vender
-Entonces ve la guía con Key scanner_pilot_guide y referencias a los runbooks
-```
+La guía ya **no** se muestra en Vender; referencia operativa en `runbooks/ble-piloto-indice.md`.
 
-Verificación: `apps/pos_app/test/scanner_ble_ui_test.dart` (SC-011-PREP-UI-01).
+Verificación: `scanner_ble_ui_test.dart` (SC-080-01).
 
 ## SC-011-BLE-01 — Piloto real (manual)
 

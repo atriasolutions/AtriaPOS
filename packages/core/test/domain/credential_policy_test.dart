@@ -3,10 +3,11 @@ import 'package:test/test.dart';
 
 void main() {
   group('CredentialPolicy', () {
-    test('SC-080-02 username con ñ rechazado', () {
+    test('SC-078-01 username con ñ se normaliza', () {
+      expect(CredentialPolicy.normalizeUsername('cañero'), 'canero');
       expect(
         () => CredentialPolicy.validateUsername('cañero'),
-        throwsA(isA<ValidationFailure>()),
+        returnsNormally,
       );
     });
 

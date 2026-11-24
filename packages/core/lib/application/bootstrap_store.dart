@@ -58,7 +58,9 @@ class BootstrapStore {
       throw const ConflictFailure('Ya existe una tienda en este dispositivo');
     }
 
-    CredentialPolicy.validateUsername(input.ownerUsername);
+    final ownerUsername =
+        CredentialPolicy.normalizeUsername(input.ownerUsername);
+    CredentialPolicy.validateUsername(ownerUsername);
     CredentialPolicy.validatePin(input.ownerPin);
 
     if (input.ownerPin.length < 4) {
@@ -89,7 +91,7 @@ class BootstrapStore {
       storeId: store.id,
       role: UserRole.dueno,
       pinHash: _hasher.hash(input.ownerPin),
-      username: input.ownerUsername.trim(),
+      username: ownerUsername,
       firstName: firstName,
       lastName: lastName,
       rut: RutChile.formatDisplay(input.ownerRut),

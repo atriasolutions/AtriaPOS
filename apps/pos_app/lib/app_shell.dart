@@ -24,7 +24,25 @@ class _AppShellState extends State<AppShell> {
   @override
   void initState() {
     super.initState();
+    widget.composition.onSessionExpired = _goLogin;
     _resolveStart();
+  }
+
+  @override
+  void dispose() {
+    widget.composition.onSessionExpired = null;
+    super.dispose();
+  }
+
+  void _goLogin() {
+    if (!mounted) return;
+    setState(() {
+      _home = LoginScreen(
+        composition: widget.composition,
+        onLoggedIn: _resolveStart,
+      );
+      _checking = false;
+    });
   }
 
   bool _hasSession() {
@@ -49,14 +67,7 @@ class _AppShellState extends State<AppShell> {
     }
 
     if (!_hasSession()) {
-      if (!mounted) return;
-      setState(() {
-        _home = LoginScreen(
-          composition: widget.composition,
-          onLoggedIn: _resolveStart,
-        );
-        _checking = false;
-      });
+      _goLogin();
       return;
     }
 

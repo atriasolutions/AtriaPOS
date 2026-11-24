@@ -168,6 +168,19 @@
 
 ---
 
+## 13. Revisión intermedia piloto UX (SLICE-78…83)
+
+**Inicio:** 2026-11-24 — programa [`20c-plan-revision-intermedia-operacion.md`](20c-plan-revision-intermedia-operacion.md).
+
+| Ítem | Estado |
+|------|--------|
+| SLICE-78…82 producto | CERRADO |
+| SLICE-83 cierre documental | CERRADO |
+| `ci-local.ps1` | CERRADO |
+| SLICE-50 BLE hardware | **ABIERTO** (sin bloqueo) |
+
+---
+
 ## 7. DoD revisión 2026-11-20
 
 - [x] `main` y tag documentados

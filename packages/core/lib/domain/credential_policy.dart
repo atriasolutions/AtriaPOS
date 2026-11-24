@@ -1,16 +1,16 @@
 import 'failures.dart';
 
-/// DEC-047: username y PIN sin letra ñ.
+/// DEC-047: username y PIN sin letra ñ (username se normaliza al ingresar).
 class CredentialPolicy {
+  /// Sustituye ñ/Ñ por n/N (SLICE-78).
+  static String normalizeUsername(String raw) {
+    return raw.trim().replaceAll('ñ', 'n').replaceAll('Ñ', 'N');
+  }
+
   static void validateUsername(String raw) {
-    final value = raw.trim();
+    final value = normalizeUsername(raw);
     if (value.isEmpty) {
       throw const ValidationFailure('Ingrese un nombre de usuario');
-    }
-    if (value.contains('ñ') || value.contains('Ñ')) {
-      throw const ValidationFailure(
-        'El nombre de usuario no puede contener la letra ñ',
-      );
     }
     if (!RegExp(r'^[a-zA-Z0-9._-]+$').hasMatch(value)) {
       throw const ValidationFailure(

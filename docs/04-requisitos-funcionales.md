@@ -38,7 +38,8 @@ Campos: `id` (UUID), nombre, apellido, RUT persona, `username`, PIN.
 
 - Dado dueño autenticado, cuando crea usuario con datos válidos, entonces persiste UUID y `username` único en la tienda.
 - Dado login, cuando ingresa `username` y PIN correctos, entonces abre sesión con rol correspondiente.
-- Dado `username` o PIN con letra ñ, cuando intenta crear o autenticar, entonces rechaza con `VALIDACION`.
+- Dado `username` con ñ/Ñ al tipear, cuando confirma, entonces el sistema la sustituye por n/N (UI y dominio) sin mensaje «sin ñ» (SLICE-78, amend DEC-047).
+- Dado PIN con letra ñ, cuando intenta crear o autenticar, entonces rechaza con `VALIDACION`.
 - Dado RUT persona inválido, cuando crea usuario, entonces rechaza con `VALIDACION`.
 - Dado nombre/apellido con tildes o ñ, cuando crea usuario, entonces acepta (solo credenciales sin ñ).
 
@@ -234,6 +235,25 @@ Con **turno abierto**, supervisor o dueño:
 - Envían **recuento manual** por producto; el sistema calcula `variance = contado - sistema`.
 - Si `variance ≠ 0`, aplica movimiento **CORRECCION** y deja stock al contado; si es cero, solo registra la línea.
 - Persiste cabecera y líneas de cierre para trazabilidad. Sin turno abierto → error alineado a SC-040. Pantalla **Cierre inventario** en menú Operación (SLICE-74).
+
+---
+
+### RF-091 [S] Listar catálogo con stock (SLICE-79)
+
+- Dado sesión activa con permiso `consultarStock`, cuando solicita listado de productos de la tienda, entonces recibe ítems con nombre, precio, stock y payload QR.
+- Dado rol sin permiso, cuando intenta listar, entonces `PERMISO_DENEGADO`.
+- Dado sesión vencida, entonces `SESION_EXPIRADA`.
+
+### RF-092 [S] Exportar etiquetas QR (SLICE-81)
+
+- Dado productos seleccionados con QR, cuando exporta a PDF, entonces genera hojas A4 con grilla de etiquetas (DEC-051) imprimibles.
+- Código de barras en PDF queda fuera de este slice (anotación «próximamente» en UI).
+
+### RF-093 [S] Cambiar usuario / fin de sesión (SLICE-82)
+
+- Dado sesión expirada, cuando opera en UI, entonces ofrece **Iniciar sesión** y vuelve a login.
+- Dado sesión activa y **sin turno abierto**, cuando solicita cambiar sesión, entonces cierra sesión local y muestra login (carrito local se reinicia).
+- Dado **turno abierto**, cuando solicita cambiar sesión, entonces rechaza con mensaje de cierre de caja primero (DEC-050).
 
 ---
 
