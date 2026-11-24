@@ -202,6 +202,15 @@ Estado actual: **MERGED**
 | Merge | **MERGED** → `main` `2f10165` |
 | Contenido | Acta/evidencia SLICE-49 |
 
+## SLICE-56 — Identidad técnica (2026-11-24)
+
+| Resultado | Detalle |
+|-----------|---------|
+| PR | https://github.com/mmb21894-ux/atria-pos/pull/2 |
+| Merge | **MERGED** en `atria-pos` `main` |
+| Contenido | `kAppName`, `atria_pos_core`, BLE `Atria-POS`, `resolveSqlitePath` |
+| `ci-local.ps1` | Verde (119 core + suites) |
+
 ## SLICE-55 — Marca Atria POS y repo canónico (2026-11-24)
 
 | Resultado | Detalle |
