@@ -202,6 +202,16 @@ Estado actual: **MERGED**
 | Merge | **MERGED** → `main` `2f10165` |
 | Contenido | Acta/evidencia SLICE-49 |
 
+## SLICE-58 — Org `atriasolutions/AtriaPOS` (2026-11-24)
+
+| Resultado | Detalle |
+|-----------|---------|
+| Repo org | https://github.com/atriasolutions/AtriaPOS |
+| Mirror | `main` @ `77cb3f4` + tag `mvp-2026-11` |
+| Privado | Confirmar en Settings org (API edit 404 en sesión agente) |
+| Personal intermedio | `mmb21894-ux/atria-pos` — README redirect + **archivado** |
+| DEC | [DEC-046-repo-org-atriasolutions.md](../docs/decisiones/DEC-046-repo-org-atriasolutions.md) |
+
 ## SLICE-57 — Sin nombres propios (2026-11-24)
 
 | Resultado | Detalle |
