@@ -30,7 +30,7 @@ class GetDailySalesReport {
   }) async {
     AuthPolicy.require(
       requireActiveSession(_sessions),
-      Permission.anularVenta,
+      Permission.consultarReportes,
     );
 
     final dayAnchor = calendarDayLocal ?? DateTime.now();

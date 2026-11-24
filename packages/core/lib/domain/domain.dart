@@ -6,6 +6,7 @@ export 'auth_session.dart';
 export 'chile_datetime_format.dart';
 export 'cart.dart';
 export 'permission.dart';
+export 'role_capabilities.dart';
 export 'user.dart';
 export 'user_id.dart';
 export 'user_role.dart';

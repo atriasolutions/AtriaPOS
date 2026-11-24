@@ -26,7 +26,7 @@ class GetCertificateStatus {
   Future<CertificateStatusView> call(StoreId storeId) async {
     AuthPolicy.require(
       requireActiveSession(_sessions),
-      Permission.anularVenta,
+      Permission.consultarCertificado,
     );
 
     final info = await _store.loadActiveCertificate(storeId);

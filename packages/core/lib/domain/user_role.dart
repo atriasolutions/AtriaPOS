@@ -13,4 +13,11 @@ enum UserRole {
       orElse: () => UserRole.cajero,
     );
   }
+
+  /// Etiqueta UI plantilla Atria POS (revisión 2).
+  String get displayLabelAtriaPos => switch (this) {
+        UserRole.dueno => 'Jefe de tienda',
+        UserRole.supervisor => 'Jefe de turno',
+        UserRole.cajero => 'Cajero',
+      };
 }

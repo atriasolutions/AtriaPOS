@@ -2,14 +2,22 @@ import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('AuthPolicy RF-002', () {
-    test('todos pueden vender', () {
+  group('AuthPolicy RF-002 / RF-081', () {
+    test('SC-081-01 todos pueden vender', () {
       for (final role in UserRole.values) {
         expect(AuthPolicy.allows(role, Permission.vender), isTrue);
       }
     });
 
-    test('cajero no ajusta inventario ni cierra caja', () {
+    test('cajero consulta stock sin reportes', () {
+      expect(
+        AuthPolicy.allows(UserRole.cajero, Permission.consultarStock),
+        isTrue,
+      );
+      expect(
+        AuthPolicy.allows(UserRole.cajero, Permission.consultarReportes),
+        isFalse,
+      );
       expect(
         AuthPolicy.allows(UserRole.cajero, Permission.ajustarInventario),
         isFalse,
@@ -25,7 +33,11 @@ void main() {
       );
     });
 
-    test('supervisor opera inventario y caja', () {
+    test('SC-081-02 supervisor opera inventario y caja', () {
+      expect(
+        AuthPolicy.allows(UserRole.supervisor, Permission.consultarAuditoria),
+        isTrue,
+      );
       expect(
         AuthPolicy.allows(UserRole.supervisor, Permission.ajustarInventario),
         isTrue,
@@ -44,7 +56,7 @@ void main() {
       );
     });
 
-    test('solo dueño gestiona usuarios', () {
+    test('SC-081-03 solo dueño gestiona usuarios', () {
       expect(
         AuthPolicy.allows(UserRole.dueno, Permission.gestionarUsuarios),
         isTrue,
@@ -60,6 +72,13 @@ void main() {
       expect(
         () => AuthPolicy.require(session, Permission.ajustarInventario),
         throwsA(isA<ForbiddenFailure>()),
+      );
+    });
+
+    test('SC-081-04 cajero sin consultarReportes', () {
+      expect(
+        AuthPolicy.allows(UserRole.cajero, Permission.consultarReportes),
+        isFalse,
       );
     });
   });

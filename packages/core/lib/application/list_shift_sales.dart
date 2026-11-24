@@ -32,7 +32,7 @@ class ListShiftSales {
   Future<List<ShiftSaleListItem>> call(StoreId storeId) async {
     AuthPolicy.require(
       requireActiveSession(_sessions),
-      Permission.anularVenta,
+      Permission.listarVentasTurno,
     );
 
     final openShift = await _shifts.findOpenByStore(storeId);

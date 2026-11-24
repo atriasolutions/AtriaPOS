@@ -399,7 +399,9 @@ Sin tienda → `NO_ENCONTRADO` (404).
 
 Errores: `CREDENCIAL_INVALIDA` (401). Operaciones privilegiadas sin sesión o rol: `PERMISO_DENEGADO` (403). Sesión vencida: `SESION_EXPIRADA` (401).
 
-**Tests SLICE-7 (SC-070-01…04):** login válido; PIN malo; cajero bloqueado en ajuste/cierre/catálogo; dueño crea usuario.
+**Tests SLICE-7 / SLICE-61 (SC-070-01…04, SC-081-xx):** login válido; PIN malo; matriz RF-081 (`RoleCapabilities`); cajero bloqueado en reportes/ajuste/cierre; dueño crea usuario.
+
+**Matriz 403 (RF-081):** reportes → `consultarReportes`; auditoría → `consultarAuditoria`; certificado → `consultarCertificado`; ventas del turno → `listarVentasTurno`; anular → `anularVenta`.
 
 ### `createUser` (in-process, SLICE-60 / RF-080)
 

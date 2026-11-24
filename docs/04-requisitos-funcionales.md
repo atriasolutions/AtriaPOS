@@ -25,6 +25,13 @@ Roles MVP: `DUENO`, `SUPERVISOR`, `CAJERO`.
 | Configurar precios/costo | ✓ | ✓ | — |
 | Gestionar usuarios | ✓ | — | — |
 
+### RF-081 [M] Permisos heredados Atria POS (SLICE-61)
+
+- Dado rol cajero, cuando evalúa permisos, entonces solo `vender` y `consultarStock` (más herencia futura por plantilla).
+- Dado jefe de turno (`supervisor`), cuando evalúa, entonces incluye permisos de cajero y operación de turno (reportes, auditoría, inventario, caja).
+- Dado jefe de tienda (`dueno`), cuando evalúa, entonces incluye jefe de turno y `gestionarUsuarios`.
+- Dado acción protegida, cuando el rol no tiene permiso en matriz, entonces `PERMISO_DENEGADO`.
+
 ### RF-080 [M] Perfil usuario (revisión 2, SLICE-60)
 
 Campos: `id` (UUID), nombre, apellido, RUT persona, `username`, PIN.

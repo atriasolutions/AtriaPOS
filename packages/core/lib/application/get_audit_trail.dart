@@ -50,7 +50,7 @@ class GetAuditTrail {
   }) async {
     AuthPolicy.require(
       requireActiveSession(_sessions),
-      Permission.anularVenta,
+      Permission.consultarAuditoria,
     );
 
     final dayAnchor = calendarDayLocal ?? DateTime.now();
