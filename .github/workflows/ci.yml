@@ -20,6 +20,16 @@ jobs:
       - name: Dart SDK check
         run: dart --version
 
+      - name: SLICE-57 — sin nombres propios
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ripgrep
+          patterns=$(grep -v '^\s*#' scripts/deny-person-names.txt | grep -v '^\s*$' | paste -sd '|' -)
+          if rg -i -n "$patterns" . \
+            -g '!.git/**' -g '!**/node_modules/**' -g '!**/.plugin_symlinks/**' -g '!**/ephemeral/**' -g '!**/build/**' -g '!scripts/deny-person-names.txt'; then
+            echo "Nombres propios detectados (SLICE-57)" >&2
+            exit 1
+          fi
+
       - name: core — pub get and test
         working-directory: packages/core
         run: |

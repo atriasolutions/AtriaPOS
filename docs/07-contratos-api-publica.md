@@ -407,7 +407,7 @@ Solo rol **DUENO** (`Permission.gestionarUsuarios`).
 ```json
 {
   "userId": "usr_cajero2",
-  "displayName": "María",
+  "displayName": "Cajero",
   "role": "CAJERO",
   "pin": "1234"
 }
@@ -421,7 +421,7 @@ Solo rol **DUENO** (`Permission.gestionarUsuarios`).
 {
   "userId": "usr_cajero2",
   "role": "CAJERO",
-  "displayName": "María"
+  "displayName": "Cajero"
 }
 ```
 

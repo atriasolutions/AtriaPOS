@@ -1,0 +1,9 @@
+# Nombres propios prohibidos en repo (SLICE-57). Una expresión por línea (regex RE2).
+# Líneas vacías y comentarios # se ignoran en el script.
+
+\bKarina\b
+\bMicael\b
+\bJuan\b
+\bMaría\b
+\bMaria\b
+\bAna\b

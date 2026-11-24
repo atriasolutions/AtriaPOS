@@ -49,7 +49,7 @@ gh repo archive mmb21894-ux/pos-barrio-segmento-d --yes
 
 Opcional: README final en repo archivado con texto “Movido a https://github.com/mmb21894-ux/atria-pos”.
 
-## Checklist por PC (Karina, etc.)
+## Checklist por cada PC de desarrollo
 
 ```powershell
 git remote set-url origin https://github.com/mmb21894-ux/atria-pos.git

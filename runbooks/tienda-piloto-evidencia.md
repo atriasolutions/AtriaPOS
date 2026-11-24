@@ -34,7 +34,7 @@ Estado actual: **PARCIAL** — demo fake validada (SLICE-53); BLE formal pendien
 | Campo | Valor |
 |-------|-------|
 | Fecha demo | 2026-11-24 |
-| Operador | Micael (piloto tienda) |
+| Operador | Operador piloto (sin nombre en git) |
 | Notas | Piloto núcleo MVP en tienda exitoso; SLICE-53 cierra documentación demo. Bluetooth escáner pendiente (SLICE-50). |
 
 ## Evidencias hijas (según alcance piloto)

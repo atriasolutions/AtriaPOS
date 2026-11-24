@@ -24,6 +24,7 @@
 - Docs español Chile.
 - **Al cerrar cada slice:** commit obligatorio (ver `.cursor/rules/slice-cierre-commit.mdc`). Otros commits intermedios solo si el usuario lo pide.
 - Certificados SII / secretos: nunca en repo ni chat.
+- Sin nombres propios en git (DEC-045); roles y `scripts/check-no-person-names.ps1`.
 - Núcleo POS autónomo; Kora solo complementos opcionales (`docs/14-nucleo-y-complementos-kora.md`).
 - Cobertura objetivo ≥ 80 % en `packages/core` (post SLICE-4).
 

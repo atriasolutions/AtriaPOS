@@ -16,7 +16,7 @@ Kit: [`pr-body-mvp.md`](pr-body-mvp.md) | Evidencia: [`pr-merge-evidence.md`](pr
 ## 2. Publicar y crear PR
 
 ```powershell
-cd "c:\Users\Micael\Documents\Desarrollo Sistema POS"
+cd <raíz-del-repo>
 git push -u origin HEAD
 gh pr create --base main --head feat/slice-0-scaffold `
   --title "MVP POS: slices 0-38" `

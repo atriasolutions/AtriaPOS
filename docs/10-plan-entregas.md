@@ -60,6 +60,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 54 | SLICE-54 | Cierre revisión 1 | — | Evidencia operador; PR 52–53 → `main`; acta §10; revisión 2 = BLE |
 | 55 | SLICE-55 | Marca Atria POS + repo | — | DEC-044; README/AGENTS; runbook migración; push `atria-pos` |
 | 56 | SLICE-56 | Identidad técnica Atria POS | — | kAppName, BLE, BD, barrel `atria_pos_core.dart` |
+| 57 | SLICE-57 | Higiene sin nombres propios | — | DEC-045; `check-no-person-names`; CI |
 | 9 | SLICE-9 | Integración terminal pago | — | **N/A** — diferido explícito; no bloquea slices 43+ |
 
 ## Orden TDD sugerido (semana orientativa)
