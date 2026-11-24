@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-55: Marca **Atria POS** — DEC-044; repo canónico `mmb21894-ux/atria-pos`; runbook migración; README/AGENTS; `slice_55_atria_pos_marca_repo.md`.
 - SLICE-54: Cierre revisión 1 — fecha/operador piloto; [PR #10](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/10) → `main` `248fbbb`; acta §10; `slice_54_revision_1_cierre.md`.
 - SLICE-53: Piloto tienda demo — evidencia `tienda-piloto-evidencia` **PARCIAL**; SC-028-03; SLICE-50 BLE pendiente; acta §9.
 - SLICE-52: Central BLE Windows — `flutter_blue_plus_windows`, `companionPairingMatches`, anuncio companion por service data; SC-011-BLE-03; SLICE-50 sin cerrar.

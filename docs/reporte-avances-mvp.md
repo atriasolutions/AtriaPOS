@@ -1,9 +1,9 @@
-# Reporte de avances — Sistema POS segmento D
+# Reporte de avances — Atria POS
 
-**Proyecto:** POS barrio (Chile), núcleo local-first  
-**Fecha de reporte:** 2026-11-24 (cierre revisión 1 — [`19-revision-progreso-20251120.md`](19-revision-progreso-20251120.md) §10 SLICE-54)  
-**Rama estable:** `main` `248fbbb` ([PR #10](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/10)); hito git **`mvp-2026-11`** → `ddd071e`  
-**Repositorio:** [github.com/mmb21894-ux/pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d)  
+**Proyecto:** Atria POS (Chile, segmento D), núcleo local-first  
+**Fecha de reporte:** 2026-11-24 (SLICE-55 marca + repo canónico)  
+**Rama estable:** `main` en repo canónico; hito git **`mvp-2026-11`** → `ddd071e`  
+**Repositorio canónico:** [github.com/mmb21894-ux/atria-pos](https://github.com/mmb21894-ux/atria-pos) — histórico: [pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d) (archivado)  
 **Organización:** Atria Solutions SpA  
 
 ---

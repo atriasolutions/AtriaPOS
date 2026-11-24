@@ -49,6 +49,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-040 | P3 | Multi-tienda un dispositivo | ⏸ | — | F7 |
 | DEC-041 | P0 | Inventario: stock en `products` + movimientos | ✅ | [ADR](decisiones/DEC-inventario-slice2.md) + 08b | SLICE-2 |
 | DEC-042 | P0 | Venta SLICE-3 sin DTE/turno; pagos EFECTIVO/OTRO | ✅ | [ADR](decisiones/DEC-venta-slice3.md) + 07 | SLICE-3 |
+| DEC-044 | P1 | Marca Atria POS y repo canónico | ✅ | [ADR](decisiones/DEC-044-marca-atria-pos.md) | SLICE-55/56 |
 
 ---
 

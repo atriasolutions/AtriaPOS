@@ -2,8 +2,17 @@
 
 **Fecha:** 2026-11-20  
 **Alcance:** SLICE 44–51; estado tras tag `mvp-2026-11` (revisión SLICE-51 backlog; SLICE-50 ABIERTO)  
-**Repositorio remoto:** [mmb21894-ux/pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d)  
+**Repositorio histórico (archivado):** [mmb21894-ux/pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d) — PR #1–#11 y merges MVP.  
 **Acta anterior (histórica):** [`19-revision-progreso-20251119.md`](19-revision-progreso-20251119.md)
+
+### Repositorio canónico (SLICE-55)
+
+| Campo | Valor |
+|-------|-------|
+| Repo | [mmb21894-ux/atria-pos](https://github.com/mmb21894-ux/atria-pos) |
+| Marca | **Atria POS** |
+| DEC | [DEC-044](decisiones/DEC-044-marca-atria-pos.md) |
+| Migración | [`runbooks/repo-migracion-atria-pos.md`](../runbooks/repo-migracion-atria-pos.md) |
 
 ---
 
