@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-58: Repo org — `atriasolutions/AtriaPOS`; DEC-046; runbook §org; archivar `mmb21894-ux/atria-pos`; `slice_58_migracion_org_atriapos.md`.
 - SLICE-57: Sin nombres propios — DEC-045; `check-no-person-names.ps1`; CI; limpieza evidencia/tests; `slice_57_sin_nombres_persona.md`.
 - SLICE-56: Identidad técnica — `kAppName` Atria POS; barrel `atria_pos_core.dart`; BLE `Atria-POS`; BD `resolveSqlitePath`; `slice_56_atria_pos_identidad_tecnica.md`.
 - SLICE-55: Marca **Atria POS** — DEC-044; repo canónico `mmb21894-ux/atria-pos`; [PR #1](https://github.com/mmb21894-ux/atria-pos/pull/1); runbook migración; `slice_55_atria_pos_marca_repo.md`.

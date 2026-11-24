@@ -18,10 +18,10 @@ Si no hay remoto (`git remote -v` vacío):
 **Opción A** — repositorio existente:
 
 ```powershell
-git remote add origin https://github.com/mmb21894-ux/atria-pos.git
+git remote add origin https://github.com/atriasolutions/AtriaPOS.git
 ```
 
-(Repo legado archivado: `pos-barrio-segmento-d` — ver [`repo-migracion-atria-pos.md`](repo-migracion-atria-pos.md).)
+(Repos archivados: `pos-barrio-segmento-d`, `mmb21894-ux/atria-pos` — ver [`repo-migracion-atria-pos.md`](repo-migracion-atria-pos.md).)
 
 **Opción B** — crear repo privado y empujar (requiere `gh` autenticado):
 

@@ -66,3 +66,44 @@ Workflow [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) no depende de
 ## Evidencia
 
 Registrar en [`pr-merge-evidence.md`](pr-merge-evidence.md) sección SLICE-55.
+
+---
+
+## Corte org Atria Solutions (SLICE-58)
+
+De `mmb21894-ux/atria-pos` → **`atriasolutions/AtriaPOS`**. DEC: [DEC-046](../docs/decisiones/DEC-046-repo-org-atriasolutions.md).
+
+### Destino
+
+| Campo | Valor |
+|-------|-------|
+| URL | `https://github.com/atriasolutions/AtriaPOS.git` |
+| Visibilidad | **Privado** (ajustar en GitHub antes del push si el repo estaba público) |
+| Mirror | `git push org --all` y `git push org --tags` |
+
+### Comandos
+
+```powershell
+cd <raíz-del-repo>
+# Pre: gh repo edit atriasolutions/AtriaPOS --visibility private  (requiere admin org)
+git remote add org https://github.com/atriasolutions/AtriaPOS.git
+git push org --all
+git push org --tags
+git remote rename origin legacy-atria-pos-personal
+git remote add origin https://github.com/atriasolutions/AtriaPOS.git
+git branch -u origin/main main
+```
+
+### Archivar remoto personal intermedio
+
+1. README: «Movido a https://github.com/atriasolutions/AtriaPOS».
+2. `gh repo archive mmb21894-ux/atria-pos --yes`
+
+### PCs de desarrollo
+
+```powershell
+git remote set-url origin https://github.com/atriasolutions/AtriaPOS.git
+git fetch origin
+git checkout main
+git pull
+```

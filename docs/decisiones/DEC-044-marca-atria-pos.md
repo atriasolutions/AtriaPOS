@@ -7,7 +7,7 @@
 
 1. **Nombre comercial:** **Atria POS** (Atria Solutions SpA).
 2. **Perfil mercado:** se mantiene **segmento D** en RF y doc `01`; no forma parte del slug git.
-3. **Repositorio canónico:** `https://github.com/mmb21894-ux/atria-pos` (privado).
+3. **Repositorio canónico:** org Atria Solutions — ver [DEC-046](DEC-046-repo-org-atriasolutions.md) (`atriasolutions/AtriaPOS`, privado).
 4. **Repositorio histórico:** `mmb21894-ux/pos-barrio-segmento-d` — archivado; enlaces a PRs históricos **no se reescriben** en actas/CHANGELOG; se añade bloque “Repositorio canónico” en acta vigente.
 5. **Fase B (SLICE-56):** `kAppName`, prefijo BLE `Atria-POS`, barrel `atria_pos_core.dart`, política BD legada (ver abajo).
 

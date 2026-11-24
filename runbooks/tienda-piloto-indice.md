@@ -2,7 +2,7 @@
 
 Punto de entrada para validar el MVP en tienda: demo con DTE fake, pilotos opcionales BLE/SII e integración a `main` si corresponde. Evidencia agregada: [`tienda-piloto-evidencia.md`](tienda-piloto-evidencia.md).
 
-**Repo canónico:** [mmb21894-ux/atria-pos](https://github.com/mmb21894-ux/atria-pos). Tras SLICE-56: `git pull`, rebuild POS + companion Android y **re-pareo BLE** (`Atria-POS-{código}`) antes del piloto escáner.
+**Repo canónico:** [atriasolutions/AtriaPOS](https://github.com/atriasolutions/AtriaPOS). Tras SLICE-56: `git pull`, rebuild POS + companion Android y **re-pareo BLE** (`Atria-POS-{código}`) antes del piloto escáner.
 
 ## 1. Pre-requisitos
 

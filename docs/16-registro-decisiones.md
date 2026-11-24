@@ -51,6 +51,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-042 | P0 | Venta SLICE-3 sin DTE/turno; pagos EFECTIVO/OTRO | ✅ | [ADR](decisiones/DEC-venta-slice3.md) + 07 | SLICE-3 |
 | DEC-044 | P1 | Marca Atria POS y repo canónico | ✅ | [ADR](decisiones/DEC-044-marca-atria-pos.md) | SLICE-55/56 |
 | DEC-045 | P1 | Sin nombres de persona en repo | ✅ | [ADR](decisiones/DEC-045-sin-nombres-persona.md) | SLICE-57 |
+| DEC-046 | P1 | Repo org atriasolutions/AtriaPOS | ✅ | [ADR](decisiones/DEC-046-repo-org-atriasolutions.md) | SLICE-58 |
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## Contexto
 
-**Atria POS** — POS para **comercio de barrio** (Chile), perfil segmento D. Definición en `docs/`. Desarrollo **TDD vertical**. Repo canónico: `mmb21894-ux/atria-pos`.
+**Atria POS** — POS para **comercio de barrio** (Chile), perfil segmento D. Definición en `docs/`. Desarrollo **TDD vertical**. Repo canónico: `atriasolutions/AtriaPOS` (DEC-046).
 
 ## Gates
 

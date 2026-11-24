@@ -9,10 +9,12 @@
 
 | Campo | Valor |
 |-------|-------|
-| Repo | [mmb21894-ux/atria-pos](https://github.com/mmb21894-ux/atria-pos) |
+| Repo | [atriasolutions/AtriaPOS](https://github.com/atriasolutions/AtriaPOS) (privado) |
+| Corte org | 2026-11-24 — SLICE-58 |
 | Marca | **Atria POS** |
-| DEC | [DEC-044](decisiones/DEC-044-marca-atria-pos.md) |
-| Migración | [`runbooks/repo-migracion-atria-pos.md`](../runbooks/repo-migracion-atria-pos.md) |
+| DEC | [DEC-044](decisiones/DEC-044-marca-atria-pos.md), [DEC-046](decisiones/DEC-046-repo-org-atriasolutions.md) |
+| Intermedio archivado | [mmb21894-ux/atria-pos](https://github.com/mmb21894-ux/atria-pos) |
+| Migración | [`runbooks/repo-migracion-atria-pos.md`](../runbooks/repo-migracion-atria-pos.md) § SLICE-58 |
 
 ---
 

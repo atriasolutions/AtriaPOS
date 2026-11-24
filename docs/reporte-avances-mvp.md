@@ -3,7 +3,7 @@
 **Proyecto:** Atria POS (Chile, segmento D), núcleo local-first  
 **Fecha de reporte:** 2026-11-24 (SLICE-55 marca + repo canónico)  
 **Rama estable:** `main` en repo canónico; hito git **`mvp-2026-11`** → `ddd071e`  
-**Repositorio canónico:** [github.com/mmb21894-ux/atria-pos](https://github.com/mmb21894-ux/atria-pos) — histórico: [pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d) (archivado)  
+**Repositorio canónico:** [github.com/atriasolutions/AtriaPOS](https://github.com/atriasolutions/AtriaPOS) — histórico: [pos-barrio-segmento-d](https://github.com/mmb21894-ux/pos-barrio-segmento-d), [atria-pos personal](https://github.com/mmb21894-ux/atria-pos) (archivados)  
 **Organización:** Atria Solutions SpA  
 
 ---

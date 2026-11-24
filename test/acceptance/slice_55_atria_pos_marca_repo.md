@@ -18,7 +18,7 @@ Verificación: [`README.md`](../../README.md); [`docs/decisiones/DEC-044-marca-a
 ```gherkin
 Dado operador prepara remoto nuevo
 Cuando abre runbooks/repo-migracion-atria-pos.md
-Entonces documenta URL github.com/mmb21894-ux/atria-pos
+Entonces documenta migración de repos (histórico → org)
 Y checklist de alineación de origin en PCs
 ```
 
@@ -27,10 +27,10 @@ Verificación: [`runbooks/repo-migracion-atria-pos.md`](../../runbooks/repo-migr
 ## SC-055-03 — Acta repositorio canónico
 
 ```gherkin
-Dado migración completada
+Dado migración SLICE-55/58 completada
 Cuando se lee docs/19-revision-progreso-20251120.md bloque Repositorio canónico
-Entonces apunta a mmb21894-ux/atria-pos
-Y mantiene enlaces históricos al repo pos-barrio-segmento-d sin reescribir PRs antiguos
+Entonces el forward canónico está actualizado (DEC-046)
+Y mantiene enlaces históricos sin reescribir PRs antiguos
 ```
 
 Verificación: [`docs/19-revision-progreso-20251120.md`](../../docs/19-revision-progreso-20251120.md).
