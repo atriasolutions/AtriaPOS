@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:basic_utils/basic_utils.dart';
-import 'package:core/pos_barrio_core.dart';
+import 'package:core/atria_pos_core.dart';
 
 /// Lee certificado PEM desde `SII_CERT_PATH` (DEC-021).
 class FileCertificateStore implements CertificateStore {

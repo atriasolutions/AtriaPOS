@@ -207,6 +207,7 @@ Estado actual: **MERGED**
 | Resultado | Detalle |
 |-----------|---------|
 | Repo nuevo | https://github.com/mmb21894-ux/atria-pos |
+| PR | https://github.com/mmb21894-ux/atria-pos/pull/1 MERGED |
 | Migración | Push `main`, ramas y tag `mvp-2026-11` desde mirror local |
 | Repo legado | `pos-barrio-segmento-d` — archivar tras cutover |
 | DEC | [DEC-044-marca-atria-pos.md](../docs/decisiones/DEC-044-marca-atria-pos.md) |

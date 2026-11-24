@@ -1,4 +1,4 @@
-import 'package:core/pos_barrio_core.dart';
+import 'package:core/atria_pos_core.dart';
 
 import 'folio_allocator.dart';
 import 'sii_dte_signer.dart';

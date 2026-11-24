@@ -1,4 +1,4 @@
-import 'package:core/pos_barrio_core.dart';
+import 'package:core/atria_pos_core.dart';
 import 'package:xml/xml.dart';
 
 import 'sii_emisor_config.dart';

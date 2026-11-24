@@ -10,7 +10,7 @@ import 'package:flutter_blue_plus_windows/flutter_blue_plus_windows.dart';
 import 'scanner_connection_state.dart';
 import 'scanner_ingress.dart';
 
-/// POS Windows: escanea companion `POS-Barrio-{código}`, se suscribe a NOTIFY.
+/// POS Windows: escanea companion `Atria-POS-{código}`, se suscribe a NOTIFY.
 class BleCentralScannerIngress implements ScannerIngress {
   BleCentralScannerIngress({
     StreamScannerIngress? inner,

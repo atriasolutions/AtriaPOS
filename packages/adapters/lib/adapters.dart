@@ -1,6 +1,6 @@
 library;
 
-import 'package:core/pos_barrio_core.dart';
+import 'package:core/atria_pos_core.dart';
 
 export 'pos_database.dart';
 export 'dte_gateway_factory.dart';

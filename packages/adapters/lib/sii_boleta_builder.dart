@@ -1,4 +1,4 @@
-import 'package:core/pos_barrio_core.dart';
+import 'package:core/atria_pos_core.dart';
 
 /// Payload mínimo boleta 39 para adaptador SII (Fase A).
 class SiiBoletaBuilder {

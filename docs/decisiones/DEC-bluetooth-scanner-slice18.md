@@ -4,7 +4,7 @@
 
 | Plataforma | Rol | Paquete | Resultado |
 |------------|-----|---------|-----------|
-| POS Windows | Central BLE | `flutter_blue_plus` **1.34.5** + **`flutter_blue_plus_windows` 1.26.x** en `pos_app` | Import wrapper Windows; scan UUID + `companionPairingMatches` (nombre o service data); NOTIFY |
+| POS Windows | Central BLE | `flutter_blue_plus` **1.34.5** + **`flutter_blue_plus_windows` 1.26.x** en `pos_app` | Import wrapper Windows; scan UUID + `companionPairingMatches` (nombre `Atria-POS-{código}` o service data); NOTIFY |
 | Companion Android | Periférico GATT | `flutter_ble_peripheral` 3.x | UUID en adv; código en scan response (`serviceData`); sin `includeDeviceName` (límite 31 B) |
 
 **Plan B:** si el stack Windows falla en campo, mantener escaneo manual en búsqueda; tests/CI usan siempre `StreamScannerIngress`.

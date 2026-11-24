@@ -9,8 +9,8 @@ SLICE-48 deja el piloto **a un paso** de la sesión en tienda. SC-011-BLE-01 sig
 | Paso | Acción | OK |
 |------|--------|-----|
 | 1 | `.\scripts\ci-local.ps1` verde (core, adapters, pos_app, **scanner_companion**) | ☐ |
-| 2 | Compilar POS Windows: `flutter run -d windows` en `apps/pos_app` | ☐ |
-| 3 | Instalar companion en Android: `flutter run` en `apps/scanner_companion` | ☐ |
+| 2 | Compilar POS Windows: `flutter run -d windows` en `apps/pos_app` (repo `atria-pos`, post SLICE-56) | ☐ |
+| 3 | Instalar companion en Android: `flutter run` en `apps/scanner_companion` (mismo commit; BLE `Atria-POS`) | ☐ |
 
 En CI/tests el radio BLE está apagado; esto solo valida builds y tests automatizados (SC-048-01).
 

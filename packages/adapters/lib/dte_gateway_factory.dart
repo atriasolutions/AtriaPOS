@@ -1,4 +1,4 @@
-import 'package:core/pos_barrio_core.dart';
+import 'package:core/atria_pos_core.dart';
 
 import 'drift_folio_allocator.dart';
 import 'drift_store_repository.dart';
