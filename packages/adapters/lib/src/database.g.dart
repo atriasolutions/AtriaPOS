@@ -5151,6 +5151,855 @@ class CollaboratorsCompanion extends UpdateCompanion<CollaboratorRow> {
   }
 }
 
+class $InventoryClosesTable extends InventoryCloses
+    with TableInfo<$InventoryClosesTable, InventoryCloseRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $InventoryClosesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _storeIdMeta = const VerificationMeta(
+    'storeId',
+  );
+  @override
+  late final GeneratedColumn<String> storeId = GeneratedColumn<String>(
+    'store_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shiftIdMeta = const VerificationMeta(
+    'shiftId',
+  );
+  @override
+  late final GeneratedColumn<String> shiftId = GeneratedColumn<String>(
+    'shift_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _actorUserIdMeta = const VerificationMeta(
+    'actorUserId',
+  );
+  @override
+  late final GeneratedColumn<String> actorUserId = GeneratedColumn<String>(
+    'actor_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    storeId,
+    shiftId,
+    createdAt,
+    actorUserId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'inventory_closes';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<InventoryCloseRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('store_id')) {
+      context.handle(
+        _storeIdMeta,
+        storeId.isAcceptableOrUnknown(data['store_id']!, _storeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_storeIdMeta);
+    }
+    if (data.containsKey('shift_id')) {
+      context.handle(
+        _shiftIdMeta,
+        shiftId.isAcceptableOrUnknown(data['shift_id']!, _shiftIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shiftIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('actor_user_id')) {
+      context.handle(
+        _actorUserIdMeta,
+        actorUserId.isAcceptableOrUnknown(
+          data['actor_user_id']!,
+          _actorUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_actorUserIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  InventoryCloseRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InventoryCloseRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      storeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}store_id'],
+      )!,
+      shiftId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shift_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      actorUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}actor_user_id'],
+      )!,
+    );
+  }
+
+  @override
+  $InventoryClosesTable createAlias(String alias) {
+    return $InventoryClosesTable(attachedDatabase, alias);
+  }
+}
+
+class InventoryCloseRow extends DataClass
+    implements Insertable<InventoryCloseRow> {
+  final String id;
+  final String storeId;
+  final String shiftId;
+  final String createdAt;
+  final String actorUserId;
+  const InventoryCloseRow({
+    required this.id,
+    required this.storeId,
+    required this.shiftId,
+    required this.createdAt,
+    required this.actorUserId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['store_id'] = Variable<String>(storeId);
+    map['shift_id'] = Variable<String>(shiftId);
+    map['created_at'] = Variable<String>(createdAt);
+    map['actor_user_id'] = Variable<String>(actorUserId);
+    return map;
+  }
+
+  InventoryClosesCompanion toCompanion(bool nullToAbsent) {
+    return InventoryClosesCompanion(
+      id: Value(id),
+      storeId: Value(storeId),
+      shiftId: Value(shiftId),
+      createdAt: Value(createdAt),
+      actorUserId: Value(actorUserId),
+    );
+  }
+
+  factory InventoryCloseRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InventoryCloseRow(
+      id: serializer.fromJson<String>(json['id']),
+      storeId: serializer.fromJson<String>(json['storeId']),
+      shiftId: serializer.fromJson<String>(json['shiftId']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      actorUserId: serializer.fromJson<String>(json['actorUserId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'storeId': serializer.toJson<String>(storeId),
+      'shiftId': serializer.toJson<String>(shiftId),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'actorUserId': serializer.toJson<String>(actorUserId),
+    };
+  }
+
+  InventoryCloseRow copyWith({
+    String? id,
+    String? storeId,
+    String? shiftId,
+    String? createdAt,
+    String? actorUserId,
+  }) => InventoryCloseRow(
+    id: id ?? this.id,
+    storeId: storeId ?? this.storeId,
+    shiftId: shiftId ?? this.shiftId,
+    createdAt: createdAt ?? this.createdAt,
+    actorUserId: actorUserId ?? this.actorUserId,
+  );
+  InventoryCloseRow copyWithCompanion(InventoryClosesCompanion data) {
+    return InventoryCloseRow(
+      id: data.id.present ? data.id.value : this.id,
+      storeId: data.storeId.present ? data.storeId.value : this.storeId,
+      shiftId: data.shiftId.present ? data.shiftId.value : this.shiftId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      actorUserId: data.actorUserId.present
+          ? data.actorUserId.value
+          : this.actorUserId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InventoryCloseRow(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('shiftId: $shiftId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('actorUserId: $actorUserId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, storeId, shiftId, createdAt, actorUserId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InventoryCloseRow &&
+          other.id == this.id &&
+          other.storeId == this.storeId &&
+          other.shiftId == this.shiftId &&
+          other.createdAt == this.createdAt &&
+          other.actorUserId == this.actorUserId);
+}
+
+class InventoryClosesCompanion extends UpdateCompanion<InventoryCloseRow> {
+  final Value<String> id;
+  final Value<String> storeId;
+  final Value<String> shiftId;
+  final Value<String> createdAt;
+  final Value<String> actorUserId;
+  final Value<int> rowid;
+  const InventoryClosesCompanion({
+    this.id = const Value.absent(),
+    this.storeId = const Value.absent(),
+    this.shiftId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.actorUserId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  InventoryClosesCompanion.insert({
+    required String id,
+    required String storeId,
+    required String shiftId,
+    required String createdAt,
+    required String actorUserId,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       storeId = Value(storeId),
+       shiftId = Value(shiftId),
+       createdAt = Value(createdAt),
+       actorUserId = Value(actorUserId);
+  static Insertable<InventoryCloseRow> custom({
+    Expression<String>? id,
+    Expression<String>? storeId,
+    Expression<String>? shiftId,
+    Expression<String>? createdAt,
+    Expression<String>? actorUserId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (storeId != null) 'store_id': storeId,
+      if (shiftId != null) 'shift_id': shiftId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (actorUserId != null) 'actor_user_id': actorUserId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  InventoryClosesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? storeId,
+    Value<String>? shiftId,
+    Value<String>? createdAt,
+    Value<String>? actorUserId,
+    Value<int>? rowid,
+  }) {
+    return InventoryClosesCompanion(
+      id: id ?? this.id,
+      storeId: storeId ?? this.storeId,
+      shiftId: shiftId ?? this.shiftId,
+      createdAt: createdAt ?? this.createdAt,
+      actorUserId: actorUserId ?? this.actorUserId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (storeId.present) {
+      map['store_id'] = Variable<String>(storeId.value);
+    }
+    if (shiftId.present) {
+      map['shift_id'] = Variable<String>(shiftId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (actorUserId.present) {
+      map['actor_user_id'] = Variable<String>(actorUserId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InventoryClosesCompanion(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('shiftId: $shiftId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('actorUserId: $actorUserId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $InventoryCloseLinesTable extends InventoryCloseLines
+    with TableInfo<$InventoryCloseLinesTable, InventoryCloseLineRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $InventoryCloseLinesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _closeIdMeta = const VerificationMeta(
+    'closeId',
+  );
+  @override
+  late final GeneratedColumn<String> closeId = GeneratedColumn<String>(
+    'close_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _productIdMeta = const VerificationMeta(
+    'productId',
+  );
+  @override
+  late final GeneratedColumn<String> productId = GeneratedColumn<String>(
+    'product_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _systemStockMeta = const VerificationMeta(
+    'systemStock',
+  );
+  @override
+  late final GeneratedColumn<int> systemStock = GeneratedColumn<int>(
+    'system_stock',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _countedStockMeta = const VerificationMeta(
+    'countedStock',
+  );
+  @override
+  late final GeneratedColumn<int> countedStock = GeneratedColumn<int>(
+    'counted_stock',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _varianceMeta = const VerificationMeta(
+    'variance',
+  );
+  @override
+  late final GeneratedColumn<int> variance = GeneratedColumn<int>(
+    'variance',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _unitsSoldInShiftMeta = const VerificationMeta(
+    'unitsSoldInShift',
+  );
+  @override
+  late final GeneratedColumn<int> unitsSoldInShift = GeneratedColumn<int>(
+    'units_sold_in_shift',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    closeId,
+    productId,
+    systemStock,
+    countedStock,
+    variance,
+    unitsSoldInShift,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'inventory_close_lines';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<InventoryCloseLineRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('close_id')) {
+      context.handle(
+        _closeIdMeta,
+        closeId.isAcceptableOrUnknown(data['close_id']!, _closeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_closeIdMeta);
+    }
+    if (data.containsKey('product_id')) {
+      context.handle(
+        _productIdMeta,
+        productId.isAcceptableOrUnknown(data['product_id']!, _productIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_productIdMeta);
+    }
+    if (data.containsKey('system_stock')) {
+      context.handle(
+        _systemStockMeta,
+        systemStock.isAcceptableOrUnknown(
+          data['system_stock']!,
+          _systemStockMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_systemStockMeta);
+    }
+    if (data.containsKey('counted_stock')) {
+      context.handle(
+        _countedStockMeta,
+        countedStock.isAcceptableOrUnknown(
+          data['counted_stock']!,
+          _countedStockMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_countedStockMeta);
+    }
+    if (data.containsKey('variance')) {
+      context.handle(
+        _varianceMeta,
+        variance.isAcceptableOrUnknown(data['variance']!, _varianceMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_varianceMeta);
+    }
+    if (data.containsKey('units_sold_in_shift')) {
+      context.handle(
+        _unitsSoldInShiftMeta,
+        unitsSoldInShift.isAcceptableOrUnknown(
+          data['units_sold_in_shift']!,
+          _unitsSoldInShiftMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_unitsSoldInShiftMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  InventoryCloseLineRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InventoryCloseLineRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      closeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}close_id'],
+      )!,
+      productId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}product_id'],
+      )!,
+      systemStock: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}system_stock'],
+      )!,
+      countedStock: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}counted_stock'],
+      )!,
+      variance: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}variance'],
+      )!,
+      unitsSoldInShift: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}units_sold_in_shift'],
+      )!,
+    );
+  }
+
+  @override
+  $InventoryCloseLinesTable createAlias(String alias) {
+    return $InventoryCloseLinesTable(attachedDatabase, alias);
+  }
+}
+
+class InventoryCloseLineRow extends DataClass
+    implements Insertable<InventoryCloseLineRow> {
+  final String id;
+  final String closeId;
+  final String productId;
+  final int systemStock;
+  final int countedStock;
+  final int variance;
+  final int unitsSoldInShift;
+  const InventoryCloseLineRow({
+    required this.id,
+    required this.closeId,
+    required this.productId,
+    required this.systemStock,
+    required this.countedStock,
+    required this.variance,
+    required this.unitsSoldInShift,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['close_id'] = Variable<String>(closeId);
+    map['product_id'] = Variable<String>(productId);
+    map['system_stock'] = Variable<int>(systemStock);
+    map['counted_stock'] = Variable<int>(countedStock);
+    map['variance'] = Variable<int>(variance);
+    map['units_sold_in_shift'] = Variable<int>(unitsSoldInShift);
+    return map;
+  }
+
+  InventoryCloseLinesCompanion toCompanion(bool nullToAbsent) {
+    return InventoryCloseLinesCompanion(
+      id: Value(id),
+      closeId: Value(closeId),
+      productId: Value(productId),
+      systemStock: Value(systemStock),
+      countedStock: Value(countedStock),
+      variance: Value(variance),
+      unitsSoldInShift: Value(unitsSoldInShift),
+    );
+  }
+
+  factory InventoryCloseLineRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InventoryCloseLineRow(
+      id: serializer.fromJson<String>(json['id']),
+      closeId: serializer.fromJson<String>(json['closeId']),
+      productId: serializer.fromJson<String>(json['productId']),
+      systemStock: serializer.fromJson<int>(json['systemStock']),
+      countedStock: serializer.fromJson<int>(json['countedStock']),
+      variance: serializer.fromJson<int>(json['variance']),
+      unitsSoldInShift: serializer.fromJson<int>(json['unitsSoldInShift']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'closeId': serializer.toJson<String>(closeId),
+      'productId': serializer.toJson<String>(productId),
+      'systemStock': serializer.toJson<int>(systemStock),
+      'countedStock': serializer.toJson<int>(countedStock),
+      'variance': serializer.toJson<int>(variance),
+      'unitsSoldInShift': serializer.toJson<int>(unitsSoldInShift),
+    };
+  }
+
+  InventoryCloseLineRow copyWith({
+    String? id,
+    String? closeId,
+    String? productId,
+    int? systemStock,
+    int? countedStock,
+    int? variance,
+    int? unitsSoldInShift,
+  }) => InventoryCloseLineRow(
+    id: id ?? this.id,
+    closeId: closeId ?? this.closeId,
+    productId: productId ?? this.productId,
+    systemStock: systemStock ?? this.systemStock,
+    countedStock: countedStock ?? this.countedStock,
+    variance: variance ?? this.variance,
+    unitsSoldInShift: unitsSoldInShift ?? this.unitsSoldInShift,
+  );
+  InventoryCloseLineRow copyWithCompanion(InventoryCloseLinesCompanion data) {
+    return InventoryCloseLineRow(
+      id: data.id.present ? data.id.value : this.id,
+      closeId: data.closeId.present ? data.closeId.value : this.closeId,
+      productId: data.productId.present ? data.productId.value : this.productId,
+      systemStock: data.systemStock.present
+          ? data.systemStock.value
+          : this.systemStock,
+      countedStock: data.countedStock.present
+          ? data.countedStock.value
+          : this.countedStock,
+      variance: data.variance.present ? data.variance.value : this.variance,
+      unitsSoldInShift: data.unitsSoldInShift.present
+          ? data.unitsSoldInShift.value
+          : this.unitsSoldInShift,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InventoryCloseLineRow(')
+          ..write('id: $id, ')
+          ..write('closeId: $closeId, ')
+          ..write('productId: $productId, ')
+          ..write('systemStock: $systemStock, ')
+          ..write('countedStock: $countedStock, ')
+          ..write('variance: $variance, ')
+          ..write('unitsSoldInShift: $unitsSoldInShift')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    closeId,
+    productId,
+    systemStock,
+    countedStock,
+    variance,
+    unitsSoldInShift,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InventoryCloseLineRow &&
+          other.id == this.id &&
+          other.closeId == this.closeId &&
+          other.productId == this.productId &&
+          other.systemStock == this.systemStock &&
+          other.countedStock == this.countedStock &&
+          other.variance == this.variance &&
+          other.unitsSoldInShift == this.unitsSoldInShift);
+}
+
+class InventoryCloseLinesCompanion
+    extends UpdateCompanion<InventoryCloseLineRow> {
+  final Value<String> id;
+  final Value<String> closeId;
+  final Value<String> productId;
+  final Value<int> systemStock;
+  final Value<int> countedStock;
+  final Value<int> variance;
+  final Value<int> unitsSoldInShift;
+  final Value<int> rowid;
+  const InventoryCloseLinesCompanion({
+    this.id = const Value.absent(),
+    this.closeId = const Value.absent(),
+    this.productId = const Value.absent(),
+    this.systemStock = const Value.absent(),
+    this.countedStock = const Value.absent(),
+    this.variance = const Value.absent(),
+    this.unitsSoldInShift = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  InventoryCloseLinesCompanion.insert({
+    required String id,
+    required String closeId,
+    required String productId,
+    required int systemStock,
+    required int countedStock,
+    required int variance,
+    required int unitsSoldInShift,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       closeId = Value(closeId),
+       productId = Value(productId),
+       systemStock = Value(systemStock),
+       countedStock = Value(countedStock),
+       variance = Value(variance),
+       unitsSoldInShift = Value(unitsSoldInShift);
+  static Insertable<InventoryCloseLineRow> custom({
+    Expression<String>? id,
+    Expression<String>? closeId,
+    Expression<String>? productId,
+    Expression<int>? systemStock,
+    Expression<int>? countedStock,
+    Expression<int>? variance,
+    Expression<int>? unitsSoldInShift,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (closeId != null) 'close_id': closeId,
+      if (productId != null) 'product_id': productId,
+      if (systemStock != null) 'system_stock': systemStock,
+      if (countedStock != null) 'counted_stock': countedStock,
+      if (variance != null) 'variance': variance,
+      if (unitsSoldInShift != null) 'units_sold_in_shift': unitsSoldInShift,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  InventoryCloseLinesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? closeId,
+    Value<String>? productId,
+    Value<int>? systemStock,
+    Value<int>? countedStock,
+    Value<int>? variance,
+    Value<int>? unitsSoldInShift,
+    Value<int>? rowid,
+  }) {
+    return InventoryCloseLinesCompanion(
+      id: id ?? this.id,
+      closeId: closeId ?? this.closeId,
+      productId: productId ?? this.productId,
+      systemStock: systemStock ?? this.systemStock,
+      countedStock: countedStock ?? this.countedStock,
+      variance: variance ?? this.variance,
+      unitsSoldInShift: unitsSoldInShift ?? this.unitsSoldInShift,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (closeId.present) {
+      map['close_id'] = Variable<String>(closeId.value);
+    }
+    if (productId.present) {
+      map['product_id'] = Variable<String>(productId.value);
+    }
+    if (systemStock.present) {
+      map['system_stock'] = Variable<int>(systemStock.value);
+    }
+    if (countedStock.present) {
+      map['counted_stock'] = Variable<int>(countedStock.value);
+    }
+    if (variance.present) {
+      map['variance'] = Variable<int>(variance.value);
+    }
+    if (unitsSoldInShift.present) {
+      map['units_sold_in_shift'] = Variable<int>(unitsSoldInShift.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InventoryCloseLinesCompanion(')
+          ..write('id: $id, ')
+          ..write('closeId: $closeId, ')
+          ..write('productId: $productId, ')
+          ..write('systemStock: $systemStock, ')
+          ..write('countedStock: $countedStock, ')
+          ..write('variance: $variance, ')
+          ..write('unitsSoldInShift: $unitsSoldInShift, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $DteFolioCountersTable extends DteFolioCounters
     with TableInfo<$DteFolioCountersTable, DteFolioCounterRow> {
   @override
@@ -5906,6 +6755,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $DteQueueTable dteQueue = $DteQueueTable(this);
   late final $UsersTable users = $UsersTable(this);
   late final $CollaboratorsTable collaborators = $CollaboratorsTable(this);
+  late final $InventoryClosesTable inventoryCloses = $InventoryClosesTable(
+    this,
+  );
+  late final $InventoryCloseLinesTable inventoryCloseLines =
+      $InventoryCloseLinesTable(this);
   late final $DteFolioCountersTable dteFolioCounters = $DteFolioCountersTable(
     this,
   );
@@ -5925,6 +6779,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     dteQueue,
     users,
     collaborators,
+    inventoryCloses,
+    inventoryCloseLines,
     dteFolioCounters,
     clockState,
   ];
@@ -8499,6 +9355,474 @@ typedef $$CollaboratorsTableProcessedTableManager =
       CollaboratorRow,
       PrefetchHooks Function()
     >;
+typedef $$InventoryClosesTableCreateCompanionBuilder =
+    InventoryClosesCompanion Function({
+      required String id,
+      required String storeId,
+      required String shiftId,
+      required String createdAt,
+      required String actorUserId,
+      Value<int> rowid,
+    });
+typedef $$InventoryClosesTableUpdateCompanionBuilder =
+    InventoryClosesCompanion Function({
+      Value<String> id,
+      Value<String> storeId,
+      Value<String> shiftId,
+      Value<String> createdAt,
+      Value<String> actorUserId,
+      Value<int> rowid,
+    });
+
+class $$InventoryClosesTableFilterComposer
+    extends Composer<_$AppDatabase, $InventoryClosesTable> {
+  $$InventoryClosesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shiftId => $composableBuilder(
+    column: $table.shiftId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$InventoryClosesTableOrderingComposer
+    extends Composer<_$AppDatabase, $InventoryClosesTable> {
+  $$InventoryClosesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shiftId => $composableBuilder(
+    column: $table.shiftId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$InventoryClosesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InventoryClosesTable> {
+  $$InventoryClosesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get storeId =>
+      $composableBuilder(column: $table.storeId, builder: (column) => column);
+
+  GeneratedColumn<String> get shiftId =>
+      $composableBuilder(column: $table.shiftId, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => column,
+  );
+}
+
+class $$InventoryClosesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InventoryClosesTable,
+          InventoryCloseRow,
+          $$InventoryClosesTableFilterComposer,
+          $$InventoryClosesTableOrderingComposer,
+          $$InventoryClosesTableAnnotationComposer,
+          $$InventoryClosesTableCreateCompanionBuilder,
+          $$InventoryClosesTableUpdateCompanionBuilder,
+          (
+            InventoryCloseRow,
+            BaseReferences<
+              _$AppDatabase,
+              $InventoryClosesTable,
+              InventoryCloseRow
+            >,
+          ),
+          InventoryCloseRow,
+          PrefetchHooks Function()
+        > {
+  $$InventoryClosesTableTableManager(
+    _$AppDatabase db,
+    $InventoryClosesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$InventoryClosesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InventoryClosesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$InventoryClosesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> storeId = const Value.absent(),
+                Value<String> shiftId = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String> actorUserId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InventoryClosesCompanion(
+                id: id,
+                storeId: storeId,
+                shiftId: shiftId,
+                createdAt: createdAt,
+                actorUserId: actorUserId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String storeId,
+                required String shiftId,
+                required String createdAt,
+                required String actorUserId,
+                Value<int> rowid = const Value.absent(),
+              }) => InventoryClosesCompanion.insert(
+                id: id,
+                storeId: storeId,
+                shiftId: shiftId,
+                createdAt: createdAt,
+                actorUserId: actorUserId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$InventoryClosesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InventoryClosesTable,
+      InventoryCloseRow,
+      $$InventoryClosesTableFilterComposer,
+      $$InventoryClosesTableOrderingComposer,
+      $$InventoryClosesTableAnnotationComposer,
+      $$InventoryClosesTableCreateCompanionBuilder,
+      $$InventoryClosesTableUpdateCompanionBuilder,
+      (
+        InventoryCloseRow,
+        BaseReferences<_$AppDatabase, $InventoryClosesTable, InventoryCloseRow>,
+      ),
+      InventoryCloseRow,
+      PrefetchHooks Function()
+    >;
+typedef $$InventoryCloseLinesTableCreateCompanionBuilder =
+    InventoryCloseLinesCompanion Function({
+      required String id,
+      required String closeId,
+      required String productId,
+      required int systemStock,
+      required int countedStock,
+      required int variance,
+      required int unitsSoldInShift,
+      Value<int> rowid,
+    });
+typedef $$InventoryCloseLinesTableUpdateCompanionBuilder =
+    InventoryCloseLinesCompanion Function({
+      Value<String> id,
+      Value<String> closeId,
+      Value<String> productId,
+      Value<int> systemStock,
+      Value<int> countedStock,
+      Value<int> variance,
+      Value<int> unitsSoldInShift,
+      Value<int> rowid,
+    });
+
+class $$InventoryCloseLinesTableFilterComposer
+    extends Composer<_$AppDatabase, $InventoryCloseLinesTable> {
+  $$InventoryCloseLinesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get closeId => $composableBuilder(
+    column: $table.closeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get productId => $composableBuilder(
+    column: $table.productId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get systemStock => $composableBuilder(
+    column: $table.systemStock,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get countedStock => $composableBuilder(
+    column: $table.countedStock,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get variance => $composableBuilder(
+    column: $table.variance,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get unitsSoldInShift => $composableBuilder(
+    column: $table.unitsSoldInShift,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$InventoryCloseLinesTableOrderingComposer
+    extends Composer<_$AppDatabase, $InventoryCloseLinesTable> {
+  $$InventoryCloseLinesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get closeId => $composableBuilder(
+    column: $table.closeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get productId => $composableBuilder(
+    column: $table.productId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get systemStock => $composableBuilder(
+    column: $table.systemStock,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get countedStock => $composableBuilder(
+    column: $table.countedStock,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get variance => $composableBuilder(
+    column: $table.variance,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get unitsSoldInShift => $composableBuilder(
+    column: $table.unitsSoldInShift,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$InventoryCloseLinesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InventoryCloseLinesTable> {
+  $$InventoryCloseLinesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get closeId =>
+      $composableBuilder(column: $table.closeId, builder: (column) => column);
+
+  GeneratedColumn<String> get productId =>
+      $composableBuilder(column: $table.productId, builder: (column) => column);
+
+  GeneratedColumn<int> get systemStock => $composableBuilder(
+    column: $table.systemStock,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get countedStock => $composableBuilder(
+    column: $table.countedStock,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get variance =>
+      $composableBuilder(column: $table.variance, builder: (column) => column);
+
+  GeneratedColumn<int> get unitsSoldInShift => $composableBuilder(
+    column: $table.unitsSoldInShift,
+    builder: (column) => column,
+  );
+}
+
+class $$InventoryCloseLinesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InventoryCloseLinesTable,
+          InventoryCloseLineRow,
+          $$InventoryCloseLinesTableFilterComposer,
+          $$InventoryCloseLinesTableOrderingComposer,
+          $$InventoryCloseLinesTableAnnotationComposer,
+          $$InventoryCloseLinesTableCreateCompanionBuilder,
+          $$InventoryCloseLinesTableUpdateCompanionBuilder,
+          (
+            InventoryCloseLineRow,
+            BaseReferences<
+              _$AppDatabase,
+              $InventoryCloseLinesTable,
+              InventoryCloseLineRow
+            >,
+          ),
+          InventoryCloseLineRow,
+          PrefetchHooks Function()
+        > {
+  $$InventoryCloseLinesTableTableManager(
+    _$AppDatabase db,
+    $InventoryCloseLinesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$InventoryCloseLinesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InventoryCloseLinesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$InventoryCloseLinesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> closeId = const Value.absent(),
+                Value<String> productId = const Value.absent(),
+                Value<int> systemStock = const Value.absent(),
+                Value<int> countedStock = const Value.absent(),
+                Value<int> variance = const Value.absent(),
+                Value<int> unitsSoldInShift = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InventoryCloseLinesCompanion(
+                id: id,
+                closeId: closeId,
+                productId: productId,
+                systemStock: systemStock,
+                countedStock: countedStock,
+                variance: variance,
+                unitsSoldInShift: unitsSoldInShift,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String closeId,
+                required String productId,
+                required int systemStock,
+                required int countedStock,
+                required int variance,
+                required int unitsSoldInShift,
+                Value<int> rowid = const Value.absent(),
+              }) => InventoryCloseLinesCompanion.insert(
+                id: id,
+                closeId: closeId,
+                productId: productId,
+                systemStock: systemStock,
+                countedStock: countedStock,
+                variance: variance,
+                unitsSoldInShift: unitsSoldInShift,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$InventoryCloseLinesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InventoryCloseLinesTable,
+      InventoryCloseLineRow,
+      $$InventoryCloseLinesTableFilterComposer,
+      $$InventoryCloseLinesTableOrderingComposer,
+      $$InventoryCloseLinesTableAnnotationComposer,
+      $$InventoryCloseLinesTableCreateCompanionBuilder,
+      $$InventoryCloseLinesTableUpdateCompanionBuilder,
+      (
+        InventoryCloseLineRow,
+        BaseReferences<
+          _$AppDatabase,
+          $InventoryCloseLinesTable,
+          InventoryCloseLineRow
+        >,
+      ),
+      InventoryCloseLineRow,
+      PrefetchHooks Function()
+    >;
 typedef $$DteFolioCountersTableCreateCompanionBuilder =
     DteFolioCountersCompanion Function({
       required String storeId,
@@ -8939,6 +10263,10 @@ class $AppDatabaseManager {
       $$UsersTableTableManager(_db, _db.users);
   $$CollaboratorsTableTableManager get collaborators =>
       $$CollaboratorsTableTableManager(_db, _db.collaborators);
+  $$InventoryClosesTableTableManager get inventoryCloses =>
+      $$InventoryClosesTableTableManager(_db, _db.inventoryCloses);
+  $$InventoryCloseLinesTableTableManager get inventoryCloseLines =>
+      $$InventoryCloseLinesTableTableManager(_db, _db.inventoryCloseLines);
   $$DteFolioCountersTableTableManager get dteFolioCounters =>
       $$DteFolioCountersTableTableManager(_db, _db.dteFolioCounters);
   $$ClockStateTableTableManager get clockState =>

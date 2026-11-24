@@ -113,6 +113,33 @@ class SaleLines extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+@DataClassName('InventoryCloseRow')
+class InventoryCloses extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().named('store_id')();
+  TextColumn get shiftId => text().named('shift_id')();
+  TextColumn get createdAt => text().named('created_at')();
+  TextColumn get actorUserId => text().named('actor_user_id')();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+@DataClassName('InventoryCloseLineRow')
+class InventoryCloseLines extends Table {
+  TextColumn get id => text()();
+  TextColumn get closeId => text().named('close_id')();
+  TextColumn get productId => text().named('product_id')();
+  IntColumn get systemStock => integer().named('system_stock')();
+  IntColumn get countedStock => integer().named('counted_stock')();
+  IntColumn get variance => integer()();
+  IntColumn get unitsSoldInShift =>
+      integer().named('units_sold_in_shift')();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 @DataClassName('CollaboratorRow')
 class Collaborators extends Table {
   TextColumn get id => text()();
@@ -191,6 +218,8 @@ class DteFolioCounters extends Table {
   DteQueue,
   Users,
   Collaborators,
+  InventoryCloses,
+  InventoryCloseLines,
   DteFolioCounters,
   ClockState,
 ])
@@ -198,7 +227,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 18;
+  int get schemaVersion => 19;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -318,6 +347,10 @@ WHERE (
           }
           if (from < 18) {
             await m.addColumn(products, products.lowStockThreshold);
+          }
+          if (from < 19) {
+            await m.createTable(inventoryCloses);
+            await m.createTable(inventoryCloseLines);
           }
         },
       );

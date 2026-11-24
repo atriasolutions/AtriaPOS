@@ -8,31 +8,60 @@ class InventoryService {
   factory InventoryService({
     ProductRepository? productRepository,
     StockMovementRepository? stockMovementRepository,
+    ShiftRepository? shiftRepository,
+    SaleRepository? saleRepository,
+    InventoryCloseRepository? inventoryCloseRepository,
     SessionProvider? sessionProvider,
   }) {
     final products = productRepository ?? InMemoryProductRepository();
     final movements =
         stockMovementRepository ?? InMemoryStockMovementRepository();
+    final shifts = shiftRepository ?? InMemoryShiftRepository();
+    final sales = saleRepository ?? InMemorySaleRepository();
+    final inventoryCloses =
+        inventoryCloseRepository ?? InMemoryInventoryCloseRepository();
     final sessions =
         sessionProvider ?? InMemorySessionProvider.supervisor();
-    return InventoryService._(products, movements, sessions);
+    final adjustStock = AdjustStock(products, movements, sessions);
+    return InventoryService._(
+      products,
+      movements,
+      sessions,
+      adjustStock,
+      GetInventoryClosePreview(shifts, products, sales, sessions),
+      CloseInventory(
+        shifts,
+        products,
+        sales,
+        adjustStock,
+        inventoryCloses,
+        sessions,
+      ),
+    );
   }
 
   InventoryService._(
     ProductRepository products,
     StockMovementRepository movements,
     SessionProvider sessions,
+    AdjustStock adjustStock,
+    GetInventoryClosePreview getPreview,
+    CloseInventory closeInventory,
   )   : _getStock = GetProductStock(products),
-        _adjustStock = AdjustStock(products, movements, sessions),
+        _adjustStock = adjustStock,
         _recordStockReceipt = RecordStockReceipt(
           products,
           movements,
           sessions,
-        );
+        ),
+        _getInventoryClosePreview = getPreview,
+        _closeInventory = closeInventory;
 
   final GetProductStock _getStock;
   final AdjustStock _adjustStock;
   final RecordStockReceipt _recordStockReceipt;
+  final GetInventoryClosePreview _getInventoryClosePreview;
+  final CloseInventory _closeInventory;
 
   Future<ApiResult<StockResponse>> getProductStock(
     StoreId storeId,
@@ -128,6 +157,110 @@ class InventoryService {
           lotRef: result.lotRef,
         ),
         statusCode: 200,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  Future<ApiResult<InventoryClosePreviewResponse>> getInventoryClosePreview(
+    StoreId storeId,
+  ) async {
+    try {
+      final preview = await _getInventoryClosePreview(storeId);
+      return ApiSuccess(
+        InventoryClosePreviewResponse(
+          shiftId: preview.shiftId,
+          items: [
+            for (final item in preview.items)
+              InventoryClosePreviewItemResponse(
+                productId: item.productId,
+                name: item.name,
+                systemStock: item.systemStock,
+                unitsSoldInShift: item.unitsSoldInShift,
+              ),
+          ],
+        ),
+        statusCode: 200,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  Future<ApiResult<InventoryCloseSubmitResponse>> submitInventoryClose(
+    StoreId storeId,
+    InventoryCloseSubmitRequest request,
+  ) async {
+    try {
+      final close = await _closeInventory(
+        storeId,
+        [
+          for (final line in request.lines)
+            CloseInventoryLineInput(
+              productId: line.productId,
+              countedQty: line.countedQty,
+            ),
+        ],
+      );
+      return ApiSuccess(
+        InventoryCloseSubmitResponse(
+          closeId: close.id,
+          shiftId: close.shiftId,
+          closedAt: close.createdAt.toUtc().toIso8601String(),
+          lines: [
+            for (final line in close.lines)
+              InventoryCloseLineResponse(
+                productId: line.productId,
+                systemStock: line.systemStock,
+                countedStock: line.countedStock,
+                variance: line.variance,
+                unitsSoldInShift: line.unitsSoldInShift,
+              ),
+          ],
+        ),
+        statusCode: 201,
       );
     } on ValidationFailure catch (e) {
       return ApiFailure(

@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-68: Cierre inventario RF-088, API-004 preview/closes, Drift v19, `slice_68_cierre_inventario.md`.
 - SLICE-67: Stock insights RF-087, API-008 stock-insights, Drift v18 `low_stock_threshold`, `slice_67_stock_insights.md`.
 - SLICE-66: Auditoría rango/categoría RF-086, API-009 `from`/`to`/`categories`, Drift v17, `slice_66_auditoria_rango_categoria.md`.
 - SLICE-65: Ingreso existencias con guía/lote RF-085, API stock-receipts, Drift v16, `slice_65_ingreso_stock_guia_lote.md`.

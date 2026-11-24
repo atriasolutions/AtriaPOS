@@ -210,6 +210,15 @@ Supervisor o dueño consultan eventos entre fechas locales (máx. **31 días** i
 
 Supervisor o dueño consultan en un reporte: productos con **stock bajo** (stock ≤ umbral efectivo: `lowStockThreshold` por producto o default **5** unidades) y **ranking de más vendidos** en los últimos **30 días** calendario (unidades, ventas anuladas excluidas). Query `asOf` opcional; `limit` del ranking (default 10, máx. 50). Sin UI en este slice (SLICE-73).
 
+### RF-088 [M] Cierre inventario (SLICE-68)
+
+Con **turno abierto**, supervisor o dueño:
+
+- Consultan **vista previa** con stock sistema y unidades vendidas en el turno por SKU.
+- Envían **recuento manual** por producto; el sistema calcula `variance = contado - sistema`.
+- Si `variance ≠ 0`, aplica movimiento **CORRECCION** y deja stock al contado; si es cero, solo registra la línea.
+- Persiste cabecera y líneas de cierre para trazabilidad. Sin turno abierto → error alineado a SC-040. Sin UI (SLICE-74).
+
 ---
 
 ## Clasificación núcleo vs complemento (Gate 2)

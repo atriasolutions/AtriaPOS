@@ -366,6 +366,44 @@ Referencia guía/lote: 1–32 caracteres, `A–Z`, `0–9`, `-`, `_`, sin `ñ`.
 
 ---
 
+### `GET /v0/stores/{storeId}/inventory-close/preview` (RF-088)
+
+Requiere `ajustarInventario` y **turno abierto**. **200**:
+
+```json
+{
+  "shiftId": "sh_01",
+  "items": [
+    {
+      "productId": "prod_01",
+      "name": "Pan",
+      "systemStock": 12,
+      "unitsSoldInShift": 3
+    }
+  ]
+}
+```
+
+Sin turno → 404. Cajero → 403.
+
+### `POST /v0/stores/{storeId}/inventory-closes` (RF-088)
+
+```json
+{
+  "lines": [{ "productId": "prod_01", "countedQty": 9 }]
+}
+```
+
+**201** — `closeId`, `shiftId`, `closedAt`, `lines[]` con `systemStock`, `countedStock`, `variance`, `unitsSoldInShift`.
+
+Validación: lista vacía, `countedQty` negativo, producto duplicado o inexistente, stock final &lt; 0 → 400.
+
+`InventoryService.getInventoryClosePreview` / `submitInventoryClose`.
+
+**Tests:** SC-088-01…08.
+
+---
+
 ## API-005 — Cola DTE
 
 ### `POST /v0/stores/{storeId}/dte-queue/retry`
@@ -667,7 +705,7 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 | RF-010, RF-011 | API-001 |
 | RF-030–032, RF-082, RF-084 | API-002 |
 | RF-040–041 | API-003 |
-| RF-020–021, RF-085 | API-004 |
+| RF-020–021, RF-085, RF-088 | API-004 |
 | RF-051 | API-005 |
 | RF-002 | API-006 |
 | RF-001 | API-007 |

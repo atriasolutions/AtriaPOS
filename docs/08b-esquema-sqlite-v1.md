@@ -274,3 +274,12 @@ Migración desde v16: `addColumn` + `UPDATE users SET created_at = datetime('now
 | low_stock_threshold | INTEGER NULL | Umbral unidades RF-087; NULL usa default dominio (5) |
 
 Migración desde v17: `addColumn` nullable.
+
+## Revisión 2 — Cierre inventario schema v19 (SLICE-68)
+
+| Tabla | Columnas |
+|-------|----------|
+| inventory_closes | id, store_id, shift_id, created_at, actor_user_id |
+| inventory_close_lines | id, close_id, product_id, system_stock, counted_stock, variance, units_sold_in_shift |
+
+Migración desde v18: `createTable` ambas.
