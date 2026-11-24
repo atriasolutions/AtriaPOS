@@ -41,6 +41,8 @@ class StockMovements extends Table {
   TextColumn get note => text().nullable()();
   TextColumn get actorId => text().nullable()();
   TextColumn get createdAt => text()();
+  TextColumn get guideRef => text().named('guide_ref').nullable()();
+  TextColumn get lotRef => text().named('lot_ref').nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -188,7 +190,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 15;
+  int get schemaVersion => 16;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -291,6 +293,10 @@ WHERE (
           }
           if (from < 15) {
             await m.addColumn(sales, sales.sellerCode);
+          }
+          if (from < 16) {
+            await m.addColumn(stockMovements, stockMovements.guideRef);
+            await m.addColumn(stockMovements, stockMovements.lotRef);
           }
         },
       );

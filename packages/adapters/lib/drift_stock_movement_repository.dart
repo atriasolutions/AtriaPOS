@@ -20,6 +20,8 @@ class DriftStockMovementRepository implements StockMovementRepository {
             note: Value(movement.note),
             actorId: Value(movement.actorId),
             createdAt: movement.createdAt.toUtc().toIso8601String(),
+            guideRef: Value(movement.guideRef),
+            lotRef: Value(movement.lotRef),
           ),
         );
   }
@@ -66,6 +68,8 @@ class DriftStockMovementRepository implements StockMovementRepository {
         reason: StockAdjustmentReason.fromApi(row.reason),
         note: row.note,
         actorId: row.actorId,
+        guideRef: row.guideRef,
+        lotRef: row.lotRef,
         createdAt: DateTime.parse(row.createdAt).toUtc(),
       );
 }

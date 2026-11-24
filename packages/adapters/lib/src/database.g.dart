@@ -1077,6 +1077,26 @@ class $StockMovementsTable extends StockMovements
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _guideRefMeta = const VerificationMeta(
+    'guideRef',
+  );
+  @override
+  late final GeneratedColumn<String> guideRef = GeneratedColumn<String>(
+    'guide_ref',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lotRefMeta = const VerificationMeta('lotRef');
+  @override
+  late final GeneratedColumn<String> lotRef = GeneratedColumn<String>(
+    'lot_ref',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1087,6 +1107,8 @@ class $StockMovementsTable extends StockMovements
     note,
     actorId,
     createdAt,
+    guideRef,
+    lotRef,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1157,6 +1179,18 @@ class $StockMovementsTable extends StockMovements
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('guide_ref')) {
+      context.handle(
+        _guideRefMeta,
+        guideRef.isAcceptableOrUnknown(data['guide_ref']!, _guideRefMeta),
+      );
+    }
+    if (data.containsKey('lot_ref')) {
+      context.handle(
+        _lotRefMeta,
+        lotRef.isAcceptableOrUnknown(data['lot_ref']!, _lotRefMeta),
+      );
+    }
     return context;
   }
 
@@ -1198,6 +1232,14 @@ class $StockMovementsTable extends StockMovements
         DriftSqlType.string,
         data['${effectivePrefix}created_at'],
       )!,
+      guideRef: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}guide_ref'],
+      ),
+      lotRef: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}lot_ref'],
+      ),
     );
   }
 
@@ -1217,6 +1259,8 @@ class StockMovementRow extends DataClass
   final String? note;
   final String? actorId;
   final String createdAt;
+  final String? guideRef;
+  final String? lotRef;
   const StockMovementRow({
     required this.id,
     required this.storeId,
@@ -1226,6 +1270,8 @@ class StockMovementRow extends DataClass
     this.note,
     this.actorId,
     required this.createdAt,
+    this.guideRef,
+    this.lotRef,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1242,6 +1288,12 @@ class StockMovementRow extends DataClass
       map['actor_id'] = Variable<String>(actorId);
     }
     map['created_at'] = Variable<String>(createdAt);
+    if (!nullToAbsent || guideRef != null) {
+      map['guide_ref'] = Variable<String>(guideRef);
+    }
+    if (!nullToAbsent || lotRef != null) {
+      map['lot_ref'] = Variable<String>(lotRef);
+    }
     return map;
   }
 
@@ -1257,6 +1309,12 @@ class StockMovementRow extends DataClass
           ? const Value.absent()
           : Value(actorId),
       createdAt: Value(createdAt),
+      guideRef: guideRef == null && nullToAbsent
+          ? const Value.absent()
+          : Value(guideRef),
+      lotRef: lotRef == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lotRef),
     );
   }
 
@@ -1274,6 +1332,8 @@ class StockMovementRow extends DataClass
       note: serializer.fromJson<String?>(json['note']),
       actorId: serializer.fromJson<String?>(json['actorId']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
+      guideRef: serializer.fromJson<String?>(json['guideRef']),
+      lotRef: serializer.fromJson<String?>(json['lotRef']),
     );
   }
   @override
@@ -1288,6 +1348,8 @@ class StockMovementRow extends DataClass
       'note': serializer.toJson<String?>(note),
       'actorId': serializer.toJson<String?>(actorId),
       'createdAt': serializer.toJson<String>(createdAt),
+      'guideRef': serializer.toJson<String?>(guideRef),
+      'lotRef': serializer.toJson<String?>(lotRef),
     };
   }
 
@@ -1300,6 +1362,8 @@ class StockMovementRow extends DataClass
     Value<String?> note = const Value.absent(),
     Value<String?> actorId = const Value.absent(),
     String? createdAt,
+    Value<String?> guideRef = const Value.absent(),
+    Value<String?> lotRef = const Value.absent(),
   }) => StockMovementRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -1309,6 +1373,8 @@ class StockMovementRow extends DataClass
     note: note.present ? note.value : this.note,
     actorId: actorId.present ? actorId.value : this.actorId,
     createdAt: createdAt ?? this.createdAt,
+    guideRef: guideRef.present ? guideRef.value : this.guideRef,
+    lotRef: lotRef.present ? lotRef.value : this.lotRef,
   );
   StockMovementRow copyWithCompanion(StockMovementsCompanion data) {
     return StockMovementRow(
@@ -1320,6 +1386,8 @@ class StockMovementRow extends DataClass
       note: data.note.present ? data.note.value : this.note,
       actorId: data.actorId.present ? data.actorId.value : this.actorId,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      guideRef: data.guideRef.present ? data.guideRef.value : this.guideRef,
+      lotRef: data.lotRef.present ? data.lotRef.value : this.lotRef,
     );
   }
 
@@ -1333,7 +1401,9 @@ class StockMovementRow extends DataClass
           ..write('reason: $reason, ')
           ..write('note: $note, ')
           ..write('actorId: $actorId, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('guideRef: $guideRef, ')
+          ..write('lotRef: $lotRef')
           ..write(')'))
         .toString();
   }
@@ -1348,6 +1418,8 @@ class StockMovementRow extends DataClass
     note,
     actorId,
     createdAt,
+    guideRef,
+    lotRef,
   );
   @override
   bool operator ==(Object other) =>
@@ -1360,7 +1432,9 @@ class StockMovementRow extends DataClass
           other.reason == this.reason &&
           other.note == this.note &&
           other.actorId == this.actorId &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.guideRef == this.guideRef &&
+          other.lotRef == this.lotRef);
 }
 
 class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
@@ -1372,6 +1446,8 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
   final Value<String?> note;
   final Value<String?> actorId;
   final Value<String> createdAt;
+  final Value<String?> guideRef;
+  final Value<String?> lotRef;
   final Value<int> rowid;
   const StockMovementsCompanion({
     this.id = const Value.absent(),
@@ -1382,6 +1458,8 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     this.note = const Value.absent(),
     this.actorId = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.guideRef = const Value.absent(),
+    this.lotRef = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   StockMovementsCompanion.insert({
@@ -1393,6 +1471,8 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     this.note = const Value.absent(),
     this.actorId = const Value.absent(),
     required String createdAt,
+    this.guideRef = const Value.absent(),
+    this.lotRef = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -1409,6 +1489,8 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     Expression<String>? note,
     Expression<String>? actorId,
     Expression<String>? createdAt,
+    Expression<String>? guideRef,
+    Expression<String>? lotRef,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1420,6 +1502,8 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
       if (note != null) 'note': note,
       if (actorId != null) 'actor_id': actorId,
       if (createdAt != null) 'created_at': createdAt,
+      if (guideRef != null) 'guide_ref': guideRef,
+      if (lotRef != null) 'lot_ref': lotRef,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1433,6 +1517,8 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     Value<String?>? note,
     Value<String?>? actorId,
     Value<String>? createdAt,
+    Value<String?>? guideRef,
+    Value<String?>? lotRef,
     Value<int>? rowid,
   }) {
     return StockMovementsCompanion(
@@ -1444,6 +1530,8 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
       note: note ?? this.note,
       actorId: actorId ?? this.actorId,
       createdAt: createdAt ?? this.createdAt,
+      guideRef: guideRef ?? this.guideRef,
+      lotRef: lotRef ?? this.lotRef,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1475,6 +1563,12 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
     }
+    if (guideRef.present) {
+      map['guide_ref'] = Variable<String>(guideRef.value);
+    }
+    if (lotRef.present) {
+      map['lot_ref'] = Variable<String>(lotRef.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1492,6 +1586,8 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
           ..write('note: $note, ')
           ..write('actorId: $actorId, ')
           ..write('createdAt: $createdAt, ')
+          ..write('guideRef: $guideRef, ')
+          ..write('lotRef: $lotRef, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6071,6 +6167,8 @@ typedef $$StockMovementsTableCreateCompanionBuilder =
       Value<String?> note,
       Value<String?> actorId,
       required String createdAt,
+      Value<String?> guideRef,
+      Value<String?> lotRef,
       Value<int> rowid,
     });
 typedef $$StockMovementsTableUpdateCompanionBuilder =
@@ -6083,6 +6181,8 @@ typedef $$StockMovementsTableUpdateCompanionBuilder =
       Value<String?> note,
       Value<String?> actorId,
       Value<String> createdAt,
+      Value<String?> guideRef,
+      Value<String?> lotRef,
       Value<int> rowid,
     });
 
@@ -6132,6 +6232,16 @@ class $$StockMovementsTableFilterComposer
 
   ColumnFilters<String> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get guideRef => $composableBuilder(
+    column: $table.guideRef,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lotRef => $composableBuilder(
+    column: $table.lotRef,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6184,6 +6294,16 @@ class $$StockMovementsTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get guideRef => $composableBuilder(
+    column: $table.guideRef,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lotRef => $composableBuilder(
+    column: $table.lotRef,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$StockMovementsTableAnnotationComposer
@@ -6218,6 +6338,12 @@ class $$StockMovementsTableAnnotationComposer
 
   GeneratedColumn<String> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get guideRef =>
+      $composableBuilder(column: $table.guideRef, builder: (column) => column);
+
+  GeneratedColumn<String> get lotRef =>
+      $composableBuilder(column: $table.lotRef, builder: (column) => column);
 }
 
 class $$StockMovementsTableTableManager
@@ -6265,6 +6391,8 @@ class $$StockMovementsTableTableManager
                 Value<String?> note = const Value.absent(),
                 Value<String?> actorId = const Value.absent(),
                 Value<String> createdAt = const Value.absent(),
+                Value<String?> guideRef = const Value.absent(),
+                Value<String?> lotRef = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StockMovementsCompanion(
                 id: id,
@@ -6275,6 +6403,8 @@ class $$StockMovementsTableTableManager
                 note: note,
                 actorId: actorId,
                 createdAt: createdAt,
+                guideRef: guideRef,
+                lotRef: lotRef,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6287,6 +6417,8 @@ class $$StockMovementsTableTableManager
                 Value<String?> note = const Value.absent(),
                 Value<String?> actorId = const Value.absent(),
                 required String createdAt,
+                Value<String?> guideRef = const Value.absent(),
+                Value<String?> lotRef = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StockMovementsCompanion.insert(
                 id: id,
@@ -6297,6 +6429,8 @@ class $$StockMovementsTableTableManager
                 note: note,
                 actorId: actorId,
                 createdAt: createdAt,
+                guideRef: guideRef,
+                lotRef: lotRef,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
