@@ -254,6 +254,24 @@ Estado actual: **MERGED**
 | CI GitHub | `test` pass (PR #10) |
 | Fuera de alcance | SLICE-50 piloto BLE; smoke SC-052-03 |
 
+## SLICE-77 — Cierre revisión 2 + push `main` (2026-11-24)
+
+| Resultado | Detalle |
+|-----------|---------|
+| Modelo | Push directo a `main` (sin PR) |
+| Remoto | `origin` → `atriasolutions/AtriaPOS` |
+| `ci-local.ps1` | Verde pre-push |
+| Commit cierre docs | `dc481e8` feat(slice-77) |
+| HEAD local pre-push | Incluye `2fc7594` feat(slice-76) … `317105b` feat(slice-59) |
+| SLICE-50 | **ABIERTO** — piloto BLE manual |
+
+Actualizar fila **origin/main** tras push:
+
+```powershell
+git fetch origin
+git rev-parse origin/main
+```
+
 ## SLICE-51 — Acta backlog (2026-11-20)
 
 | Resultado | Detalle |
