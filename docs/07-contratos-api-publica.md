@@ -557,6 +557,50 @@ Solo rol **DUENO** (`Permission.gestionarUsuarios`).
 
 Errores: `PERMISO_DENEGADO` (403), `VALIDACION` (400, PIN &lt; 4 / credenciales / RUT), `CONFLICTO` (409, `username` duplicado).
 
+### `listUsers` (in-process, SLICE-70 / RF-080)
+
+Solo **DUENO** (`Permission.gestionarUsuarios`).
+
+**Response 200**
+
+```json
+[
+  {
+    "id": "uuid",
+    "username": "usr_cajero",
+    "firstName": "Cajero",
+    "lastName": "Demo",
+    "rut": "12.345.678-5",
+    "role": "CAJERO",
+    "displayName": "Cajero Demo"
+  }
+]
+```
+
+Errores: `PERMISO_DENEGADO` (403).
+
+### `updateUser` (in-process, SLICE-70 / RF-080)
+
+**Request**
+
+```json
+{
+  "firstName": "Nombre",
+  "lastName": "Apellido",
+  "rut": "12.345.678-5",
+  "role": "SUPERVISOR",
+  "newPin": "4321"
+}
+```
+
+`newPin` opcional (vacío = no cambiar). No cambiar `username`. No asignar rol `DUENO` ni cambiar rol del dueño existente.
+
+**Response 200** — mismo cuerpo que `createUser` (201).
+
+Errores: `PERMISO_DENEGADO` (403), `VALIDACION` (400), `NO_ENCONTRADO` (404).
+
+**Tests comportamiento (SC-080-07…13, SC-080-UI-01…04)**
+
 ---
 
 ## API-008 — Reportes (RF-060)

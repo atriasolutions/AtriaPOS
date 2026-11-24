@@ -57,3 +57,21 @@ class CreateUserResponse {
   final String role;
   final String displayName;
 }
+
+typedef UserProfileResponse = CreateUserResponse;
+
+class UpdateUserRequest {
+  const UpdateUserRequest({
+    required this.firstName,
+    required this.lastName,
+    required this.rut,
+    required this.role,
+    this.newPin,
+  });
+
+  final String firstName;
+  final String lastName;
+  final String rut;
+  final String role;
+  final String? newPin;
+}

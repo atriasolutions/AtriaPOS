@@ -28,6 +28,15 @@ class DriftUserRepository implements UserRepository {
   }
 
   @override
+  Future<List<User>> listByStore(StoreId storeId) async {
+    final rows = await (_db.select(_db.users)
+          ..where((t) => t.storeId.equals(storeId))
+          ..orderBy([(t) => OrderingTerm.asc(t.username)]))
+        .get();
+    return rows.map(_mapRow).toList();
+  }
+
+  @override
   Future<void> save(User user) async {
     await _db.into(_db.users).insertOnConflictUpdate(
           UsersCompanion.insert(

@@ -7,6 +7,8 @@ export 'get_certificate_status.dart';
 export 'authenticate_user.dart';
 export 'bcrypt_pin_hasher.dart';
 export 'create_user.dart';
+export 'list_users.dart';
+export 'update_user.dart';
 export 'in_memory_session_provider.dart';
 export 'in_memory_user_repository.dart';
 export 'ports/pin_hasher.dart';

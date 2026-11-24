@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-70: UI usuarios RF-080, `ListUsers`/`UpdateUser`, API-006 list/update, `slice_70_ui_usuarios.md`.
 - SLICE-69: Modelo plantilla Atria POS RF-089, API-007 pos-template, Drift v20 `pos_template_id`, `slice_69_modelo_plantilla_atria.md`.
 - SLICE-68: Cierre inventario RF-088, API-004 preview/closes, Drift v19, `slice_68_cierre_inventario.md`.
 - SLICE-67: Stock insights RF-087, API-008 stock-insights, Drift v18 `low_stock_threshold`, `slice_67_stock_insights.md`.

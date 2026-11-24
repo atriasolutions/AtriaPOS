@@ -42,6 +42,14 @@ Campos: `id` (UUID), nombre, apellido, RUT persona, `username`, PIN.
 - Dado RUT persona inválido, cuando crea usuario, entonces rechaza con `VALIDACION`.
 - Dado nombre/apellido con tildes o ñ, cuando crea usuario, entonces acepta (solo credenciales sin ñ).
 
+Listado y edición (SLICE-70):
+
+- Dado dueño autenticado, cuando lista usuarios de la tienda, entonces ve perfiles con username, nombre, RUT y rol (sin PIN).
+- Dado dueño, cuando edita nombre, apellido, RUT o rol de cajero/supervisor, entonces persiste y actualiza `displayName`.
+- Dado dueño, cuando envía PIN nuevo opcional válido, entonces el usuario inicia sesión con ese PIN; si omite PIN, el anterior sigue vigente.
+- Dado usuario con rol `DUENO`, cuando edita, entonces no puede cambiarse el rol; `username` permanece inmutable.
+- Dado supervisor o cajero, cuando lista o edita usuarios, entonces `PERMISO_DENEGADO`.
+
 ### RF-003 [S] Certificado SII
 
 Carga de certificado y validación de vigencia (sin almacenar clave en texto plano en logs).

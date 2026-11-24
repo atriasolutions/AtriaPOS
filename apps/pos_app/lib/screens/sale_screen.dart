@@ -17,7 +17,7 @@ import 'dte_queue_screen.dart';
 import 'shift_sales_screen.dart';
 import 'product_create_screen.dart';
 import 'stock_adjust_screen.dart';
-import 'user_create_screen.dart';
+import 'user_list_screen.dart';
 
 class SaleScreen extends StatefulWidget {
   const SaleScreen({
@@ -381,7 +381,7 @@ class _SaleScreenState extends State<SaleScreen> {
                     );
                   case 'users':
                     openScreen(
-                      UserCreateScreen(composition: widget.composition),
+                      UserListScreen(composition: widget.composition),
                     );
                 }
               },
@@ -454,7 +454,7 @@ class _SaleScreenState extends State<SaleScreen> {
                   const PopupMenuItem(
                     value: 'users',
                     child: Text(
-                      'Nuevo usuario',
+                      'Usuarios',
                       key: Key('operation_menu_users'),
                     ),
                   ),

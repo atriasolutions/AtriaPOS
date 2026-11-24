@@ -28,6 +28,13 @@ class InMemoryUserRepository implements UserRepository {
   }
 
   @override
+  Future<List<User>> listByStore(StoreId storeId) async {
+    final list = _users.values.where((u) => u.storeId == storeId).toList();
+    list.sort((a, b) => a.username.compareTo(b.username));
+    return list;
+  }
+
+  @override
   Future<List<User>> listByStoreCreatedBetween(
     StoreId storeId,
     DateTime fromInclusive,

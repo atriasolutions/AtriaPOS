@@ -19,11 +19,15 @@ class AuthService {
   AuthService._(UserRepository users, PinHasher hasher, SessionProvider sessions)
       : _authenticate = AuthenticateUser(users, hasher, sessions),
         _createUser = CreateUser(users, hasher, sessions),
+        _listUsers = ListUsers(users, sessions),
+        _updateUser = UpdateUser(users, hasher, sessions),
         _sessions = sessions,
         _users = users;
 
   final AuthenticateUser _authenticate;
   final CreateUser _createUser;
+  final ListUsers _listUsers;
+  final UpdateUser _updateUser;
   final SessionProvider _sessions;
   final UserRepository _users;
 
@@ -99,6 +103,93 @@ class AuthService {
       return ApiFailure(
         ApiErrorBody(code: e.code, message: e.message, details: e.details),
         statusCode: 409,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  Future<ApiResult<List<UserProfileResponse>>> listUsers(StoreId storeId) async {
+    try {
+      final users = await _listUsers(storeId);
+      final data = users
+          .map(
+            (user) => UserProfileResponse(
+              id: user.id,
+              username: user.username,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              rut: user.rut,
+              role: user.role.apiValue,
+              displayName: user.displayName,
+            ),
+          )
+          .toList();
+      return ApiSuccess(data, statusCode: 200);
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  Future<ApiResult<UserProfileResponse>> updateUser(
+    StoreId storeId,
+    UserId userId,
+    UpdateUserRequest request,
+  ) async {
+    try {
+      final user = await _updateUser(
+        UpdateUserInput(
+          storeId: storeId,
+          userId: userId,
+          firstName: request.firstName,
+          lastName: request.lastName,
+          rut: request.rut,
+          role: UserRole.fromApi(request.role),
+          newPin: request.newPin,
+        ),
+      );
+      return ApiSuccess(
+        UserProfileResponse(
+          id: user.id,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          rut: user.rut,
+          role: user.role.apiValue,
+          displayName: user.displayName,
+        ),
+        statusCode: 200,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
       );
     } on SessionExpiredFailure catch (e) {
       return ApiFailure(

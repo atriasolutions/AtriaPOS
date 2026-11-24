@@ -33,6 +33,8 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('operation_menu_users')));
     await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('users_list_add_fab')));
+    await tester.pumpAndSettle();
 
     await tester.enterText(
       find.byKey(const Key('user_create_username_field')),
@@ -58,6 +60,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('user_create_success_snackbar')), findsOneWidget);
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
 
     composition.sessionProvider.clear();
     var loggedIn = false;

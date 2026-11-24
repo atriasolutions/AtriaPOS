@@ -7,6 +7,8 @@ abstract class UserRepository {
 
   Future<void> save(User user);
 
+  Future<List<User>> listByStore(StoreId storeId);
+
   Future<List<User>> listByStoreCreatedBetween(
     StoreId storeId,
     DateTime fromInclusive,
