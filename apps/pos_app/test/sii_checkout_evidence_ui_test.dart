@@ -6,6 +6,8 @@ import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/main.dart' as app;
 
+import 'checkout_test_helpers.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -83,6 +85,7 @@ void main() {
     await tester.tapAt(tester.getRect(checkout).center);
     await tester.pumpAndSettle();
 
+    await enterCheckoutSellerCode(tester);
     await tester.tap(find.byKey(const Key('confirm_checkout_button')));
     await tester.pumpAndSettle();
 

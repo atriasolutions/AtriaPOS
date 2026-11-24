@@ -35,15 +35,77 @@ class _CheckoutDialog extends StatefulWidget {
 }
 
 class _CheckoutDialogState extends State<_CheckoutDialog> {
-  bool _loading = false;
+  bool _loadingCollaborators = true;
+  bool _confirming = false;
+  String? _loadError;
+  List<ActiveCollaboratorResponse> _active = [];
+  String? _selectedSellerCode;
+  final _sellerCodeController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadActiveCollaborators();
+    _sellerCodeController.addListener(_onManualCodeChanged);
+  }
+
+  @override
+  void dispose() {
+    _sellerCodeController.removeListener(_onManualCodeChanged);
+    _sellerCodeController.dispose();
+    super.dispose();
+  }
+
+  void _onManualCodeChanged() {
+    if (_sellerCodeController.text.trim().isNotEmpty) {
+      setState(() => _selectedSellerCode = null);
+    }
+    setState(() {});
+  }
+
+  Future<void> _loadActiveCollaborators() async {
+    final result = await widget.composition.collaboratorService.listActiveForSale(
+      widget.composition.requireStoreId,
+    );
+    if (!mounted) return;
+    switch (result) {
+      case ApiSuccess<ListActiveCollaboratorsResponse>(data: final data):
+        setState(() {
+          _active = data.items;
+          _loadingCollaborators = false;
+          if (_active.length == 1) {
+            _selectedSellerCode = _active.first.sellerCode;
+          }
+        });
+      case ApiFailure<ListActiveCollaboratorsResponse>(error: final e):
+        setState(() {
+          _loadError = e.message;
+          _loadingCollaborators = false;
+        });
+    }
+  }
+
+  String? get _effectiveSellerCode {
+    final manual = _sellerCodeController.text.trim();
+    if (manual.isNotEmpty) return manual;
+    return _selectedSellerCode;
+  }
+
+  bool get _canConfirm =>
+      !_loadingCollaborators &&
+      !_confirming &&
+      (_effectiveSellerCode ?? '').isNotEmpty;
 
   Future<void> _confirm() async {
-    setState(() => _loading = true);
+    final sellerCode = _effectiveSellerCode;
+    if (sellerCode == null || sellerCode.isEmpty) return;
+
+    setState(() => _confirming = true);
     final result = await widget.composition.saleService.checkout(
       widget.composition.requireStoreId,
       widget.cartId,
       CheckoutRequest(
-        sellerCode: 'V01',
+        sellerCode: sellerCode,
         payments: [
           CheckoutPaymentDto(
             method: 'EFECTIVO',
@@ -54,14 +116,16 @@ class _CheckoutDialogState extends State<_CheckoutDialog> {
       ),
     );
     if (!mounted) return;
-    setState(() => _loading = false);
+    setState(() => _confirming = false);
     switch (result) {
       case ApiSuccess<CheckoutResponse>(data: final data):
         Navigator.of(context).pop(data);
       case ApiFailure<CheckoutResponse>(error: final e):
-        Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_userMessage(e))),
+          SnackBar(
+            key: const Key('checkout_validation_snackbar'),
+            content: Text(_userMessage(e)),
+          ),
         );
     }
   }
@@ -79,18 +143,75 @@ class _CheckoutDialogState extends State<_CheckoutDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Cobrar'),
-      content: Text(
-        'Total: \$${widget.totalClp}\nPago: efectivo por el total exacto.',
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text('Total: \$${widget.totalClp}'),
+            const SizedBox(height: 8),
+            const Text('Pago: efectivo por el total exacto.'),
+            const SizedBox(height: 16),
+            const Text('Vendedor'),
+            if (_loadingCollaborators)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else if (_loadError != null)
+              Text(_loadError!)
+            else if (_active.isEmpty)
+              const Text(
+                'No hay colaboradores activos. Configure la planilla.',
+              )
+            else ...[
+              DropdownButtonFormField<String>(
+                key: const Key('checkout_seller_dropdown'),
+                initialValue: _selectedSellerCode,
+                decoration: const InputDecoration(
+                  labelText: 'Seleccionar vendedor',
+                  border: OutlineInputBorder(),
+                ),
+                items: _active
+                    .map(
+                      (c) => DropdownMenuItem(
+                        value: c.sellerCode,
+                        child: Text(
+                          '${c.sellerCode} — ${c.firstName} ${c.lastName}',
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedSellerCode = value;
+                    _sellerCodeController.clear();
+                  });
+                },
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                key: const Key('checkout_seller_code_field'),
+                controller: _sellerCodeController,
+                decoration: const InputDecoration(
+                  labelText: 'O ingrese código',
+                  border: OutlineInputBorder(),
+                ),
+                textCapitalization: TextCapitalization.characters,
+              ),
+            ],
+          ],
+        ),
       ),
       actions: [
         TextButton(
-          onPressed: _loading ? null : () => Navigator.of(context).pop(),
+          onPressed: _confirming ? null : () => Navigator.of(context).pop(),
           child: const Text('Cancelar'),
         ),
         FilledButton(
           key: const Key('confirm_checkout_button'),
-          onPressed: _loading ? null : _confirm,
-          child: _loading
+          onPressed: _canConfirm ? _confirm : null,
+          child: _confirming
               ? const SizedBox(
                   width: 18,
                   height: 18,

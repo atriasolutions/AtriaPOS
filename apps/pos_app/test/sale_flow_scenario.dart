@@ -5,6 +5,8 @@ import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/main.dart' as app;
 
+import 'checkout_test_helpers.dart';
+
 /// SC-060-01 — compartido entre `test/` y `integration_test/`.
 Future<void> runSaleFlowScenario(WidgetTester tester) async {
   tester.view.physicalSize = const Size(1280, 900);
@@ -66,6 +68,7 @@ Future<void> runSaleFlowScenario(WidgetTester tester) async {
   await tester.tapAt(buttonRect.center);
   await tester.pumpAndSettle();
 
+  await enterCheckoutSellerCode(tester);
   await tester.tap(find.byKey(const Key('confirm_checkout_button')));
   await tester.pumpAndSettle();
 

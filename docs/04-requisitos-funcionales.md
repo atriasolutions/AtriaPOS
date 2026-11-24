@@ -142,6 +142,8 @@ Colaboradores de mostrador con **código vendedor**, separados de usuarios POS (
 - Dado rol con `Permission.vender`, cuando lista colaboradores activos para venta, entonces solo códigos vigentes (API-011 `active`).
 - La venta persiste `sellerCode` para trazabilidad; sin motor de comisiones en R2.
 
+UI (SLICE-72): antes de confirmar cobro, el operador elige vendedor desde colaboradores activos o ingresa código; sin código válido no puede confirmar.
+
 ### RF-031 [M] Confirmar venta
 
 - Descuenta stock (si aplica).

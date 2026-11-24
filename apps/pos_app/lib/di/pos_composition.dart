@@ -33,6 +33,7 @@ class PosComposition {
     required this.inventoryService,
     required this.dteService,
     required this.fiscalService,
+    required this.collaboratorService,
     required this.certificateStore,
     required this.reportService,
     required this.trustedClock,
@@ -59,6 +60,7 @@ class PosComposition {
   final InventoryService inventoryService;
   final DteService dteService;
   final FiscalService fiscalService;
+  final CollaboratorService collaboratorService;
   final CertificateStore certificateStore;
   final ReportService reportService;
   final NtpShoaTrustedClock trustedClock;
@@ -195,6 +197,10 @@ class PosComposition {
         certificateStore: certificateStore,
         sessionProvider: sessions,
       ),
+      collaboratorService: CollaboratorService(
+        repository: collaborators,
+        sessionProvider: sessions,
+      ),
       certificateStore: certificateStore,
       reportService: ReportService(
         saleRepository: sales,
@@ -277,7 +283,7 @@ class PosComposition {
     }
   }
 
-  /// Colaborador demo para checkout (hasta SLICE-72 UI).
+  /// Colaborador demo V01 para checkout y tests.
   Future<void> ensureDemoSeller() async {
     final storeId = activeStoreId ?? kDemoStoreId;
     final repo = DriftCollaboratorRepository(database);
