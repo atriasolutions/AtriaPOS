@@ -8,8 +8,13 @@ import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
+import 'wide_viewport.dart';
+
 void main() {
   testWidgets('SC-003-UI-01 supervisor ve estado certificado', (tester) async {
+    setWideSaleViewport(tester);
+    addTearDown(tester.view.resetPhysicalSize);
+
     final certs = InMemoryCertificateStore()
       ..info = CertificateInfo(
         subject: 'CN=Piloto',
@@ -47,6 +52,8 @@ void main() {
   });
 
   testWidgets('SC-080-PREP-UI-01 guía piloto en pantalla certificado', (tester) async {
+    setWideSaleViewport(tester);
+    addTearDown(tester.view.resetPhysicalSize);
     final certs = InMemoryCertificateStore()
       ..info = CertificateInfo(
         subject: 'CN=Piloto',

@@ -8,19 +8,9 @@ import 'package:flutter/services.dart';
 import '../di/pos_composition.dart';
 import '../scanner/ble_central_scanner_ingress.dart';
 import '../scanner/scanner_connection_state.dart';
-import '../widgets/checkout_dialog.dart';
-import 'close_shift_screen.dart';
-import 'audit_trail_screen.dart';
-import 'certificate_status_screen.dart';
-import 'daily_sales_screen.dart';
-import 'dte_queue_screen.dart';
-import 'shift_sales_screen.dart';
-import 'product_create_screen.dart';
-import 'stock_adjust_screen.dart';
-import 'stock_insights_screen.dart';
-import 'inventory_close_screen.dart';
-import 'stock_receipt_screen.dart';
-import 'user_list_screen.dart';
+import '../widgets/atria_bordered_panel.dart';
+import '../widgets/atria_sale_top_bar.dart';
+import '../widgets/checkout_panel.dart';
 
 class SaleScreen extends StatefulWidget {
   const SaleScreen({
@@ -261,23 +251,7 @@ class _SaleScreenState extends State<SaleScreen> {
     }
   }
 
-  Future<void> _checkout() async {
-    final cart = _cart;
-    final cartId = _cartId;
-    if (cart == null || cartId == null || cart.lines.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Agregue productos al carro primero.')),
-      );
-      return;
-    }
-    final response = await showCheckoutDialog(
-      context: context,
-      composition: widget.composition,
-      cartId: cartId,
-      totalClp: cart.totalClp,
-    );
-    if (response == null || !mounted) return;
-
+  Future<void> _onCheckoutSuccess(CheckoutResponse response) async {
     final folioLine =
         response.folio != null ? 'Folio: ${response.folio}' : null;
     await showDialog<void>(
@@ -362,359 +336,243 @@ class _SaleScreenState extends State<SaleScreen> {
         canDailyReport ||
         canManageUsers;
 
-    void openScreen(Widget screen) {
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (_) => screen),
+    final cartHasLines = cart != null && cart.lines.isNotEmpty;
+    final totalClp = cart?.totalClp ?? 0;
+
+    Widget? scannerAction;
+    if (_bleIngress != null) {
+      scannerAction = TextButton.icon(
+        key: const Key('scanner_connect_button'),
+        onPressed: _openScannerPairing,
+        icon: const Icon(Icons.bluetooth),
+        label: Text('Escáner: ${_scannerStatusLabel()}'),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Vender'),
-        actions: [
-          if (_bleIngress != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: TextButton.icon(
-                key: const Key('scanner_connect_button'),
-                onPressed: _openScannerPairing,
-                icon: const Icon(Icons.bluetooth),
-                label: Text('Escáner: ${_scannerStatusLabel()}'),
-              ),
-            ),
-          if (hasOpsMenu)
-            PopupMenuButton<String>(
-              key: const Key('operation_menu_button'),
-              tooltip: 'Operación',
-              icon: const Icon(Icons.more_vert),
-              onSelected: (value) {
-                switch (value) {
-                  case 'sales':
-                    openScreen(
-                      ShiftSalesScreen(composition: widget.composition),
-                    );
-                  case 'close':
-                    openScreen(
-                      CloseShiftScreen(composition: widget.composition),
-                    );
-                  case 'dte':
-                    openScreen(
-                      DteQueueScreen(composition: widget.composition),
-                    );
-                  case 'certificate':
-                    openScreen(
-                      CertificateStatusScreen(composition: widget.composition),
-                    );
-                  case 'daily':
-                    openScreen(
-                      DailySalesScreen(composition: widget.composition),
-                    );
-                  case 'audit':
-                    openScreen(
-                      AuditTrailScreen(composition: widget.composition),
-                    );
-                  case 'stock':
-                    openScreen(
-                      StockAdjustScreen(composition: widget.composition),
-                    );
-                  case 'stock_receipt':
-                    openScreen(
-                      StockReceiptScreen(composition: widget.composition),
-                    );
-                  case 'stock_insights':
-                    openScreen(
-                      StockInsightsScreen(composition: widget.composition),
-                    );
-                  case 'inventory_close':
-                    openScreen(
-                      InventoryCloseScreen(composition: widget.composition),
-                    );
-                  case 'product':
-                    openScreen(
-                      ProductCreateScreen(composition: widget.composition),
-                    );
-                  case 'users':
-                    openScreen(
-                      UserListScreen(composition: widget.composition),
-                    );
-                }
-              },
-              itemBuilder: (context) => [
-                if (canVoidSales)
-                  const PopupMenuItem(
-                    value: 'sales',
-                    child: Text(
-                      'Ventas del turno',
-                      key: Key('operation_menu_sales'),
-                    ),
-                  ),
-                if (canCloseShift)
-                  const PopupMenuItem(
-                    value: 'close',
-                    child: Text(
-                      'Cerrar caja',
-                      key: Key('operation_menu_close'),
-                    ),
-                  ),
-                if (canDteQueue)
-                  const PopupMenuItem(
-                    value: 'dte',
-                    child: Text(
-                      'Cola DTE',
-                      key: Key('operation_menu_dte'),
-                    ),
-                  ),
-                if (canDteQueue)
-                  const PopupMenuItem(
-                    value: 'certificate',
-                    child: Text(
-                      'Certificado SII',
-                      key: Key('operation_menu_certificate'),
-                    ),
-                  ),
-                if (canDailyReport)
-                  const PopupMenuItem(
-                    value: 'daily',
-                    child: Text(
-                      'Ventas del día',
-                      key: Key('operation_menu_daily_report'),
-                    ),
-                  ),
-                if (canVoidSales)
-                  const PopupMenuItem(
-                    value: 'audit',
-                    child: Text(
-                      'Auditoría del día',
-                      key: Key('operation_menu_audit'),
-                    ),
-                  ),
-                if (canAdjustStock)
-                  const PopupMenuItem(
-                    value: 'stock',
-                    child: Text(
-                      'Ajuste de stock',
-                      key: Key('operation_menu_stock'),
-                    ),
-                  ),
-                if (canAdjustStock)
-                  const PopupMenuItem(
-                    value: 'stock_receipt',
-                    child: Text(
-                      'Ingreso existencias',
-                      key: Key('operation_menu_stock_receipt'),
-                    ),
-                  ),
-                if (canAdjustStock)
-                  const PopupMenuItem(
-                    value: 'inventory_close',
-                    child: Text(
-                      'Cierre inventario',
-                      key: Key('operation_menu_inventory_close'),
-                    ),
-                  ),
-                if (canDailyReport)
-                  const PopupMenuItem(
-                    value: 'stock_insights',
-                    child: Text(
-                      'Stock insights',
-                      key: Key('operation_menu_stock_insights'),
-                    ),
-                  ),
-                if (canCreateProduct)
-                  const PopupMenuItem(
-                    value: 'product',
-                    child: Text(
-                      'Nuevo producto',
-                      key: Key('operation_menu_product'),
-                    ),
-                  ),
-                if (canManageUsers)
-                  const PopupMenuItem(
-                    value: 'users',
-                    child: Text(
-                      'Usuarios',
-                      key: Key('operation_menu_users'),
-                    ),
-                  ),
-              ],
-            ),
-        ],
-      ),
-      body: Row(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (hasOpsMenu)
+            AtriaSaleTopBar(
+              composition: widget.composition,
+              canVoidSales: canVoidSales,
+              canCloseShift: canCloseShift,
+              canAdjustStock: canAdjustStock,
+              canDteQueue: canDteQueue,
+              canDailyReport: canDailyReport,
+              canCreateProduct: canCreateProduct,
+              canManageUsers: canManageUsers,
+              scannerAction: scannerAction,
+            )
+          else if (scannerAction != null)
+            Align(alignment: Alignment.centerRight, child: scannerAction),
           Expanded(
-            flex: 3,
             child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (widget.lastShiftOpenedAt != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        key: const Key('shift_open_time_label'),
-                        'Turno abierto: ${formatChileDateTime(DateTime.parse(widget.lastShiftOpenedAt!))}',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ),
-                  TextField(
-                    key: const Key('product_search_field'),
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      labelText: 'Buscar producto',
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: _search,
-                      ),
-                    ),
-                    onSubmitted: (_) => _search(),
-                  ),
-                  if (_loading) const LinearProgressIndicator(),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: _searchResults.length,
-                      itemBuilder: (context, index) {
-                        final p = _searchResults[index];
-                        return ListTile(
-                          key: Key('product_tile_${p.id}'),
-                          title: Text(p.name),
-                          subtitle: Text(
-                            '\$${p.salePriceClp} · stock ${p.stock}',
+                    child: AtriaBorderedPanel(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (widget.lastShiftOpenedAt != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Text(
+                                key: const Key('shift_open_time_label'),
+                                'Turno abierto: ${formatChileDateTime(DateTime.parse(widget.lastShiftOpenedAt!))}',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ),
+                          TextField(
+                            key: const Key('product_search_field'),
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Buscar o escanear...',
+                              suffixIcon: IconButton(
+                                key: const Key('product_search_submit'),
+                                icon: const Icon(Icons.search),
+                                onPressed: _search,
+                              ),
+                            ),
+                            onSubmitted: (_) => _search(),
                           ),
-                          onTap: () => _addProduct(p),
-                        );
-                      },
-                    ),
-                  ),
-                  if (_bleIngress != null) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      'Piloto escáner BLE',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    const SizedBox(height: 4),
-                    Column(
-                      key: const Key('scanner_pilot_guide'),
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('1. Índice: runbooks/ble-piloto-indice.md'),
-                        Text('2. Pareo: runbooks/ble-scanner-pairing.md'),
-                        Text('3. Botón Conectar escáner → código 4 dígitos'),
-                        Text('4. Companion Android: anunciar y escanear'),
-                        Text('5. QR producto → línea en carro'),
-                        Text('6. Evidencia: runbooks/ble-scanner-pilot-evidence.md'),
-                      ],
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          const VerticalDivider(width: 1),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Carro',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 8),
-                  Expanded(
-                    child: cart == null || cart.lines.isEmpty
-                        ? const Center(child: Text('Carro vacío'))
-                        : ListView.builder(
-                            itemCount: cart.lines.length,
-                            itemBuilder: (context, index) {
-                              final line = cart.lines[index];
-                              return Card(
-                                key: Key('cart_line_${line.lineId}'),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              line.name,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium,
-                                            ),
-                                            Text(
-                                              '\$${line.unitPriceClp} c/u',
-                                            ),
-                                          ],
+                          if (_loading) const LinearProgressIndicator(),
+                          if (_searchResults.isNotEmpty)
+                            SizedBox(
+                              height: 140,
+                              child: ListView.builder(
+                                itemCount: _searchResults.length,
+                                itemBuilder: (context, index) {
+                                  final p = _searchResults[index];
+                                  return ListTile(
+                                    key: Key('product_tile_${p.id}'),
+                                    title: Text(p.name),
+                                    subtitle: Text(
+                                      '\$${p.salePriceClp} · stock ${p.stock}',
+                                    ),
+                                    onTap: () => _addProduct(p),
+                                  );
+                                },
+                              ),
+                            ),
+                          Expanded(
+                            child: !cartHasLines
+                                ? Center(
+                                    child: Column(
+                                      key: const Key('sale_cart_empty_state'),
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.shopping_cart_outlined,
+                                          size: 56,
+                                          color: Colors.grey.shade400,
                                         ),
-                                      ),
-                                      IconButton(
-                                        key: Key(
-                                          'cart_line_qty_minus_${line.lineId}',
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          'El carrito está vacío.',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
                                         ),
-                                        onPressed: line.quantity > 1
-                                            ? () => _updateLineQuantity(
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Busca o escanea productos para comenzar.',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemCount: cart!.lines.length,
+                                    itemBuilder: (context, index) {
+                                      final line = cart.lines[index];
+                                      return Card(
+                                        key: Key('cart_line_${line.lineId}'),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      line.name,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium,
+                                                    ),
+                                                    Text(
+                                                      '\$${line.unitPriceClp} c/u',
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              IconButton(
+                                                key: Key(
+                                                  'cart_line_qty_minus_${line.lineId}',
+                                                ),
+                                                onPressed: line.quantity > 1
+                                                    ? () => _updateLineQuantity(
+                                                          line.lineId,
+                                                          line.quantity - 1,
+                                                        )
+                                                    : null,
+                                                icon: const Icon(Icons.remove),
+                                              ),
+                                              Text(
+                                                key: Key(
+                                                  'cart_line_qty_label_${line.lineId}',
+                                                ),
+                                                '${line.quantity}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
+                                              IconButton(
+                                                key: Key(
+                                                  'cart_line_qty_plus_${line.lineId}',
+                                                ),
+                                                onPressed: () =>
+                                                    _updateLineQuantity(
                                                   line.lineId,
-                                                  line.quantity - 1,
-                                                )
-                                            : null,
-                                        icon: const Icon(Icons.remove),
-                                      ),
-                                      Text(
-                                        key: Key(
-                                          'cart_line_qty_label_${line.lineId}',
+                                                  line.quantity + 1,
+                                                ),
+                                                icon: const Icon(Icons.add),
+                                              ),
+                                              IconButton(
+                                                key: Key(
+                                                  'cart_line_remove_${line.lineId}',
+                                                ),
+                                                tooltip: 'Quitar',
+                                                onPressed: () =>
+                                                    _removeLine(line.lineId),
+                                                icon: const Icon(
+                                                  Icons.delete_outline,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        '${line.quantity}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium,
-                                      ),
-                                      IconButton(
-                                        key: Key(
-                                          'cart_line_qty_plus_${line.lineId}',
-                                        ),
-                                        onPressed: () => _updateLineQuantity(
-                                          line.lineId,
-                                          line.quantity + 1,
-                                        ),
-                                        icon: const Icon(Icons.add),
-                                      ),
-                                      IconButton(
-                                        key: Key(
-                                          'cart_line_remove_${line.lineId}',
-                                        ),
-                                        tooltip: 'Quitar',
-                                        onPressed: () =>
-                                            _removeLine(line.lineId),
-                                        icon: const Icon(Icons.delete_outline),
-                                      ),
-                                    ],
+                                      );
+                                    },
                                   ),
-                                ),
-                              );
-                            },
                           ),
+                          if (_bleIngress != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: ExpansionTile(
+                                key: const Key('scanner_pilot_guide'),
+                                title: const Text('Piloto escáner BLE'),
+                                initiallyExpanded: false,
+                                children: const [
+                                  ListTile(
+                                    dense: true,
+                                    title: Text(
+                                      '1. Índice: runbooks/ble-piloto-indice.md',
+                                    ),
+                                  ),
+                                  ListTile(
+                                    dense: true,
+                                    title: Text(
+                                      '2. Pareo: runbooks/ble-scanner-pairing.md',
+                                    ),
+                                  ),
+                                  ListTile(
+                                    dense: true,
+                                    title: Text(
+                                      '6. Evidencia: runbooks/ble-scanner-pilot-evidence.md',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
-                  Text(
-                    key: const Key('cart_total_label'),
-                    'Total: \$${cart?.totalClp ?? 0}',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 12),
-                  FilledButton(
-                    key: const Key('checkout_button'),
-                    onPressed: _checkout,
-                    child: const Text('Cobrar'),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: AtriaBorderedPanel(
+                      child: CheckoutPanel(
+                        composition: widget.composition,
+                        cartId: _cartId,
+                        totalClp: totalClp,
+                        enabled: cartHasLines,
+                        onSuccess: _onCheckoutSuccess,
+                      ),
+                    ),
                   ),
                 ],
               ),

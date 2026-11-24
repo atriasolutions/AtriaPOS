@@ -64,11 +64,15 @@ class _ShiftOpenScreenState extends State<ShiftOpenScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Abrir turno')),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
             const Text(
               'Ingrese el efectivo inicial en caja antes de vender.',
               style: TextStyle(fontSize: 16),
@@ -96,7 +100,9 @@ class _ShiftOpenScreenState extends State<ShiftOpenScreen> {
                     )
                   : const Text('Abrir turno'),
             ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );

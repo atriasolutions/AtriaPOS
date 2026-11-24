@@ -6,11 +6,16 @@ import 'package:pos_app/screens/login_screen.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 import 'package:core/api/api.dart';
 
+import 'wide_viewport.dart';
+
 void main() {
   const newUsername = 'usr_nuevo_cajero';
   const newPin = '1357';
 
   testWidgets('SC-070-UI-01 dueño crea cajero y puede iniciar sesión', (tester) async {
+    setWideSaleViewport(tester);
+    addTearDown(tester.view.resetPhysicalSize);
+
     final composition = PosComposition.memory();
     addTearDown(composition.close);
     await composition.ensureDemoStore();
@@ -91,6 +96,9 @@ void main() {
   });
 
   testWidgets('SC-070-UI-02 supervisor sin menú nuevo usuario', (tester) async {
+    setWideSaleViewport(tester);
+    addTearDown(tester.view.resetPhysicalSize);
+
     final composition = PosComposition.memory();
     addTearDown(composition.close);
     await composition.ensureDemoStore();
@@ -109,6 +117,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    await tester.tap(find.byKey(const Key('operation_menu_button')));
+    await tester.pumpAndSettle();
     expect(find.byKey(const Key('operation_menu_users')), findsNothing);
   });
 }

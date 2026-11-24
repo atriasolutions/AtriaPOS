@@ -771,7 +771,7 @@ Solo **dueño** (`Permission.gestionarPlanilla`). Colaborador ≠ usuario POS (D
 
 Roles con `Permission.vender` (cajero, supervisor, dueño). Solo colaboradores `active: true` para selección en checkout (SLICE-72 UI).
 
-In-process: `CollaboratorService.listActiveForSale` consumido por `checkout_dialog.dart`. Tests UI `SC-084-UI-01`…`03` en `seller_code_checkout_ui_e2e_test.dart`.
+In-process: `CollaboratorService.listActiveForSale` consumido por `checkout_panel.dart`. Tests UI `SC-084-UI-01`…`03` en `seller_code_checkout_ui_e2e_test.dart`.
 
 ### `PATCH /v0/stores/{storeId}/collaborators/{id}`
 

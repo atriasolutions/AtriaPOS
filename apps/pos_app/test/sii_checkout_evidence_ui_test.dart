@@ -73,16 +73,11 @@ void main() {
 
     final searchField = find.byKey(const Key('product_search_field'));
     await tester.enterText(searchField, 'Pan');
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byKey(const Key('product_search_submit')));
     await tester.pumpAndSettle();
 
     final productTile = find.byKey(Key('product_tile_$productId'));
     await tester.tap(productTile);
-    await tester.pumpAndSettle();
-
-    final checkout = find.byKey(const Key('checkout_button'));
-    await tester.ensureVisible(checkout);
-    await tester.tapAt(tester.getRect(checkout).center);
     await tester.pumpAndSettle();
 
     await enterCheckoutSellerCode(tester);

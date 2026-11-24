@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'app_shell.dart';
 import 'di/pos_composition.dart';
+import 'theme/atria_theme.dart';
 import 'widgets/pos_clock_overlay.dart';
 
 PosComposition? _composition;
@@ -47,9 +48,7 @@ class PosApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: kAppName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-      ),
+      theme: AtriaTheme.light,
       home: showClockOverlay
           ? PosClockOverlay(
               clock: composition.trustedClock,

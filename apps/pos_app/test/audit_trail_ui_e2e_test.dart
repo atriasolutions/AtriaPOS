@@ -8,6 +8,10 @@ import 'package:pos_app/screens/sale_screen.dart';
 
 void main() {
   testWidgets('SC-070-UI-01 auditoría del día en menú operación', (tester) async {
+    tester.view.physicalSize = const Size(1280, 900);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+
     final composition = PosComposition.memory();
     addTearDown(composition.close);
     await composition.ensureDemoStore();
@@ -77,6 +81,10 @@ void main() {
   });
 
   testWidgets('SC-070-UI-02 cajero sin ítem auditoría', (tester) async {
+    tester.view.physicalSize = const Size(1280, 900);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+
     final composition = PosComposition.memory();
     addTearDown(composition.close);
     await composition.ensureDemoStore();

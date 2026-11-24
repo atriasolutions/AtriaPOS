@@ -90,7 +90,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byKey(const Key('checkout_button')), findsOneWidget);
+    expect(find.byKey(const Key('confirm_checkout_button')), findsOneWidget);
     expect(find.byKey(const Key('operation_menu_button')), findsNothing);
   });
 }

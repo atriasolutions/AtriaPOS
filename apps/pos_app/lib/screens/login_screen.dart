@@ -51,11 +51,15 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Iniciar sesión')),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
             TextField(
               key: const Key('login_user_id_field'),
               controller: _userIdController,
@@ -88,7 +92,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     )
                   : const Text('Entrar'),
             ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );

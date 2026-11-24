@@ -52,6 +52,7 @@ void main() {
     ingress.push(payload);
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('Total: \$700'), findsOneWidget);
+    expect(find.byKey(const Key('cart_total_label')), findsOneWidget);
+expect(find.text('\$700'), findsOneWidget);
   });
 }

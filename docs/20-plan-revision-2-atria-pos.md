@@ -33,7 +33,7 @@
 |---------|----------------|
 | `RF-080` … `RF-089` | Requisitos nuevos (promover a doc 04 al cerrar slice) |
 | `API-011` … | Contratos nuevos (promover a doc 07 al cerrar slice) |
-| `SLICE-59` … `SLICE-75` | Entregas revisión 2 |
+| `SLICE-59` … `SLICE-76` | Entregas revisión 2 |
 | `SC-059-xx` … | Escenarios en `test/acceptance/slice_NN_*.md` |
 | `DEC-047+` | Decisiones P0 revisión 2 (slots en doc 16 al implementar) |
 
@@ -152,7 +152,7 @@ Un **slice activo** a la vez. Sin UI de producto nueva salvo tests; pantallas en
 - **E3:** Hoy `SaleService.updateLine` / `removeLine` no aplican `AuthPolicy`; alinear con política de carrito y auditar si aplica.
 - **E4:** Código vendedor en **planilla**, no en usuario de caja (no todos los vendedores operan POS).
 - **E5–E8:** Pagos tarjeta en auditoría pueden usar categoría stub hasta complemento Transbank.
-- **E9:** Prepara R2-B menú (SLICE-75); no activar plantillas enterprise en R2.
+- **E9:** Prepara R2-B menú (SLICE-76); no activar plantillas enterprise en R2.
 
 Migraciones SQLite: documentar en [`08b-esquema-sqlite-v1.md`](08b-esquema-sqlite-v1.md) § R2 al cerrar cada epic con Drift.
 
@@ -169,7 +169,8 @@ Migraciones SQLite: documentar en [`08b-esquema-sqlite-v1.md`](08b-esquema-sqlit
 | U3 | **72** | Código vendedor antes de checkout |
 | U4 | **73** | Stock insights + ingreso con guía/lote |
 | U5 | **74** | Auditoría ampliada y cierre inventario (jefe de turno) |
-| U6 | **75** | Menú según plantilla Atria POS |
+| U6 | **75** | Shell UI Atria (tema, Vender, panel cobro) |
+| U7 | **76** | Menú según plantilla Atria POS |
 
 DoD UI: tests widget/integration en `apps/pos_app` con IDs `SC-NNN-UI-01` en acceptance.
 
@@ -219,7 +220,7 @@ Contenido fiscal Kora: [`20b-esbozo-revision-3.md`](20b-esbozo-revision-3.md).
 
 ---
 
-## Anexo B — Tabla SLICE-59 … SLICE-75
+## Anexo B — Tabla SLICE-59 … SLICE-76
 
 | SLICE | Fase | Título corto |
 |-------|------|--------------|
@@ -239,7 +240,8 @@ Contenido fiscal Kora: [`20b-esbozo-revision-3.md`](20b-esbozo-revision-3.md).
 | 72 | R2-B | UI código vendedor |
 | 73 | R2-B | UI stock / ingreso |
 | 74 | R2-B | UI auditoría / cierre inventario |
-| 75 | R2-B | UI menú plantilla |
+| 75 | R2-B | UI shell Atria |
+| 76 | R2-B | UI menú plantilla |
 
 Detalle operativo duplicado en [`10-plan-entregas.md`](10-plan-entregas.md) § Revisión 2.
 

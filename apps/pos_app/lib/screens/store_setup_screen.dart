@@ -80,11 +80,14 @@ class _StoreSetupScreenState extends State<StoreSetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Configurar tienda')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
             const Text(
               'Registre su negocio para comenzar a vender.',
               style: TextStyle(fontSize: 16),
@@ -178,7 +181,9 @@ class _StoreSetupScreenState extends State<StoreSetupScreen> {
                     )
                   : const Text('Guardar y continuar'),
             ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );

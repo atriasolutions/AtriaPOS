@@ -6,6 +6,8 @@ import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/close_shift_screen.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
+import 'wide_viewport.dart';
+
 void main() {
   testWidgets('SC-041-UI-01 cierre de caja con venta efectivo', (tester) async {
     final composition = PosComposition.memory();
@@ -73,6 +75,9 @@ void main() {
   });
 
   testWidgets('SC-041-UI-03 cierre sin turno abierto', (tester) async {
+    setWideSaleViewport(tester);
+    addTearDown(tester.view.resetPhysicalSize);
+
     final composition = PosComposition.memory();
     addTearDown(composition.close);
     await composition.ensureDemoStore();

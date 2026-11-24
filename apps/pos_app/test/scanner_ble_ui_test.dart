@@ -76,6 +76,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('scanner_pilot_guide')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('scanner_pilot_guide')));
+    await tester.pumpAndSettle();
     expect(find.textContaining('ble-piloto-indice.md'), findsOneWidget);
     expect(find.textContaining('ble-scanner-pilot-evidence.md'), findsOneWidget);
   });

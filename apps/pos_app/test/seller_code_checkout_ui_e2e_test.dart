@@ -50,15 +50,11 @@ Future<String> _openCheckoutDialog(
   await tester.pumpAndSettle();
 
   await tester.enterText(find.byKey(const Key('product_search_field')), 'Pan');
-  await tester.tap(find.byIcon(Icons.search));
+  await tester.tap(find.byKey(const Key('product_search_submit')));
   await tester.pumpAndSettle();
   await tester.tap(find.byKey(Key('product_tile_$productId')));
   await tester.pumpAndSettle();
 
-  final checkout = find.byKey(const Key('checkout_button'));
-  await tester.ensureVisible(checkout);
-  await tester.tapAt(tester.getRect(checkout).center);
-  await tester.pumpAndSettle();
   return productId;
 }
 
@@ -106,12 +102,9 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byKey(const Key('product_search_field')), 'Pan');
-    await tester.tap(find.byIcon(Icons.search));
+    await tester.tap(find.byKey(const Key('product_search_submit')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(Key('product_tile_$productId')));
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(const Key('checkout_button')));
     await tester.pumpAndSettle();
 
     await enterCheckoutSellerCode(tester, sellerCode: 'v01');

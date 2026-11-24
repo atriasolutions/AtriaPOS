@@ -50,7 +50,7 @@ Future<void> runSaleFlowScenario(WidgetTester tester) async {
   final searchField = find.byKey(const Key('product_search_field'));
   expect(searchField, findsOneWidget);
   await tester.enterText(searchField, 'Pan');
-  await tester.tap(find.byIcon(Icons.search));
+  await tester.tap(find.byKey(const Key('product_search_submit')));
   await tester.pumpAndSettle();
 
   final productTile = find.byKey(Key('product_tile_$productId'));
@@ -60,13 +60,7 @@ Future<void> runSaleFlowScenario(WidgetTester tester) async {
   await tester.pumpAndSettle();
 
   expect(find.byKey(const Key('cart_total_label')), findsOneWidget);
-  expect(find.textContaining('Total: \$1000'), findsOneWidget);
-
-  final checkout = find.byKey(const Key('checkout_button'));
-  await tester.ensureVisible(checkout);
-  final buttonRect = tester.getRect(checkout);
-  await tester.tapAt(buttonRect.center);
-  await tester.pumpAndSettle();
+  expect(find.textContaining('\$1000'), findsOneWidget);
 
   await enterCheckoutSellerCode(tester);
   await tester.tap(find.byKey(const Key('confirm_checkout_button')));

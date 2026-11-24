@@ -6,7 +6,7 @@
 Dado revisión 1 cerrada en acta 19
 Cuando se lee docs/20-plan-revision-2-atria-pos.md
 Entonces define plantilla Atria POS, fases R2-A y R2-B
-Y lista slices SLICE-59 a SLICE-75
+Y lista slices SLICE-59 a SLICE-76
 ```
 
 ## SC-059-02 — Fuera de alcance R3

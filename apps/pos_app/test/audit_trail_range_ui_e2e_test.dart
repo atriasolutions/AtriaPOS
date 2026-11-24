@@ -128,6 +128,10 @@ void main() {
   });
 
   testWidgets('SC-086-UI-02 menú operación conserva auditoría', (tester) async {
+    tester.view.physicalSize = const Size(1280, 900);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+
     final composition = PosComposition.memory();
     addTearDown(composition.close);
     await _seedSaleAndMerma(composition);

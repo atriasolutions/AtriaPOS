@@ -30,6 +30,10 @@ Future<void> _checkoutSale(
 
 void main() {
   testWidgets('SC-060-UI-01 reporte ventas del día', (tester) async {
+    tester.view.physicalSize = const Size(1280, 900);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+
     final composition = PosComposition.memory();
     addTearDown(composition.close);
     await composition.ensureDemoStore();

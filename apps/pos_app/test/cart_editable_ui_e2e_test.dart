@@ -49,7 +49,7 @@ Future<Finder> _openSaleScreen(
   await tester.pumpAndSettle();
 
   await tester.enterText(find.byKey(const Key('product_search_field')), 'Pan');
-  await tester.tap(find.byIcon(Icons.search));
+  await tester.tap(find.byKey(const Key('product_search_submit')));
   await tester.pumpAndSettle();
 
   return find.byKey(Key('product_tile_$productId'));
@@ -95,11 +95,21 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(_cartQtyPlus);
     await tester.pumpAndSettle();
-    expect(find.textContaining('Total: \$1000'), findsOneWidget);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w.key == const Key('cart_total_label') && w is Text && (w).data == '\$1000',
+      ),
+      findsOneWidget,
+    );
 
     await tester.tap(_cartQtyMinus);
     await tester.pumpAndSettle();
-    expect(find.textContaining('Total: \$500'), findsOneWidget);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w.key == const Key('cart_total_label') && w is Text && (w).data == '\$500',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('SC-082-UI-02 cajero elimina línea deja carro vacío', (
@@ -121,12 +131,22 @@ void main() {
 
     await tester.tap(productTile);
     await tester.pumpAndSettle();
-    expect(find.textContaining('Total: \$500'), findsOneWidget);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w.key == const Key('cart_total_label') && w is Text && (w).data == '\$500',
+      ),
+      findsOneWidget,
+    );
 
     await tester.tap(_cartLineRemove);
     await tester.pumpAndSettle();
-    expect(find.text('Carro vacío'), findsOneWidget);
-    expect(find.textContaining('Total: \$0'), findsOneWidget);
+    expect(find.byKey(const Key('sale_cart_empty_state')), findsOneWidget);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w.key == const Key('cart_total_label') && w is Text && (w).data == '\$0',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('SC-082-UI-03 supervisor edita cantidad', (tester) async {
@@ -150,6 +170,11 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(_cartQtyMinus);
     await tester.pumpAndSettle();
-    expect(find.textContaining('Total: \$500'), findsOneWidget);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w.key == const Key('cart_total_label') && w is Text && (w).data == '\$500',
+      ),
+      findsOneWidget,
+    );
   });
 }

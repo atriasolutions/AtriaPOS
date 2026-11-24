@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-75: UI shell Atria (tema morado/naranja, Vender dos paneles, panel de cobro), `slice_75_ui_shell_atria.md`; menú plantilla → SLICE-76.
 - SLICE-74: UI auditoría rango/categoría RF-086 y cierre inventario RF-088, cableo `InventoryService` en app, `slice_74_ui_auditoria_inventario.md`.
 - SLICE-73: UI ingreso guía/lote RF-085 y stock insights RF-087, menú Operación, `slice_73_ui_stock_ingreso.md`.
 - SLICE-72: UI código vendedor en checkout RF-084, `CollaboratorService` en app, `slice_72_ui_codigo_vendedor.md`.

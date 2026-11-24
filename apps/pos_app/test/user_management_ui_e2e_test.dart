@@ -6,6 +6,8 @@ import 'package:pos_app/screens/login_screen.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 import 'package:core/api/api.dart';
 
+import 'wide_viewport.dart';
+
 void main() {
   Future<void> openUsersMenu(WidgetTester tester, PosComposition composition) async {
     await composition.authService.login(
@@ -27,6 +29,9 @@ void main() {
   }
 
   testWidgets('SC-080-UI-01 dueño ve lista usuarios', (tester) async {
+    setWideSaleViewport(tester);
+    addTearDown(tester.view.resetPhysicalSize);
+
     final composition = PosComposition.memory();
     addTearDown(composition.close);
     await composition.ensureDemoStore();
