@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-52: Central BLE Windows — `flutter_blue_plus_windows`, `companionPairingMatches`, anuncio companion por service data; SC-011-BLE-03; SLICE-50 sin cerrar.
 - SLICE-51: Acta backlog — SLICE-50 ABIERTO (piloto diferido); `main` `2f10165`; `slice_51_acta_backlog.md`; acta §8.
 - SLICE-49: Integración `main` — merge PR #6/#7/#8; `slice_49_integracion_main.md`; acta y `pr-merge-evidence` alineados (`main` `2f10165`).
 - SLICE-48: Pre-piloto BLE — `scanner_companion` en CI local/GitHub; `ble-piloto-dia-cero.md`, `slice_48_ble_pre_pilot.md`; SC-011-BLE-01 sigue PREPARADO.

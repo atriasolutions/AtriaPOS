@@ -16,4 +16,10 @@ void main() {
       isNull,
     );
   });
+
+  test('SC-011-BLE-02 pareo service data en scan response', () {
+    final data = ScannerBleConstants.pairingAdvertiseServiceData('4821');
+    expect(ScannerBleConstants.pairingAdvertiseMatches('4821', data), isTrue);
+    expect(ScannerBleConstants.pairingAdvertiseMatches('9999', data), isFalse);
+  });
 }

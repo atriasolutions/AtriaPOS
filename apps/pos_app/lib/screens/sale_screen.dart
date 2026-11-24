@@ -52,7 +52,16 @@ class _SaleScreenState extends State<SaleScreen> {
     final ble = _bleIngress;
     if (ble != null) {
       _scannerStateSub = ble.connectionState.listen((s) {
-        if (mounted) setState(() => _scannerState = s);
+        if (!mounted) return;
+        setState(() => _scannerState = s);
+        if (s == ScannerConnectionState.error) {
+          final message = ble.pairingErrorMessage;
+          if (message != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message)),
+            );
+          }
+        }
       });
     }
   }

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:core/scanner/companion_pairing_match.dart';
 import 'package:core/scanner/scan_payload_codec.dart';
 import 'package:core/scanner/scanner_ble_constants.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart' hide FlutterBluePlus;
+import 'package:flutter_blue_plus_windows/flutter_blue_plus_windows.dart';
 
 import 'scanner_connection_state.dart';
 import 'scanner_ingress.dart';
@@ -29,8 +31,12 @@ class BleCentralScannerIngress implements ScannerIngress {
   String? _lastPayload;
   DateTime? _lastPayloadAt;
   bool _pairingActive = false;
+  String? _pairingErrorMessage;
 
   String? get pairingCode => _pairingCode;
+
+  /// Mensaje cuando [ScannerConnectionState.error] (p. ej. scan BT en Windows).
+  String? get pairingErrorMessage => _pairingErrorMessage;
 
   Stream<ScannerConnectionState> get connectionState => _stateController.stream;
 
@@ -50,6 +56,7 @@ class BleCentralScannerIngress implements ScannerIngress {
   /// Inicia pareo: genera código si falta y busca dispositivo companion.
   Future<void> startPairing({String? pairingCode}) async {
     _pairingActive = true;
+    _pairingErrorMessage = null;
     _pairingCode = pairingCode ?? _pairingCode ?? generatePairingCode();
     _emit(ScannerConnectionState.scanning);
     if (!enableRadio) return;
@@ -61,17 +68,27 @@ class BleCentralScannerIngress implements ScannerIngress {
         withServices: [serviceGuid],
       );
     } catch (_) {
+      _pairingErrorMessage =
+          'No se pudo iniciar Bluetooth en este equipo. Revise que el adaptador esté activo.';
       _emit(ScannerConnectionState.error);
       return;
     }
 
-    final targetName = ScannerBleConstants.deviceNameForPairing(_pairingCode!);
+    final serviceGuid = Guid(ScannerBleConstants.serviceUuid);
+    final expectedCode = _pairingCode!;
     _scanSub = FlutterBluePlus.scanResults.listen((results) async {
       for (final r in results) {
         final name = r.device.platformName.isNotEmpty
             ? r.device.platformName
             : r.advertisementData.advName;
-        if (!name.contains(targetName) && name != targetName) continue;
+        final serviceData = r.advertisementData.serviceData[serviceGuid];
+        if (!companionPairingMatches(
+          expectedCode,
+          advName: name,
+          serviceData: serviceData,
+        )) {
+          continue;
+        }
         await FlutterBluePlus.stopScan();
         await _scanSub?.cancel();
         _scanSub = null;
@@ -100,8 +117,10 @@ class BleCentralScannerIngress implements ScannerIngress {
           return;
         }
       }
+      _pairingErrorMessage = 'No se encontró el servicio del escáner en el dispositivo.';
       _emit(ScannerConnectionState.error);
     } catch (_) {
+      _pairingErrorMessage = 'No se pudo conectar al escáner.';
       _emit(ScannerConnectionState.error);
     }
   }

@@ -35,6 +35,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-011-PREP-UI-01 | RNF-041 | — | — | ✅ | `scanner_ble_ui_test.dart` — `scanner_pilot_guide` |
 | SC-011-BLE-01 | RNF-041 | — | — | ⬜ | Piloto BLE real — `ble-scanner-pilot-evidence.md` (PREPARADO); SLICE-48 prep — `slice_48_ble_pre_pilot.md`, `ble-piloto-dia-cero.md`; manual hasta CERRADO |
 | SC-011-BLE-02 | RNF-041 | ✅ | — | — | `scan_payload_codec_test` |
+| SC-011-BLE-03 | RNF-041 | ✅ | — | ✅ | `companion_pairing_match_test`; `pos_app` + `flutter_blue_plus_windows` |
 | SC-011-BLE-UI-01 | RNF-041 | — | ✅ | ✅ | `scanner_ble_ui_test`, `scanner_ble_push_test` |
 | SC-070-01 | RF-070 | ✅ | ✅ | — | `get_audit_trail_test`, `report_service_test`, `drift_audit_trail_test`, `drift_stock_movement_range_test` |
 | SC-070-UI-01 | RF-070 | — | — | ✅ | `audit_trail_ui_e2e_test.dart` |

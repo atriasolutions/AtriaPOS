@@ -40,7 +40,9 @@ Capturas **fuera del repo** (sin datos sensibles).
 | Síntoma | Qué revisar |
 |---------|-------------|
 | No aparece **Conectar escáner** | Build Windows; ingress BLE central en `pos_composition` (no solo HID/cámara) |
-| Código no parea | Mismo local; reintentar código nuevo; reiniciar BT en ambos dispositivos |
+| `advertise_failed_data_too_large` en companion | Rebuild companion SLICE-52+ (service data en scan response) |
+| **Error BLE** al instante en POS | `flutter pub get` en `pos_app`; dependencia `flutter_blue_plus_windows`; BT activo en Windows |
+| Código no parea | Mismo commit POS + APK; mismo código; distancia &lt; 2 m; permisos BT+ubicación Android |
 | POS no pasa a **Conectado** | Distancia &lt; 2 m; cerrar otras apps BLE en el teléfono; ver UUIDs en `scanner_ble_constants.dart` |
 | Scan no agrega al carro | Producto existe; QR corresponde a un solo SKU; ver debounce 300 ms en ingress |
 | Timeouts al escanear | Anotar en evidencia; probar reconexión (cerrar companion y repetir §3) |

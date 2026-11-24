@@ -55,6 +55,7 @@ Cada slice entrega valor demostrable y tests verdes.
 | 49 | SLICE-49 | Integración main 47–48 | — | PR #6/#7/#8 MERGED; acta/evidencia; tag sin mover |
 | 50 | SLICE-50 | Piloto BLE evidencia | RNF-041 | **ABIERTO** — SC-011-BLE-01; evidencia CERRADO en hardware |
 | 51 | SLICE-51 | Acta backlog | — | `main` `2f10165`; SLICE-50 ABIERTO explícito; §8 acta |
+| 52 | SLICE-52 | Central BLE Windows | RNF-041 | `flutter_blue_plus_windows`; SC-011-BLE-03; companion service data; smoke manual; SC-011-BLE-01 sigue abierto |
 | 9 | SLICE-9 | Integración terminal pago | — | **N/A** — diferido explícito; no bloquea slices 43+ |
 
 ## Orden TDD sugerido (semana orientativa)

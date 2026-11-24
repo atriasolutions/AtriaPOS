@@ -4,7 +4,8 @@
 
 ## Requisitos
 
-- POS en **Windows 10+** con Bluetooth LE.
+- POS en **Windows 10+** con Bluetooth LE (adaptador o dongle BLE).
+- POS compilado con **`flutter_blue_plus_windows`** (SLICE-52); sin eso, **Error BLE** al instante.
 - Teléfono **Android** con app `scanner_companion` instalada.
 - Mismo local; Bluetooth y ubicación concedidos en Android.
 

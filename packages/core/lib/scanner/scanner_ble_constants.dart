@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 /// GATT BLE para escáner companion → POS (DEC slice-17).
 class ScannerBleConstants {
   ScannerBleConstants._();
@@ -10,4 +12,13 @@ class ScannerBleConstants {
 
   static String deviceNameForPairing(String pairingCode) =>
       '$deviceNamePrefix-$pairingCode';
+
+  /// Service data en scan response (Android: paquete adv ≤ 31 bytes).
+  static List<int> pairingAdvertiseServiceData(String pairingCode) =>
+      utf8.encode(pairingCode);
+
+  static bool pairingAdvertiseMatches(String pairingCode, List<int>? data) {
+    if (data == null || data.isEmpty) return false;
+    return utf8.decode(data, allowMalformed: true) == pairingCode;
+  }
 }
