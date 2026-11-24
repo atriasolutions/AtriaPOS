@@ -513,20 +513,29 @@ Solo supervisor y dueño (403 cajero). Ventas `ANULADA` no cuentan.
 
 ---
 
-## API-009 — Auditoría del día (RF-070)
+## API-009 — Auditoría (RF-070, RF-086)
 
 ### `GET /v0/stores/{storeId}/reports/audit-trail`
 
-Query opcional: `date=YYYY-MM-DD` (día calendario local; default hoy).
+Query (calendario local):
+
+- `date=YYYY-MM-DD` — legacy RF-070 (un día; equivalente a `from=to=date`).
+- `from`, `to` — rango **inclusive** ambos extremos (máx. 31 días).
+- `categories` — CSV opcional: `VENTAS`, `INVENTARIO`, `USUARIOS`, `PAGOS` (omitir = todas; `PAGOS` devuelve lista vacía en MVP).
+
+Si no se indica fecha, default **hoy**.
 
 **Response 200**
 
 ```json
 {
   "date": "2026-03-18",
+  "fromDate": "2026-03-01",
+  "toDate": "2026-03-07",
   "items": [
     {
       "occurredAt": "2026-03-18T13:00:00.000Z",
+      "category": "VENTAS",
       "type": "CONFIRMA_VENTA",
       "actorUserId": "usr_supervisor",
       "summary": "Venta confirmada: $500",
@@ -534,6 +543,7 @@ Query opcional: `date=YYYY-MM-DD` (día calendario local; default hoy).
     },
     {
       "occurredAt": "2026-03-18T14:00:00.000Z",
+      "category": "INVENTARIO",
       "type": "AJUSTE_STOCK",
       "actorUserId": "usr_supervisor",
       "summary": "MERMA · Pan (-1)",
@@ -543,11 +553,15 @@ Query opcional: `date=YYYY-MM-DD` (día calendario local; default hoy).
 }
 ```
 
-Solo supervisor y dueño (403 cajero). Ventas anuladas no aparecen. Movimientos `VENTA` se excluyen (la venta ya consta como `CONFIRMA_VENTA`).
+`date` se repite solo cuando `fromDate == toDate` (compat SC-070). Tipos nuevos: `ANULA_VENTA` (por `voidedAt`), `CREA_USUARIO` (alta POS).
 
-`ReportService.getAuditTrail` (in-process).
+Solo supervisor y dueño (403 cajero). `CONFIRMA_VENTA` excluye ventas ya anuladas; la anulación aparece como `ANULA_VENTA`. Movimientos motivo `VENTA` se excluyen del inventario.
 
-**Tests:** SC-070-01 (core/API).
+Rango inválido (`to` &lt; `from`, &gt; 31 días, fecha mal formada) → **400** `VALIDACION`.
+
+`ReportService.getAuditTrail` (in-process): parámetros `date`, `from`, `to`, `categories`.
+
+**Tests:** SC-070-01, SC-086-01…08 (core/API/adapters).
 
 ---
 
@@ -624,6 +638,6 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 | RF-002 | API-006 |
 | RF-001 | API-007 |
 | RF-060 | API-008 |
-| RF-070 | API-009 |
+| RF-070, RF-086 | API-009 |
 | RF-003 | API-010 |
 | RF-083 | API-011 |

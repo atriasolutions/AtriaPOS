@@ -24,6 +24,8 @@ class Sale {
     this.pdfUrl,
     this.confirmedByUserId,
     this.sellerCode,
+    this.voidedAt,
+    this.voidedByUserId,
   });
 
   final SaleId id;
@@ -41,10 +43,16 @@ class Sale {
   final String? pdfUrl;
   final String? confirmedByUserId;
   final String? sellerCode;
+  final DateTime? voidedAt;
+  final String? voidedByUserId;
 
   bool get isAnulada => status == SaleStatus.anulada;
 
-  Sale markAnulada() => Sale(
+  Sale markAnulada({
+    required DateTime voidedAt,
+    required String voidedByUserId,
+  }) =>
+      Sale(
         id: id,
         storeId: storeId,
         shiftId: shiftId,
@@ -60,6 +68,8 @@ class Sale {
         pdfUrl: pdfUrl,
         confirmedByUserId: confirmedByUserId,
         sellerCode: sellerCode,
+        voidedAt: voidedAt.toUtc(),
+        voidedByUserId: voidedByUserId,
       );
 
   Sale withDte({
@@ -83,5 +93,7 @@ class Sale {
         pdfUrl: pdfUrl ?? this.pdfUrl,
         confirmedByUserId: confirmedByUserId,
         sellerCode: sellerCode,
+        voidedAt: voidedAt,
+        voidedByUserId: voidedByUserId,
       );
 }

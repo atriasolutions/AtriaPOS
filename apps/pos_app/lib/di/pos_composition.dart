@@ -271,6 +271,7 @@ class PosComposition {
           firstName: def.firstName,
           lastName: def.lastName,
           rut: '12.345.678-5',
+          createdAt: DateTime.utc(2026, 1, 1),
         ),
       );
     }

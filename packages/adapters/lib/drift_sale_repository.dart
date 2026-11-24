@@ -21,6 +21,8 @@ class DriftSaleRepository implements SaleRepository {
           dteStatus: Value(sale.dteStatus.apiValue),
           folio: Value(sale.folio),
           pdfUrl: Value(sale.pdfUrl),
+          voidedAt: Value(sale.voidedAt?.toUtc().toIso8601String()),
+          voidedByUserId: Value(sale.voidedByUserId),
         ),
       );
       return;
@@ -42,6 +44,8 @@ class DriftSaleRepository implements SaleRepository {
               pdfUrl: Value(sale.pdfUrl),
               confirmedByUserId: Value(sale.confirmedByUserId),
               sellerCode: Value(sale.sellerCode),
+              voidedAt: Value(sale.voidedAt?.toUtc().toIso8601String()),
+              voidedByUserId: Value(sale.voidedByUserId),
             ),
           );
       for (final line in sale.lines) {
@@ -135,6 +139,36 @@ class DriftSaleRepository implements SaleRepository {
     return sales;
   }
 
+  @override
+  Future<List<Sale>> listVoidedInRange(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  ) async {
+    final fromIso = fromInclusive.toUtc().toIso8601String();
+    final toIso = toExclusive.toUtc().toIso8601String();
+    final rows = await (_db.select(_db.sales)
+          ..where(
+            (t) =>
+                t.storeId.equals(storeId) &
+                t.voidedAt.isNotNull() &
+                t.voidedAt.isBiggerOrEqualValue(fromIso) &
+                t.voidedAt.isSmallerThanValue(toIso),
+          ))
+        .get();
+    final sales = <Sale>[];
+    for (final row in rows) {
+      final lineRows = await (_db.select(_db.saleLines)
+            ..where((t) => t.saleId.equals(row.id)))
+          .get();
+      final paymentRows = await (_db.select(_db.payments)
+            ..where((t) => t.saleId.equals(row.id)))
+          .get();
+      sales.add(_mapSale(row, lineRows, paymentRows));
+    }
+    return sales;
+  }
+
   Sale _mapSale(
     SaleRow row,
     List<SaleLineRow> lineRows,
@@ -172,5 +206,9 @@ class DriftSaleRepository implements SaleRepository {
         pdfUrl: row.pdfUrl,
         confirmedByUserId: row.confirmedByUserId,
         sellerCode: row.sellerCode,
+        voidedAt: row.voidedAt == null
+            ? null
+            : DateTime.parse(row.voidedAt!).toUtc(),
+        voidedByUserId: row.voidedByUserId,
       );
 }

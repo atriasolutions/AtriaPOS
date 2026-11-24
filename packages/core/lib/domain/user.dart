@@ -11,6 +11,8 @@ class User {
     required this.firstName,
     required this.lastName,
     required this.rut,
+    required this.createdAt,
+    this.createdByUserId,
   });
 
   final UserId id;
@@ -21,6 +23,8 @@ class User {
   final String firstName;
   final String lastName;
   final String rut;
+  final DateTime createdAt;
+  final String? createdByUserId;
 
   /// Nombre visible para listas y auditoría (RF-080).
   String get displayName {

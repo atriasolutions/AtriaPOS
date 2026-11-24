@@ -35,4 +35,19 @@ class InMemorySaleRepository implements SaleRepository {
       return !local.isBefore(fromInclusive) && local.isBefore(toExclusive);
     }).toList();
   }
+
+  @override
+  Future<List<Sale>> listVoidedInRange(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  ) async {
+    return _sales.values.where((s) {
+      if (s.storeId != storeId || s.voidedAt == null) return false;
+      final local = s.voidedAt!.toLocal();
+      final from = fromInclusive.toLocal();
+      final to = toExclusive.toLocal();
+      return !local.isBefore(from) && local.isBefore(to);
+    }).toList();
+  }
 }

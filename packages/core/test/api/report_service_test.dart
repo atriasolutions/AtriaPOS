@@ -121,7 +121,10 @@ void main() {
     expect(result, isA<ApiSuccess<AuditTrailResponse>>());
     final data = (result as ApiSuccess<AuditTrailResponse>).data;
     expect(data.date, day);
+    expect(data.fromDate, day);
+    expect(data.toDate, day);
     expect(data.items.length, 2);
+    expect(data.items.every((i) => i.category.isNotEmpty), isTrue);
     expect(
       data.items.any((i) => i.type == 'CONFIRMA_VENTA'),
       isTrue,

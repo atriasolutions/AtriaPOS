@@ -198,6 +198,12 @@ Requiere costo cargado.
 
 Quién confirmó venta, quién ajustó stock, timestamp (sin PII innecesaria).
 
+Ampliado por **RF-086** (rango y categorías).
+
+### RF-086 [M] Auditoría por rango y categoría (SLICE-66)
+
+Supervisor o dueño consultan eventos entre fechas locales (máx. **31 días** inclusive), con filtro opcional por categoría: **VENTAS** (`CONFIRMA_VENTA`, `ANULA_VENTA`), **INVENTARIO** (ajustes excepto motivo venta), **USUARIOS** (altas usuario POS), **PAGOS** (stub vacío hasta integración Transbank). Compatibilidad: query `date=` de un día (RF-070). Sin export ni UI ampliada en este slice (SLICE-74).
+
 ---
 
 ## Clasificación núcleo vs complemento (Gate 2)

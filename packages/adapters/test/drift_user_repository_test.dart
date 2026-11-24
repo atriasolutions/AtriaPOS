@@ -20,6 +20,7 @@ void main() {
       firstName: 'Cajero',
       lastName: 'Demo',
       rut: '12.345.678-5',
+      createdAt: DateTime.utc(2026, 1, 1),
     );
     await repo.save(user);
 

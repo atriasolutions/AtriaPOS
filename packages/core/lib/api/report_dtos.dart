@@ -1,6 +1,7 @@
 class AuditTrailItemResponse {
   const AuditTrailItemResponse({
     required this.occurredAt,
+    required this.category,
     required this.type,
     required this.summary,
     required this.refId,
@@ -8,6 +9,7 @@ class AuditTrailItemResponse {
   });
 
   final String occurredAt;
+  final String category;
   final String type;
   final String? actorUserId;
   final String summary;
@@ -16,11 +18,16 @@ class AuditTrailItemResponse {
 
 class AuditTrailResponse {
   const AuditTrailResponse({
-    required this.date,
+    required this.fromDate,
+    required this.toDate,
     required this.items,
+    this.date,
   });
 
-  final String date;
+  /// Legacy RF-070: fecha cuando el rango es un solo día.
+  final String? date;
+  final String fromDate;
+  final String toDate;
   final List<AuditTrailItemResponse> items;
 }
 

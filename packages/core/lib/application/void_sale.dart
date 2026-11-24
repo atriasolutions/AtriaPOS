@@ -86,7 +86,10 @@ class VoidSale {
       await _dteQueue.remove(storeId, saleId);
     }
 
-    final anulada = sale.markAnulada();
+    final anulada = sale.markAnulada(
+      voidedAt: DateTime.now().toUtc(),
+      voidedByUserId: actorId,
+    );
     await _sales.save(anulada);
     return anulada;
   }

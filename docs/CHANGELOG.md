@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-66: Auditoría rango/categoría RF-086, API-009 `from`/`to`/`categories`, Drift v17, `slice_66_auditoria_rango_categoria.md`.
 - SLICE-65: Ingreso existencias con guía/lote RF-085, API stock-receipts, Drift v16, `slice_65_ingreso_stock_guia_lote.md`.
 - SLICE-64: Código vendedor obligatorio en checkout RF-084, Drift v15, `slice_64_seller_code_venta.md`.
 - SLICE-63: Planilla colaboradores RF-083, API-011, Drift v14, DEC-049, `slice_63_planilla_colaboradores.md`.

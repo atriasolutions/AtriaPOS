@@ -1,3 +1,5 @@
+export 'audit_category.dart';
+export 'audit_date_range_policy.dart';
 export 'auth_policy.dart';
 export 'collaborator.dart';
 export 'collaborator_id.dart';

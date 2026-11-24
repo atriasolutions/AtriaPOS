@@ -2210,6 +2210,28 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _voidedAtMeta = const VerificationMeta(
+    'voidedAt',
+  );
+  @override
+  late final GeneratedColumn<String> voidedAt = GeneratedColumn<String>(
+    'voided_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _voidedByUserIdMeta = const VerificationMeta(
+    'voidedByUserId',
+  );
+  @override
+  late final GeneratedColumn<String> voidedByUserId = GeneratedColumn<String>(
+    'voided_by_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2225,6 +2247,8 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     pdfUrl,
     confirmedByUserId,
     sellerCode,
+    voidedAt,
+    voidedByUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2330,6 +2354,21 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         sellerCode.isAcceptableOrUnknown(data['seller_code']!, _sellerCodeMeta),
       );
     }
+    if (data.containsKey('voided_at')) {
+      context.handle(
+        _voidedAtMeta,
+        voidedAt.isAcceptableOrUnknown(data['voided_at']!, _voidedAtMeta),
+      );
+    }
+    if (data.containsKey('voided_by_user_id')) {
+      context.handle(
+        _voidedByUserIdMeta,
+        voidedByUserId.isAcceptableOrUnknown(
+          data['voided_by_user_id']!,
+          _voidedByUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2391,6 +2430,14 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         DriftSqlType.string,
         data['${effectivePrefix}seller_code'],
       ),
+      voidedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}voided_at'],
+      ),
+      voidedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}voided_by_user_id'],
+      ),
     );
   }
 
@@ -2414,6 +2461,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
   final String? pdfUrl;
   final String? confirmedByUserId;
   final String? sellerCode;
+  final String? voidedAt;
+  final String? voidedByUserId;
   const SaleRow({
     required this.id,
     required this.storeId,
@@ -2428,6 +2477,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     this.pdfUrl,
     this.confirmedByUserId,
     this.sellerCode,
+    this.voidedAt,
+    this.voidedByUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2452,6 +2503,12 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     }
     if (!nullToAbsent || sellerCode != null) {
       map['seller_code'] = Variable<String>(sellerCode);
+    }
+    if (!nullToAbsent || voidedAt != null) {
+      map['voided_at'] = Variable<String>(voidedAt);
+    }
+    if (!nullToAbsent || voidedByUserId != null) {
+      map['voided_by_user_id'] = Variable<String>(voidedByUserId);
     }
     return map;
   }
@@ -2479,6 +2536,12 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       sellerCode: sellerCode == null && nullToAbsent
           ? const Value.absent()
           : Value(sellerCode),
+      voidedAt: voidedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(voidedAt),
+      voidedByUserId: voidedByUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(voidedByUserId),
     );
   }
 
@@ -2503,6 +2566,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
         json['confirmedByUserId'],
       ),
       sellerCode: serializer.fromJson<String?>(json['sellerCode']),
+      voidedAt: serializer.fromJson<String?>(json['voidedAt']),
+      voidedByUserId: serializer.fromJson<String?>(json['voidedByUserId']),
     );
   }
   @override
@@ -2522,6 +2587,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       'pdfUrl': serializer.toJson<String?>(pdfUrl),
       'confirmedByUserId': serializer.toJson<String?>(confirmedByUserId),
       'sellerCode': serializer.toJson<String?>(sellerCode),
+      'voidedAt': serializer.toJson<String?>(voidedAt),
+      'voidedByUserId': serializer.toJson<String?>(voidedByUserId),
     };
   }
 
@@ -2539,6 +2606,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     Value<String?> pdfUrl = const Value.absent(),
     Value<String?> confirmedByUserId = const Value.absent(),
     Value<String?> sellerCode = const Value.absent(),
+    Value<String?> voidedAt = const Value.absent(),
+    Value<String?> voidedByUserId = const Value.absent(),
   }) => SaleRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -2555,6 +2624,10 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
         ? confirmedByUserId.value
         : this.confirmedByUserId,
     sellerCode: sellerCode.present ? sellerCode.value : this.sellerCode,
+    voidedAt: voidedAt.present ? voidedAt.value : this.voidedAt,
+    voidedByUserId: voidedByUserId.present
+        ? voidedByUserId.value
+        : this.voidedByUserId,
   );
   SaleRow copyWithCompanion(SalesCompanion data) {
     return SaleRow(
@@ -2575,6 +2648,10 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       sellerCode: data.sellerCode.present
           ? data.sellerCode.value
           : this.sellerCode,
+      voidedAt: data.voidedAt.present ? data.voidedAt.value : this.voidedAt,
+      voidedByUserId: data.voidedByUserId.present
+          ? data.voidedByUserId.value
+          : this.voidedByUserId,
     );
   }
 
@@ -2593,7 +2670,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           ..write('folio: $folio, ')
           ..write('pdfUrl: $pdfUrl, ')
           ..write('confirmedByUserId: $confirmedByUserId, ')
-          ..write('sellerCode: $sellerCode')
+          ..write('sellerCode: $sellerCode, ')
+          ..write('voidedAt: $voidedAt, ')
+          ..write('voidedByUserId: $voidedByUserId')
           ..write(')'))
         .toString();
   }
@@ -2613,6 +2692,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     pdfUrl,
     confirmedByUserId,
     sellerCode,
+    voidedAt,
+    voidedByUserId,
   );
   @override
   bool operator ==(Object other) =>
@@ -2630,7 +2711,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           other.folio == this.folio &&
           other.pdfUrl == this.pdfUrl &&
           other.confirmedByUserId == this.confirmedByUserId &&
-          other.sellerCode == this.sellerCode);
+          other.sellerCode == this.sellerCode &&
+          other.voidedAt == this.voidedAt &&
+          other.voidedByUserId == this.voidedByUserId);
 }
 
 class SalesCompanion extends UpdateCompanion<SaleRow> {
@@ -2647,6 +2730,8 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
   final Value<String?> pdfUrl;
   final Value<String?> confirmedByUserId;
   final Value<String?> sellerCode;
+  final Value<String?> voidedAt;
+  final Value<String?> voidedByUserId;
   final Value<int> rowid;
   const SalesCompanion({
     this.id = const Value.absent(),
@@ -2662,6 +2747,8 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.pdfUrl = const Value.absent(),
     this.confirmedByUserId = const Value.absent(),
     this.sellerCode = const Value.absent(),
+    this.voidedAt = const Value.absent(),
+    this.voidedByUserId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SalesCompanion.insert({
@@ -2678,6 +2765,8 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.pdfUrl = const Value.absent(),
     this.confirmedByUserId = const Value.absent(),
     this.sellerCode = const Value.absent(),
+    this.voidedAt = const Value.absent(),
+    this.voidedByUserId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -2700,6 +2789,8 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Expression<String>? pdfUrl,
     Expression<String>? confirmedByUserId,
     Expression<String>? sellerCode,
+    Expression<String>? voidedAt,
+    Expression<String>? voidedByUserId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2716,6 +2807,8 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       if (pdfUrl != null) 'pdf_url': pdfUrl,
       if (confirmedByUserId != null) 'confirmed_by_user_id': confirmedByUserId,
       if (sellerCode != null) 'seller_code': sellerCode,
+      if (voidedAt != null) 'voided_at': voidedAt,
+      if (voidedByUserId != null) 'voided_by_user_id': voidedByUserId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2734,6 +2827,8 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Value<String?>? pdfUrl,
     Value<String?>? confirmedByUserId,
     Value<String?>? sellerCode,
+    Value<String?>? voidedAt,
+    Value<String?>? voidedByUserId,
     Value<int>? rowid,
   }) {
     return SalesCompanion(
@@ -2750,6 +2845,8 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       pdfUrl: pdfUrl ?? this.pdfUrl,
       confirmedByUserId: confirmedByUserId ?? this.confirmedByUserId,
       sellerCode: sellerCode ?? this.sellerCode,
+      voidedAt: voidedAt ?? this.voidedAt,
+      voidedByUserId: voidedByUserId ?? this.voidedByUserId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2796,6 +2893,12 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     if (sellerCode.present) {
       map['seller_code'] = Variable<String>(sellerCode.value);
     }
+    if (voidedAt.present) {
+      map['voided_at'] = Variable<String>(voidedAt.value);
+    }
+    if (voidedByUserId.present) {
+      map['voided_by_user_id'] = Variable<String>(voidedByUserId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2818,6 +2921,8 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
           ..write('pdfUrl: $pdfUrl, ')
           ..write('confirmedByUserId: $confirmedByUserId, ')
           ..write('sellerCode: $sellerCode, ')
+          ..write('voidedAt: $voidedAt, ')
+          ..write('voidedByUserId: $voidedByUserId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -4013,6 +4118,28 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdByUserIdMeta = const VerificationMeta(
+    'createdByUserId',
+  );
+  @override
+  late final GeneratedColumn<String> createdByUserId = GeneratedColumn<String>(
+    'created_by_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4024,6 +4151,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
     firstName,
     lastName,
     userRut,
+    createdAt,
+    createdByUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4109,6 +4238,23 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
     } else if (isInserting) {
       context.missing(_userRutMeta);
     }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('created_by_user_id')) {
+      context.handle(
+        _createdByUserIdMeta,
+        createdByUserId.isAcceptableOrUnknown(
+          data['created_by_user_id']!,
+          _createdByUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4154,6 +4300,14 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserRow> {
         DriftSqlType.string,
         data['${effectivePrefix}user_rut'],
       )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      createdByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_by_user_id'],
+      ),
     );
   }
 
@@ -4173,6 +4327,8 @@ class UserRow extends DataClass implements Insertable<UserRow> {
   final String firstName;
   final String lastName;
   final String userRut;
+  final String createdAt;
+  final String? createdByUserId;
   const UserRow({
     required this.id,
     required this.storeId,
@@ -4183,6 +4339,8 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     required this.firstName,
     required this.lastName,
     required this.userRut,
+    required this.createdAt,
+    this.createdByUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4196,6 +4354,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     map['first_name'] = Variable<String>(firstName);
     map['last_name'] = Variable<String>(lastName);
     map['user_rut'] = Variable<String>(userRut);
+    map['created_at'] = Variable<String>(createdAt);
+    if (!nullToAbsent || createdByUserId != null) {
+      map['created_by_user_id'] = Variable<String>(createdByUserId);
+    }
     return map;
   }
 
@@ -4210,6 +4372,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       firstName: Value(firstName),
       lastName: Value(lastName),
       userRut: Value(userRut),
+      createdAt: Value(createdAt),
+      createdByUserId: createdByUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdByUserId),
     );
   }
 
@@ -4228,6 +4394,8 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       firstName: serializer.fromJson<String>(json['firstName']),
       lastName: serializer.fromJson<String>(json['lastName']),
       userRut: serializer.fromJson<String>(json['userRut']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      createdByUserId: serializer.fromJson<String?>(json['createdByUserId']),
     );
   }
   @override
@@ -4243,6 +4411,8 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       'firstName': serializer.toJson<String>(firstName),
       'lastName': serializer.toJson<String>(lastName),
       'userRut': serializer.toJson<String>(userRut),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'createdByUserId': serializer.toJson<String?>(createdByUserId),
     };
   }
 
@@ -4256,6 +4426,8 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     String? firstName,
     String? lastName,
     String? userRut,
+    String? createdAt,
+    Value<String?> createdByUserId = const Value.absent(),
   }) => UserRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -4266,6 +4438,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     firstName: firstName ?? this.firstName,
     lastName: lastName ?? this.lastName,
     userRut: userRut ?? this.userRut,
+    createdAt: createdAt ?? this.createdAt,
+    createdByUserId: createdByUserId.present
+        ? createdByUserId.value
+        : this.createdByUserId,
   );
   UserRow copyWithCompanion(UsersCompanion data) {
     return UserRow(
@@ -4280,6 +4456,10 @@ class UserRow extends DataClass implements Insertable<UserRow> {
       firstName: data.firstName.present ? data.firstName.value : this.firstName,
       lastName: data.lastName.present ? data.lastName.value : this.lastName,
       userRut: data.userRut.present ? data.userRut.value : this.userRut,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      createdByUserId: data.createdByUserId.present
+          ? data.createdByUserId.value
+          : this.createdByUserId,
     );
   }
 
@@ -4294,7 +4474,9 @@ class UserRow extends DataClass implements Insertable<UserRow> {
           ..write('username: $username, ')
           ..write('firstName: $firstName, ')
           ..write('lastName: $lastName, ')
-          ..write('userRut: $userRut')
+          ..write('userRut: $userRut, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('createdByUserId: $createdByUserId')
           ..write(')'))
         .toString();
   }
@@ -4310,6 +4492,8 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     firstName,
     lastName,
     userRut,
+    createdAt,
+    createdByUserId,
   );
   @override
   bool operator ==(Object other) =>
@@ -4323,7 +4507,9 @@ class UserRow extends DataClass implements Insertable<UserRow> {
           other.username == this.username &&
           other.firstName == this.firstName &&
           other.lastName == this.lastName &&
-          other.userRut == this.userRut);
+          other.userRut == this.userRut &&
+          other.createdAt == this.createdAt &&
+          other.createdByUserId == this.createdByUserId);
 }
 
 class UsersCompanion extends UpdateCompanion<UserRow> {
@@ -4336,6 +4522,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
   final Value<String> firstName;
   final Value<String> lastName;
   final Value<String> userRut;
+  final Value<String> createdAt;
+  final Value<String?> createdByUserId;
   final Value<int> rowid;
   const UsersCompanion({
     this.id = const Value.absent(),
@@ -4347,6 +4535,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     this.firstName = const Value.absent(),
     this.lastName = const Value.absent(),
     this.userRut = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.createdByUserId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UsersCompanion.insert({
@@ -4359,6 +4549,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     required String firstName,
     required String lastName,
     required String userRut,
+    required String createdAt,
+    this.createdByUserId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -4368,7 +4560,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
        username = Value(username),
        firstName = Value(firstName),
        lastName = Value(lastName),
-       userRut = Value(userRut);
+       userRut = Value(userRut),
+       createdAt = Value(createdAt);
   static Insertable<UserRow> custom({
     Expression<String>? id,
     Expression<String>? storeId,
@@ -4379,6 +4572,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     Expression<String>? firstName,
     Expression<String>? lastName,
     Expression<String>? userRut,
+    Expression<String>? createdAt,
+    Expression<String>? createdByUserId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -4391,6 +4586,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
       if (firstName != null) 'first_name': firstName,
       if (lastName != null) 'last_name': lastName,
       if (userRut != null) 'user_rut': userRut,
+      if (createdAt != null) 'created_at': createdAt,
+      if (createdByUserId != null) 'created_by_user_id': createdByUserId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -4405,6 +4602,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     Value<String>? firstName,
     Value<String>? lastName,
     Value<String>? userRut,
+    Value<String>? createdAt,
+    Value<String?>? createdByUserId,
     Value<int>? rowid,
   }) {
     return UsersCompanion(
@@ -4417,6 +4616,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       userRut: userRut ?? this.userRut,
+      createdAt: createdAt ?? this.createdAt,
+      createdByUserId: createdByUserId ?? this.createdByUserId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -4451,6 +4652,12 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
     if (userRut.present) {
       map['user_rut'] = Variable<String>(userRut.value);
     }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (createdByUserId.present) {
+      map['created_by_user_id'] = Variable<String>(createdByUserId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -4469,6 +4676,8 @@ class UsersCompanion extends UpdateCompanion<UserRow> {
           ..write('firstName: $firstName, ')
           ..write('lastName: $lastName, ')
           ..write('userRut: $userRut, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('createdByUserId: $createdByUserId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6709,6 +6918,8 @@ typedef $$SalesTableCreateCompanionBuilder =
       Value<String?> pdfUrl,
       Value<String?> confirmedByUserId,
       Value<String?> sellerCode,
+      Value<String?> voidedAt,
+      Value<String?> voidedByUserId,
       Value<int> rowid,
     });
 typedef $$SalesTableUpdateCompanionBuilder =
@@ -6726,6 +6937,8 @@ typedef $$SalesTableUpdateCompanionBuilder =
       Value<String?> pdfUrl,
       Value<String?> confirmedByUserId,
       Value<String?> sellerCode,
+      Value<String?> voidedAt,
+      Value<String?> voidedByUserId,
       Value<int> rowid,
     });
 
@@ -6799,6 +7012,16 @@ class $$SalesTableFilterComposer extends Composer<_$AppDatabase, $SalesTable> {
 
   ColumnFilters<String> get sellerCode => $composableBuilder(
     column: $table.sellerCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get voidedAt => $composableBuilder(
+    column: $table.voidedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get voidedByUserId => $composableBuilder(
+    column: $table.voidedByUserId,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6876,6 +7099,16 @@ class $$SalesTableOrderingComposer
     column: $table.sellerCode,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get voidedAt => $composableBuilder(
+    column: $table.voidedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get voidedByUserId => $composableBuilder(
+    column: $table.voidedByUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SalesTableAnnotationComposer
@@ -6929,6 +7162,14 @@ class $$SalesTableAnnotationComposer
     column: $table.sellerCode,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get voidedAt =>
+      $composableBuilder(column: $table.voidedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get voidedByUserId => $composableBuilder(
+    column: $table.voidedByUserId,
+    builder: (column) => column,
+  );
 }
 
 class $$SalesTableTableManager
@@ -6972,6 +7213,8 @@ class $$SalesTableTableManager
                 Value<String?> pdfUrl = const Value.absent(),
                 Value<String?> confirmedByUserId = const Value.absent(),
                 Value<String?> sellerCode = const Value.absent(),
+                Value<String?> voidedAt = const Value.absent(),
+                Value<String?> voidedByUserId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion(
                 id: id,
@@ -6987,6 +7230,8 @@ class $$SalesTableTableManager
                 pdfUrl: pdfUrl,
                 confirmedByUserId: confirmedByUserId,
                 sellerCode: sellerCode,
+                voidedAt: voidedAt,
+                voidedByUserId: voidedByUserId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -7004,6 +7249,8 @@ class $$SalesTableTableManager
                 Value<String?> pdfUrl = const Value.absent(),
                 Value<String?> confirmedByUserId = const Value.absent(),
                 Value<String?> sellerCode = const Value.absent(),
+                Value<String?> voidedAt = const Value.absent(),
+                Value<String?> voidedByUserId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion.insert(
                 id: id,
@@ -7019,6 +7266,8 @@ class $$SalesTableTableManager
                 pdfUrl: pdfUrl,
                 confirmedByUserId: confirmedByUserId,
                 sellerCode: sellerCode,
+                voidedAt: voidedAt,
+                voidedByUserId: voidedByUserId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -7652,6 +7901,8 @@ typedef $$UsersTableCreateCompanionBuilder =
       required String firstName,
       required String lastName,
       required String userRut,
+      required String createdAt,
+      Value<String?> createdByUserId,
       Value<int> rowid,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
@@ -7665,6 +7916,8 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<String> firstName,
       Value<String> lastName,
       Value<String> userRut,
+      Value<String> createdAt,
+      Value<String?> createdByUserId,
       Value<int> rowid,
     });
 
@@ -7718,6 +7971,16 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get userRut => $composableBuilder(
     column: $table.userRut,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdByUserId => $composableBuilder(
+    column: $table.createdByUserId,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -7775,6 +8038,16 @@ class $$UsersTableOrderingComposer
     column: $table.userRut,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdByUserId => $composableBuilder(
+    column: $table.createdByUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$UsersTableAnnotationComposer
@@ -7814,6 +8087,14 @@ class $$UsersTableAnnotationComposer
 
   GeneratedColumn<String> get userRut =>
       $composableBuilder(column: $table.userRut, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get createdByUserId => $composableBuilder(
+    column: $table.createdByUserId,
+    builder: (column) => column,
+  );
 }
 
 class $$UsersTableTableManager
@@ -7853,6 +8134,8 @@ class $$UsersTableTableManager
                 Value<String> firstName = const Value.absent(),
                 Value<String> lastName = const Value.absent(),
                 Value<String> userRut = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String?> createdByUserId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
@@ -7864,6 +8147,8 @@ class $$UsersTableTableManager
                 firstName: firstName,
                 lastName: lastName,
                 userRut: userRut,
+                createdAt: createdAt,
+                createdByUserId: createdByUserId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -7877,6 +8162,8 @@ class $$UsersTableTableManager
                 required String firstName,
                 required String lastName,
                 required String userRut,
+                required String createdAt,
+                Value<String?> createdByUserId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
@@ -7888,6 +8175,8 @@ class $$UsersTableTableManager
                 firstName: firstName,
                 lastName: lastName,
                 userRut: userRut,
+                createdAt: createdAt,
+                createdByUserId: createdByUserId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

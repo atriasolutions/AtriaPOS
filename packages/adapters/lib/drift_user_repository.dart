@@ -40,8 +40,29 @@ class DriftUserRepository implements UserRepository {
             firstName: user.firstName,
             lastName: user.lastName,
             userRut: user.rut,
+            createdAt: user.createdAt.toUtc().toIso8601String(),
+            createdByUserId: Value(user.createdByUserId),
           ),
         );
+  }
+
+  @override
+  Future<List<User>> listByStoreCreatedBetween(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  ) async {
+    final fromIso = fromInclusive.toUtc().toIso8601String();
+    final toIso = toExclusive.toUtc().toIso8601String();
+    final rows = await (_db.select(_db.users)
+          ..where(
+            (t) =>
+                t.storeId.equals(storeId) &
+                t.createdAt.isBiggerOrEqualValue(fromIso) &
+                t.createdAt.isSmallerThanValue(toIso),
+          ))
+        .get();
+    return rows.map(_mapRow).toList();
   }
 
   User _mapRow(UserRow row) {
@@ -54,6 +75,8 @@ class DriftUserRepository implements UserRepository {
       firstName: row.firstName,
       lastName: row.lastName,
       rut: row.userRut,
+      createdAt: DateTime.parse(row.createdAt).toUtc(),
+      createdByUserId: row.createdByUserId,
     );
   }
 }

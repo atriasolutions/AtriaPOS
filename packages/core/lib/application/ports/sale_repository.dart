@@ -12,4 +12,10 @@ abstract class SaleRepository {
     DateTime fromInclusive,
     DateTime toExclusive,
   );
+
+  Future<List<Sale>> listVoidedInRange(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  );
 }

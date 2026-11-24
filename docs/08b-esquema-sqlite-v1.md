@@ -255,3 +255,14 @@ Columnas nuevas: `username`, `first_name`, `last_name`, `user_rut`. Índice úni
 ## Revisión 2 — `stock_movements` guía/lote schema v16 (SLICE-65)
 
 Migración desde v15: columnas `guide_ref`, `lot_ref` en `stock_movements` (NULL en movimientos históricos).
+
+## Revisión 2 — Auditoría schema v17 (SLICE-66)
+
+| Tabla | Columna | Tipo | Notas |
+|-------|---------|------|-------|
+| sales | voided_at | TEXT NULL | Anulación RF-086 |
+| sales | voided_by_user_id | TEXT NULL | Actor anulación |
+| users | created_at | TEXT NOT NULL | Alta usuario; backfill en migración |
+| users | created_by_user_id | TEXT NULL | Dueño que creó el usuario |
+
+Migración desde v16: `addColumn` + `UPDATE users SET created_at = datetime('now') WHERE created_at IS NULL`.

@@ -68,6 +68,7 @@ class CreateUser {
       );
     }
 
+    final session = requireActiveSession(_sessions);
     final user = User(
       id: newUserId(),
       storeId: input.storeId,
@@ -77,6 +78,8 @@ class CreateUser {
       firstName: firstName,
       lastName: lastName,
       rut: rutNormalized,
+      createdAt: DateTime.now().toUtc(),
+      createdByUserId: session.userId,
     );
     await _users.save(user);
     return user;

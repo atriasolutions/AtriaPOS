@@ -33,16 +33,18 @@ class ReportService {
     SaleRepository? saleRepository,
     StockMovementRepository? stockMovementRepository,
     ProductRepository? productRepository,
+    UserRepository? userRepository,
     SessionProvider? sessionProvider,
   }) {
     final sales = saleRepository ?? InMemorySaleRepository();
     final movements =
         stockMovementRepository ?? InMemoryStockMovementRepository();
     final products = productRepository ?? InMemoryProductRepository();
+    final users = userRepository ?? InMemoryUserRepository();
     final sessions = sessionProvider ?? InMemorySessionProvider();
     return ReportService._(
       GetDailySalesReport(sales, sessions),
-      GetAuditTrail(sales, movements, products, sessions),
+      GetAuditTrail(sales, movements, products, users, sessions),
     );
   }
 
@@ -89,18 +91,47 @@ class ReportService {
   Future<ApiResult<AuditTrailResponse>> getAuditTrail(
     StoreId storeId, {
     String? date,
+    String? from,
+    String? to,
+    String? categories,
   }) async {
     try {
-      final calendarDay =
-          date == null ? null : parseCalendarDateYmd(date.trim());
-      final trail = await _getAudit(storeId, calendarDayLocal: calendarDay);
+      DateTime? fromLocal;
+      DateTime? toLocal;
+      if (from != null && from.trim().isNotEmpty) {
+        fromLocal = parseCalendarDateYmd(from.trim());
+      }
+      if (to != null && to.trim().isNotEmpty) {
+        toLocal = parseCalendarDateYmd(to.trim());
+      }
+      if (fromLocal == null && toLocal == null && date != null) {
+        final calendarDay = parseCalendarDateYmd(date.trim());
+        fromLocal = calendarDay;
+        toLocal = calendarDay;
+      }
+      Set<AuditCategory>? categorySet;
+      if (categories != null && categories.trim().isNotEmpty) {
+        categorySet = AuditCategory.parseCsv(categories);
+      }
+      final trail = await _getAudit(
+        storeId,
+        fromLocal: fromLocal,
+        toLocalInclusive: toLocal,
+        categories: categorySet,
+      );
+      final fromDate = formatCalendarDateYmd(trail.fromLocal);
+      final toDate = formatCalendarDateYmd(trail.toLocalInclusive);
+      final legacyDate = fromDate == toDate ? fromDate : null;
       return ApiSuccess(
         AuditTrailResponse(
-          date: formatCalendarDateYmd(trail.calendarDayLocal),
+          date: legacyDate,
+          fromDate: fromDate,
+          toDate: toDate,
           items: [
             for (final item in trail.items)
               AuditTrailItemResponse(
                 occurredAt: item.occurredAt.toUtc().toIso8601String(),
+                category: item.category.apiValue,
                 type: item.type,
                 actorUserId: item.actorUserId,
                 summary: item.summary,

@@ -93,6 +93,7 @@ class BootstrapStore {
       firstName: firstName,
       lastName: lastName,
       rut: RutChile.formatDisplay(input.ownerRut),
+      createdAt: DateTime.now().toUtc(),
     );
     await _users.save(user);
 

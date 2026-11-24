@@ -26,4 +26,19 @@ class InMemoryUserRepository implements UserRepository {
   Future<void> save(User user) async {
     _users[_key(user.storeId, user.id)] = user;
   }
+
+  @override
+  Future<List<User>> listByStoreCreatedBetween(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+  ) async {
+    return _users.values.where((u) {
+      if (u.storeId != storeId) return false;
+      final local = u.createdAt.toLocal();
+      final from = fromInclusive.toLocal();
+      final to = toExclusive.toLocal();
+      return !local.isBefore(from) && local.isBefore(to);
+    }).toList();
+  }
 }

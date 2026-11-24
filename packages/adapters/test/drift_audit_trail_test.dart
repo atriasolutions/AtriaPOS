@@ -88,7 +88,8 @@ void main() {
       ),
     );
 
-    final audit = GetAuditTrail(sales, movements, products, sessions);
+    final users = DriftUserRepository(db);
+    final audit = GetAuditTrail(sales, movements, products, users, sessions);
     final trail = await audit(storeId);
     expect(
       trail.items.where((i) => i.type == 'CONFIRMA_VENTA'),

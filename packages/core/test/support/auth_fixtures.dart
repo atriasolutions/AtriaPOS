@@ -50,6 +50,7 @@ Future<void> seedAuthUsers(
         firstName: d.firstName,
         lastName: d.lastName,
         rut: kTestUserRut,
+        createdAt: DateTime.utc(2026, 1, 1),
       ),
     );
   }

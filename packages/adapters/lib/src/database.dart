@@ -78,6 +78,9 @@ class Sales extends Table {
   TextColumn get pdfUrl => text().nullable()();
   TextColumn get confirmedByUserId => text().nullable()();
   TextColumn get sellerCode => text().named('seller_code').nullable()();
+  TextColumn get voidedAt => text().named('voided_at').nullable()();
+  TextColumn get voidedByUserId =>
+      text().named('voided_by_user_id').nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -132,6 +135,9 @@ class Users extends Table {
   TextColumn get firstName => text().named('first_name')();
   TextColumn get lastName => text().named('last_name')();
   TextColumn get userRut => text().named('user_rut')();
+  TextColumn get createdAt => text().named('created_at')();
+  TextColumn get createdByUserId =>
+      text().named('created_by_user_id').nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -190,7 +196,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 16;
+  int get schemaVersion => 17;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -297,6 +303,16 @@ WHERE (
           if (from < 16) {
             await m.addColumn(stockMovements, stockMovements.guideRef);
             await m.addColumn(stockMovements, stockMovements.lotRef);
+          }
+          if (from < 17) {
+            await m.addColumn(sales, sales.voidedAt);
+            await m.addColumn(sales, sales.voidedByUserId);
+            await m.addColumn(users, users.createdAt);
+            await m.addColumn(users, users.createdByUserId);
+            await customStatement(
+              "UPDATE users SET created_at = datetime('now') "
+              'WHERE created_at IS NULL',
+            );
           }
         },
       );
