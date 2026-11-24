@@ -202,6 +202,16 @@ Estado actual: **MERGED**
 | Merge | **MERGED** → `main` `2f10165` |
 | Contenido | Acta/evidencia SLICE-49 |
 
+## SLICE-55 — Marca Atria POS y repo canónico (2026-11-24)
+
+| Resultado | Detalle |
+|-----------|---------|
+| Repo nuevo | https://github.com/mmb21894-ux/atria-pos |
+| Migración | Push `main`, ramas y tag `mvp-2026-11` desde mirror local |
+| Repo legado | `pos-barrio-segmento-d` — archivar tras cutover |
+| DEC | [DEC-044-marca-atria-pos.md](../docs/decisiones/DEC-044-marca-atria-pos.md) |
+| Runbook | [repo-migracion-atria-pos.md](repo-migracion-atria-pos.md) |
+
 ## SLICE-52–54 — Revisión 1 piloto (2026-11-24)
 
 | Resultado | Detalle |

@@ -1,6 +1,10 @@
-# POS barrio (segmento D)
+# Atria POS
 
-Punto de venta para comercio de barrio en Chile. Documentación en [`docs/README.md`](docs/README.md).
+Punto de venta para **comercio de barrio (Chile), segmento D**. Atria Solutions SpA.
+
+**Repositorio:** [github.com/mmb21894-ux/atria-pos](https://github.com/mmb21894-ux/atria-pos) — historial MVP en `pos-barrio-segmento-d` (archivado).
+
+Documentación en [`docs/README.md`](docs/README.md). Migración de remoto: [`runbooks/repo-migracion-atria-pos.md`](runbooks/repo-migracion-atria-pos.md).
 
 ## Requisitos
 

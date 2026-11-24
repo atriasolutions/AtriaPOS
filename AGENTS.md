@@ -1,8 +1,8 @@
-# AGENTS.md — Sistema POS segmento D
+# AGENTS.md — Atria POS
 
 ## Contexto
 
-POS para **comercio de barrio** (Chile). Definición en `docs/`. Desarrollo **TDD vertical**.
+**Atria POS** — POS para **comercio de barrio** (Chile), perfil segmento D. Definición en `docs/`. Desarrollo **TDD vertical**. Repo canónico: `mmb21894-ux/atria-pos`.
 
 ## Gates
 

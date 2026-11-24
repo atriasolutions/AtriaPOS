@@ -1,4 +1,4 @@
-# Documentación — Sistema POS segmento D (almacén de barrio)
+# Documentación — Atria POS (segmento D, almacén de barrio)
 
 Índice de definición previa al desarrollo.
 
