@@ -1,10 +1,13 @@
 import '../domain/domain.dart';
+import 'auth_helpers.dart';
 import 'ports/cart_repository.dart';
+import 'ports/session_provider.dart';
 
 class UpdateCartLineQuantity {
-  UpdateCartLineQuantity(this._carts);
+  UpdateCartLineQuantity(this._carts, this._sessions);
 
   final CartRepository _carts;
+  final SessionProvider _sessions;
 
   Future<Cart> call(
     StoreId storeId,
@@ -12,6 +15,8 @@ class UpdateCartLineQuantity {
     CartLineId lineId,
     int quantity,
   ) async {
+    final session = requireActiveSession(_sessions);
+    AuthPolicy.require(session, Permission.vender);
     final cart = await _requireOpenCart(storeId, cartId);
     final exists = cart.lines.any((l) => l.lineId == lineId);
     if (!exists) {

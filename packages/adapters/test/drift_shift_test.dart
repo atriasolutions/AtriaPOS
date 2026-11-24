@@ -29,8 +29,8 @@ void main() {
     final sessions = InMemorySessionProvider.supervisor();
     closeShift = CloseShift(shifts, sales, sessions);
     createProduct = CreateProduct(products, sessions);
-    createCart = CreateCart(carts, shifts);
-    addCartLine = AddCartLine(carts, products);
+    createCart = CreateCart(carts, shifts, sessions);
+    addCartLine = AddCartLine(carts, products, sessions);
     confirmCheckout =
         ConfirmCheckout(
           carts,

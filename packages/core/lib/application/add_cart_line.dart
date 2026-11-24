@@ -1,6 +1,8 @@
 import '../domain/domain.dart';
+import 'auth_helpers.dart';
 import 'ports/cart_repository.dart';
 import 'ports/product_repository.dart';
+import 'ports/session_provider.dart';
 
 class AddCartLineInput {
   const AddCartLineInput({
@@ -17,12 +19,15 @@ class AddCartLineInput {
 }
 
 class AddCartLine {
-  AddCartLine(this._carts, this._products);
+  AddCartLine(this._carts, this._products, this._sessions);
 
   final CartRepository _carts;
   final ProductRepository _products;
+  final SessionProvider _sessions;
 
   Future<Cart> call(AddCartLineInput input) async {
+    final session = requireActiveSession(_sessions);
+    AuthPolicy.require(session, Permission.vender);
     final cart = await _requireOpenCart(input.storeId, input.cartId);
     final product =
         await _products.findById(input.storeId, input.productId);

@@ -96,6 +96,14 @@ Umbral por producto o global.
 
 Agregar, cambiar cantidad, quitar ítem, ver total.
 
+### RF-082 [M] Carrito editable por roles de venta (SLICE-62)
+
+Complementa RF-030 en revisión 2: operaciones de carro (API-002) requieren **sesión activa** y **`Permission.vender`**.
+
+- Dado cajero, supervisor o dueño autenticado (plantilla Atria POS, RF-081), cuando crea carro, agrega, cambia cantidad o elimina línea, entonces la operación se permite.
+- Dado sin sesión, cuando invoca endpoints de carro, entonces rechaza con credencial inválida (401).
+- Dado cantidad de línea ≤ 0 al actualizar, entonces `VALIDACION`.
+
 ### RF-031 [M] Confirmar venta
 
 - Descuenta stock (si aplica).

@@ -26,8 +26,8 @@ void main() {
     openShift = OpenShift(shifts);
     sessions = InMemorySessionProvider.supervisor();
     createProduct = CreateProduct(products, sessions);
-    createCart = CreateCart(carts, shifts);
-    addCartLine = AddCartLine(carts, products);
+    createCart = CreateCart(carts, shifts, sessions);
+    addCartLine = AddCartLine(carts, products, sessions);
     await openShift(storeId, 0);
   });
 

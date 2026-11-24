@@ -11,8 +11,9 @@ void main() {
   setUp(() {
     carts = InMemoryCartRepository();
     shifts = InMemoryShiftRepository();
-    createCart = CreateCart(carts, shifts);
-    getCart = GetCart(carts);
+    final sessions = InMemorySessionProvider.supervisor();
+    createCart = CreateCart(carts, shifts, sessions);
+    getCart = GetCart(carts, sessions);
   });
 
   test('SC-030-01 crea carro vacío', () async {

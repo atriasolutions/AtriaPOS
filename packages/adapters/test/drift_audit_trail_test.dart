@@ -39,8 +39,8 @@ void main() {
       ),
     );
 
-    final cart = await CreateCart(carts, shifts)(storeId);
-    await AddCartLine(carts, products)(
+    final cart = await CreateCart(carts, shifts, sessions)(storeId);
+    await AddCartLine(carts, products, sessions)(
       AddCartLineInput(
         storeId: storeId,
         cartId: cart.id,

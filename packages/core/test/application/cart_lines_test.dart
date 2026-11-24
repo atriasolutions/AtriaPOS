@@ -12,18 +12,19 @@ void main() {
   late UpdateCartLineQuantity updateLine;
   late RemoveCartLine removeLine;
   late GetCart getCart;
+  late InMemorySessionProvider sessions;
 
   setUp(() {
     carts = InMemoryCartRepository();
     products = InMemoryProductRepository();
-    final sessions = InMemorySessionProvider.supervisor();
+    sessions = InMemorySessionProvider.supervisor();
     createProduct = CreateProduct(products, sessions);
     shifts = InMemoryShiftRepository();
-    createCart = CreateCart(carts, shifts);
-    addCartLine = AddCartLine(carts, products);
-    updateLine = UpdateCartLineQuantity(carts);
-    removeLine = RemoveCartLine(carts);
-    getCart = GetCart(carts);
+    createCart = CreateCart(carts, shifts, sessions);
+    addCartLine = AddCartLine(carts, products, sessions);
+    updateLine = UpdateCartLineQuantity(carts, sessions);
+    removeLine = RemoveCartLine(carts, sessions);
+    getCart = GetCart(carts, sessions);
   });
 
   Future<String> productPan() async {

@@ -50,11 +50,11 @@ class SaleService {
     DteQueueRepository dteQueue,
     SessionProvider sessions,
     TrustedClock clock,
-  )   : _createCart = CreateCart(carts, shifts),
-        _addLine = AddCartLine(carts, products),
-        _updateLine = UpdateCartLineQuantity(carts),
-        _removeLine = RemoveCartLine(carts),
-        _getCart = GetCart(carts),
+  )   : _createCart = CreateCart(carts, shifts, sessions),
+        _addLine = AddCartLine(carts, products, sessions),
+        _updateLine = UpdateCartLineQuantity(carts, sessions),
+        _removeLine = RemoveCartLine(carts, sessions),
+        _getCart = GetCart(carts, sessions),
         _checkout = ConfirmCheckout(
           carts,
           products,
@@ -86,11 +86,28 @@ class SaleService {
   final ListShiftSales _listShiftSales;
 
   Future<ApiResult<CreateCartResponse>> createCart(StoreId storeId) async {
-    final cart = await _createCart(storeId);
-    return ApiSuccess(
-      CreateCartResponse(cartId: cart.id),
-      statusCode: 201,
-    );
+    try {
+      final cart = await _createCart(storeId);
+      return ApiSuccess(
+        CreateCartResponse(cartId: cart.id),
+        statusCode: 201,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    }
   }
 
   Future<ApiResult<CartResponse>> getCart(StoreId storeId, CartId cartId) async {
@@ -101,6 +118,21 @@ class SaleService {
       return ApiFailure(
         ApiErrorBody(code: e.code, message: e.message, details: e.details),
         statusCode: 404,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
       );
     }
   }
@@ -131,6 +163,21 @@ class SaleService {
         ApiErrorBody(code: e.code, message: e.message, details: e.details),
         statusCode: 404,
       );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
     }
   }
 
@@ -154,6 +201,21 @@ class SaleService {
         ApiErrorBody(code: e.code, message: e.message, details: e.details),
         statusCode: 404,
       );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
     }
   }
 
@@ -174,6 +236,21 @@ class SaleService {
       return ApiFailure(
         ApiErrorBody(code: e.code, message: e.message, details: e.details),
         statusCode: 404,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
       );
     }
   }

@@ -152,6 +152,11 @@ Métodos: `EFECTIVO`, `OTRO`.
 - Pago &lt; total o `changeClp` inconsistente → `VALIDACION`.
 - Checkout válido → stock descontado.
 
+**SLICE-62 (RF-082)**
+
+- `POST/GET` carro y `POST/PATCH/DELETE` líneas: sesión activa y `Permission.vender` (matriz RF-081 / plantilla Atria POS: cajero, supervisor, dueño).
+- Sin sesión → `401`; tests `SC-082-01`…`05` en `cart_auth_test.dart`.
+
 **SLICE-4**
 
 - Sin turno abierto en tienda → `TURNO_CERRADO` en checkout (HTTP 403).
@@ -531,7 +536,7 @@ Solo supervisor y dueño (403 cajero).
 | RF | Endpoints |
 |----|-----------|
 | RF-010, RF-011 | API-001 |
-| RF-030–032 | API-002 |
+| RF-030–032, RF-082 | API-002 |
 | RF-040–041 | API-003 |
 | RF-020–021 | API-004 |
 | RF-051 | API-005 |
