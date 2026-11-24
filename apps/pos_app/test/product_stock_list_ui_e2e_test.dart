@@ -35,4 +35,67 @@ void main() {
     expect(find.textContaining('Harina'), findsOneWidget);
     expect(find.textContaining('stock 12'), findsOneWidget);
   });
+
+  testWidgets('SC-084-UI-01 supervisor ve Nuevo producto en stock', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await composition.ensureDemoStore();
+    await composition.ensureDemoUsers();
+    await composition.authService.login(
+      kDemoStoreId,
+      const LoginRequest(username: 'usr_supervisor', pin: PosComposition.demoPin),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ProductStockListScreen(composition: composition),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('product_stock_new_button')), findsOneWidget);
+  });
+
+  testWidgets('SC-084-UI-02 cajero sin Nuevo producto en stock', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await composition.ensureDemoStore();
+    await composition.ensureDemoUsers();
+    await composition.authService.login(
+      kDemoStoreId,
+      const LoginRequest(username: 'usr_cajero', pin: PosComposition.demoPin),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ProductStockListScreen(composition: composition),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('product_stock_new_button')), findsNothing);
+  });
+
+  testWidgets('SC-084-UI-03 abre pantalla crear producto', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await composition.ensureDemoStore();
+    await composition.ensureDemoUsers();
+    await composition.authService.login(
+      kDemoStoreId,
+      const LoginRequest(username: 'usr_dueno', pin: PosComposition.demoPin),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ProductStockListScreen(composition: composition),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('product_stock_new_button')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('product_create_name_field')), findsOneWidget);
+  });
 }

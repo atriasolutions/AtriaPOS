@@ -6,6 +6,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-84: Nuevo producto desde Stock de productos (RF-091), `canCreateProduct`, `slice_84_stock_nuevo_producto.md`.
+
 - SLICE-83: Cierre revisión intermedia piloto UX — `20c` cerrada, acta §13, `slice_83_cierre_revision_intermedia.md`.
 - SLICE-82: Cambiar sesión y expiración RF-093 — `EndSession`, UI `Cambiar sesión`, DEC-050.
 - SLICE-81: Export PDF etiquetas QR RF-092 — grilla A4 3×5 DEC-051, `qr_labels_pdf.dart`.

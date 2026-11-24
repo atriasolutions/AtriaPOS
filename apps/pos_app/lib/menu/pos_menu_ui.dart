@@ -36,6 +36,12 @@ List<PosMenuEntry> sortMenuEntries(List<PosMenuEntry> visible) {
   return posMenuDisplayOrder.where(set.contains).toList();
 }
 
+/// Misma regla que menú Operación → Nuevo producto (SLICE-84).
+bool canCreateProduct(UserRole role, PosTemplateId templateId) {
+  return PosMenuPolicy.visibleForTemplateId(role, templateId)
+      .contains(PosMenuEntry.productCreate);
+}
+
 String popupValueFor(PosMenuEntry entry) {
   return switch (entry) {
     PosMenuEntry.shiftSales => 'sales',

@@ -102,6 +102,7 @@ Detalle: [`20c-plan-revision-intermedia-operacion.md`](20c-plan-revision-interme
 | 81 | SLICE-81 | R-INT | PDF etiquetas QR | RF-092 | SC-081-* ✅ |
 | 82 | SLICE-82 | R-INT | Cambiar / expirar sesión | RF-093 | SC-082-* ✅ |
 | 83 | SLICE-83 | Cierre | Cierre revisión intermedia | — | SC-083-* ✅ |
+| 84 | SLICE-84 | R-INT | Nuevo producto desde stock | RF-091 | SC-084-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

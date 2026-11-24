@@ -37,6 +37,9 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-031-03 | RF-031 | ✅ | — | ✅ | diálogo checkout `createdAt` |
 | SC-078-01 | RF-080 | — | — | ✅ | `credential_policy_test`, formatters UI |
 | SC-079-UI-01 | RF-091 | — | — | ✅ | `product_stock_list_ui_e2e_test.dart` |
+| SC-084-UI-01 | RF-091 | — | — | ✅ | `product_stock_list_ui_e2e_test.dart` — `product_stock_new_button` |
+| SC-084-UI-02 | RF-091 | — | — | ✅ | cajero sin botón |
+| SC-084-UI-03 | RF-091 | — | — | ✅ | navegación a `product_create_name_field` |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

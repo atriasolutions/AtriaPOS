@@ -243,6 +243,7 @@ Con **turno abierto**, supervisor o dueño:
 - Dado sesión activa con permiso `consultarStock`, cuando solicita listado de productos de la tienda, entonces recibe ítems con nombre, precio, stock y payload QR.
 - Dado rol sin permiso, cuando intenta listar, entonces `PERMISO_DENEGADO`.
 - Dado sesión vencida, entonces `SESION_EXPIRADA`.
+- Dado rol y plantilla con alta de catálogo (como menú «Nuevo producto», SLICE-84), cuando abre Stock de productos, entonces ve acción **Nuevo producto** que abre el mismo flujo de creación (RF-010).
 
 ### RF-092 [S] Exportar etiquetas QR (SLICE-81)
 
