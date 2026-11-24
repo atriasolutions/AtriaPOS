@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-59: Plan revisión 2 — `docs/20-plan-revision-2-atria-pos.md` (Gate R2, R2-A/B, SLICE-59…75); `docs/20b-esbozo-revision-3.md`; índices README/AGENTS/13/10/19; `slice_59_gate_revision_2.md`.
 - SLICE-58: Repo org — `atriasolutions/AtriaPOS`; DEC-046; runbook §org; archivar `mmb21894-ux/atria-pos`; `slice_58_migracion_org_atriapos.md`.
 - SLICE-57: Sin nombres propios — DEC-045; `check-no-person-names.ps1`; CI; limpieza evidencia/tests; `slice_57_sin_nombres_persona.md`.
 - SLICE-56: Identidad técnica — `kAppName` Atria POS; barrel `atria_pos_core.dart`; BLE `Atria-POS`; BD `resolveSqlitePath`; `slice_56_atria_pos_identidad_tecnica.md`.

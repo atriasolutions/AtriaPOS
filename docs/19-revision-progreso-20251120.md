@@ -113,7 +113,7 @@
 
 ## 10. Cierre revisión 1 (SLICE-54)
 
-**Objetivo:** núcleo MVP tienda (DTE fake) validado en piloto; código 52–53 integrado en `main`; Bluetooth formal diferido a revisión 2 (SLICE-50).
+**Objetivo:** núcleo MVP tienda (DTE fake) validado en piloto; código 52–53 integrado en `main`; Bluetooth evidencia (SLICE-50) **paralelo** al plan revisión 2 (doc 20).
 
 | Ítem | Estado |
 |------|--------|
@@ -128,7 +128,19 @@
 - [x] SC-028-03 cerrado documental (evidencia PARCIAL)
 - [x] Fecha y operador en [`tienda-piloto-evidencia.md`](../runbooks/tienda-piloto-evidencia.md)
 - [x] `origin/main` integra SLICE-52–54 (`248fbbb`, PR #10)
-- [x] Revisión 2 explícita: SLICE-50 BLE + smoke SC-052-03
+- [x] Handoff revisión 2: plan [`20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md) (SLICE-50 no bloquea Gate R2)
+
+---
+
+## 11. Handoff → revisión 2 (plan documental)
+
+| Ítem | Detalle |
+|------|---------|
+| Plan maestro | [`20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md) — plantilla **Atria POS**, R2-A estructural, R2-B UI |
+| Gate siguiente | **SLICE-59** (Gate R2); código R2 desde **SLICE-60** |
+| Cola slices | [`10-plan-entregas.md`](10-plan-entregas.md) § Revisión 2 |
+| Revisión 3 (stub) | [`20b-esbozo-revision-3.md`](20b-esbozo-revision-3.md) — SII vía Kora, fuera de R2 |
+| Deuda paralela | SLICE-50 BLE ABIERTO (no prerequisito Gate R2) |
 
 ---
 

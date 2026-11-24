@@ -2,7 +2,7 @@
 
 Índice de definición previa al desarrollo.
 
-**Gates:** [Gate 1](12-cierre-gate-1.md) ✅ → [Plan definición](15-plan-definicion-pre-implementacion.md) → [Gate 2](17-cierre-gate-2.md) antes de SLICE-1 TDD.
+**Gates:** [Gate 1](12-cierre-gate-1.md) ✅ → [Plan definición](15-plan-definicion-pre-implementacion.md) → [Gate 2](17-cierre-gate-2.md) antes de SLICE-1 TDD → **revisión 2:** [Plan R2](20-plan-revision-2-atria-pos.md) + **Gate R2** (SLICE-59) antes de SLICE-60+.
 
 | # | Documento | Propósito |
 |---|-----------|-----------|
@@ -27,6 +27,8 @@
 | 18 | [Diagnóstico pruebas](18-diagnostico-pruebas.md) | Baseline suites, cobertura core, foco pre-slice |
 | 19 | [Revisión progreso post-tag 2026-11-20](19-revision-progreso-20251120.md) | Acta vigente (SLICE-51: `main` `2f10165`; SLICE-50 ABIERTO) |
 | 19 (hist.) | [Revisión progreso 2025-11-19](19-revision-progreso-20251119.md) | Acta MVP merge PR #1/#2 (histórica) |
+| 20 | [Plan revisión 2 Atria POS](20-plan-revision-2-atria-pos.md) | Gate R2, R2-A estructural, R2-B UI; SLICE-59+ |
+| 20b | [Esbozo revisión 3 SII/Kora](20b-esbozo-revision-3.md) | Fuera de alcance R2 |
 | 08b | [Esquema SQLite v1 borrador](08b-esquema-sqlite-v1.md) | DDL pendiente Gate 2 |
 | — | [ADRs](decisiones/README.md) | Plantilla decisiones |
 

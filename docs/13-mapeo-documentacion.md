@@ -2,7 +2,7 @@
 
 Inventario y relaciones entre todos los archivos `.md` del repositorio. **Actualizar** al agregar RF, slices o contratos.
 
-## Inventario (22 archivos + carpeta `decisiones/`)
+## Inventario (25+ archivos + carpeta `decisiones/`)
 
 | Archivo | Tipo | Rol |
 |---------|------|-----|
@@ -25,6 +25,9 @@ Inventario y relaciones entre todos los archivos `.md` del repositorio. **Actual
 | [`docs/15-plan-definicion-pre-implementacion.md`](15-plan-definicion-pre-implementacion.md) | Proceso | Plan extenso Gate 2, fases 0–7 |
 | [`docs/16-registro-decisiones.md`](16-registro-decisiones.md) | Proceso | DEC-001…040 |
 | [`docs/17-cierre-gate-2.md`](17-cierre-gate-2.md) | Gate | Autoriza SLICE-1+ |
+| [`docs/19-revision-progreso-20251120.md`](19-revision-progreso-20251120.md) | Acta | Cierre revisión 1; handoff §11 → doc 20 |
+| [`docs/20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md) | Proceso | Plan revisión 2; Gate R2; R2-A/R2-B |
+| [`docs/20b-esbozo-revision-3.md`](20b-esbozo-revision-3.md) | Proceso | Stub R3 SII/Kora (fuera R2) |
 | [`docs/08b-esquema-sqlite-v1.md`](08b-esquema-sqlite-v1.md) | Técnico | DDL borrador |
 | [`docs/decisiones/README.md`](decisiones/README.md) | Proceso | Plantilla ADR |
 | [`test/acceptance/README.md`](../test/acceptance/README.md) | Tests | Convención escenarios Gherkin por slice |
@@ -60,6 +63,9 @@ flowchart TB
   subgraph ejecucion [Ejecucion]
     D09[09 TDD]
     D10[10 Slices]
+    D19[19 Acta R1]
+    D20[20 Plan R2]
+    D20b[20b Stub R3]
     TACC[test/acceptance]
     D11[11 Riesgos]
   end
@@ -82,6 +88,10 @@ flowchart TB
   D07 --> D09
   D08 --> D07
   D09 --> D10
+  D19 --> D20
+  D20 --> D10
+  D20 --> D09
+  D20 -.-> D20b
   D10 --> TACC
   D04 --> D10
   D11 --> D00

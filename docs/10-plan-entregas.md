@@ -57,12 +57,36 @@ Cada slice entrega valor demostrable y tests verdes.
 | 51 | SLICE-51 | Acta backlog | — | `main` `2f10165`; SLICE-50 ABIERTO explícito; §8 acta |
 | 52 | SLICE-52 | Central BLE Windows | RNF-041 | `flutter_blue_plus_windows`; SC-011-BLE-03; companion service data; smoke manual; SC-011-BLE-01 sigue abierto |
 | 53 | SLICE-53 | Piloto tienda demo | RF-030/031 | Evidencia **PARCIAL**; SC-028-03; BLE (SLICE-50) pendiente |
-| 54 | SLICE-54 | Cierre revisión 1 | — | Evidencia operador; PR 52–53 → `main`; acta §10; revisión 2 = BLE |
+| 54 | SLICE-54 | Cierre revisión 1 | — | Evidencia operador; PR 52–53 → `main`; acta §10; plan R2 en doc 20 |
 | 55 | SLICE-55 | Marca Atria POS + repo | — | DEC-044; README/AGENTS; runbook migración; push `atria-pos` |
 | 56 | SLICE-56 | Identidad técnica Atria POS | — | kAppName, BLE, BD, barrel `atria_pos_core.dart` |
 | 57 | SLICE-57 | Higiene sin nombres propios | — | DEC-045; `check-no-person-names`; CI |
 | 58 | SLICE-58 | Migración org AtriaPOS | — | DEC-046; mirror; archivar atria-pos personal |
 | 9 | SLICE-9 | Integración terminal pago | — | **N/A** — diferido explícito; no bloquea slices 43+ |
+
+## Revisión 2 (Atria POS)
+
+Detalle: [`20-plan-revision-2-atria-pos.md`](20-plan-revision-2-atria-pos.md). **Gate R2** (SLICE-59) antes de código R2. SLICE-50 BLE **paralelo**, no bloquea.
+
+| # | Slice | Fase | Resumen | RF prop. | DoD resumido |
+|---|-------|------|---------|----------|--------------|
+| 59 | SLICE-59 | Gate | Gate R2 + plan R2 | — | Checklist §3 doc 20; `slice_59_gate_revision_2.md` |
+| 60 | SLICE-60 | R2-A | Perfil usuario; credenciales sin ñ | RF-080 | Tests dominio/auth |
+| 61 | SLICE-61 | R2-A | Permisos heredados | RF-081 | `auth_policy_test` |
+| 62 | SLICE-62 | R2-A | Carrito editable (roles venta) | RF-082 | API carrito verde |
+| 63 | SLICE-63 | R2-A | Planilla colaboradores | RF-083 | CRUD + persistencia |
+| 64 | SLICE-64 | R2-A | Código vendedor en venta | RF-084 | checkout trazable |
+| 65 | SLICE-65 | R2-A | Ingreso stock + guía/lote | RF-085 | inventario + auditoría |
+| 66 | SLICE-66 | R2-A | Auditoría rango/categoría | RF-086 | extiende RF-070 |
+| 67 | SLICE-67 | R2-A | Stock insights | RF-087 | queries reporte |
+| 68 | SLICE-68 | R2-A | Cierre inventario | RF-088 | caso de uso |
+| 69 | SLICE-69 | R2-A | Modelo plantilla Atria POS | RF-089 | config dominio |
+| 70 | SLICE-70 | R2-B | UI usuarios | RF-080 | SC-*-UI-01 |
+| 71 | SLICE-71 | R2-B | UI carrito | RF-082 | SC-*-UI-01 |
+| 72 | SLICE-72 | R2-B | UI código vendedor | RF-084 | SC-*-UI-01 |
+| 73 | SLICE-73 | R2-B | UI stock / ingreso | RF-085 | SC-*-UI-01 |
+| 74 | SLICE-74 | R2-B | UI auditoría / inventario | RF-086–088 | SC-*-UI-01 |
+| 75 | SLICE-75 | R2-B | UI menú plantilla | RF-089 | SC-*-UI-01 |
 
 ## Orden TDD sugerido (semana orientativa)
 

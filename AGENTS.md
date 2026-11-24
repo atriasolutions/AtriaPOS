@@ -11,10 +11,11 @@
 3. **Gate 2:** cerrar DEC P0 en `docs/16-registro-decisiones.md` + `docs/17-cierre-gate-2.md` antes de SLICE-1.
 4. Leer `docs/09-estrategia-tdd.md` antes de cada slice.
 5. Plan definición: `docs/15-plan-definicion-pre-implementacion.md`.
+6. **Revisión 2:** `docs/20-plan-revision-2-atria-pos.md` — **Gate R2** (SLICE-59) antes de SLICE-60+.
 
 ## Orden de lectura
 
-`docs/README.md` → requisitos 04–05 → contratos `07` → slice actual en `10`.
+`docs/README.md` → requisitos 04–05 → contratos `07` → slice actual en `10`. Si slice ≥ 59: doc `20` + acta `19`.
 
 ## Reglas de implementación
 
