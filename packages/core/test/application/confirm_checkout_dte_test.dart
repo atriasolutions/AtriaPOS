@@ -2,6 +2,8 @@ import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
+import '../support/collaborator_fixtures.dart';
+
 void main() {
   const storeId = 't1';
   late InMemoryCartRepository carts;
@@ -16,6 +18,7 @@ void main() {
   late CreateCart createCart;
   late AddCartLine addCartLine;
   late GetProductStock getProductStock;
+  late InMemoryCollaboratorRepository collaborators;
 
   setUp(() async {
     carts = InMemoryCartRepository();
@@ -30,6 +33,8 @@ void main() {
     createCart = CreateCart(carts, shifts, sessions);
     addCartLine = AddCartLine(carts, products, sessions);
     getProductStock = GetProductStock(products);
+    collaborators = InMemoryCollaboratorRepository();
+    await seedDefaultSeller(collaborators, storeId);
     await openShift(storeId, 0);
   });
 
@@ -62,6 +67,7 @@ void main() {
       sales,
       movements,
       shifts,
+      collaborators,
       FakeDteGateway(startingFolio: 1000),
       dteQueue,
       sessions,
@@ -70,6 +76,7 @@ void main() {
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: ctx.cartId,
+        sellerCode: 'V01',
         payments: const [
           CheckoutPaymentInput(
             method: PaymentMethod.efectivo,
@@ -97,6 +104,7 @@ void main() {
       sales,
       movements,
       shifts,
+      collaborators,
       FakeDteGateway(mode: FakeDteMode.alwaysFailure),
       dteQueue,
       sessions,
@@ -105,6 +113,7 @@ void main() {
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: ctx.cartId,
+        sellerCode: 'V01',
         payments: const [
           CheckoutPaymentInput(
             method: PaymentMethod.efectivo,
@@ -131,6 +140,7 @@ void main() {
       sales,
       movements,
       shifts,
+      collaborators,
       FakeDteGateway(mode: FakeDteMode.rechazadaSii),
       dteQueue,
       sessions,
@@ -139,6 +149,7 @@ void main() {
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: ctx.cartId,
+        sellerCode: 'V01',
         payments: const [
           CheckoutPaymentInput(
             method: PaymentMethod.efectivo,

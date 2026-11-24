@@ -113,6 +113,13 @@ Colaboradores de mostrador con **código vendedor**, separados de usuarios POS (
 - Dado supervisor o cajero, cuando intenta administrar planilla, entonces `PERMISO_DENEGADO`.
 - Dado código con ñ o fuera de formato (2–8, A–Z, 0–9), entonces `VALIDACION`.
 
+### RF-084 [M] Código vendedor en venta (SLICE-64)
+
+- Dado checkout Atria POS, cuando confirma venta, entonces debe indicar `sellerCode` de colaborador **activo** en planilla.
+- Dado `sellerCode` ausente, inválido o sin colaborador activo, entonces `VALIDACION` (400).
+- Dado rol con `Permission.vender`, cuando lista colaboradores activos para venta, entonces solo códigos vigentes (API-011 `active`).
+- La venta persiste `sellerCode` para trazabilidad; sin motor de comisiones en R2.
+
 ### RF-031 [M] Confirmar venta
 
 - Descuenta stock (si aplica).

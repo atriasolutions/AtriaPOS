@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-64: Código vendedor obligatorio en checkout RF-084, Drift v15, `slice_64_seller_code_venta.md`.
 - SLICE-63: Planilla colaboradores RF-083, API-011, Drift v14, DEC-049, `slice_63_planilla_colaboradores.md`.
 - SLICE-62: Carrito editable RF-082 — auth `vender` en API-002, `cart_auth_test`, `slice_62_carrito_editable.md`.
 - SLICE-61: Permisos heredados RF-081, RoleCapabilities, DEC-048, `slice_61_permisos_heredados.md`.

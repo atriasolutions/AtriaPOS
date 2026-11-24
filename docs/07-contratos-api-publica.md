@@ -124,12 +124,15 @@ Crea producto en tienda.
 
 ```json
 {
+  "sellerCode": "V01",
   "payments": [
     { "method": "EFECTIVO", "amountClp": 1000 }
   ],
   "changeClp": 0
 }
 ```
+
+`sellerCode`: obligatorio en plantilla Atria POS (RF-084, colaborador activo en planilla).
 
 Métodos: `EFECTIVO`, `OTRO`.
 
@@ -139,6 +142,7 @@ Métodos: `EFECTIVO`, `OTRO`.
 {
   "saleId": "sale_01",
   "totalClp": 1000,
+  "sellerCode": "V01",
   "dteStatus": "EMITIDA",
   "folio": 1001,
   "pdfUrl": null
@@ -156,6 +160,11 @@ Métodos: `EFECTIVO`, `OTRO`.
 
 - `POST/GET` carro y `POST/PATCH/DELETE` líneas: sesión activa y `Permission.vender` (matriz RF-081 / plantilla Atria POS: cajero, supervisor, dueño).
 - Sin sesión → `401`; tests `SC-082-01`…`05` en `cart_auth_test.dart`.
+
+**SLICE-64 (RF-084)**
+
+- Checkout exige `sellerCode` de colaborador activo; ausente/inactivo → `VALIDACION`.
+- Tests `SC-084-01`…`06` en `seller_code_checkout_test.dart`, `confirm_checkout_test.dart`.
 
 **SLICE-4**
 
@@ -551,6 +560,10 @@ Solo **dueño** (`Permission.gestionarPlanilla`). Colaborador ≠ usuario POS (D
 
 **Response 200** — lista con campo `active` (administración).
 
+### `GET /v0/stores/{storeId}/collaborators/active`
+
+Roles con `Permission.vender` (cajero, supervisor, dueño). Solo colaboradores `active: true` para selección en checkout (SLICE-72 UI).
+
 ### `PATCH /v0/stores/{storeId}/collaborators/{id}`
 
 Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
@@ -568,7 +581,7 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 | RF | Endpoints |
 |----|-----------|
 | RF-010, RF-011 | API-001 |
-| RF-030–032, RF-082 | API-002 |
+| RF-030–032, RF-082, RF-084 | API-002 |
 | RF-040–041 | API-003 |
 | RF-020–021 | API-004 |
 | RF-051 | API-005 |

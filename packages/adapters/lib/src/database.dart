@@ -75,6 +75,7 @@ class Sales extends Table {
   IntColumn get folio => integer().nullable()();
   TextColumn get pdfUrl => text().nullable()();
   TextColumn get confirmedByUserId => text().nullable()();
+  TextColumn get sellerCode => text().named('seller_code').nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -187,7 +188,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 14;
+  int get schemaVersion => 15;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -287,6 +288,9 @@ WHERE (
               'CREATE UNIQUE INDEX idx_collaborators_store_code_active '
               'ON collaborators (store_id, seller_code) WHERE active = 1',
             );
+          }
+          if (from < 15) {
+            await m.addColumn(sales, sales.sellerCode);
           }
         },
       );

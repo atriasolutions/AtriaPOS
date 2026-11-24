@@ -60,10 +60,12 @@ class CheckoutPaymentDto {
 
 class CheckoutRequest {
   const CheckoutRequest({
+    required this.sellerCode,
     required this.payments,
     required this.changeClp,
   });
 
+  final String sellerCode;
   final List<CheckoutPaymentDto> payments;
   final int changeClp;
 }
@@ -85,6 +87,7 @@ class ShiftSaleItemResponse {
     required this.status,
     required this.dteStatus,
     this.folio,
+    this.sellerCode,
   });
 
   final String saleId;
@@ -92,6 +95,7 @@ class ShiftSaleItemResponse {
   final String status;
   final String dteStatus;
   final int? folio;
+  final String? sellerCode;
 }
 
 class ListShiftSalesResponse {
@@ -104,6 +108,7 @@ class CheckoutResponse {
   const CheckoutResponse({
     required this.saleId,
     required this.totalClp,
+    required this.sellerCode,
     required this.dteStatus,
     required this.createdAt,
     this.folio,
@@ -112,8 +117,29 @@ class CheckoutResponse {
 
   final String saleId;
   final int totalClp;
+  final String sellerCode;
   final String dteStatus;
   final String createdAt;
   final int? folio;
   final String? pdfUrl;
+}
+
+class ActiveCollaboratorResponse {
+  const ActiveCollaboratorResponse({
+    required this.id,
+    required this.sellerCode,
+    required this.firstName,
+    required this.lastName,
+  });
+
+  final String id;
+  final String sellerCode;
+  final String firstName;
+  final String lastName;
+}
+
+class ListActiveCollaboratorsResponse {
+  const ListActiveCollaboratorsResponse({required this.items});
+
+  final List<ActiveCollaboratorResponse> items;
 }

@@ -243,3 +243,9 @@ Columnas nuevas: `username`, `first_name`, `last_name`, `user_rut`. Índice úni
 | active | INTEGER NOT NULL DEFAULT 1 | 0/1 |
 
 Índice único parcial: `(store_id, seller_code) WHERE active = 1`.
+
+## Revisión 2 — `sales.seller_code` schema v15 (SLICE-64)
+
+| Columna | Tipo | Notas |
+|---------|------|-------|
+| seller_code | TEXT NULL | Código planilla al confirmar venta (RF-084) |

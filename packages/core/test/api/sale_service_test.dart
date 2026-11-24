@@ -2,6 +2,8 @@ import 'package:core/api/api.dart';
 import 'package:core/application/application.dart';
 import 'package:test/test.dart';
 
+import '../support/collaborator_fixtures.dart';
+
 void main() {
   const storeId = 't1';
   late ProductRepository products;
@@ -9,16 +11,19 @@ void main() {
   late SaleRepository sales;
   late StockMovementRepository movements;
   late ShiftRepository shifts;
+  late CollaboratorRepository collaborators;
   late ShiftService shiftService;
   late ProductService productService;
   late SaleService saleService;
 
-  setUp(() {
+  setUp(() async {
     products = InMemoryProductRepository();
     carts = InMemoryCartRepository();
     sales = InMemorySaleRepository();
     movements = InMemoryStockMovementRepository();
     shifts = InMemoryShiftRepository();
+    collaborators = InMemoryCollaboratorRepository();
+    await seedDefaultSeller(collaborators, storeId);
     shiftService = ShiftService(shiftRepository: shifts, saleRepository: sales);
     productService = ProductService(repository: products);
     saleService = SaleService(
@@ -27,6 +32,7 @@ void main() {
       saleRepository: sales,
       stockMovementRepository: movements,
       shiftRepository: shifts,
+      collaboratorRepository: collaborators,
     );
   });
 
@@ -68,6 +74,7 @@ void main() {
       storeId,
       cartId,
       const CheckoutRequest(
+        sellerCode: 'V01',
         payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 100)],
         changeClp: 0,
       ),
@@ -100,6 +107,7 @@ void main() {
       storeId,
       cartId,
       const CheckoutRequest(
+        sellerCode: 'V01',
         payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 1000)],
         changeClp: 0,
       ),
@@ -116,6 +124,7 @@ void main() {
       storeId,
       cartId,
       const CheckoutRequest(
+        sellerCode: 'V01',
         payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 500)],
         changeClp: 0,
       ),
@@ -133,11 +142,13 @@ void main() {
       saleRepository: noShiftSales,
       stockMovementRepository: movements,
       shiftRepository: InMemoryShiftRepository(),
+      collaboratorRepository: collaborators,
     );
     final result = await noShiftService.checkout(
       storeId,
       cartId,
       const CheckoutRequest(
+        sellerCode: 'V01',
         payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 1000)],
         changeClp: 0,
       ),
@@ -154,6 +165,7 @@ void main() {
       storeId,
       cartId,
       const CheckoutRequest(
+        sellerCode: 'V01',
         payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 1000)],
         changeClp: 0,
       ),
@@ -161,6 +173,7 @@ void main() {
     expect(result, isA<ApiSuccess<CheckoutResponse>>());
     final success = result as ApiSuccess<CheckoutResponse>;
     expect(success.data.totalClp, 1000);
+    expect(success.data.sellerCode, 'V01');
     expect(success.data.dteStatus, 'EMITIDA');
     expect(success.data.folio, isNotNull);
     final search = await productService.searchProducts(storeId, 'Pan');

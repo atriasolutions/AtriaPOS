@@ -14,6 +14,7 @@ class SaleService {
     DteGateway? dteGateway,
     DteQueueRepository? dteQueueRepository,
     SessionProvider? sessionProvider,
+    CollaboratorRepository? collaboratorRepository,
     TrustedClock? clock,
   }) {
     final carts = cartRepository ?? InMemoryCartRepository();
@@ -23,6 +24,8 @@ class SaleService {
     final movements =
         stockMovementRepository ?? InMemoryStockMovementRepository();
     final shifts = shiftRepository ?? InMemoryShiftRepository();
+    final collaborators =
+        collaboratorRepository ?? InMemoryCollaboratorRepository();
     final dte = dteGateway ?? FakeDteGateway();
     final dteQueue = dteQueueRepository ?? InMemoryDteQueueRepository();
     final sessions =
@@ -33,6 +36,7 @@ class SaleService {
       sales,
       movements,
       shifts,
+      collaborators,
       dte,
       dteQueue,
       sessions,
@@ -46,6 +50,7 @@ class SaleService {
     SaleRepository sales,
     StockMovementRepository movements,
     ShiftRepository shifts,
+    CollaboratorRepository collaborators,
     DteGateway dte,
     DteQueueRepository dteQueue,
     SessionProvider sessions,
@@ -61,6 +66,7 @@ class SaleService {
           sales,
           movements,
           shifts,
+          collaborators,
           dte,
           dteQueue,
           sessions,
@@ -273,6 +279,7 @@ class SaleService {
         ConfirmCheckoutInput(
           storeId: storeId,
           cartId: cartId,
+          sellerCode: request.sellerCode,
           payments: payments,
           changeClp: request.changeClp,
         ),
@@ -281,6 +288,7 @@ class SaleService {
         CheckoutResponse(
           saleId: result.saleId,
           totalClp: result.totalClp,
+          sellerCode: result.sellerCode,
           dteStatus: result.dteStatus.apiValue,
           createdAt: result.createdAt.toUtc().toIso8601String(),
           folio: result.folio,
@@ -324,6 +332,7 @@ class SaleService {
                   status: i.status.apiValue,
                   dteStatus: i.dteStatus.apiValue,
                   folio: i.folio,
+                  sellerCode: i.sellerCode,
                 ),
               )
               .toList(),

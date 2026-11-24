@@ -15,6 +15,7 @@ void main() {
     addTearDown(composition.close);
     await composition.ensureDemoStore();
     await composition.ensureDemoUsers();
+    await composition.ensureDemoSeller();
     await composition.authService.login(
       kDemoStoreId,
       const LoginRequest(username: 'usr_supervisor', pin: PosComposition.demoPin),
@@ -44,6 +45,7 @@ void main() {
       kDemoStoreId,
       cartId,
       const CheckoutRequest(
+        sellerCode: 'V01',
         payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 1000)],
         changeClp: 0,
       ),
@@ -73,6 +75,7 @@ void main() {
     addTearDown(composition.close);
     await composition.ensureDemoStore();
     await composition.ensureDemoUsers();
+    await composition.ensureDemoSeller();
     await composition.authService.login(
       kDemoStoreId,
       const LoginRequest(username: 'usr_cajero', pin: PosComposition.demoPin),

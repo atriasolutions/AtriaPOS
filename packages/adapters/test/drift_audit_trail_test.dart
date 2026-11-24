@@ -3,6 +3,8 @@ import 'package:core/atria_pos_core.dart';
 import 'package:drift/native.dart';
 import 'package:test/test.dart';
 
+import 'support/drift_seed_seller.dart';
+
 void main() {
   const storeId = 't1';
   late AppDatabase db;
@@ -28,6 +30,8 @@ void main() {
   });
 
   test('SC-070-01 drift auditoría venta y merma con actores', () async {
+    final collaborators = DriftCollaboratorRepository(db);
+    await driftSeedDefaultSeller(collaborators, storeId);
     await OpenShift(shifts)(storeId, 0);
 
     final product = await CreateProduct(products, sessions)(
@@ -55,6 +59,7 @@ void main() {
       sales,
       movements,
       shifts,
+      collaborators,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
       sessions,
@@ -63,6 +68,7 @@ void main() {
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: cart.id,
+        sellerCode: 'V01',
         payments: const [
           CheckoutPaymentInput(method: PaymentMethod.efectivo, amountClp: 500),
         ],

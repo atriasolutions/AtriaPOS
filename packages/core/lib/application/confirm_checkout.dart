@@ -3,6 +3,7 @@ import 'auth_helpers.dart';
 import 'emit_sale_dte.dart';
 import 'ports/session_provider.dart';
 import 'ports/cart_repository.dart';
+import 'ports/collaborator_repository.dart';
 import 'ports/dte_gateway.dart';
 import 'ports/dte_queue_repository.dart';
 import 'ports/product_repository.dart';
@@ -25,12 +26,14 @@ class ConfirmCheckoutInput {
   const ConfirmCheckoutInput({
     required this.storeId,
     required this.cartId,
+    required this.sellerCode,
     required this.payments,
     required this.changeClp,
   });
 
   final StoreId storeId;
   final CartId cartId;
+  final String sellerCode;
   final List<CheckoutPaymentInput> payments;
   final int changeClp;
 }
@@ -39,6 +42,7 @@ class ConfirmCheckoutResult {
   const ConfirmCheckoutResult({
     required this.saleId,
     required this.totalClp,
+    required this.sellerCode,
     required this.dteStatus,
     required this.createdAt,
     this.folio,
@@ -47,6 +51,7 @@ class ConfirmCheckoutResult {
 
   final SaleId saleId;
   final int totalClp;
+  final String sellerCode;
   final DteStatus dteStatus;
   final DateTime createdAt;
   final int? folio;
@@ -60,6 +65,7 @@ class ConfirmCheckout {
     this._sales,
     this._movements,
     this._shifts,
+    this._collaborators,
     this._dte,
     this._dteQueue,
     this._sessions, [
@@ -71,6 +77,7 @@ class ConfirmCheckout {
   final SaleRepository _sales;
   final StockMovementRepository _movements;
   final ShiftRepository _shifts;
+  final CollaboratorRepository _collaborators;
   final DteGateway _dte;
   final DteQueueRepository _dteQueue;
   final SessionProvider _sessions;
@@ -80,6 +87,17 @@ class ConfirmCheckout {
     final session = requireActiveSession(_sessions);
     AuthPolicy.require(session, Permission.vender);
     final actorId = session.userId;
+    if (input.sellerCode.trim().isEmpty) {
+      throw const ValidationFailure('Ingrese el código vendedor');
+    }
+    final sellerCode = SellerCodePolicy.normalize(input.sellerCode);
+    final collaborator =
+        await _collaborators.findActiveBySellerCode(input.storeId, sellerCode);
+    if (collaborator == null) {
+      throw const ValidationFailure(
+        'Código vendedor inválido o colaborador inactivo',
+      );
+    }
     final openShift = await _shifts.findOpenByStore(input.storeId);
     if (openShift == null) {
       throw const TurnClosedFailure(
@@ -143,6 +161,7 @@ class ConfirmCheckout {
       changeClp: input.changeClp,
       createdAt: _clock.now(),
       confirmedByUserId: actorId,
+      sellerCode: sellerCode,
     );
 
     for (final line in cart.lines) {
@@ -176,6 +195,7 @@ class ConfirmCheckout {
     return ConfirmCheckoutResult(
       saleId: sale.id,
       totalClp: totalClp,
+      sellerCode: sellerCode,
       dteStatus: sale.dteStatus,
       createdAt: sale.createdAt,
       folio: sale.folio,

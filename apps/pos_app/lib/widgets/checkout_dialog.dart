@@ -43,6 +43,7 @@ class _CheckoutDialogState extends State<_CheckoutDialog> {
       widget.composition.requireStoreId,
       widget.cartId,
       CheckoutRequest(
+        sellerCode: 'V01',
         payments: [
           CheckoutPaymentDto(
             method: 'EFECTIVO',

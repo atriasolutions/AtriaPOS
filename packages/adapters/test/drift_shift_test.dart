@@ -3,6 +3,8 @@ import 'package:core/atria_pos_core.dart';
 import 'package:drift/native.dart';
 import 'package:test/test.dart';
 
+import 'support/drift_seed_seller.dart';
+
 void main() {
   const storeId = 't1';
   late AppDatabase db;
@@ -17,14 +19,17 @@ void main() {
   late CreateCart createCart;
   late AddCartLine addCartLine;
   late ConfirmCheckout confirmCheckout;
+  late DriftCollaboratorRepository collaborators;
 
-  setUp(() {
+  setUp(() async {
     db = AppDatabase(NativeDatabase.memory());
     shifts = DriftShiftRepository(db);
     sales = DriftSaleRepository(db);
     products = DriftProductRepository(db);
     movements = DriftStockMovementRepository(db);
     carts = InMemoryCartRepository();
+    collaborators = DriftCollaboratorRepository(db);
+    await driftSeedDefaultSeller(collaborators, storeId);
     openShift = OpenShift(shifts);
     final sessions = InMemorySessionProvider.supervisor();
     closeShift = CloseShift(shifts, sales, sessions);
@@ -38,6 +43,7 @@ void main() {
           sales,
           movements,
           shifts,
+          collaborators,
           FakeDteGateway(),
           InMemoryDteQueueRepository(),
           sessions,
@@ -71,6 +77,7 @@ void main() {
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: cart.id,
+        sellerCode: 'V01',
         payments: const [
           CheckoutPaymentInput(
             method: PaymentMethod.efectivo,

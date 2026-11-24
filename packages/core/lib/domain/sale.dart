@@ -23,6 +23,7 @@ class Sale {
     this.folio,
     this.pdfUrl,
     this.confirmedByUserId,
+    this.sellerCode,
   });
 
   final SaleId id;
@@ -39,6 +40,7 @@ class Sale {
   final int? folio;
   final String? pdfUrl;
   final String? confirmedByUserId;
+  final String? sellerCode;
 
   bool get isAnulada => status == SaleStatus.anulada;
 
@@ -57,6 +59,7 @@ class Sale {
         folio: folio,
         pdfUrl: pdfUrl,
         confirmedByUserId: confirmedByUserId,
+        sellerCode: sellerCode,
       );
 
   Sale withDte({
@@ -79,5 +82,6 @@ class Sale {
         folio: folio ?? this.folio,
         pdfUrl: pdfUrl ?? this.pdfUrl,
         confirmedByUserId: confirmedByUserId,
+        sellerCode: sellerCode,
       );
 }

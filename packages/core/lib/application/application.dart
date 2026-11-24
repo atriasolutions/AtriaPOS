@@ -36,6 +36,7 @@ export 'create_collaborator.dart';
 export 'update_collaborator.dart';
 export 'deactivate_collaborator.dart';
 export 'list_collaborators.dart';
+export 'list_active_collaborators.dart';
 export 'in_memory_collaborator_repository.dart';
 export 'ports/collaborator_repository.dart';
 export 'create_cart.dart';

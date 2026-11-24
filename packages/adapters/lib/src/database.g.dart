@@ -2103,6 +2103,17 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         type: DriftSqlType.string,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _sellerCodeMeta = const VerificationMeta(
+    'sellerCode',
+  );
+  @override
+  late final GeneratedColumn<String> sellerCode = GeneratedColumn<String>(
+    'seller_code',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2117,6 +2128,7 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     folio,
     pdfUrl,
     confirmedByUserId,
+    sellerCode,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2216,6 +2228,12 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         ),
       );
     }
+    if (data.containsKey('seller_code')) {
+      context.handle(
+        _sellerCodeMeta,
+        sellerCode.isAcceptableOrUnknown(data['seller_code']!, _sellerCodeMeta),
+      );
+    }
     return context;
   }
 
@@ -2273,6 +2291,10 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         DriftSqlType.string,
         data['${effectivePrefix}confirmed_by_user_id'],
       ),
+      sellerCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}seller_code'],
+      ),
     );
   }
 
@@ -2295,6 +2317,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
   final int? folio;
   final String? pdfUrl;
   final String? confirmedByUserId;
+  final String? sellerCode;
   const SaleRow({
     required this.id,
     required this.storeId,
@@ -2308,6 +2331,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     this.folio,
     this.pdfUrl,
     this.confirmedByUserId,
+    this.sellerCode,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2329,6 +2353,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     }
     if (!nullToAbsent || confirmedByUserId != null) {
       map['confirmed_by_user_id'] = Variable<String>(confirmedByUserId);
+    }
+    if (!nullToAbsent || sellerCode != null) {
+      map['seller_code'] = Variable<String>(sellerCode);
     }
     return map;
   }
@@ -2353,6 +2380,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       confirmedByUserId: confirmedByUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(confirmedByUserId),
+      sellerCode: sellerCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sellerCode),
     );
   }
 
@@ -2376,6 +2406,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       confirmedByUserId: serializer.fromJson<String?>(
         json['confirmedByUserId'],
       ),
+      sellerCode: serializer.fromJson<String?>(json['sellerCode']),
     );
   }
   @override
@@ -2394,6 +2425,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       'folio': serializer.toJson<int?>(folio),
       'pdfUrl': serializer.toJson<String?>(pdfUrl),
       'confirmedByUserId': serializer.toJson<String?>(confirmedByUserId),
+      'sellerCode': serializer.toJson<String?>(sellerCode),
     };
   }
 
@@ -2410,6 +2442,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     Value<int?> folio = const Value.absent(),
     Value<String?> pdfUrl = const Value.absent(),
     Value<String?> confirmedByUserId = const Value.absent(),
+    Value<String?> sellerCode = const Value.absent(),
   }) => SaleRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -2425,6 +2458,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     confirmedByUserId: confirmedByUserId.present
         ? confirmedByUserId.value
         : this.confirmedByUserId,
+    sellerCode: sellerCode.present ? sellerCode.value : this.sellerCode,
   );
   SaleRow copyWithCompanion(SalesCompanion data) {
     return SaleRow(
@@ -2442,6 +2476,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       confirmedByUserId: data.confirmedByUserId.present
           ? data.confirmedByUserId.value
           : this.confirmedByUserId,
+      sellerCode: data.sellerCode.present
+          ? data.sellerCode.value
+          : this.sellerCode,
     );
   }
 
@@ -2459,7 +2496,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           ..write('dteStatus: $dteStatus, ')
           ..write('folio: $folio, ')
           ..write('pdfUrl: $pdfUrl, ')
-          ..write('confirmedByUserId: $confirmedByUserId')
+          ..write('confirmedByUserId: $confirmedByUserId, ')
+          ..write('sellerCode: $sellerCode')
           ..write(')'))
         .toString();
   }
@@ -2478,6 +2516,7 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     folio,
     pdfUrl,
     confirmedByUserId,
+    sellerCode,
   );
   @override
   bool operator ==(Object other) =>
@@ -2494,7 +2533,8 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           other.dteStatus == this.dteStatus &&
           other.folio == this.folio &&
           other.pdfUrl == this.pdfUrl &&
-          other.confirmedByUserId == this.confirmedByUserId);
+          other.confirmedByUserId == this.confirmedByUserId &&
+          other.sellerCode == this.sellerCode);
 }
 
 class SalesCompanion extends UpdateCompanion<SaleRow> {
@@ -2510,6 +2550,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
   final Value<int?> folio;
   final Value<String?> pdfUrl;
   final Value<String?> confirmedByUserId;
+  final Value<String?> sellerCode;
   final Value<int> rowid;
   const SalesCompanion({
     this.id = const Value.absent(),
@@ -2524,6 +2565,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.folio = const Value.absent(),
     this.pdfUrl = const Value.absent(),
     this.confirmedByUserId = const Value.absent(),
+    this.sellerCode = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SalesCompanion.insert({
@@ -2539,6 +2581,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.folio = const Value.absent(),
     this.pdfUrl = const Value.absent(),
     this.confirmedByUserId = const Value.absent(),
+    this.sellerCode = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -2560,6 +2603,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Expression<int>? folio,
     Expression<String>? pdfUrl,
     Expression<String>? confirmedByUserId,
+    Expression<String>? sellerCode,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2575,6 +2619,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       if (folio != null) 'folio': folio,
       if (pdfUrl != null) 'pdf_url': pdfUrl,
       if (confirmedByUserId != null) 'confirmed_by_user_id': confirmedByUserId,
+      if (sellerCode != null) 'seller_code': sellerCode,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2592,6 +2637,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Value<int?>? folio,
     Value<String?>? pdfUrl,
     Value<String?>? confirmedByUserId,
+    Value<String?>? sellerCode,
     Value<int>? rowid,
   }) {
     return SalesCompanion(
@@ -2607,6 +2653,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       folio: folio ?? this.folio,
       pdfUrl: pdfUrl ?? this.pdfUrl,
       confirmedByUserId: confirmedByUserId ?? this.confirmedByUserId,
+      sellerCode: sellerCode ?? this.sellerCode,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2650,6 +2697,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     if (confirmedByUserId.present) {
       map['confirmed_by_user_id'] = Variable<String>(confirmedByUserId.value);
     }
+    if (sellerCode.present) {
+      map['seller_code'] = Variable<String>(sellerCode.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2671,6 +2721,7 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
           ..write('folio: $folio, ')
           ..write('pdfUrl: $pdfUrl, ')
           ..write('confirmedByUserId: $confirmedByUserId, ')
+          ..write('sellerCode: $sellerCode, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6523,6 +6574,7 @@ typedef $$SalesTableCreateCompanionBuilder =
       Value<int?> folio,
       Value<String?> pdfUrl,
       Value<String?> confirmedByUserId,
+      Value<String?> sellerCode,
       Value<int> rowid,
     });
 typedef $$SalesTableUpdateCompanionBuilder =
@@ -6539,6 +6591,7 @@ typedef $$SalesTableUpdateCompanionBuilder =
       Value<int?> folio,
       Value<String?> pdfUrl,
       Value<String?> confirmedByUserId,
+      Value<String?> sellerCode,
       Value<int> rowid,
     });
 
@@ -6607,6 +6660,11 @@ class $$SalesTableFilterComposer extends Composer<_$AppDatabase, $SalesTable> {
 
   ColumnFilters<String> get confirmedByUserId => $composableBuilder(
     column: $table.confirmedByUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sellerCode => $composableBuilder(
+    column: $table.sellerCode,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6679,6 +6737,11 @@ class $$SalesTableOrderingComposer
     column: $table.confirmedByUserId,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get sellerCode => $composableBuilder(
+    column: $table.sellerCode,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SalesTableAnnotationComposer
@@ -6727,6 +6790,11 @@ class $$SalesTableAnnotationComposer
     column: $table.confirmedByUserId,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get sellerCode => $composableBuilder(
+    column: $table.sellerCode,
+    builder: (column) => column,
+  );
 }
 
 class $$SalesTableTableManager
@@ -6769,6 +6837,7 @@ class $$SalesTableTableManager
                 Value<int?> folio = const Value.absent(),
                 Value<String?> pdfUrl = const Value.absent(),
                 Value<String?> confirmedByUserId = const Value.absent(),
+                Value<String?> sellerCode = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion(
                 id: id,
@@ -6783,6 +6852,7 @@ class $$SalesTableTableManager
                 folio: folio,
                 pdfUrl: pdfUrl,
                 confirmedByUserId: confirmedByUserId,
+                sellerCode: sellerCode,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6799,6 +6869,7 @@ class $$SalesTableTableManager
                 Value<int?> folio = const Value.absent(),
                 Value<String?> pdfUrl = const Value.absent(),
                 Value<String?> confirmedByUserId = const Value.absent(),
+                Value<String?> sellerCode = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion.insert(
                 id: id,
@@ -6813,6 +6884,7 @@ class $$SalesTableTableManager
                 folio: folio,
                 pdfUrl: pdfUrl,
                 confirmedByUserId: confirmedByUserId,
+                sellerCode: sellerCode,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

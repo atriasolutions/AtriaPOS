@@ -2,6 +2,8 @@ import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
+import '../support/collaborator_fixtures.dart';
+
 void main() {
   const storeId = 't1';
   late InMemoryCartRepository carts;
@@ -9,6 +11,7 @@ void main() {
   late InMemorySaleRepository sales;
   late InMemoryStockMovementRepository movements;
   late InMemoryShiftRepository shifts;
+  late InMemoryCollaboratorRepository collaborators;
   late InMemorySessionProvider sessions;
   late OpenShift openShift;
   late CreateProduct createProduct;
@@ -23,8 +26,10 @@ void main() {
     sales = InMemorySaleRepository();
     movements = InMemoryStockMovementRepository();
     shifts = InMemoryShiftRepository();
-    openShift = OpenShift(shifts);
+    collaborators = InMemoryCollaboratorRepository();
+    await seedDefaultSeller(collaborators, storeId);
     sessions = InMemorySessionProvider.supervisor();
+    openShift = OpenShift(shifts);
     createProduct = CreateProduct(products, sessions);
     createCart = CreateCart(carts, shifts, sessions);
     addCartLine = AddCartLine(carts, products, sessions);
@@ -34,6 +39,7 @@ void main() {
       sales,
       movements,
       shifts,
+      collaborators,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
       sessions,
@@ -69,6 +75,7 @@ void main() {
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: ctx.cartId,
+        sellerCode: 'V01',
         payments: const [
           CheckoutPaymentInput(
             method: PaymentMethod.efectivo,
@@ -79,10 +86,99 @@ void main() {
       ),
     );
     expect(result.totalClp, 1000);
+    expect(result.sellerCode, 'V01');
     final stock = await getProductStock(storeId, ctx.productId);
     expect(stock.stock, 8);
     final audit = await movements.listByProduct(storeId, ctx.productId);
     expect(audit.first.reason, StockAdjustmentReason.venta);
+  });
+
+  test('SC-084-01 checkout con vendedor activo persiste sellerCode', () async {
+    final ctx = await panCart();
+    final result = await confirmCheckout(
+      ConfirmCheckoutInput(
+        storeId: storeId,
+        cartId: ctx.cartId,
+        sellerCode: 'v01',
+        payments: const [
+          CheckoutPaymentInput(
+            method: PaymentMethod.efectivo,
+            amountClp: 1000,
+          ),
+        ],
+        changeClp: 0,
+      ),
+    );
+    expect(result.sellerCode, 'V01');
+    final stored = await sales.findById(storeId, result.saleId);
+    expect(stored!.sellerCode, 'V01');
+  });
+
+  test('SC-084-02 sin sellerCode → VALIDACION', () async {
+    final ctx = await panCart();
+    expect(
+      () => confirmCheckout(
+        ConfirmCheckoutInput(
+          storeId: storeId,
+          cartId: ctx.cartId,
+          sellerCode: '   ',
+          payments: const [
+            CheckoutPaymentInput(
+              method: PaymentMethod.efectivo,
+              amountClp: 1000,
+            ),
+          ],
+          changeClp: 0,
+        ),
+      ),
+      throwsA(isA<ValidationFailure>()),
+    );
+  });
+
+  test('SC-084-03 código inexistente o inactivo → VALIDACION', () async {
+    final ctx = await panCart();
+    expect(
+      () => confirmCheckout(
+        ConfirmCheckoutInput(
+          storeId: storeId,
+          cartId: ctx.cartId,
+          sellerCode: 'ZZ9',
+          payments: const [
+            CheckoutPaymentInput(
+              method: PaymentMethod.efectivo,
+              amountClp: 1000,
+            ),
+          ],
+          changeClp: 0,
+        ),
+      ),
+      throwsA(isA<ValidationFailure>()),
+    );
+    final inactive = Collaborator.create(
+      storeId: storeId,
+      sellerCode: 'V02',
+      firstName: 'Colab',
+      lastName: 'Off',
+    );
+    await collaborators.save(inactive);
+    await collaborators.save(inactive.withUpdates(active: false));
+    expect(
+      () => confirmCheckout(
+        ConfirmCheckoutInput(
+          storeId: storeId,
+          cartId: ctx.cartId,
+          sellerCode: 'V02',
+          payments: const [
+            CheckoutPaymentInput(
+              method: PaymentMethod.efectivo,
+              amountClp: 1000,
+            ),
+          ],
+          changeClp: 0,
+        ),
+      ),
+      throwsA(isA<ValidationFailure>()),
+    );
   });
 
   test('SC-031-02 carro vacío → VALIDACION', () async {
@@ -92,6 +188,7 @@ void main() {
         ConfirmCheckoutInput(
           storeId: storeId,
           cartId: cart.id,
+          sellerCode: 'V01',
           payments: const [
             CheckoutPaymentInput(
               method: PaymentMethod.efectivo,
@@ -128,6 +225,7 @@ void main() {
         ConfirmCheckoutInput(
           storeId: storeId,
           cartId: cart.id,
+          sellerCode: 'V01',
           payments: const [
             CheckoutPaymentInput(
               method: PaymentMethod.efectivo,
@@ -148,6 +246,7 @@ void main() {
         ConfirmCheckoutInput(
           storeId: storeId,
           cartId: ctx.cartId,
+          sellerCode: 'V01',
           payments: const [
             CheckoutPaymentInput(
               method: PaymentMethod.efectivo,
@@ -170,6 +269,7 @@ void main() {
       closeSales,
       movements,
       closeShifts,
+      collaborators,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
       sessions,
@@ -180,6 +280,7 @@ void main() {
         ConfirmCheckoutInput(
           storeId: storeId,
           cartId: ctx.cartId,
+          sellerCode: 'V01',
           payments: const [
             CheckoutPaymentInput(
               method: PaymentMethod.efectivo,

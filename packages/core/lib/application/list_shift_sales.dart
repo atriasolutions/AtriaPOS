@@ -12,6 +12,7 @@ class ShiftSaleListItem {
     required this.dteStatus,
     this.folio,
     required this.createdAt,
+    this.sellerCode,
   });
 
   final SaleId saleId;
@@ -20,6 +21,7 @@ class ShiftSaleListItem {
   final DteStatus dteStatus;
   final int? folio;
   final DateTime createdAt;
+  final String? sellerCode;
 }
 
 class ListShiftSales {
@@ -54,6 +56,7 @@ class ListShiftSales {
             dteStatus: sale.dteStatus,
             folio: sale.folio,
             createdAt: sale.createdAt,
+            sellerCode: sale.sellerCode,
           ),
         )
         .toList();

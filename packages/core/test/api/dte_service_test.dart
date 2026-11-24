@@ -3,6 +3,8 @@ import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
+import '../support/collaborator_fixtures.dart';
+
 void main() {
   const storeId = 't1';
   late InMemorySaleRepository sales;
@@ -15,14 +17,17 @@ void main() {
   late InMemoryCartRepository carts;
   late InMemoryStockMovementRepository movements;
   late InMemoryShiftRepository shifts;
+  late InMemoryCollaboratorRepository collaborators;
 
-  setUp(() {
+  setUp(() async {
     sales = InMemorySaleRepository();
     queue = InMemoryDteQueueRepository();
     products = InMemoryProductRepository();
     carts = InMemoryCartRepository();
     movements = InMemoryStockMovementRepository();
     shifts = InMemoryShiftRepository();
+    collaborators = InMemoryCollaboratorRepository();
+    await seedDefaultSeller(collaborators, storeId);
     dteService = DteService(
       queueRepository: queue,
       saleRepository: sales,
@@ -36,6 +41,7 @@ void main() {
       saleRepository: sales,
       stockMovementRepository: movements,
       shiftRepository: shifts,
+      collaboratorRepository: collaborators,
       dteGateway: FakeDteGateway(mode: FakeDteMode.alwaysFailure),
       dteQueueRepository: queue,
     );
@@ -68,6 +74,7 @@ void main() {
       storeId,
       cartId,
       const CheckoutRequest(
+        sellerCode: 'V01',
         payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 500)],
         changeClp: 0,
       ),

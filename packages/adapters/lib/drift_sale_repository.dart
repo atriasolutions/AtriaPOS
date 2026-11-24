@@ -41,6 +41,7 @@ class DriftSaleRepository implements SaleRepository {
               folio: Value(sale.folio),
               pdfUrl: Value(sale.pdfUrl),
               confirmedByUserId: Value(sale.confirmedByUserId),
+              sellerCode: Value(sale.sellerCode),
             ),
           );
       for (final line in sale.lines) {
@@ -170,5 +171,6 @@ class DriftSaleRepository implements SaleRepository {
         folio: row.folio,
         pdfUrl: row.pdfUrl,
         confirmedByUserId: row.confirmedByUserId,
+        sellerCode: row.sellerCode,
       );
 }

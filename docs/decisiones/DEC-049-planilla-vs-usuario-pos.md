@@ -14,7 +14,7 @@ No todos los vendedores operan caja. El código vendedor debe trazarse en ventas
 1. Entidad **`Collaborator`** (planilla) separada de **`User`** (login POS).
 2. **`sellerCode`** único por tienda entre colaboradores **activos**; normalizado mayúsculas A–Z, 0–9, sin ñ.
 3. CRUD planilla solo **jefe de tienda** (`Permission.gestionarPlanilla`).
-4. Asociación venta ↔ código vendedor en **SLICE-64** (RF-084).
+4. Asociación venta ↔ código vendedor en **SLICE-64** (RF-084): **`sellerCode` obligatorio** en checkout plantilla Atria POS.
 
 ## Consecuencias
 

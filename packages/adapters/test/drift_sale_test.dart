@@ -3,6 +3,8 @@ import 'package:core/atria_pos_core.dart';
 import 'package:drift/native.dart';
 import 'package:test/test.dart';
 
+import 'support/drift_seed_seller.dart';
+
 void main() {
   const storeId = 't1';
   late AppDatabase db;
@@ -10,6 +12,7 @@ void main() {
   late DriftStockMovementRepository movements;
   late DriftSaleRepository sales;
   late DriftShiftRepository shifts;
+  late DriftCollaboratorRepository collaborators;
   late InMemoryCartRepository carts;
   late CreateProduct createProduct;
   late OpenShift openShift;
@@ -18,12 +21,14 @@ void main() {
   late ConfirmCheckout confirmCheckout;
   late GetProductStock getProductStock;
 
-  setUp(() {
+  setUp(() async {
     db = AppDatabase(NativeDatabase.memory());
     products = DriftProductRepository(db);
     movements = DriftStockMovementRepository(db);
     sales = DriftSaleRepository(db);
     shifts = DriftShiftRepository(db);
+    collaborators = DriftCollaboratorRepository(db);
+    await driftSeedDefaultSeller(collaborators, storeId);
     carts = InMemoryCartRepository();
     final sessions = InMemorySessionProvider.supervisor();
     createProduct = CreateProduct(products, sessions);
@@ -36,6 +41,7 @@ void main() {
       sales,
       movements,
       shifts,
+      collaborators,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
       sessions,
@@ -70,6 +76,7 @@ void main() {
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: cart.id,
+        sellerCode: 'V01',
         payments: const [
           CheckoutPaymentInput(
             method: PaymentMethod.efectivo,
@@ -85,6 +92,43 @@ void main() {
     expect(stored.lines, hasLength(1));
     final stock = await getProductStock(storeId, product.id);
     expect(stock.stock, 8);
+  });
+
+  test('SC-084-06 drift persiste seller_code en venta', () async {
+    await openShift(storeId, 0);
+    final product = await createProduct(
+      const CreateProductInput(
+        storeId: storeId,
+        name: 'Pan',
+        salePriceClp: 500,
+        initialStock: 5,
+      ),
+    );
+    final cart = await createCart(storeId);
+    await addCartLine(
+      AddCartLineInput(
+        storeId: storeId,
+        cartId: cart.id,
+        productId: product.id,
+        quantity: 1,
+      ),
+    );
+    final checkout = await confirmCheckout(
+      ConfirmCheckoutInput(
+        storeId: storeId,
+        cartId: cart.id,
+        sellerCode: 'V01',
+        payments: const [
+          CheckoutPaymentInput(
+            method: PaymentMethod.efectivo,
+            amountClp: 500,
+          ),
+        ],
+        changeClp: 0,
+      ),
+    );
+    final stored = await sales.findById(storeId, checkout.saleId);
+    expect(stored!.sellerCode, 'V01');
   });
 
   test('listByStoreCreatedBetween filtra por tienda y día', () async {

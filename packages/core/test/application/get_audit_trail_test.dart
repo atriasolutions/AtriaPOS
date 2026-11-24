@@ -2,6 +2,8 @@ import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
+import '../support/collaborator_fixtures.dart';
+
 void main() {
   const storeId = 't1';
 
@@ -11,6 +13,8 @@ void main() {
     final movements = InMemoryStockMovementRepository();
     final shifts = InMemoryShiftRepository();
     final carts = InMemoryCartRepository();
+    final collaborators = InMemoryCollaboratorRepository();
+    await seedDefaultSeller(collaborators, storeId);
     final sessions = InMemorySessionProvider.supervisor();
 
     final createProduct = CreateProduct(products, sessions);
@@ -42,6 +46,7 @@ void main() {
       sales,
       movements,
       shifts,
+      collaborators,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
       sessions,
@@ -50,6 +55,7 @@ void main() {
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: cart.id,
+        sellerCode: 'V01',
         payments: const [
           CheckoutPaymentInput(method: PaymentMethod.efectivo, amountClp: 500),
         ],

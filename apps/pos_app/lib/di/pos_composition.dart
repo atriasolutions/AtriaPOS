@@ -115,6 +115,7 @@ class PosComposition {
     final sales = DriftSaleRepository(db);
     final movements = DriftStockMovementRepository(db);
     final shifts = DriftShiftRepository(db);
+    final collaborators = DriftCollaboratorRepository(db);
     final dteQueue = DriftDteQueueRepository(db);
     final certificateStore =
         certificateStoreOverride ?? createCertificateStore();
@@ -174,6 +175,7 @@ class PosComposition {
         saleRepository: sales,
         stockMovementRepository: movements,
         shiftRepository: shifts,
+        collaboratorRepository: collaborators,
         dteGateway: dteGateway,
         dteQueueRepository: dteQueue,
         sessionProvider: sessions,
@@ -272,6 +274,23 @@ class PosComposition {
         ),
       );
     }
+  }
+
+  /// Colaborador demo para checkout (hasta SLICE-72 UI).
+  Future<void> ensureDemoSeller() async {
+    final storeId = activeStoreId ?? kDemoStoreId;
+    final repo = DriftCollaboratorRepository(database);
+    final code = SellerCodePolicy.normalize('V01');
+    final existing = await repo.findActiveBySellerCode(storeId, code);
+    if (existing != null) return;
+    await repo.save(
+      Collaborator.create(
+        storeId: storeId,
+        sellerCode: code,
+        firstName: 'Colab',
+        lastName: 'Demo',
+      ),
+    );
   }
 
   Future<void> close() => closePosDatabase(database);

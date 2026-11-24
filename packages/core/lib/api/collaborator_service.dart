@@ -3,6 +3,7 @@ import '../domain/domain.dart';
 import 'api_error.dart';
 import 'api_result.dart';
 import 'collaborator_dtos.dart';
+import 'sale_dtos.dart';
 
 class CollaboratorService {
   factory CollaboratorService({
@@ -18,6 +19,7 @@ class CollaboratorService {
       UpdateCollaborator(repo, sessions),
       DeactivateCollaborator(repo, sessions),
       ListCollaborators(repo, sessions),
+      ListActiveCollaborators(repo, sessions),
     );
   }
 
@@ -28,6 +30,7 @@ class CollaboratorService {
     this._update,
     this._deactivate,
     this._list,
+    this._listActive,
   );
 
   final CollaboratorRepository _repo;
@@ -36,6 +39,45 @@ class CollaboratorService {
   final UpdateCollaborator _update;
   final DeactivateCollaborator _deactivate;
   final ListCollaborators _list;
+  final ListActiveCollaborators _listActive;
+
+  Future<ApiResult<ListActiveCollaboratorsResponse>> listActiveForSale(
+    StoreId storeId,
+  ) async {
+    try {
+      final items = await _listActive(storeId);
+      return ApiSuccess(
+        ListActiveCollaboratorsResponse(
+          items: items
+              .map(
+                (c) => ActiveCollaboratorResponse(
+                  id: c.id,
+                  sellerCode: c.sellerCode,
+                  firstName: c.firstName,
+                  lastName: c.lastName,
+                ),
+              )
+              .toList(),
+        ),
+        statusCode: 200,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    }
+  }
 
   Future<ApiResult<CollaboratorResponse>> create(
     StoreId storeId,
