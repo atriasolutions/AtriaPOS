@@ -98,6 +98,8 @@ Complementa inventario barrio: recepción trazable sin crear SKU en el acto.
 
 Umbral por producto o global.
 
+Materializado en consulta reporte **RF-087** (SLICE-67); alertas push fuera de MVP.
+
 ---
 
 ## Ventas (POS)
@@ -203,6 +205,10 @@ Ampliado por **RF-086** (rango y categorías).
 ### RF-086 [M] Auditoría por rango y categoría (SLICE-66)
 
 Supervisor o dueño consultan eventos entre fechas locales (máx. **31 días** inclusive), con filtro opcional por categoría: **VENTAS** (`CONFIRMA_VENTA`, `ANULA_VENTA`), **INVENTARIO** (ajustes excepto motivo venta), **USUARIOS** (altas usuario POS), **PAGOS** (stub vacío hasta integración Transbank). Compatibilidad: query `date=` de un día (RF-070). Sin export ni UI ampliada en este slice (SLICE-74).
+
+### RF-087 [M] Stock insights (SLICE-67)
+
+Supervisor o dueño consultan en un reporte: productos con **stock bajo** (stock ≤ umbral efectivo: `lowStockThreshold` por producto o default **5** unidades) y **ranking de más vendidos** en los últimos **30 días** calendario (unidades, ventas anuladas excluidas). Query `asOf` opcional; `limit` del ranking (default 10, máx. 50). Sin UI en este slice (SLICE-73).
 
 ---
 

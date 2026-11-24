@@ -8,4 +8,6 @@ abstract class ProductRepository {
   Future<Product?> findByBarcode(StoreId storeId, String barcode);
 
   Future<List<Product>> search(StoreId storeId, String query);
+
+  Future<List<Product>> listByStore(StoreId storeId);
 }

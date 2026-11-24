@@ -511,6 +511,40 @@ Solo supervisor y dueño (403 cajero). Ventas `ANULADA` no cuentan.
 
 **Tests:** SC-060-02 (core/API).
 
+### `GET /v0/stores/{storeId}/reports/stock-insights` (RF-087)
+
+Query: `asOf=YYYY-MM-DD` (default hoy local), `limit` entero (default 10, máx. 50).
+
+**Response 200**
+
+```json
+{
+  "asOfDate": "2026-03-18",
+  "periodDays": 30,
+  "defaultLowStockThreshold": 5,
+  "lowStock": [
+    {
+      "productId": "p1",
+      "name": "Pan",
+      "stock": 2,
+      "lowStockThreshold": 5,
+      "salePriceClp": 500
+    }
+  ],
+  "topSellers": [
+    { "productId": "p1", "name": "Pan", "unitsSold": 120 }
+  ]
+}
+```
+
+`lowStockThreshold` en cada ítem es el umbral **efectivo** (resuelto).
+
+Solo supervisor y dueño (403 cajero). Ventas `ANULADA` no cuentan en `topSellers`.
+
+`ReportService.getStockInsights` (in-process).
+
+**Tests:** SC-087-01…08 (core/API/adapters).
+
 ---
 
 ## API-009 — Auditoría (RF-070, RF-086)
@@ -637,7 +671,7 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 | RF-051 | API-005 |
 | RF-002 | API-006 |
 | RF-001 | API-007 |
-| RF-060 | API-008 |
+| RF-060, RF-087 | API-008 |
 | RF-070, RF-086 | API-009 |
 | RF-003 | API-010 |
 | RF-083 | API-011 |

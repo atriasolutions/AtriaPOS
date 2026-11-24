@@ -50,4 +50,38 @@ class InMemorySaleRepository implements SaleRepository {
       return !local.isBefore(from) && local.isBefore(to);
     }).toList();
   }
+
+  @override
+  Future<List<ProductSalesRank>> topProductsByUnits(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+    int limit,
+  ) async {
+    final unitsByProduct = <String, int>{};
+    final fromUtc = fromInclusive.toUtc();
+    final toUtc = toExclusive.toUtc();
+    for (final sale in _sales.values) {
+      if (sale.storeId != storeId) continue;
+      if (!saleCountsForShiftTotals(sale)) continue;
+      final created = sale.createdAt.toUtc();
+      if (created.isBefore(fromUtc)) continue;
+      if (!created.isBefore(toUtc)) continue;
+      for (final line in sale.lines) {
+        unitsByProduct.update(
+          line.productId,
+          (v) => v + line.quantity,
+          ifAbsent: () => line.quantity,
+        );
+      }
+    }
+    final ranks = unitsByProduct.entries
+        .map((e) => ProductSalesRank(productId: e.key, unitsSold: e.value))
+        .toList()
+      ..sort((a, b) => b.unitsSold.compareTo(a.unitsSold));
+    if (ranks.length > limit) {
+      return ranks.sublist(0, limit);
+    }
+    return ranks;
+  }
 }

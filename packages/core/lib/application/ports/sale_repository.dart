@@ -18,4 +18,11 @@ abstract class SaleRepository {
     DateTime fromInclusive,
     DateTime toExclusive,
   );
+
+  Future<List<ProductSalesRank>> topProductsByUnits(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+    int limit,
+  );
 }

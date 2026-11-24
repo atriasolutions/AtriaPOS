@@ -169,6 +169,46 @@ class DriftSaleRepository implements SaleRepository {
     return sales;
   }
 
+  @override
+  Future<List<ProductSalesRank>> topProductsByUnits(
+    StoreId storeId,
+    DateTime fromInclusive,
+    DateTime toExclusive,
+    int limit,
+  ) async {
+    final fromIso = fromInclusive.toUtc().toIso8601String();
+    final toIso = toExclusive.toUtc().toIso8601String();
+    final anulada = SaleStatus.anulada.apiValue;
+    final rows = await _db.customSelect(
+      '''
+      SELECT sl.product_id AS product_id, SUM(sl.quantity) AS units_sold
+      FROM sale_lines sl
+      INNER JOIN sales s ON s.id = sl.sale_id
+      WHERE s.store_id = ? AND s.created_at >= ? AND s.created_at < ?
+        AND s.status != ?
+      GROUP BY sl.product_id
+      ORDER BY units_sold DESC
+      LIMIT ?
+      ''',
+      variables: [
+        Variable.withString(storeId),
+        Variable.withString(fromIso),
+        Variable.withString(toIso),
+        Variable.withString(anulada),
+        Variable.withInt(limit),
+      ],
+      readsFrom: {_db.sales, _db.saleLines},
+    ).get();
+    return rows
+        .map(
+          (row) => ProductSalesRank(
+            productId: row.read<String>('product_id'),
+            unitsSold: row.read<int>('units_sold'),
+          ),
+        )
+        .toList();
+  }
+
   Sale _mapSale(
     SaleRow row,
     List<SaleLineRow> lineRows,

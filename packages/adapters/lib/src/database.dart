@@ -26,6 +26,8 @@ class Products extends Table {
   TextColumn get qrPayload => text().nullable()();
   IntColumn get stock => integer()();
   BoolColumn get blockWhenOutOfStock => boolean()();
+  IntColumn get lowStockThreshold =>
+      integer().named('low_stock_threshold').nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -196,7 +198,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 17;
+  int get schemaVersion => 18;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -313,6 +315,9 @@ WHERE (
               "UPDATE users SET created_at = datetime('now') "
               'WHERE created_at IS NULL',
             );
+          }
+          if (from < 18) {
+            await m.addColumn(products, products.lowStockThreshold);
           }
         },
       );

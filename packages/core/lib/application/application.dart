@@ -32,6 +32,7 @@ export 'void_sale.dart';
 export 'list_shift_sales.dart';
 export 'get_daily_sales_report.dart';
 export 'get_audit_trail.dart';
+export 'get_stock_insights.dart';
 export 'collaborator_planilla_auth.dart';
 export 'create_collaborator.dart';
 export 'update_collaborator.dart';

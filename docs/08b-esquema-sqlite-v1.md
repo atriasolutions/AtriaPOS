@@ -266,3 +266,11 @@ Migración desde v15: columnas `guide_ref`, `lot_ref` en `stock_movements` (NULL
 | users | created_by_user_id | TEXT NULL | Dueño que creó el usuario |
 
 Migración desde v16: `addColumn` + `UPDATE users SET created_at = datetime('now') WHERE created_at IS NULL`.
+
+## Revisión 2 — `products.low_stock_threshold` schema v18 (SLICE-67)
+
+| Columna | Tipo | Notas |
+|---------|------|-------|
+| low_stock_threshold | INTEGER NULL | Umbral unidades RF-087; NULL usa default dominio (5) |
+
+Migración desde v17: `addColumn` nullable.

@@ -516,6 +516,17 @@ class $ProductsTable extends Products
       'CHECK ("block_when_out_of_stock" IN (0, 1))',
     ),
   );
+  static const VerificationMeta _lowStockThresholdMeta = const VerificationMeta(
+    'lowStockThreshold',
+  );
+  @override
+  late final GeneratedColumn<int> lowStockThreshold = GeneratedColumn<int>(
+    'low_stock_threshold',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -527,6 +538,7 @@ class $ProductsTable extends Products
     qrPayload,
     stock,
     blockWhenOutOfStock,
+    lowStockThreshold,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -609,6 +621,15 @@ class $ProductsTable extends Products
     } else if (isInserting) {
       context.missing(_blockWhenOutOfStockMeta);
     }
+    if (data.containsKey('low_stock_threshold')) {
+      context.handle(
+        _lowStockThresholdMeta,
+        lowStockThreshold.isAcceptableOrUnknown(
+          data['low_stock_threshold']!,
+          _lowStockThresholdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -654,6 +675,10 @@ class $ProductsTable extends Products
         DriftSqlType.bool,
         data['${effectivePrefix}block_when_out_of_stock'],
       )!,
+      lowStockThreshold: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}low_stock_threshold'],
+      ),
     );
   }
 
@@ -673,6 +698,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
   final String? qrPayload;
   final int stock;
   final bool blockWhenOutOfStock;
+  final int? lowStockThreshold;
   const ProductRow({
     required this.id,
     required this.storeId,
@@ -683,6 +709,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     this.qrPayload,
     required this.stock,
     required this.blockWhenOutOfStock,
+    this.lowStockThreshold,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -702,6 +729,9 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     }
     map['stock'] = Variable<int>(stock);
     map['block_when_out_of_stock'] = Variable<bool>(blockWhenOutOfStock);
+    if (!nullToAbsent || lowStockThreshold != null) {
+      map['low_stock_threshold'] = Variable<int>(lowStockThreshold);
+    }
     return map;
   }
 
@@ -722,6 +752,9 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
           : Value(qrPayload),
       stock: Value(stock),
       blockWhenOutOfStock: Value(blockWhenOutOfStock),
+      lowStockThreshold: lowStockThreshold == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lowStockThreshold),
     );
   }
 
@@ -742,6 +775,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       blockWhenOutOfStock: serializer.fromJson<bool>(
         json['blockWhenOutOfStock'],
       ),
+      lowStockThreshold: serializer.fromJson<int?>(json['lowStockThreshold']),
     );
   }
   @override
@@ -757,6 +791,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       'qrPayload': serializer.toJson<String?>(qrPayload),
       'stock': serializer.toJson<int>(stock),
       'blockWhenOutOfStock': serializer.toJson<bool>(blockWhenOutOfStock),
+      'lowStockThreshold': serializer.toJson<int?>(lowStockThreshold),
     };
   }
 
@@ -770,6 +805,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     Value<String?> qrPayload = const Value.absent(),
     int? stock,
     bool? blockWhenOutOfStock,
+    Value<int?> lowStockThreshold = const Value.absent(),
   }) => ProductRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -780,6 +816,9 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     qrPayload: qrPayload.present ? qrPayload.value : this.qrPayload,
     stock: stock ?? this.stock,
     blockWhenOutOfStock: blockWhenOutOfStock ?? this.blockWhenOutOfStock,
+    lowStockThreshold: lowStockThreshold.present
+        ? lowStockThreshold.value
+        : this.lowStockThreshold,
   );
   ProductRow copyWithCompanion(ProductsCompanion data) {
     return ProductRow(
@@ -796,6 +835,9 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
       blockWhenOutOfStock: data.blockWhenOutOfStock.present
           ? data.blockWhenOutOfStock.value
           : this.blockWhenOutOfStock,
+      lowStockThreshold: data.lowStockThreshold.present
+          ? data.lowStockThreshold.value
+          : this.lowStockThreshold,
     );
   }
 
@@ -810,7 +852,8 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
           ..write('barcode: $barcode, ')
           ..write('qrPayload: $qrPayload, ')
           ..write('stock: $stock, ')
-          ..write('blockWhenOutOfStock: $blockWhenOutOfStock')
+          ..write('blockWhenOutOfStock: $blockWhenOutOfStock, ')
+          ..write('lowStockThreshold: $lowStockThreshold')
           ..write(')'))
         .toString();
   }
@@ -826,6 +869,7 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
     qrPayload,
     stock,
     blockWhenOutOfStock,
+    lowStockThreshold,
   );
   @override
   bool operator ==(Object other) =>
@@ -839,7 +883,8 @@ class ProductRow extends DataClass implements Insertable<ProductRow> {
           other.barcode == this.barcode &&
           other.qrPayload == this.qrPayload &&
           other.stock == this.stock &&
-          other.blockWhenOutOfStock == this.blockWhenOutOfStock);
+          other.blockWhenOutOfStock == this.blockWhenOutOfStock &&
+          other.lowStockThreshold == this.lowStockThreshold);
 }
 
 class ProductsCompanion extends UpdateCompanion<ProductRow> {
@@ -852,6 +897,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
   final Value<String?> qrPayload;
   final Value<int> stock;
   final Value<bool> blockWhenOutOfStock;
+  final Value<int?> lowStockThreshold;
   final Value<int> rowid;
   const ProductsCompanion({
     this.id = const Value.absent(),
@@ -863,6 +909,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     this.qrPayload = const Value.absent(),
     this.stock = const Value.absent(),
     this.blockWhenOutOfStock = const Value.absent(),
+    this.lowStockThreshold = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ProductsCompanion.insert({
@@ -875,6 +922,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     this.qrPayload = const Value.absent(),
     required int stock,
     required bool blockWhenOutOfStock,
+    this.lowStockThreshold = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -892,6 +940,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     Expression<String>? qrPayload,
     Expression<int>? stock,
     Expression<bool>? blockWhenOutOfStock,
+    Expression<int>? lowStockThreshold,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -905,6 +954,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
       if (stock != null) 'stock': stock,
       if (blockWhenOutOfStock != null)
         'block_when_out_of_stock': blockWhenOutOfStock,
+      if (lowStockThreshold != null) 'low_stock_threshold': lowStockThreshold,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -919,6 +969,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
     Value<String?>? qrPayload,
     Value<int>? stock,
     Value<bool>? blockWhenOutOfStock,
+    Value<int?>? lowStockThreshold,
     Value<int>? rowid,
   }) {
     return ProductsCompanion(
@@ -931,6 +982,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
       qrPayload: qrPayload ?? this.qrPayload,
       stock: stock ?? this.stock,
       blockWhenOutOfStock: blockWhenOutOfStock ?? this.blockWhenOutOfStock,
+      lowStockThreshold: lowStockThreshold ?? this.lowStockThreshold,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -967,6 +1019,9 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
         blockWhenOutOfStock.value,
       );
     }
+    if (lowStockThreshold.present) {
+      map['low_stock_threshold'] = Variable<int>(lowStockThreshold.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -985,6 +1040,7 @@ class ProductsCompanion extends UpdateCompanion<ProductRow> {
           ..write('qrPayload: $qrPayload, ')
           ..write('stock: $stock, ')
           ..write('blockWhenOutOfStock: $blockWhenOutOfStock, ')
+          ..write('lowStockThreshold: $lowStockThreshold, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -6100,6 +6156,7 @@ typedef $$ProductsTableCreateCompanionBuilder =
       Value<String?> qrPayload,
       required int stock,
       required bool blockWhenOutOfStock,
+      Value<int?> lowStockThreshold,
       Value<int> rowid,
     });
 typedef $$ProductsTableUpdateCompanionBuilder =
@@ -6113,6 +6170,7 @@ typedef $$ProductsTableUpdateCompanionBuilder =
       Value<String?> qrPayload,
       Value<int> stock,
       Value<bool> blockWhenOutOfStock,
+      Value<int?> lowStockThreshold,
       Value<int> rowid,
     });
 
@@ -6167,6 +6225,11 @@ class $$ProductsTableFilterComposer
 
   ColumnFilters<bool> get blockWhenOutOfStock => $composableBuilder(
     column: $table.blockWhenOutOfStock,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lowStockThreshold => $composableBuilder(
+    column: $table.lowStockThreshold,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -6224,6 +6287,11 @@ class $$ProductsTableOrderingComposer
     column: $table.blockWhenOutOfStock,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get lowStockThreshold => $composableBuilder(
+    column: $table.lowStockThreshold,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ProductsTableAnnotationComposer
@@ -6263,6 +6331,11 @@ class $$ProductsTableAnnotationComposer
 
   GeneratedColumn<bool> get blockWhenOutOfStock => $composableBuilder(
     column: $table.blockWhenOutOfStock,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get lowStockThreshold => $composableBuilder(
+    column: $table.lowStockThreshold,
     builder: (column) => column,
   );
 }
@@ -6307,6 +6380,7 @@ class $$ProductsTableTableManager
                 Value<String?> qrPayload = const Value.absent(),
                 Value<int> stock = const Value.absent(),
                 Value<bool> blockWhenOutOfStock = const Value.absent(),
+                Value<int?> lowStockThreshold = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProductsCompanion(
                 id: id,
@@ -6318,6 +6392,7 @@ class $$ProductsTableTableManager
                 qrPayload: qrPayload,
                 stock: stock,
                 blockWhenOutOfStock: blockWhenOutOfStock,
+                lowStockThreshold: lowStockThreshold,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6331,6 +6406,7 @@ class $$ProductsTableTableManager
                 Value<String?> qrPayload = const Value.absent(),
                 required int stock,
                 required bool blockWhenOutOfStock,
+                Value<int?> lowStockThreshold = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProductsCompanion.insert(
                 id: id,
@@ -6342,6 +6418,7 @@ class $$ProductsTableTableManager
                 qrPayload: qrPayload,
                 stock: stock,
                 blockWhenOutOfStock: blockWhenOutOfStock,
+                lowStockThreshold: lowStockThreshold,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

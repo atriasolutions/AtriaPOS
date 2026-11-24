@@ -15,6 +15,7 @@ class Product {
     this.qrPayload,
     this.costClp,
     this.blockWhenOutOfStock = true,
+    this.lowStockThreshold,
   });
 
   final ProductId id;
@@ -26,6 +27,7 @@ class Product {
   final String? qrPayload;
   final int stock;
   final bool blockWhenOutOfStock;
+  final int? lowStockThreshold;
 
   static Product create({
     required ProductId id,
@@ -36,6 +38,7 @@ class Product {
     String? barcode,
     int? costClp,
     bool blockWhenOutOfStock = true,
+    int? lowStockThreshold,
   }) {
     final trimmedName = name.trim();
     if (trimmedName.isEmpty) {
@@ -50,6 +53,11 @@ class Product {
     if (costClp != null && costClp < 0) {
       throw const ValidationFailure('El costo no puede ser negativo');
     }
+    if (lowStockThreshold != null && lowStockThreshold < 0) {
+      throw const ValidationFailure(
+        'El umbral de stock bajo no puede ser negativo',
+      );
+    }
 
     return Product(
       id: id,
@@ -61,6 +69,7 @@ class Product {
       qrPayload: buildProductQrPayload(storeId, id),
       costClp: costClp,
       blockWhenOutOfStock: blockWhenOutOfStock,
+      lowStockThreshold: lowStockThreshold,
     );
   }
 
@@ -81,6 +90,7 @@ class Product {
       qrPayload: qrPayload,
       costClp: costClp,
       blockWhenOutOfStock: blockWhenOutOfStock,
+      lowStockThreshold: lowStockThreshold,
     );
   }
 

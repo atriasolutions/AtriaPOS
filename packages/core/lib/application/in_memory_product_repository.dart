@@ -50,4 +50,11 @@ class InMemoryProductRepository implements ProductRepository {
     matches.sort((a, b) => a.name.compareTo(b.name));
     return matches;
   }
+
+  @override
+  Future<List<Product>> listByStore(StoreId storeId) async {
+    final list = _byId.values.where((p) => p.storeId == storeId).toList();
+    list.sort((a, b) => a.name.compareTo(b.name));
+    return list;
+  }
 }

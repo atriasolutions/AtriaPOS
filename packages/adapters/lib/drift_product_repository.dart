@@ -21,6 +21,7 @@ class DriftProductRepository implements ProductRepository {
             qrPayload: Value(product.qrPayload),
             stock: Value(product.stock),
             blockWhenOutOfStock: Value(product.blockWhenOutOfStock),
+            lowStockThreshold: Value(product.lowStockThreshold),
           ),
         );
   }
@@ -73,6 +74,15 @@ class DriftProductRepository implements ProductRepository {
         .toList();
   }
 
+  @override
+  Future<List<Product>> listByStore(StoreId storeId) async {
+    final rows = await (_db.select(_db.products)
+          ..where((t) => t.storeId.equals(storeId))
+          ..orderBy([(t) => OrderingTerm.asc(t.name)]))
+        .get();
+    return rows.map(_map).toList();
+  }
+
   Product _map(ProductRow row) => Product(
         id: row.id,
         storeId: row.storeId,
@@ -83,5 +93,6 @@ class DriftProductRepository implements ProductRepository {
         qrPayload: row.qrPayload,
         stock: row.stock,
         blockWhenOutOfStock: row.blockWhenOutOfStock,
+        lowStockThreshold: row.lowStockThreshold,
       );
 }

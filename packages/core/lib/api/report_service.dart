@@ -45,13 +45,15 @@ class ReportService {
     return ReportService._(
       GetDailySalesReport(sales, sessions),
       GetAuditTrail(sales, movements, products, users, sessions),
+      GetStockInsights(products, sales, sessions),
     );
   }
 
-  ReportService._(this._getDaily, this._getAudit);
+  ReportService._(this._getDaily, this._getAudit, this._getStockInsights);
 
   final GetDailySalesReport _getDaily;
   final GetAuditTrail _getAudit;
+  final GetStockInsights _getStockInsights;
 
   Future<ApiResult<DailySalesReportResponse>> getDailySales(
     StoreId storeId, {
@@ -136,6 +138,64 @@ class ReportService {
                 actorUserId: item.actorUserId,
                 summary: item.summary,
                 refId: item.refId,
+              ),
+          ],
+        ),
+        statusCode: 200,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on CredentialFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  Future<ApiResult<StockInsightsResponse>> getStockInsights(
+    StoreId storeId, {
+    String? asOf,
+    int? limit,
+  }) async {
+    try {
+      final asOfLocal =
+          asOf == null || asOf.trim().isEmpty ? null : parseCalendarDateYmd(asOf.trim());
+      final topLimit = limit ?? 10;
+      final insights = await _getStockInsights(
+        storeId,
+        asOfLocal: asOfLocal,
+        topLimit: topLimit,
+      );
+      return ApiSuccess(
+        StockInsightsResponse(
+          asOfDate: formatCalendarDateYmd(insights.asOfLocal),
+          periodDays: insights.periodDays,
+          defaultLowStockThreshold: insights.defaultLowStockThreshold,
+          lowStock: [
+            for (final item in insights.lowStock)
+              StockInsightsLowStockItemResponse(
+                productId: item.productId,
+                name: item.name,
+                stock: item.stock,
+                lowStockThreshold: item.lowStockThreshold,
+                salePriceClp: item.salePriceClp,
+              ),
+          ],
+          topSellers: [
+            for (final item in insights.topSellers)
+              StockInsightsTopSellerItemResponse(
+                productId: item.productId,
+                name: item.name,
+                unitsSold: item.unitsSold,
               ),
           ],
         ),

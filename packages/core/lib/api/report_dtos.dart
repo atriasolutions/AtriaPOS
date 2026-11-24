@@ -31,6 +31,50 @@ class AuditTrailResponse {
   final List<AuditTrailItemResponse> items;
 }
 
+class StockInsightsLowStockItemResponse {
+  const StockInsightsLowStockItemResponse({
+    required this.productId,
+    required this.name,
+    required this.stock,
+    required this.lowStockThreshold,
+    required this.salePriceClp,
+  });
+
+  final String productId;
+  final String name;
+  final int stock;
+  final int lowStockThreshold;
+  final int salePriceClp;
+}
+
+class StockInsightsTopSellerItemResponse {
+  const StockInsightsTopSellerItemResponse({
+    required this.productId,
+    required this.name,
+    required this.unitsSold,
+  });
+
+  final String productId;
+  final String name;
+  final int unitsSold;
+}
+
+class StockInsightsResponse {
+  const StockInsightsResponse({
+    required this.asOfDate,
+    required this.periodDays,
+    required this.defaultLowStockThreshold,
+    required this.lowStock,
+    required this.topSellers,
+  });
+
+  final String asOfDate;
+  final int periodDays;
+  final int defaultLowStockThreshold;
+  final List<StockInsightsLowStockItemResponse> lowStock;
+  final List<StockInsightsTopSellerItemResponse> topSellers;
+}
+
 class DailySalesReportResponse {
   const DailySalesReportResponse({
     required this.date,
