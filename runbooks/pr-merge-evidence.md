@@ -202,6 +202,15 @@ Estado actual: **MERGED**
 | Merge | **MERGED** → `main` `2f10165` |
 | Contenido | Acta/evidencia SLICE-49 |
 
+## SLICE-57 — Sin nombres propios (2026-11-24)
+
+| Resultado | Detalle |
+|-----------|---------|
+| PR | https://github.com/mmb21894-ux/atria-pos/pull/4 |
+| Merge | **MERGED** |
+| Contenido | DEC-045; `check-no-person-names.ps1`; CI; higiene evidencia/tests |
+| `ci-local.ps1` | Verde (gate + 119 core) |
+
 ## SLICE-56 — Identidad técnica (2026-11-24)
 
 | Resultado | Detalle |
