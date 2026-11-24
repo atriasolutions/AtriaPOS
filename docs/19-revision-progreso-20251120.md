@@ -11,7 +11,7 @@
 
 | Ítem | Esperado | Observado |
 |------|----------|-----------|
-| `origin/main` HEAD | Slices 44–49 docs integrados | `2f10165` ([PR #8](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/8)); código BLE via PR #7 `c5a1fda`; merge histórico `ddd071e` ([PR #5](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/5)) |
+| `origin/main` HEAD | Slices 52–54 revisión 1 | `248fbbb` ([PR #10](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/10)); histórico `39cb13e` (SLICE-51); tag `mvp-2026-11` → `ddd071e` |
 | Tag hito | `mvp-2026-11` publicado | Apunta a `ddd071e` (sin mover) |
 | `ci-local.ps1` | 114 + 25 + 27 + 1 | Verde SLICE-48/49/51 (`scanner_companion`) |
 | CI GitHub PR #6–#8 | SUCCESS | `test` verde pre-merge |
@@ -32,8 +32,9 @@
 | SLICE-49 | Integración `main` 47–48 + evidencia | CERRADO — [PR #8](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/8) MERGED |
 | SLICE-50 | Piloto BLE evidencia SC-011-BLE-01 | **ABIERTO** — prep/ci-local; guía [`ble-piloto-dia-cero.md`](../runbooks/ble-piloto-dia-cero.md); evidencia **PREPARADO** |
 | SLICE-51 | Acta backlog (piloto diferido) | CERRADO documental |
-| SLICE-52 | Central BLE Windows | CERRADO — rama `feat/slice-53-tienda-piloto-cierre` (incluye 52); merge `main` vía PR pendiente |
+| SLICE-52 | Central BLE Windows | CERRADO — [PR #10](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/10) MERGED → `main` `248fbbb` |
 | SLICE-53 | Piloto tienda demo fake | CERRADO — evidencia agregada **PARCIAL**; BLE pendiente |
+| SLICE-54 | Cierre revisión 1 | CERRADO — merge PR #10; acta §10; evidencia operador 2026-11-24 |
 
 ---
 
@@ -107,7 +108,7 @@
 |------|--------|
 | Demo fake (fecha/operador en evidencia) | CERRADO |
 | Evidencia agregada `tienda-piloto-evidencia` | **PARCIAL** (BLE no exigido en rev. 1) |
-| SLICE-52 / SLICE-53 en `origin/main` | _(actualizar post-merge con PR y HEAD)_ |
+| SLICE-52–54 en `origin/main` | **CERRADO** — [PR #10](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/10) → `248fbbb` |
 | SLICE-50 / SC-011-BLE-01 | **ABIERTO** |
 
 ### DoD revisión 1
@@ -115,7 +116,7 @@
 - [x] Piloto tienda núcleo exitoso (operador)
 - [x] SC-028-03 cerrado documental (evidencia PARCIAL)
 - [x] Fecha y operador en [`tienda-piloto-evidencia.md`](../runbooks/tienda-piloto-evidencia.md)
-- [ ] `origin/main` integra SLICE-52–54 _(completar al merge)_
+- [x] `origin/main` integra SLICE-52–54 (`248fbbb`, PR #10)
 - [x] Revisión 2 explícita: SLICE-50 BLE + smoke SC-052-03
 
 ---
