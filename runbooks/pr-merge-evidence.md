@@ -202,6 +202,17 @@ Estado actual: **MERGED**
 | Merge | **MERGED** → `main` `2f10165` |
 | Contenido | Acta/evidencia SLICE-49 |
 
+## SLICE-52–54 — Revisión 1 piloto (2026-11-24)
+
+| Resultado | Detalle |
+|-----------|---------|
+| PR | https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/10 |
+| Merge | **MERGED** → `main` `248fbbb` |
+| Contenido | BLE Windows (52), piloto tienda (53), cierre rev. 1 (54) |
+| `ci-local.ps1` | Verde pre-push |
+| CI GitHub | `test` pass (PR #10) |
+| Fuera de alcance | SLICE-50 piloto BLE; smoke SC-052-03 |
+
 ## SLICE-51 — Acta backlog (2026-11-20)
 
 | Resultado | Detalle |
