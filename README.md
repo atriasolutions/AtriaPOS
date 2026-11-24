@@ -32,7 +32,7 @@ Detalle por paquete: [`runbooks/merge-mvp-hito.md`](runbooks/merge-mvp-hito.md).
 
 ## Tienda piloto
 
-Ruta operativa unificada (demo fake, BLE, SII, PR opcional): [`runbooks/tienda-piloto-indice.md`](runbooks/tienda-piloto-indice.md). Evidencia: [`runbooks/tienda-piloto-evidencia.md`](runbooks/tienda-piloto-evidencia.md).
+Ruta operativa unificada (demo fake, BLE, SII, PR opcional): [`runbooks/tienda-piloto-indice.md`](runbooks/tienda-piloto-indice.md). Evidencia: [`runbooks/tienda-piloto-evidencia.md`](runbooks/tienda-piloto-evidencia.md) (**PARCIAL** — demo OK; BLE SLICE-50 pendiente).
 
 ## Estado
 

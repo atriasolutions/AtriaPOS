@@ -44,4 +44,6 @@ Guía en app: Operación → Certificado SII (`certificate_pilot_guide`).
 
 ## 6. Cierre tienda piloto
 
-Completar [`tienda-piloto-evidencia.md`](tienda-piloto-evidencia.md) y las evidencias hijas que el negocio exija (BLE / SII).
+Demo fake validada en operación (SLICE-53): evidencia agregada en **PARCIAL** — [`tienda-piloto-evidencia.md`](tienda-piloto-evidencia.md).
+
+Pendiente para **CERRADO** global: piloto BLE formal (SLICE-50) si el negocio lo exige; completar filas hijas en la evidencia agregada.

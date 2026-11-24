@@ -54,6 +54,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-026-02 | — | — | — | — | Kit PR — `pr-body-mvp.md`, README/reporte |
 | SC-028-01 | — | — | — | — | Docs — `runbooks/tienda-piloto-indice.md` |
 | SC-028-02 | — | — | — | — | Docs — `runbooks/tienda-piloto-evidencia.md` |
+| SC-028-03 | RF-030/031 | — | — | — | Manual — demo fake tienda CERRADO (SLICE-53); evidencia **PARCIAL** global |
 | SC-029-01 | — | — | — | — | Docs — título PR 0–28 en `merge-mvp-hito.md` |
 | SC-029-02 | — | — | — | — | Docs — `runbooks/pr-merge-evidence.md` |
 | SC-030-00 | — | — | — | — | Docs — `github-remote-setup.md` |

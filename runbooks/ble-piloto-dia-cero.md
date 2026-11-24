@@ -1,6 +1,6 @@
 # Día cero — piloto BLE (antes de tocar hardware)
 
-SLICE-48 deja el piloto **a un paso** de la sesión en tienda. SC-011-BLE-01 sigue manual hasta evidencia **CERRADO**.
+SLICE-48 deja el piloto **a un paso** de la sesión en tienda. SC-011-BLE-01 sigue manual hasta evidencia **CERRADO**. Requiere código con **SLICE-52** en `main`; piloto formal = **SLICE-50** (no confundir con smoke SC-052-03).
 
 Índice maestro: [`ble-piloto-indice.md`](ble-piloto-indice.md). Pareo detallado: [`ble-scanner-pairing.md`](ble-scanner-pairing.md).
 
