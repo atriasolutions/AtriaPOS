@@ -32,6 +32,8 @@
 | SLICE-49 | Integración `main` 47–48 + evidencia | CERRADO — [PR #8](https://github.com/mmb21894-ux/pos-barrio-segmento-d/pull/8) MERGED |
 | SLICE-50 | Piloto BLE evidencia SC-011-BLE-01 | **ABIERTO** — prep/ci-local; guía [`ble-piloto-dia-cero.md`](../runbooks/ble-piloto-dia-cero.md); evidencia **PREPARADO** |
 | SLICE-51 | Acta backlog (piloto diferido) | CERRADO documental |
+| SLICE-52 | Central BLE Windows | CERRADO — rama `feat/slice-53-tienda-piloto-cierre` (incluye 52); merge `main` vía PR pendiente |
+| SLICE-53 | Piloto tienda demo fake | CERRADO — evidencia agregada **PARCIAL**; BLE pendiente |
 
 ---
 
@@ -40,6 +42,7 @@
 | ID | Estado | Acción |
 |----|--------|--------|
 | SC-011-BLE-01 | ⬜ | **SLICE-50 ABIERTO** — piloto hardware diferido; [`ble-scanner-pilot-evidence.md`](../runbooks/ble-scanner-pilot-evidence.md) **PREPARADO** |
+| SC-028-03 | CERRADO | SLICE-53 — demo fake tienda; [`tienda-piloto-evidencia.md`](../runbooks/tienda-piloto-evidencia.md) **PARCIAL** |
 | SC-080-03 | CERRADO | SLICE-37 |
 | Gate 2 doc 17 | 🟡 | Parcial; ver § Retroactivo SLICE-45 |
 | SLICE-9 / SII prod | N/A | Plan 10 |
@@ -68,9 +71,10 @@
 
 ## 6. Cola de trabajo sugerida
 
-1. **SLICE-50** — piloto BLE en hardware cuando disponible → [`ble-piloto-dia-cero.md`](../runbooks/ble-piloto-dia-cero.md) → evidencia **CERRADO**.
-2. Gate 2 completo o excepciones en [`11-riesgos-y-supuestos.md`](11-riesgos-y-supuestos.md) (candidato SLICE-52).
-3. Features negocio (impresión, backup, etc.) — slice bajo demanda.
+1. **SLICE-50** — piloto BLE en hardware cuando disponible → [`ble-piloto-dia-cero.md`](../runbooks/ble-piloto-dia-cero.md) → evidencia **CERRADO** (requiere `main` con SLICE-52).
+2. Smoke SC-052-03 en hardware (aceptance SLICE-52).
+3. Gate 2 completo o excepciones en [`11-riesgos-y-supuestos.md`](11-riesgos-y-supuestos.md).
+4. Features negocio (impresión, backup, etc.) — slice bajo demanda.
 
 ---
 
@@ -78,10 +82,41 @@
 
 | ID | Estado | Disparador |
 |----|--------|------------|
-| SLICE-50 | ABIERTO | Hardware listo; operador cierra SC-011-BLE-01 |
+| SLICE-50 | ABIERTO | Hardware; operador cierra SC-011-BLE-01 |
 | SLICE-51 | CERRADO | Acta/backlog al día con `main` `2f10165` |
-| SLICE-52 | Propuesto | Gate 2 formal o feature negocio (elegir al cerrar 50 o en paralelo) |
+| SLICE-52 | CERRADO | Central BLE Windows; PR a `main` pendiente |
+| SLICE-53 | CERRADO | Demo tienda fake; evidencia **PARCIAL** |
 | SLICE-9 / SII prod | N/A | Plan 10 |
+
+---
+
+## 9. Revisión 2026-11-24 (SLICE-52 / SLICE-53)
+
+- Piloto tienda núcleo (DTE fake) **exitoso** en operación — registrado en [`tienda-piloto-evidencia.md`](../runbooks/tienda-piloto-evidencia.md) **PARCIAL**.
+- SLICE-52: fix central BLE Windows en rama de entrega; smoke hardware **pendiente**.
+- SLICE-50 / SC-011-BLE-01 **sin cierre** hasta sesión BLE formal.
+- Merge a `origin/main`: PR con rama `feat/slice-53-tienda-piloto-cierre` (SLICE-52–54) — ver §10.
+
+---
+
+## 10. Cierre revisión 1 (SLICE-54)
+
+**Objetivo:** núcleo MVP tienda (DTE fake) validado en piloto; código 52–53 integrado en `main`; Bluetooth formal diferido a revisión 2 (SLICE-50).
+
+| Ítem | Estado |
+|------|--------|
+| Demo fake (fecha/operador en evidencia) | CERRADO |
+| Evidencia agregada `tienda-piloto-evidencia` | **PARCIAL** (BLE no exigido en rev. 1) |
+| SLICE-52 / SLICE-53 en `origin/main` | _(actualizar post-merge con PR y HEAD)_ |
+| SLICE-50 / SC-011-BLE-01 | **ABIERTO** |
+
+### DoD revisión 1
+
+- [x] Piloto tienda núcleo exitoso (operador)
+- [x] SC-028-03 cerrado documental (evidencia PARCIAL)
+- [x] Fecha y operador en [`tienda-piloto-evidencia.md`](../runbooks/tienda-piloto-evidencia.md)
+- [ ] `origin/main` integra SLICE-52–54 _(completar al merge)_
+- [x] Revisión 2 explícita: SLICE-50 BLE + smoke SC-052-03
 
 ---
 

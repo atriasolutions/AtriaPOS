@@ -11,15 +11,14 @@ class CompanionBlePeripheral {
 
   Future<void> start(String pairingCode) async {
     await _ble.requestPermission();
-    final name = ScannerBleConstants.deviceNameForPairing(pairingCode);
     final serviceUuid = ScannerBleConstants.serviceUuid;
-  final charUuid = ScannerBleConstants.scanCharacteristicUuid;
+    final charUuid = ScannerBleConstants.scanCharacteristicUuid;
 
+    // Android: no meter UUID + nombre del teléfono en un solo paquete (ADVERTISE_FAILED_DATA_TOO_LARGE).
     await _ble.start(
-      advertiseData: AndroidAdvertiseData(
-        serviceUuid: serviceUuid,
-        localName: name,
-        includeDeviceName: true,
+      advertiseData: const AndroidAdvertiseData(
+        serviceUuid: ScannerBleConstants.serviceUuid,
+        includeDeviceName: false,
       ),
       gattServer: GattServerSettings(
         serviceUuid: serviceUuid,
@@ -27,8 +26,13 @@ class CompanionBlePeripheral {
           GattCharacteristic.notify(charUuid),
         ],
       ),
-      androidSettings: const AndroidAdvertiseSettings(
-        advertiseSettings: AdvertiseSettings(connectable: true),
+      androidSettings: AndroidAdvertiseSettings(
+        advertiseSettings: const AdvertiseSettings(connectable: true),
+        advertiseResponseData: AndroidAdvertiseData(
+          serviceDataUuid: serviceUuid,
+          serviceData:
+              ScannerBleConstants.pairingAdvertiseServiceData(pairingCode),
+        ),
       ),
     );
     _advertising = true;
