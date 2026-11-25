@@ -143,6 +143,20 @@ Respuestas Gate A: [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md). G
 | 104 | SLICE-104 | R4-B | Deprecar BLE default | RNF-041 | SC-104-* ✅ |
 | 105 | SLICE-105 | Cierre | Cierre bloque B | — | SC-105-* ✅ |
 
+### Companion HTTPS (post Bloque B)
+
+Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se abre en Plan y solo pasa a Agent tras confirmación.
+
+| # | Slice | Fase | Resumen | RF | DoD resumido |
+|---|-------|------|---------|-----|--------------|
+| 106 | SLICE-106 | Docs | Decisiones HTTPS | RF-098 | DEC-059…062 ✅ |
+| 107 | SLICE-107 | Adapters | Enlace corto `/c/{codigo}` | RF-098 | ⬜ Plan |
+| 108 | SLICE-108 | PWA | Pantalla simple | RF-098 | ⬜ Plan |
+| 109 | SLICE-109 | Adapters | HTTPS + CA instalable | RF-098 | ⬜ Plan |
+| 110 | SLICE-110 | PWA | Cámara o manual | RF-098 | ⬜ Plan |
+| 111 | SLICE-111 | POS | Estado celular conectado | RF-098 | ⬜ Plan |
+| 112 | SLICE-112 | E2E | Vender, ingreso y conteo | RF-098 | ⬜ Plan |
+
 ## Orden TDD sugerido (semana orientativa)
 
 | Semana | Slice | Entregable demo |

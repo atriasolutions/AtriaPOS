@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-106: Decisiones companion HTTPS — DEC-059…062, doc 23c, slices 107–112 pendientes de Plan.
 - SLICE-105: Cierre Bloque B companion WiFi — `ci-local` + `companion_web`, acta §15, SC-105.
 - SLICE-96…104: Companion LAN — pairing core, `CompanionLanServer`, QR POS, `companion_web` PWA, e2e vender/ingreso/conteo, BLE fuera del default Windows.
 - SLICE-95: Gate R4-B companion web WiFi — RF-098, DEC-056…058, doc 22/23b, plan SLICE-95…105.

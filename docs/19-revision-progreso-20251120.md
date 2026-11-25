@@ -230,7 +230,8 @@
 | SLICE-105 cierre Bloque B | CERRADO — `slice_105_cierre_bloque_b.md` |
 | BLE companion piloto hardware | **LEGACY** (opt-in `lanCompanionDefault=false`) |
 
-**Cierre Bloque B:** 2026-11-25 — SLICE-105; acceptance `slice_105_cierre_bloque_b.md`.
+**Cierre Bloque B:** 2026-11-25 — SLICE-105; acceptance `slice_105_cierre_bloque_b.md`.  
+**Tanda HTTPS:** SLICE-106 guarda DEC-059…062 ([23c](23c-companion-https-respuestas.md)). Slices 107–112 pendientes, cada uno en Plan antes de Agent.
 
 ### DoD cierre Bloque B (SLICE-105)
 

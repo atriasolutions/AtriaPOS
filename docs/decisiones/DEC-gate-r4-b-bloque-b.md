@@ -8,7 +8,7 @@
 
 - Companion **PWA Flutter web** (`apps/companion_web`) accede al POS por **WiFi LAN**.
 - Servidor **HTTP + WebSocket embebido** en `pos_app` (misma máquina caja), binding `0.0.0.0`.
-- **HTTP** en red de confianza (sin TLS en MVP); puerto default **8765**, configurable por tienda **[INFERIDO]**.
+- **HTTP** en red de confianza (sin TLS en MVP Bloque B); puerto default **8765**. **Enmendado por DEC-059:** la tanda 106+ usa HTTPS local en el mismo puerto.
 - **Reemplazo** progresivo de `apps/scanner_companion` BLE; sin nuevas features BLE.
 
 ## Impacto

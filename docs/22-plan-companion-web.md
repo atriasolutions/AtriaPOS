@@ -1,8 +1,8 @@
 # 22 — Revisión siguiente · Bloque B — Companion web
 
-**Estado:** **cerrado** — Bloque B (SLICE-95…105) ✅ 2026-11-25.  
+**Estado:** Bloque B (SLICE-95…105) ✅ en HTTP. Tanda siguiente **106–112** (HTTPS) en [23c](23c-companion-https-respuestas.md).  
 **Prerrequisito:** Bloque A cerrado (SLICE-94).  
-**Gate:** [23b-gate-r4-b-respuestas.md](23b-gate-r4-b-respuestas.md) · [DEC-056…058](decisiones/DEC-gate-r4-b-bloque-b.md).
+**Gate:** [23b-gate-r4-b-respuestas.md](23b-gate-r4-b-respuestas.md) · [DEC-056…058](decisiones/DEC-gate-r4-b-bloque-b.md) · enmienda [DEC-059…062](decisiones/DEC-companion-https.md).
 
 ---
 
@@ -52,4 +52,4 @@ flowchart LR
 
 ## Confirmación
 
-Gate R4-B cerrado 2026-11-25. Implementación slices 96+ con TDD vertical.
+Gate R4-B cerrado 2026-11-25 en HTTP. El piloto en celular dejó la cámara bloqueada y el QR largo cortado. La tanda 106–112 (HTTPS, enlace corto, pantalla simple, tres flujos) está decidida en doc 23c y no se implementa en SLICE-106.
