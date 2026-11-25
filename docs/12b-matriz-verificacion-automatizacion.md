@@ -54,6 +54,10 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-086-05 | RF-085 | — | — | ✅ | idempotency |
 | SC-086-06 | RF-085 | — | — | ✅ | cajero 403 |
 | SC-086-07 | RF-085 | — | — | ✅ | refs RECEPCION |
+| SC-087-UI-01 | RF-085 | — | — | ✅ | `stock_receipt_scan_ui_e2e_test.dart` |
+| SC-087-UI-02 | RF-085 | — | — | ✅ | regresión manual |
+| SC-087-UI-03 | RF-085 | — | — | ✅ | crear producto barcode |
+| SC-087-UI-04 | RF-085 | — | — | ✅ | confirm sin líneas |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

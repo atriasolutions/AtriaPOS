@@ -392,6 +392,8 @@ Referencia guía/lote: 1–32 caracteres, `A–Z`, `0–9`, `-`, `_`, sin `ñ`.
 
 **SLICE-73 (UI RF-085):** `StockReceiptScreen` en menú Operación; tests `SC-085-UI-01`…`03` en `stock_receipt_ui_e2e_test.dart`, `stock_menu_cajero_ui_test.dart`.
 
+**SLICE-87 (UI escaneo RF-085):** pestañas Manual / Por escaneo en `StockReceiptScreen`; `scanSessionService` + `ScannerIngress`; tests `SC-087-UI-*` en `stock_receipt_scan_ui_e2e_test.dart`.
+
 ---
 
 ### `POST /v0/stores/{storeId}/scan-sessions` (RF-094, SLICE-85)

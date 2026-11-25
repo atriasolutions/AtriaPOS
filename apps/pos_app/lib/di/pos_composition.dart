@@ -31,6 +31,7 @@ class PosComposition {
     required this.shiftService,
     required this.saleService,
     required this.inventoryService,
+    required this.scanSessionService,
     required this.dteService,
     required this.fiscalService,
     required this.collaboratorService,
@@ -58,6 +59,7 @@ class PosComposition {
   final ShiftService shiftService;
   final SaleService saleService;
   final InventoryService inventoryService;
+  final ScanSessionService scanSessionService;
   final DteService dteService;
   final FiscalService fiscalService;
   final CollaboratorService collaboratorService;
@@ -152,6 +154,7 @@ class PosComposition {
     final trustedClock = trustedClockOverride ??
         NtpShoaTrustedClock(MutableTrustedClock(), clockPersist);
     final scannerIngress = scannerIngressOverride ?? _defaultScannerIngress();
+    final scanSessions = InMemoryScanSessionRepository();
 
     return PosComposition._(
       database: db,
@@ -196,6 +199,12 @@ class PosComposition {
         shiftRepository: shifts,
         saleRepository: sales,
         inventoryCloseRepository: DriftInventoryCloseRepository(db),
+        sessionProvider: sessions,
+      ),
+      scanSessionService: ScanSessionService(
+        scanSessions: scanSessions,
+        products: products,
+        stockMovements: movements,
         sessionProvider: sessions,
       ),
       dteService: DteService(

@@ -6,9 +6,14 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../di/pos_composition.dart';
 
 class ProductCreateScreen extends StatefulWidget {
-  const ProductCreateScreen({super.key, required this.composition});
+  const ProductCreateScreen({
+    super.key,
+    required this.composition,
+    this.initialBarcode,
+  });
 
   final PosComposition composition;
+  final String? initialBarcode;
 
   @override
   State<ProductCreateScreen> createState() => _ProductCreateScreenState();
@@ -21,6 +26,15 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
   final _barcodeController = TextEditingController();
   bool _submitting = false;
   String? _createdQrPayload;
+
+  @override
+  void initState() {
+    super.initState();
+    final initial = widget.initialBarcode?.trim();
+    if (initial != null && initial.isNotEmpty) {
+      _barcodeController.text = initial;
+    }
+  }
 
   @override
   void dispose() {
