@@ -16,3 +16,11 @@ Primera conexión HTTPS al POS (`https://{ip}:8765/c/...`).
 - El PEM publicado coincide con el certificado del servidor en esta versión MVP.
 - Si la IP cambia (USB ↔ Wi‑Fi), escanee el QR nuevo.
 - Puerto por defecto: **8765**.
+
+## Cámara (SLICE-110, piloto manual)
+
+Requiere `flutter build web` en `apps/companion_web` antes de servir la PWA.
+
+| Fecha | Dispositivo | HTTPS + CA | Cámara escanea | Notas |
+|-------|-------------|------------|----------------|-------|
+| — | — | — | **PREPARADO** | Si FALLA, operar con ingreso manual (DEC-061) |

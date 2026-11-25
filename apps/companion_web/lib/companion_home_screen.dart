@@ -4,9 +4,15 @@ import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'companion_camera_panel.dart';
 import 'companion_client.dart';
 import 'companion_home_presenter.dart';
 import 'companion_mode_labels.dart';
+
+typedef CompanionCameraBuilder = Widget Function({
+  required bool enabled,
+  required Future<void> Function(String code) onCode,
+});
 
 typedef CompanionPairFn = Future<CompanionClient> Function(
   CompanionLaunchParams params,
@@ -28,6 +34,7 @@ class CompanionHomeScreen extends StatefulWidget {
     super.key,
     this.launchUri,
     this.pairFn,
+    this.cameraBuilder,
   });
 
   /// Solo tests: simula la URL tras el redirect `/companion/?…`.
@@ -35,6 +42,9 @@ class CompanionHomeScreen extends StatefulWidget {
 
   /// Solo tests: evita red real al emparejar.
   final CompanionPairFn? pairFn;
+
+  /// Solo tests: evita `MobileScanner` en widget tests.
+  final CompanionCameraBuilder? cameraBuilder;
 
   @override
   State<CompanionHomeScreen> createState() => _CompanionHomeScreenState();
@@ -91,17 +101,32 @@ class _CompanionHomeScreenState extends State<CompanionHomeScreen> {
     }
   }
 
-  Future<void> _sendCode() async {
+  Future<void> _submitScanCode(String code) async {
     final client = _client;
     if (client == null) return;
-    final code = _codeController.text.trim();
-    if (code.isEmpty) return;
-    await client.sendScan(code);
+    final trimmed = code.trim();
+    if (trimmed.isEmpty) return;
+    await client.sendScan(trimmed);
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Enviado: $code')),
+      SnackBar(content: Text('Enviado: $trimmed')),
     );
-    _codeController.clear();
+    if (_codeController.text.trim() == trimmed) {
+      _codeController.clear();
+    }
+  }
+
+  Future<void> _sendCode() async {
+    await _submitScanCode(_codeController.text);
+  }
+
+  Widget _buildCamera({required bool enabled}) {
+    final onCode = _submitScanCode;
+    final build = widget.cameraBuilder;
+    if (build != null) {
+      return build(enabled: enabled, onCode: onCode);
+    }
+    return CompanionCameraPanel(enabled: enabled, onCode: onCode);
   }
 
   @override
@@ -118,6 +143,7 @@ class _CompanionHomeScreenState extends State<CompanionHomeScreen> {
     final status = companionStatusMessage(_phase, mode: mode);
     final showScan = shouldShowScanForm(_phase);
     final showRetry = shouldShowPairButton(_phase);
+    final showCamera = shouldShowCameraBlock(_phase);
 
     return Scaffold(
       appBar: AppBar(
@@ -151,6 +177,10 @@ class _CompanionHomeScreenState extends State<CompanionHomeScreen> {
                 onPressed: _connect,
                 child: const Text('Reintentar'),
               ),
+            ],
+            if (showCamera) ...[
+              const SizedBox(height: 16),
+              _buildCamera(enabled: _client != null),
             ],
             if (showScan) ...[
               const SizedBox(height: 24),

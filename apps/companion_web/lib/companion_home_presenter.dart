@@ -17,7 +17,8 @@ bool shouldShowPairButton(CompanionSessionPhase phase) =>
 
 bool shouldShowStoreId(CompanionSessionPhase phase) => false;
 
-bool shouldShowCameraBlock(CompanionSessionPhase phase) => false;
+bool shouldShowCameraBlock(CompanionSessionPhase phase) =>
+    phase == CompanionSessionPhase.connected;
 
 String companionStatusMessage(
   CompanionSessionPhase phase, {

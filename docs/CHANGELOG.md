@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-110: PWA companion cámara opcional — `mobile_scanner`, mismo `sendScan`, dedup 400 ms, degradación sin visor vacío.
 - SLICE-109: Companion LAN HTTPS — TLS local, CA descargable, IP activa en QR, puerto 8765.
 - SLICE-108: PWA companion pantalla simple — auto-pair, modo en español, ingreso manual sin cámara.
 - SLICE-107: Enlace corto companion QR — `GET /c/{code}` → 302 PWA, `ResolveCompanionShortLink`, QR sin query.

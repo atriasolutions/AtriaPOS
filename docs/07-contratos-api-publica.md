@@ -1151,11 +1151,11 @@ Oferta inexistente o expirada → **404** (texto breve en español).
 
 **Tests:** `SC-096-*`, `SC-107-*`, `companion_lan_server_test.dart`, e2e SLICE-99–101.
 
-#### PWA `/companion/` (SLICE-108, DEC-061)
+#### PWA `/companion/` (SLICE-108, SLICE-110, DEC-061)
 
-Tras el redirect con query de emparejamiento: **auto-pair**, modo en español, sin UUID de tienda en pantalla, **sin visor de cámara** (ingreso manual prominente; reintento solo si falla la conexión).
+Tras el redirect con query de emparejamiento: **auto-pair**, modo en español, sin UUID de tienda en pantalla. Con sesión activa: **visor de cámara opcional** (HTTPS) que envía el mismo mensaje WS `scan` que el ingreso manual; si la cámara falla, sin caja vacía — mensaje breve y campo manual obligatorio. Reintento de emparejamiento solo si falla la conexión.
 
-**Tests:** `SC-108-*` en `apps/companion_web/test/`.
+**Tests:** `SC-108-*`, `SC-110-*` en `apps/companion_web/test/`.
 
 #### Oferta de emparejamiento (in-process, POS)
 

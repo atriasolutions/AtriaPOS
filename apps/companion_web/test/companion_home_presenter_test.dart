@@ -22,10 +22,17 @@ void main() {
       );
     });
 
-    test('nunca muestra bloque de cámara en slice 108', () {
-      for (final phase in CompanionSessionPhase.values) {
-        expect(shouldShowCameraBlock(phase), isFalse);
-      }
+    test('SC-110-01 cámara solo si conectado', () {
+      expect(shouldShowCameraBlock(CompanionSessionPhase.connected), isTrue);
+    });
+
+    test('SC-110-02 sin cámara antes de conectar o tras fallo', () {
+      expect(shouldShowCameraBlock(CompanionSessionPhase.awaitingQr), isFalse);
+      expect(shouldShowCameraBlock(CompanionSessionPhase.pairing), isFalse);
+      expect(
+        shouldShowCameraBlock(CompanionSessionPhase.connectionFailed),
+        isFalse,
+      );
     });
 
     test('nunca muestra UUID de tienda', () {

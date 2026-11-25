@@ -31,6 +31,6 @@ Entonces mensaje para escanear QR del POS y sin formulario de escaneo
 
 `apps/companion_web/test/` — SC-108-01…06
 
-## Fuera de alcance
+## Fuera de alcance (en 108)
 
-Cámara (110), HTTPS (109).
+Cámara (véase SLICE-110), HTTPS (véase SLICE-109).
