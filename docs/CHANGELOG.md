@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-117…121: App Android `scanner_companion` — enlace `/c/`, pair, WebSocket, pantalla Conectar, cámara con dedup, integración y runbook APK.
 - SLICE-116: DEC-063 companion Android LAN, cámara nativa, sin CA en el teléfono, mismo WebSocket.
 - SLICE-115: Smoke companion `verify-companion-lan.ps1`, runbook piloto HTTPS alineado, acta cierre piloto 106–115.
 - SLICE-114: TLS companion con IPv4 del QR al arranque, URL instalar CA en diálogo QR, aviso si IP ≠ certificado guardado.
