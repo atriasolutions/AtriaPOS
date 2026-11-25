@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-116: DEC-063 companion Android LAN, cámara nativa, sin CA en el teléfono, mismo WebSocket.
 - SLICE-115: Smoke companion `verify-companion-lan.ps1`, runbook piloto HTTPS alineado, acta cierre piloto 106–115.
 - SLICE-114: TLS companion con IPv4 del QR al arranque, URL instalar CA en diálogo QR, aviso si IP ≠ certificado guardado.
 - SLICE-113: Root PWA válido — `COMPANION_WEB_ROOT` exige `index.html`, fallback a build detectado, diálogo QR bloqueado sin PWA.

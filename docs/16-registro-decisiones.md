@@ -68,6 +68,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-060 | P0 | QR con enlace corto `/c/{codigo}` | ✅ | [Companion HTTPS](decisiones/DEC-companion-https.md) | SLICE-107 |
 | DEC-061 | P0 | Cámara opcional; manual si falla | ✅ | [Companion HTTPS](decisiones/DEC-companion-https.md) | SLICE-110 |
 | DEC-062 | P1 | USB y Wi-Fi, misma IP activa | ✅ | [Companion HTTPS](decisiones/DEC-companion-https.md) | SLICE-109 |
+| DEC-063 | P0 | App Android LAN, cámara nativa, sin CA en el teléfono | ✅ | [Companion Android](decisiones/DEC-companion-android.md) | SLICE-116 |
 
 ---
 

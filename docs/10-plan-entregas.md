@@ -159,6 +159,12 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 113 | SLICE-113 | POS | Root PWA válido + QR bloqueado | RF-098 | SC-113-* ✅ |
 | 114 | SLICE-114 | POS | TLS IP del QR + hint CA | RF-098 | SC-114-* ✅ |
 | 115 | SLICE-115 | Ops | Smoke PC + acta piloto | RF-098 | SC-115-* ✅ |
+| 116 | SLICE-116 | Docs | DEC app Android LAN | RF-098 | DEC-063 ✅ |
+| 117 | SLICE-117 | App | Parser enlace `/c/{codigo}` | RF-098 | SC-117-* |
+| 118 | SLICE-118 | App | Cliente pair + WebSocket | RF-098 | SC-118-* |
+| 119 | SLICE-119 | App | Pantalla Conectar LAN | RF-098 | SC-119-* |
+| 120 | SLICE-120 | App | Cámara de productos + dedup | RF-098 | SC-120-* |
+| 121 | SLICE-121 | App | Integración servidor + APK | RF-098 | SC-121-* |
 
 ## Orden TDD sugerido (semana orientativa)
 
