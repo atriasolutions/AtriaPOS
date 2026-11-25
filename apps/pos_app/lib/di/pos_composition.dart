@@ -1,4 +1,4 @@
-import 'dart:io' show InternetAddress, Platform;
+import 'dart:io' show File, InternetAddress, Platform;
 
 import 'package:adapters/adapters.dart';
 import 'package:core/api/api.dart';
@@ -7,6 +7,7 @@ import 'package:core/domain/domain.dart';
 import 'package:core/atria_pos_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../config/companion_lan_config.dart';
 import '../config/store_config.dart';
 import '../scanner/ble_central_scanner_ingress.dart';
 import '../scanner/lan_scanner_ingress.dart';
@@ -79,8 +80,11 @@ class PosComposition {
   /// Companion LAN como escáner por defecto en Windows (SLICE-104).
   static bool lanCompanionDefault = true;
 
-  /// Host anunciado en QR (tests: 127.0.0.1).
-  static String companionAdvertisedHost = '127.0.0.1';
+  /// HTTPS en companion LAN (DEC-059); tests usan `false`.
+  static bool lanCompanionTls = true;
+
+  /// Host anunciado en QR; vacío = autodetectar en `prepareCompanionQr`.
+  static String companionAdvertisedHost = '';
 
   /// Cache del identificador de tienda activa (MVP una tienda).
   String? activeStoreId;
@@ -119,7 +123,10 @@ class PosComposition {
 
   factory PosComposition.file(String path) {
     final db = openPosDatabaseFile(path);
-    return PosComposition._fromDatabase(db);
+    return PosComposition._fromDatabase(
+      db,
+      companionDataDir: File(path).parent.path,
+    );
   }
 
   factory PosComposition.fromDatabase(AppDatabase db) =>
@@ -131,6 +138,7 @@ class PosComposition {
     CertificateStore? certificateStoreOverride,
     ScannerIngress? scannerIngressOverride,
     NtpShoaTrustedClock? trustedClockOverride,
+    String? companionDataDir,
   }) {
     final storeRepo = DriftStoreRepository(db);
     final carts = InMemoryCartRepository();
@@ -175,10 +183,9 @@ class PosComposition {
     if (scannerIngressOverride != null) {
       scannerIngress = scannerIngressOverride;
     } else if (_useLanCompanionDefault()) {
-      companionLanServer = CompanionLanServer(
-        companionService: companionService,
-        host: InternetAddress.loopbackIPv4.address,
-        port: 0,
+      companionLanServer = _createCompanionLanServer(
+        companionService,
+        companionDataDir,
       );
       scannerIngress = LanScannerIngress(companionLanServer.scans);
     } else {
@@ -286,9 +293,14 @@ class PosComposition {
       CreateCompanionPairingOfferInput(storeId: storeId, mode: mode),
     );
     final port = server.boundPort ?? CompanionLanConstants.defaultPort;
+    final host = companionAdvertisedHost.trim().isNotEmpty
+        ? companionAdvertisedHost.trim()
+        : await CompanionLanConfig.resolveAdvertisedHost();
+    companionAdvertisedHost = host;
+    final scheme = server.usesTls ? 'https' : 'http';
     final base = Uri(
-      scheme: 'http',
-      host: companionAdvertisedHost,
+      scheme: scheme,
+      host: host,
       port: port,
     );
     final launchUrl = buildCompanionLaunchUrl(
@@ -304,6 +316,34 @@ class PosComposition {
 
   static bool _useLanCompanionDefault() {
     return !kIsWeb && Platform.isWindows && lanCompanionDefault;
+  }
+
+  static CompanionLanServer _createCompanionLanServer(
+    CompanionService service,
+    String? dataDir,
+  ) {
+    if (!lanCompanionTls) {
+      return CompanionLanServer(
+        companionService: service,
+        host: InternetAddress.loopbackIPv4.address,
+        port: 0,
+      );
+    }
+    final material = dataDir == null
+        ? CompanionLanTlsMaterial.forTest()
+        : CompanionLanCertStore(dataDir)
+            .tlsMaterialForServerIpSync(InternetAddress.loopbackIPv4.address);
+    final port = CompanionLanConfig.lanPort > 0
+        ? CompanionLanConfig.lanPort
+        : CompanionLanConstants.defaultPort;
+    return CompanionLanServer(
+      companionService: service,
+      host: CompanionLanConfig.bindHost,
+      port: port,
+      staticRoot: CompanionLanConfig.resolveCompanionWebRoot(),
+      securityContext: material.securityContext,
+      caPem: material.caPem,
+    );
   }
 
   Future<void> bootstrapClock() async {

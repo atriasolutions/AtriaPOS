@@ -58,4 +58,12 @@ void main() {
     expect(url, 'http://192.168.1.1:8765/c/A7K9M2');
     expect(url.contains('storeId'), isFalse);
   });
+
+  test('SC-109-07 URL corta HTTPS', () {
+    final url = buildCompanionShortLinkUrl(
+      base: Uri.parse('https://10.0.0.5:8765'),
+      pairingCode: 'A7K9M2',
+    );
+    expect(url, 'https://10.0.0.5:8765/c/A7K9M2');
+  });
 }

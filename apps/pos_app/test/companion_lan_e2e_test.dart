@@ -11,6 +11,11 @@ import 'package:pos_app/scanner/lan_scanner_ingress.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 void main() {
+  setUpAll(() {
+    PosComposition.lanCompanionTls = false;
+    PosComposition.companionAdvertisedHost = '127.0.0.1';
+  });
+
   test('SC-099-01 prepareCompanionQr inicia servidor', () async {
     final composition = PosComposition.memory();
     try {

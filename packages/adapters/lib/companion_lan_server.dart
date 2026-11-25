@@ -18,12 +18,23 @@ class CompanionLanServer {
     this.host = '0.0.0.0',
     this.port = CompanionLanConstants.defaultPort,
     this.staticRoot,
+    this.securityContext,
+    this.caPem,
   });
 
   final CompanionService companionService;
   final String host;
   final int port;
   final Directory? staticRoot;
+  final SecurityContext? securityContext;
+  final String? caPem;
+
+  /// Ruta pública de la CA para instalación en el celular (DEC-059).
+  static const caDownloadPath = '/companion/atria-ca.pem';
+
+  static const caInstallHelpPath = '/companion/instalar-certificado';
+
+  bool get usesTls => securityContext != null;
 
   HttpServer? _httpServer;
   final StreamController<String> _scans = StreamController<String>.broadcast();
@@ -37,7 +48,11 @@ class CompanionLanServer {
 
   Uri get baseUri {
     final p = boundPort ?? port;
-    return Uri(scheme: 'http', host: '127.0.0.1', port: p);
+    return Uri(
+      scheme: usesTls ? 'https' : 'http',
+      host: '127.0.0.1',
+      port: p,
+    );
   }
 
   Future<void> start() async {
@@ -53,6 +68,8 @@ class CompanionLanServer {
       _pair,
     );
     router.get(CompanionLanConstants.wsPath, _wsUpgrade);
+    router.get(caDownloadPath, _serveCaPem);
+    router.get(caInstallHelpPath, _serveCaInstallHelp);
     router.get('/companion', _companionIndex);
     router.get('/companion/', _companionIndex);
     router.get('/companion/<path|.*>', _companionStatic);
@@ -60,7 +77,12 @@ class CompanionLanServer {
     final handler = Pipeline()
         .addMiddleware(_corsMiddleware)
         .addHandler(router.call);
-    _httpServer = await shelf_io.serve(handler, host, port);
+    _httpServer = await shelf_io.serve(
+      handler,
+      host,
+      port,
+      securityContext: securityContext,
+    );
   }
 
   Future<void> stop() async {
@@ -166,6 +188,36 @@ class CompanionLanServer {
       },
       onError: (_) {},
       cancelOnError: true,
+    );
+  }
+
+  Response _serveCaPem(Request request) {
+    final pem = caPem;
+    if (pem == null || pem.isEmpty) {
+      return Response.notFound('CA no configurada');
+    }
+    return Response.ok(
+      pem,
+      headers: {
+        'content-type': 'application/x-pem-file; charset=utf-8',
+        'content-disposition': 'attachment; filename="atria-ca.pem"',
+      },
+    );
+  }
+
+  Response _serveCaInstallHelp(Request request) {
+    final body =
+        '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">'
+        '<title>Instalar certificado Atria</title></head><body>'
+        '<h1>Certificado del POS (una sola vez)</h1>'
+        '<ol>'
+        '<li><a href="$caDownloadPath">Descargar atria-ca.pem</a></li>'
+        '<li>Android: Ajustes → Seguridad → Instalar certificado → CA</li>'
+        '<li>Vuelva a escanear el QR del POS</li>'
+        '</ol></body></html>';
+    return Response.ok(
+      body,
+      headers: {'content-type': 'text/html; charset=utf-8'},
     );
   }
 

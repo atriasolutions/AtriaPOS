@@ -128,6 +128,13 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-108-04 | RF-098 | — | — | ✅ | mismo archivo |
 | SC-108-05 | RF-098 | — | — | ✅ | `companion_client_test.dart` regresión |
 | SC-108-06 | RF-098 | — | — | ✅ | `companion_home_screen_test.dart` |
+| SC-109-01 | RF-098 | — | ✅ | — | `companion_lan_tls_test.dart` |
+| SC-109-02 | RF-098 | — | ✅ | — | mismo archivo |
+| SC-109-03 | RF-098 | — | ✅ | — | `companion_lan_server_test.dart` HTTPS |
+| SC-109-04 | RF-098 | — | ✅ | — | mismo + handshake test |
+| SC-109-05 | RF-098 | — | ✅ | — | mismo |
+| SC-109-06 | RF-098 | — | — | ✅ | `companion_lan_config_test.dart` |
+| SC-109-07 | RF-098 | ✅ | — | — | `companion_short_link_test.dart` |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

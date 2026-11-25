@@ -31,6 +31,8 @@ export 'drift_credit_note_repository.dart';
 export 'drift_clock_state_repository.dart';
 export 'ntp_shoa_clock.dart';
 export 'companion_lan_server.dart';
+export 'companion_lan_tls.dart';
+export 'companion_lan_cert_store.dart';
 export 'src/database.dart';
 
 /// Placeholder SLICE-0: valida enlace con [core].

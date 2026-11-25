@@ -1093,7 +1093,7 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 
 ### Companion LAN (RF-098, SLICE-96+)
 
-Servidor embebido en `pos_app`; prefijo `/v0/`.
+Servidor embebido en `pos_app`; **HTTPS** en producción (DEC-059, SLICE-109), puerto **8765**; prefijo API `/v0/`.
 
 #### `POST /v0/stores/{storeId}/companion/pair`
 
@@ -1118,7 +1118,17 @@ Servidor embebido en `pos_app`; prefijo `/v0/`.
 
 Errores: código inválido/expirado → `VALIDACION`; modo distinto al ofrecido → `VALIDACION`.
 
+#### `GET /companion/atria-ca.pem` (SLICE-109)
+
+Certificado para confianza en el celular (`application/x-pem-file`).
+
+#### `GET /companion/instalar-certificado`
+
+HTML breve en español con enlace al PEM.
+
 #### `WebSocket /v0/ws/companion?token=…`
+
+En HTTPS el cliente usa **wss**.
 
 Cliente → servidor:
 
@@ -1137,7 +1147,7 @@ Oferta inexistente o expirada → **404** (texto breve en español).
 
 #### QR en POS (payload, no endpoint)
 
-`http://{host}:{port}/c/A7K9M2` (enlace corto; el celular sigue el redirect a `/companion/?…`).
+`https://{host}:{port}/c/A7K9M2` (enlace corto; el celular sigue el redirect a `/companion/?…`).
 
 **Tests:** `SC-096-*`, `SC-107-*`, `companion_lan_server_test.dart`, e2e SLICE-99–101.
 
