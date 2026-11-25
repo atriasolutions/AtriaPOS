@@ -64,4 +64,31 @@ void main() {
     expect(find.text('Enlace no válido o expirado'), findsOneWidget);
     expect(find.byKey(const Key('companion_lan_status')), findsNothing);
   });
+
+  testWidgets('SC-122-01 leer el QR conecta sin pegar el enlace', (tester) async {
+    const link = 'https://10.0.0.8:8765/c/ABCDEF';
+    final client = CompanionLanClient(
+      (_) => _Gateway(
+        Uri.parse(
+          'https://10.0.0.8:8765/companion/?storeId=t&mode=VENDER&pairingCode=ABCDEF',
+        ),
+      ),
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LanConnectScreen(
+          client: client,
+          qrReader: (onCode) => TextButton(
+            onPressed: () => onCode(link),
+            child: const Text('simular-qr'),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.byKey(const Key('companion_lan_read_qr_button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('simular-qr'));
+    await tester.pumpAndSettle();
+    expect(find.text('Conectado · Vender'), findsOneWidget);
+  });
 }

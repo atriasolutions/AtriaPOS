@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import 'companion_lan_client.dart';
+import 'companion_qr_link.dart';
 import 'lan_scan_screen.dart';
 
-/// Pega el enlace del QR del POS y empareja por la red local.
+/// Lee el QR del POS o pega el enlace, y empareja por la red local.
 class LanConnectScreen extends StatefulWidget {
-  const LanConnectScreen({super.key, required this.client});
+  const LanConnectScreen({super.key, required this.client, this.qrReader});
 
   final CompanionLanClient client;
+
+  /// Sustituye la cámara en pruebas. Recibe el texto leído.
+  final Widget Function(void Function(String value) onCode)? qrReader;
 
   @override
   State<LanConnectScreen> createState() => _LanConnectScreenState();
@@ -27,6 +32,10 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
   }
 
   Future<void> _connect() async {
+    if (_url.text.trim().isEmpty) {
+      setState(() => _error = 'Lea el QR del POS o pegue el enlace.');
+      return;
+    }
     setState(() {
       _busy = true;
       _error = null;
@@ -55,6 +64,35 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
     }
   }
 
+  Future<void> _readQr() async {
+    final value = await Navigator.of(context).push<String>(
+      MaterialPageRoute(
+        builder: (routeContext) {
+          void accept(String raw) {
+            if (parseCompanionQrLink(raw) == null) return;
+            Navigator.of(routeContext).pop(raw.trim());
+          }
+
+          final reader = widget.qrReader;
+          return Scaffold(
+            appBar: AppBar(title: const Text('Apunte al QR del POS')),
+            body: reader != null
+                ? reader(accept)
+                : MobileScanner(
+                    onDetect: (capture) {
+                      final raw = capture.barcodes.firstOrNull?.rawValue;
+                      if (raw != null) accept(raw);
+                    },
+                  ),
+          );
+        },
+      ),
+    );
+    if (!mounted || value == null || value.isEmpty) return;
+    _url.text = value;
+    await _connect();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +103,13 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              'Pegue el enlace del código QR que muestra el POS.',
+              'Lea el código QR de la pantalla del POS, o pegue el enlace.',
+            ),
+            const SizedBox(height: 16),
+            FilledButton(
+              key: const Key('companion_lan_read_qr_button'),
+              onPressed: _busy ? null : _readQr,
+              child: const Text('Leer QR del POS'),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -92,7 +136,7 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
               ),
             ],
             const SizedBox(height: 16),
-            FilledButton(
+            OutlinedButton(
               key: const Key('companion_lan_connect_button'),
               onPressed: _busy ? null : _connect,
               child: const Text('Conectar'),
