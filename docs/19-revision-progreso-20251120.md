@@ -181,6 +181,19 @@
 
 ---
 
+## 14. Bloque A — operación y productos (Gate R4-A)
+
+**Inicio:** 2026-11-25 — plan [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md); respuestas [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md).
+
+| Ítem | Estado |
+|------|--------|
+| Gate R4-A (DEC-052…055) | CERRADO documental |
+| SLICE-85 contrato `ScanSession` | CERRADO |
+| SLICE-86…94 | planificado en doc 10 |
+| Bloque B companion web | stub — sin slices |
+
+---
+
 ## 7. DoD revisión 2026-11-20
 
 - [x] `main` y tag documentados

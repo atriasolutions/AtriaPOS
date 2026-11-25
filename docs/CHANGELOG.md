@@ -6,6 +6,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-85: Gate R4-A Bloque A, RF-094 sesión escaneo, `ScanSessionService`, DEC-052…055, `23-gate-r4-a-respuestas.md`.
+
 - SLICE-84: Nuevo producto desde Stock de productos (RF-091), `canCreateProduct`, `slice_84_stock_nuevo_producto.md`.
 
 - SLICE-83: Cierre revisión intermedia piloto UX — `20c` cerrada, acta §13, `slice_83_cierre_revision_intermedia.md`.

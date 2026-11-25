@@ -57,6 +57,10 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-049 | P0 | Planilla vs usuario POS | ✅ | [ADR](decisiones/DEC-049-planilla-vs-usuario-pos.md) | SLICE-63 |
 | DEC-050 | P1 | Cambio sesión con turno cerrado | ✅ | [ADR](decisiones/DEC-050-cambio-sesion-turno-cerrado.md) | SLICE-82 |
 | DEC-051 | P1 | PDF etiquetas QR A4 3×5 | ✅ | [ADR](decisiones/DEC-051-pdf-etiquetas-qr.md) | SLICE-81 |
+| DEC-052 | P0 | Sesión escaneo unificada (ingreso/conteo) | ✅ | [Gate R4-A](decisiones/DEC-gate-r4-a-bloque-a.md) | SLICE-85 |
+| DEC-053 | P1 | ScannerIngress en operación stock | ✅ | [Gate R4-A](decisiones/DEC-gate-r4-a-bloque-a.md) | SLICE-85 |
+| DEC-054 | P0 | Cambio producto + permiso | ✅ | [Gate R4-A](decisiones/DEC-gate-r4-a-bloque-a.md) | SLICE-90 |
+| DEC-055 | P0 | NC/factura núcleo; sin Transbank | ✅ | [Gate R4-A](decisiones/DEC-gate-r4-a-bloque-a.md) | SLICE-92 |
 
 ---
 

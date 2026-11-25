@@ -394,6 +394,84 @@ Referencia guía/lote: 1–32 caracteres, `A–Z`, `0–9`, `-`, `_`, sin `ñ`.
 
 ---
 
+### `POST /v0/stores/{storeId}/scan-sessions` (RF-094, SLICE-85)
+
+Requiere `ajustarInventario`.
+
+```json
+{
+  "kind": "receiptScan",
+  "guideRef": "GD-12345",
+  "lotRef": "L-202601"
+}
+```
+
+`kind`: `receiptScan` | `countScan`. Para `receiptScan`, `guideRef` y `lotRef` obligatorios.
+
+**Response 201**
+
+```json
+{
+  "sessionId": "scan_01",
+  "kind": "receiptScan",
+  "state": "draft",
+  "guideRef": "GD-12345",
+  "lotRef": "L-202601",
+  "lines": []
+}
+```
+
+---
+
+### `GET /v0/stores/{storeId}/scan-sessions/{sessionId}`
+
+**Response 200** — misma forma que creación con `lines[]`:
+
+```json
+{
+  "lines": [
+    {
+      "productId": "prod_01",
+      "productName": "Pan",
+      "quantity": 3,
+      "lastScannedAt": "2026-11-25T12:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### `POST /v0/stores/{storeId}/scan-sessions/{sessionId}/scans`
+
+```json
+{
+  "code": "7801234567890"
+}
+```
+
+Resuelve barcode o QR (`parseProductIdFromScan`). **200** devuelve sesión actualizada. Producto desconocido → `NO_ENCONTRADO`. Sesión no `draft` → `VALIDACION`.
+
+---
+
+### `POST /v0/stores/{storeId}/scan-sessions/{sessionId}/cancel`
+
+**Response 200** — `state`: `cancelled`.
+
+Confirmación a stock (`receiptScan`) y conteo → `CloseInventory`: **SLICE-86+** (no parte de SLICE-85).
+
+**Tests comportamiento (SLICE-85)**
+
+- Crear `receiptScan` válido → 201.
+- `countScan` sin guía → 201.
+- Bip producto → 200, quantity +1.
+- Segundo bip mismo código &lt; 400 ms → quantity sin cambio adicional.
+- Código desconocido → 404.
+- Cajero → 403.
+- Cancel → 200.
+
+---
+
 ### `GET /v0/stores/{storeId}/inventory-close/preview` (RF-088)
 
 Requiere `ajustarInventario` y **turno abierto**. **200**:
@@ -824,7 +902,7 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 | RF-010, RF-011 | API-001 |
 | RF-030–032, RF-082, RF-084 | API-002 |
 | RF-040–041 | API-003 |
-| RF-020–021, RF-085, RF-088 | API-004 |
+| RF-020–021, RF-085, RF-088, RF-094 | API-004 |
 | RF-051 | API-005 |
 | RF-002 | API-006 |
 | RF-001, RF-089 | API-007 |

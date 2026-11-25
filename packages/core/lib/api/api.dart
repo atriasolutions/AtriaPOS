@@ -8,6 +8,8 @@ export 'dte_service.dart';
 export 'api_result.dart';
 export 'inventory_dtos.dart';
 export 'inventory_service.dart';
+export 'scan_session_dtos.dart';
+export 'scan_session_service.dart';
 export 'product_dtos.dart';
 export 'product_service.dart';
 export 'sale_dtos.dart';

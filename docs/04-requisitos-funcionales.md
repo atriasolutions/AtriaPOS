@@ -250,6 +250,33 @@ Con **turno abierto**, supervisor o dueño:
 - Dado productos seleccionados con QR, cuando exporta a PDF, entonces genera hojas A4 con grilla de etiquetas (DEC-051) imprimibles.
 - Código de barras en PDF queda fuera de este slice (anotación «próximamente» en UI).
 
+### RF-094 [M] Sesión de escaneo operativa (SLICE-85, DEC-052)
+
+Borrador de ingreso o conteo por códigos antes de confirmar stock.
+
+- Dado supervisor con `ajustarInventario`, cuando abre sesión `receiptScan` con guía y lote válidos, entonces obtiene sesión `draft`.
+- Dado sesión `countScan`, cuando abre sesión, entonces no exige guía/lote.
+- Dado sesión `draft`, cuando registra bip de barcode o QR de producto existente, entonces incrementa cantidad de la línea (+1 por bip; antirrebote 400 ms mismo código).
+- Dado código sin producto, entonces `NO_ENCONTRADO`.
+- Dado cajero sin permiso, entonces `PERMISO_DENEGADO`.
+- Dado sesión confirmada o cancelada, cuando intenta nuevo bip, entonces `VALIDACION`.
+
+### RF-095 [M] Cambio de producto en mostrador (SLICE-90–91, DEC-054)
+
+- Dado supervisor con `cambiarProducto` y turno abierto, cuando registra cambio sobre línea de venta del turno, entonces ajusta stock y persiste `ProductExchange`.
+- Dado diferencia de precio, entonces registra cobro o devolución con medios DEC-012 (sin Transbank).
+- Dado boleta emitida, entonces exige flujo NC (RF-096) antes de cerrar cambio fiscal.
+
+### RF-096 [M] Nota de crédito electrónica (SLICE-92, DEC-055)
+
+- Dado venta con DTE emitida, cuando emite NC referenciada, entonces encola documento y revierte stock según reglas de anulación parcial/total.
+- Dado venta solo `PENDIENTE_DTE`, entonces aplica anulación interna sin NC.
+
+### RF-097 [M] Factura electrónica en venta (SLICE-93, DEC-055)
+
+- Dado checkout con datos receptor válidos (RUT Chile), cuando elige factura, entonces emite tipo factura vía mismo pipeline que boleta.
+- Dado datos incompletos, entonces `VALIDACION`.
+
 ### RF-093 [S] Cambiar usuario / fin de sesión (SLICE-82)
 
 - Dado sesión expirada, cuando opera en UI, entonces ofrece **Iniciar sesión** y vuelve a login.
