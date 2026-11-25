@@ -58,6 +58,8 @@ cd <raíz del repo>
 
 Luego ejecuta el comando que imprime el script (incluye `COMPANION_WEB_ROOT` y puerto **8765**).
 
+Si el diálogo QR del POS muestra **«Falta el build de Companion (PWA)»** (clave `companion_pwa_missing`), no habrá QR hasta ejecutar el script y reiniciar el POS con los `--dart-define` indicados.
+
 - El QR usa **IPv4 LAN auto** (`NetworkInterface`). Forzar IP: `--dart-define=COMPANION_LAN_HOST=192.168.0.25`
 - El servidor escucha en **0.0.0.0** (accesible desde el celular en la misma WiFi).
 

@@ -40,12 +40,15 @@ class CompanionQrPanel extends StatelessWidget {
         if (state == null) {
           return const Text('No se pudo iniciar companion LAN.');
         }
+        if (state.blockedReason == CompanionQrBlockedReason.pwaMissing) {
+          return const CompanionPwaMissingInstructions();
+        }
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             QrImageView(
               key: qrKey,
-              data: state.launchUrl,
+              data: state.launchUrl!,
               version: QrVersions.auto,
               size: 200,
             ),
@@ -99,7 +102,7 @@ class CompanionQrPanel extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              state.launchUrl,
+              state.launchUrl!,
               style: Theme.of(context).textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),
@@ -110,14 +113,59 @@ class CompanionQrPanel extends StatelessWidget {
   }
 }
 
+enum CompanionQrBlockedReason { pwaMissing }
+
+/// Instrucciones cuando falta el build de companion_web (SLICE-113).
+class CompanionPwaMissingInstructions extends StatelessWidget {
+  const CompanionPwaMissingInstructions({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.bodyMedium;
+    return Column(
+      key: const Key('companion_pwa_missing'),
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Falta el build de Companion (PWA).', style: style),
+        const SizedBox(height: 8),
+        Text(
+          '1. En la raíz del repo ejecute .\\scripts\\prepare-companion-pwa.ps1',
+          style: style,
+        ),
+        Text(
+          '2. Arranque el POS con el comando que imprime el script '
+          '(COMPANION_WEB_ROOT y puerto 8765).',
+          style: style,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Vuelva a abrir este diálogo después de reiniciar.',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+      ],
+    );
+  }
+}
+
 class CompanionQrState {
   const CompanionQrState({
     required this.launchUrl,
     required this.pairingCode,
     required this.serverRunning,
+    this.blockedReason,
   });
 
-  final String launchUrl;
-  final String pairingCode;
+  const CompanionQrState.blocked({
+    required CompanionQrBlockedReason reason,
+    required bool serverRunning,
+  })  : launchUrl = null,
+        pairingCode = null,
+        serverRunning = serverRunning,
+        blockedReason = reason;
+
+  final String? launchUrl;
+  final String? pairingCode;
   final bool serverRunning;
+  final CompanionQrBlockedReason? blockedReason;
 }

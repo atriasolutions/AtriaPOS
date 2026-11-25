@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pos_app/config/companion_lan_config.dart';
 
@@ -12,5 +14,64 @@ void main() {
       '192.168.134.1',
     );
     expect(rndis, greaterThan(vmware));
+  });
+
+  test('SC-113-01 entorno con index.html usa esa carpeta', () async {
+    final root = await Directory.systemTemp.createTemp('dx3_ok_');
+    addTearDown(() => root.delete(recursive: true));
+    await File(
+      '${root.path}${Platform.pathSeparator}index.html',
+    ).writeAsString('ok');
+
+    final selected = CompanionLanConfig.selectCompanionWebRoot(
+      environmentRoot: root.path,
+      candidates: const [],
+    );
+
+    expect(selected?.path, root.path);
+  });
+
+  test('SC-113-02 entorno sin index.html cae a candidato válido', () async {
+    final root = await Directory.systemTemp.createTemp('dx3_empty_');
+    final candidate = await Directory.systemTemp.createTemp('dx3_cand_');
+    addTearDown(() => root.delete(recursive: true));
+    addTearDown(() => candidate.delete(recursive: true));
+    await File(
+      '${candidate.path}${Platform.pathSeparator}index.html',
+    ).writeAsString('ok');
+
+    final selected = CompanionLanConfig.selectCompanionWebRoot(
+      environmentRoot: root.path,
+      candidates: [candidate.path],
+    );
+
+    expect(selected?.path, candidate.path);
+  });
+
+  test('SC-113-03 sin build válido devuelve null', () async {
+    final root = await Directory.systemTemp.createTemp('dx3_empty_');
+    addTearDown(() => root.delete(recursive: true));
+
+    final selected = CompanionLanConfig.selectCompanionWebRoot(
+      environmentRoot: root.path,
+      candidates: const [],
+    );
+
+    expect(selected, isNull);
+  });
+
+  test('SC-113-01 entorno vacío usa el candidato con index.html', () async {
+    final candidate = await Directory.systemTemp.createTemp('dx3_only_');
+    addTearDown(() => candidate.delete(recursive: true));
+    await File(
+      '${candidate.path}${Platform.pathSeparator}index.html',
+    ).writeAsString('ok');
+
+    final selected = CompanionLanConfig.selectCompanionWebRoot(
+      environmentRoot: '   ',
+      candidates: [candidate.path],
+    );
+
+    expect(selected?.path, candidate.path);
   });
 }

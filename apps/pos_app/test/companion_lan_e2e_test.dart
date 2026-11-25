@@ -26,7 +26,7 @@ void main() {
       expect(state!.serverRunning, isTrue);
       expect(state.pairingCode.length, CompanionLanConstants.pairingCodeLength);
       expect(state.launchUrl, contains('/c/${state.pairingCode}'));
-      expect(state.launchUrl.contains('storeId'), isFalse);
+      expect(state.launchUrl!.contains('storeId'), isFalse);
     } finally {
       await composition.close();
     }

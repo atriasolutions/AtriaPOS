@@ -1155,7 +1155,9 @@ Oferta inexistente o expirada → **404** (texto breve en español).
 
 Tras el redirect con query de emparejamiento: **auto-pair**, modo en español, sin UUID de tienda en pantalla. Con sesión activa: **visor de cámara opcional** (HTTPS) que envía el mismo mensaje WS `scan` que el ingreso manual; si la cámara falla, sin caja vacía — mensaje breve y campo manual obligatorio. Reintento de emparejamiento solo si falla la conexión.
 
-**Tests:** `SC-108-*`, `SC-110-*` en `apps/companion_web/test/`.
+Build obligatorio con `--base-href=/companion/` en `companion_web` (script `prepare-companion-pwa.ps1`). Sin `index.html` en la carpeta servida, el POS **no muestra QR** en HTTPS (SLICE-113, clave UI `companion_pwa_missing`).
+
+**Tests:** `SC-108-*`, `SC-110-*` en `apps/companion_web/test/`; `SC-113-*` en `pos_app`.
 
 #### Oferta de emparejamiento (in-process, POS)
 

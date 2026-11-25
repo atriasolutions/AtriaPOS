@@ -26,18 +26,41 @@ abstract final class CompanionLanConfig {
     defaultValue: '0.0.0.0',
   );
 
+  /// Solo para tests (SLICE-113).
+  static Directory? Function()? resolveWebRootOverride;
+
   static Directory? resolveCompanionWebRoot() {
-    final fromEnv = webRootFromEnvironment.trim();
+    final override = resolveWebRootOverride;
+    if (override != null) return override();
+    return selectCompanionWebRoot(
+      environmentRoot: webRootFromEnvironment,
+      candidates: _rootCandidates(),
+      besideExecutable: _resolveBesideExecutable(),
+    );
+  }
+
+  static bool hasValidCompanionWebBuild() =>
+      resolveCompanionWebRoot() != null;
+
+  /// Elige la carpeta de la PWA.
+  /// Solo se aceptan carpetas con `index.html` (SC-113-01).
+  static Directory? selectCompanionWebRoot({
+    required String environmentRoot,
+    required Iterable<String> candidates,
+    Directory? besideExecutable,
+  }) {
+    final fromEnv = environmentRoot.trim();
     if (fromEnv.isNotEmpty) {
       final dir = Directory(fromEnv);
-      if (dir.existsSync()) return dir;
+      if (_isValidWebBuild(dir)) return dir;
     }
-    for (final candidate in _rootCandidates()) {
+    for (final candidate in candidates) {
       final dir = Directory(candidate);
       if (_isValidWebBuild(dir)) return dir;
     }
-    final fromExe = _resolveBesideExecutable();
-    if (fromExe != null) return fromExe;
+    if (besideExecutable != null && _isValidWebBuild(besideExecutable)) {
+      return besideExecutable;
+    }
     return null;
   }
 

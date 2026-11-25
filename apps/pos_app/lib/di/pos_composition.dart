@@ -320,6 +320,12 @@ class PosComposition {
     await ensureCompanionLanServerStarted();
     final server = companionLanServer;
     if (server == null) return null;
+    if (lanCompanionTls && !CompanionLanConfig.hasValidCompanionWebBuild()) {
+      return CompanionQrState.blocked(
+        reason: CompanionQrBlockedReason.pwaMissing,
+        serverRunning: server.isRunning,
+      );
+    }
     final storeId = activeStoreId ?? kDemoStoreId;
     final offer = await createCompanionOffer(
       CreateCompanionPairingOfferInput(storeId: storeId, mode: mode),
@@ -343,6 +349,7 @@ class PosComposition {
       launchUrl: launchUrl,
       pairingCode: offer.pairingCode,
       serverRunning: server.isRunning,
+      blockedReason: null,
     );
   }
 

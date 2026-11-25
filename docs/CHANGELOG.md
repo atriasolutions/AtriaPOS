@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-113: Root PWA válido — `COMPANION_WEB_ROOT` exige `index.html`, fallback a build detectado, diálogo QR bloqueado sin PWA.
 - SLICE-112: E2E companion tres flujos — scan LAN a búsqueda venta, recordScan ingreso/conteo, cierre tanda HTTPS 106–112.
 - SLICE-111: Estado celular companion en POS — fases none/sessionOnly/live, chip, desconectar sesión LAN.
 - SLICE-110: PWA companion cámara opcional — `mobile_scanner`, mismo `sendScan`, dedup 400 ms, degradación sin visor vacío.

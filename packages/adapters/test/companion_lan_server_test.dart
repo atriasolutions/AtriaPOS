@@ -186,6 +186,59 @@ void main() {
       expect(liveRegistry.isLive('ctok_invalid'), isFalse);
       await channel.sink.close();
     });
+
+    test('DX-2 carpeta con index.html responde ese HTML', () async {
+      final dir = await Directory.systemTemp.createTemp('companion_dx2_ok_');
+      addTearDown(() => dir.delete(recursive: true));
+      const html = '<!DOCTYPE html><html><body>PWA-DX2</body></html>';
+      await File(
+        '${dir.path}${Platform.pathSeparator}index.html',
+      ).writeAsString(html);
+      final rooted = CompanionLanServer(
+        companionService: service,
+        liveRegistry: liveRegistry,
+        host: InternetAddress.loopbackIPv4.address,
+        port: 0,
+        staticRoot: dir,
+      );
+      await rooted.start();
+      addTearDown(rooted.stop);
+      final res = await HttpClient()
+          .getUrl(rooted.baseUri.replace(path: '/companion/'))
+          .then((r) => r.close());
+      expect(res.statusCode, 200);
+      expect(await res.transform(utf8.decoder).join(), html);
+    });
+
+    test('DX-2 carpeta sin index.html responde No encontrado', () async {
+      final dir = await Directory.systemTemp.createTemp('companion_dx2_empty_');
+      addTearDown(() => dir.delete(recursive: true));
+      final rooted = CompanionLanServer(
+        companionService: service,
+        liveRegistry: liveRegistry,
+        host: InternetAddress.loopbackIPv4.address,
+        port: 0,
+        staticRoot: dir,
+      );
+      await rooted.start();
+      addTearDown(rooted.stop);
+      final res = await HttpClient()
+          .getUrl(rooted.baseUri.replace(path: '/companion/'))
+          .then((r) => r.close());
+      expect(res.statusCode, 404);
+      expect(await res.transform(utf8.decoder).join(), 'No encontrado');
+    });
+
+    test('DX-2 sin staticRoot responde el placeholder', () async {
+      final res = await HttpClient()
+          .getUrl(server.baseUri.replace(path: '/companion/'))
+          .then((r) => r.close());
+      expect(res.statusCode, 200);
+      expect(
+        await res.transform(utf8.decoder).join(),
+        contains('Companion Atria POS'),
+      );
+    });
   });
 
   group('HTTPS (SLICE-109)', () {
