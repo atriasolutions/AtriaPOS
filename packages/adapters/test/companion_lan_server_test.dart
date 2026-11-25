@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:adapters/companion_lan_server.dart';
 import 'package:core/api/api.dart';
 import 'package:core/domain/domain.dart';
+import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -41,6 +42,38 @@ void main() {
         .getUrl(uri)
         .then((r) => r.close());
     expect(response.statusCode, 200);
+  });
+
+  test('SC-107-03 GET /c/{code} redirige a PWA', () async {
+    const storeId = 't1';
+    final offer = await service.createPairingOffer(
+      storeId,
+      CompanionMode.vender,
+    );
+    final code =
+        (offer as ApiSuccess<CreateCompanionPairingOfferResponse>).data
+            .pairingCode;
+    final uri = server.baseUri.replace(
+      path: '${CompanionLanConstants.shortLinkPathPrefix}/$code',
+    );
+    final request = http.Request('GET', uri)..followRedirects = false;
+    final streamed = await http.Client().send(request);
+    final res = await http.Response.fromStream(streamed);
+    expect(res.statusCode, 302);
+    final location = res.headers['location'];
+    expect(location, isNotNull);
+    expect(location, contains('/companion/'));
+    expect(location, contains('storeId=$storeId'));
+    expect(location, contains('mode=VENDER'));
+    expect(location, contains('pairingCode=$code'));
+  });
+
+  test('SC-107-04 GET /c/{code} inválido 404', () async {
+    final uri = server.baseUri.replace(
+      path: '${CompanionLanConstants.shortLinkPathPrefix}/ZZZZZZ',
+    );
+    final res = await HttpClient().getUrl(uri).then((r) => r.close());
+    expect(res.statusCode, 404);
   });
 
   test('SC-098-01 pair y scan por WebSocket', () async {

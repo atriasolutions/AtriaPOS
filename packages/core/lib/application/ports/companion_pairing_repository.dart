@@ -5,6 +5,8 @@ abstract class CompanionPairingRepository {
 
   Future<CompanionPairingOffer?> findOffer(StoreId storeId, String pairingCode);
 
+  Future<CompanionPairingOffer?> findOfferByPairingCode(String pairingCode);
+
   Future<CompanionActiveSession?> activeSession(StoreId storeId);
 
   Future<void> saveActiveSession(CompanionActiveSession session);

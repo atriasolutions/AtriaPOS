@@ -5,23 +5,12 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../di/pos_composition.dart';
 
-/// URL de emparejamiento para PWA companion (doc 07).
+/// URL corta del QR (DEC-060, SLICE-107).
 String buildCompanionLaunchUrl({
   required Uri base,
-  required String storeId,
-  required CompanionMode mode,
   required String pairingCode,
 }) {
-  return base
-      .replace(
-        path: '/companion/',
-        queryParameters: {
-          'storeId': storeId,
-          'mode': mode.apiValue,
-          'pairingCode': pairingCode,
-        },
-      )
-      .toString();
+  return buildCompanionShortLinkUrl(base: base, pairingCode: pairingCode);
 }
 
 class CompanionQrPanel extends StatelessWidget {

@@ -3,6 +3,7 @@ import 'ports/companion_pairing_repository.dart';
 
 class InMemoryCompanionPairingRepository implements CompanionPairingRepository {
   final _offers = <String, CompanionPairingOffer>{};
+  final _byPairingCode = <String, CompanionPairingOffer>{};
   final _byStore = <StoreId, CompanionActiveSession>{};
   final _byToken = <String, CompanionActiveSession>{};
 
@@ -12,7 +13,14 @@ class InMemoryCompanionPairingRepository implements CompanionPairingRepository {
   @override
   Future<void> saveOffer(CompanionPairingOffer offer) async {
     _offers[_offerKey(offer.storeId, offer.pairingCode)] = offer;
+    _byPairingCode[offer.pairingCode.toUpperCase()] = offer;
   }
+
+  @override
+  Future<CompanionPairingOffer?> findOfferByPairingCode(
+    String pairingCode,
+  ) async =>
+      _byPairingCode[pairingCode.trim().toUpperCase()];
 
   @override
   Future<CompanionPairingOffer?> findOffer(

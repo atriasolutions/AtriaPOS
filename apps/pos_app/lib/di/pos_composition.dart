@@ -281,7 +281,7 @@ class PosComposition {
     await ensureCompanionLanServerStarted();
     final server = companionLanServer;
     if (server == null) return null;
-  final storeId = activeStoreId ?? kDemoStoreId;
+    final storeId = activeStoreId ?? kDemoStoreId;
     final offer = await createCompanionOffer(
       CreateCompanionPairingOfferInput(storeId: storeId, mode: mode),
     );
@@ -293,8 +293,6 @@ class PosComposition {
     );
     final launchUrl = buildCompanionLaunchUrl(
       base: base,
-      storeId: storeId,
-      mode: mode,
       pairingCode: offer.pairingCode,
     );
     return CompanionQrState(

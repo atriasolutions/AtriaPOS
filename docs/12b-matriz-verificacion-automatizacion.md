@@ -117,6 +117,11 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-103-01 | RF-088 | — | — | ✅ | mismo archivo countScan |
 | SC-104-01 | RNF-041 | — | — | — | `PosComposition.lanCompanionDefault`; `slice_104_ble_deprecation.md` |
 | SC-105-01 | — | — | — | — | `slice_105_cierre_bloque_b.md` + `ci-local.ps1` |
+| SC-107-01 | RF-098 | ✅ | — | — | `companion_short_link_test.dart` resolve |
+| SC-107-02 | RF-098 | ✅ | — | — | mismo archivo — inexistente/expirado |
+| SC-107-03 | RF-098 | — | ✅ | — | `companion_lan_server_test.dart` redirect |
+| SC-107-04 | RF-098 | — | ✅ | — | mismo archivo — 404 |
+| SC-107-05 | RF-098 | ✅ | — | — | `companion_short_link_test.dart` URL QR |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

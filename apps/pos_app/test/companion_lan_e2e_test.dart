@@ -20,7 +20,8 @@ void main() {
       expect(state, isNotNull);
       expect(state!.serverRunning, isTrue);
       expect(state.pairingCode.length, CompanionLanConstants.pairingCodeLength);
-      expect(findModeInUrl(state.launchUrl, 'VENDER'), isTrue);
+      expect(state.launchUrl, contains('/c/${state.pairingCode}'));
+      expect(state.launchUrl.contains('storeId'), isFalse);
     } finally {
       await composition.close();
     }
@@ -127,5 +128,3 @@ Future<void> _expectModeScanOnIngress(
     await composition.close();
   }
 }
-
-bool findModeInUrl(String url, String mode) => url.contains('mode=$mode');

@@ -44,6 +44,10 @@ class CompanionLanServer {
     if (_httpServer != null) return;
     final router = Router();
     router.get('/health', _health);
+    router.get(
+      '${CompanionLanConstants.shortLinkPathPrefix}/<pairingCode>',
+      _shortLinkRedirect,
+    );
     router.post(
       '/v0/stores/<storeId>/companion/pair',
       _pair,
@@ -67,6 +71,25 @@ class CompanionLanServer {
   void dispose() {
     unawaited(stop());
     unawaited(_scans.close());
+  }
+
+  late final ResolveCompanionShortLink _shortLink =
+      ResolveCompanionShortLink(companionService.repository);
+
+  Future<Response> _shortLinkRedirect(
+    Request request,
+    String pairingCode,
+  ) async {
+    final target = await _shortLink(pairingCode);
+    if (target == null) {
+      return Response(
+        404,
+        body: 'Enlace no válido o expirado',
+        headers: {'content-type': 'text/plain; charset=utf-8'},
+      );
+    }
+    final location = buildCompanionPwaRedirectUri(target).toString();
+    return Response.found(location);
   }
 
   Response _health(Request request) {

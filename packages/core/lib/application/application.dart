@@ -50,6 +50,8 @@ export 'confirm_checkout.dart';
 export 'companion_pairing_code.dart';
 export 'create_companion_pairing_offer.dart';
 export 'pair_companion.dart';
+export 'resolve_companion_short_link.dart';
+export 'companion_launch_url.dart';
 export 'companion_submit_scan.dart';
 export 'companion_ws_message.dart';
 export 'in_memory_companion_pairing_repository.dart';

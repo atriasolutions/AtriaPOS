@@ -1127,11 +1127,19 @@ Cliente → servidor:
 { "type": "heartbeat" }
 ```
 
+#### `GET /c/{pairingCode}` (SLICE-107, DEC-060)
+
+Resuelve el código de emparejamiento y redirige a la PWA.
+
+**Response 302** — `Location: /companion/?storeId=…&mode=…&pairingCode=…`
+
+Oferta inexistente o expirada → **404** (texto breve en español).
+
 #### QR en POS (payload, no endpoint)
 
-`http://{host}:{port}/companion/?storeId=t1&mode=VENDER&pairingCode=A7K9M2`
+`http://{host}:{port}/c/A7K9M2` (enlace corto; el celular sigue el redirect a `/companion/?…`).
 
-**Tests:** `SC-096-*`, `companion_lan_server_test.dart`, e2e SLICE-99–101.
+**Tests:** `SC-096-*`, `SC-107-*`, `companion_lan_server_test.dart`, e2e SLICE-99–101.
 
 #### Oferta de emparejamiento (in-process, POS)
 
@@ -1143,7 +1151,7 @@ Cliente → servidor:
 
 | RF | Endpoints |
 |----|-----------|
-| RF-098 | Companion LAN (pair, WS); estáticos `/companion/` |
+| RF-098 | Companion LAN (pair, WS, `GET /c/{code}`); estáticos `/companion/` |
 | RF-010, RF-011 | API-001 |
 | RF-030–032, RF-082, RF-084 | API-002 |
 | RF-040–041 | API-003 |
