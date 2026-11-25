@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-123: Permiso de cámara antes del visor y error del escáner en español, con reintento.
 - SLICE-122: La app Android lee el QR del POS con la cámara para conectar, sin pegar el enlace.
 - SLICE-117…121: App Android `scanner_companion` — enlace `/c/`, pair, WebSocket, pantalla Conectar, cámara con dedup, integración y runbook APK.
 - SLICE-116: DEC-063 companion Android LAN, cámara nativa, sin CA en el teléfono, mismo WebSocket.

@@ -15,7 +15,7 @@ El APK queda en `build\app\outputs\flutter-apk\app-release.apk`. Cópielo al cel
 ## Uso
 
 1. En el POS, abra el QR de Vender, Ingreso o Conteo.
-2. En la app: **Leer QR del POS** y apunte la cámara a esa pantalla. También puede pegar el enlace `https://{ip}:8765/c/{codigo}`.
+2. En la app: **Leer QR del POS**. La primera vez Android pide la cámara: acéptela. Si la negó, use **Abrir ajustes de la app**. También puede pegar el enlace `https://{ip}:8765/c/{codigo}`.
 3. **Escanear productos**. El código llega al POS.
 4. Si cambia la IP, copie el enlace nuevo. No hay que instalar certificados.
 

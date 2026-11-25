@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 
+import 'companion_camera_view.dart';
 import 'companion_lan_client.dart';
 import 'companion_scan_dedup.dart';
 
@@ -45,12 +45,7 @@ class _LanScanScreenState extends State<LanScanScreen> {
           Expanded(
             child: camera != null
                 ? camera(handleCode)
-                : MobileScanner(
-                    onDetect: (capture) {
-                      final value = capture.barcodes.firstOrNull?.rawValue;
-                      if (value != null) handleCode(value);
-                    },
-                  ),
+                : CompanionCameraView(onCode: handleCode),
           ),
           Padding(
             padding: const EdgeInsets.all(16),
