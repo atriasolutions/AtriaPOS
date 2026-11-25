@@ -3,6 +3,8 @@ export 'auth_dtos.dart';
 export 'auth_service.dart';
 export 'collaborator_dtos.dart';
 export 'collaborator_service.dart';
+export 'companion_dtos.dart';
+export 'companion_service.dart';
 export 'dte_dtos.dart';
 export 'dte_service.dart';
 export 'api_result.dart';

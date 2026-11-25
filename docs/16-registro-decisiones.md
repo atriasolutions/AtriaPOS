@@ -61,6 +61,9 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-053 | P1 | ScannerIngress en operación stock | ✅ | [Gate R4-A](decisiones/DEC-gate-r4-a-bloque-a.md) | SLICE-85 |
 | DEC-054 | P0 | Cambio producto + permiso | ✅ | [Gate R4-A](decisiones/DEC-gate-r4-a-bloque-a.md) | SLICE-90 |
 | DEC-055 | P0 | NC/factura núcleo; sin Transbank | ✅ | [Gate R4-A](decisiones/DEC-gate-r4-a-bloque-a.md) | SLICE-92 |
+| DEC-056 | P0 | Companion web WiFi en LAN | ✅ | [Gate R4-B](decisiones/DEC-gate-r4-b-bloque-b.md) | SLICE-95 |
+| DEC-057 | P0 | Emparejamiento 1 slot + QR por flujo | ✅ | [Gate R4-B](decisiones/DEC-gate-r4-b-bloque-b.md) | SLICE-96 |
+| DEC-058 | P1 | WS scan + ScannerIngress | ✅ | [Gate R4-B](decisiones/DEC-gate-r4-b-bloque-b.md) | SLICE-98 |
 
 ---
 

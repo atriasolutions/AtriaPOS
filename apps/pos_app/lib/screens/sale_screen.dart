@@ -13,6 +13,7 @@ import '../scanner/scanner_connection_state.dart';
 import '../widgets/atria_bordered_panel.dart';
 import '../widgets/atria_sale_top_bar.dart';
 import '../widgets/checkout_panel.dart';
+import '../widgets/companion_qr_panel.dart';
 
 class SaleScreen extends StatefulWidget {
   const SaleScreen({
@@ -164,6 +165,28 @@ class _SaleScreenState extends State<SaleScreen> {
     if (_searchResults.length == 1) {
       await _addProduct(_searchResults.first);
     }
+  }
+
+  Future<void> _openCompanionQr() async {
+    if (!mounted) return;
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Companion WiFi — Vender'),
+        content: CompanionQrPanel(
+          composition: widget.composition,
+          mode: CompanionMode.vender,
+          qrKey: const Key('companion_qr_vender'),
+          statusKey: const Key('companion_lan_status'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cerrar'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _openScannerPairing() async {
@@ -413,7 +436,14 @@ class _SaleScreenState extends State<SaleScreen> {
     final totalClp = cart?.totalClp ?? 0;
 
     Widget? scannerAction;
-    if (_bleIngress != null) {
+    if (widget.composition.companionLanServer != null) {
+      scannerAction = TextButton.icon(
+        key: const Key('companion_qr_vender_button'),
+        onPressed: _openCompanionQr,
+        icon: const Icon(Icons.qr_code),
+        label: const Text('Companion WiFi'),
+      );
+    } else if (_bleIngress != null) {
       scannerAction = TextButton.icon(
         key: const Key('scanner_connect_button'),
         onPressed: _openScannerPairing,

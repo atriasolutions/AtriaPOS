@@ -53,3 +53,9 @@ jobs:
         run: |
           flutter pub get
           flutter test
+
+      - name: companion_web — pub get and test
+        working-directory: apps/companion_web
+        run: |
+          flutter pub get
+          flutter test

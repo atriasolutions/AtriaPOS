@@ -1091,10 +1091,59 @@ Campos opcionales: `sellerCode`, `firstName`, `lastName`, `active`.
 
 ---
 
+### Companion LAN (RF-098, SLICE-96+)
+
+Servidor embebido en `pos_app`; prefijo `/v0/`.
+
+#### `POST /v0/stores/{storeId}/companion/pair`
+
+```json
+{
+  "pairingCode": "A7K9M2",
+  "mode": "VENDER"
+}
+```
+
+`mode`: `VENDER` | `RECEIPT_SCAN` | `COUNT_SCAN`.
+
+**Response 200**
+
+```json
+{
+  "token": "tok_…",
+  "expiresAt": "2026-11-25T12:30:00Z",
+  "wsPath": "/v0/ws/companion"
+}
+```
+
+Errores: código inválido/expirado → `VALIDACION`; modo distinto al ofrecido → `VALIDACION`.
+
+#### `WebSocket /v0/ws/companion?token=…`
+
+Cliente → servidor:
+
+```json
+{ "type": "scan", "code": "7801234567890" }
+{ "type": "heartbeat" }
+```
+
+#### QR en POS (payload, no endpoint)
+
+`http://{host}:{port}/companion/?storeId=t1&mode=VENDER&pairingCode=A7K9M2`
+
+**Tests:** `SC-096-*`, `companion_lan_server_test.dart`, e2e SLICE-99–101.
+
+#### Oferta de emparejamiento (in-process, POS)
+
+`CompanionService.createPairingOffer(storeId, mode)` — genera código para QR; no expuesto como REST en slice 96.
+
+---
+
 ## Matriz RF ↔ API
 
 | RF | Endpoints |
 |----|-----------|
+| RF-098 | Companion LAN (pair, WS); estáticos `/companion/` |
 | RF-010, RF-011 | API-001 |
 | RF-030–032, RF-082, RF-084 | API-002 |
 | RF-040–041 | API-003 |

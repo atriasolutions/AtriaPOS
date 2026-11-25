@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:core/api/api.dart';
+import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../widgets/companion_qr_panel.dart';
 import 'product_create_screen.dart';
 
 enum _StockReceiptMode { manual, scan }
@@ -315,6 +317,26 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
     );
   }
 
+  Future<void> _openCompanionQr() async {
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Companion WiFi — Ingreso'),
+        content: CompanionQrPanel(
+          composition: widget.composition,
+          mode: CompanionMode.receiptScan,
+          qrKey: const Key('companion_qr_receipt'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cerrar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildModeSelector() {
     return Row(
       children: [
@@ -458,12 +480,21 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
           enabled: !sessionActive,
         ),
         const SizedBox(height: 12),
-        if (!sessionActive)
+        if (!sessionActive) ...[
+          if (widget.composition.companionLanServer != null)
+            TextButton.icon(
+              key: const Key('companion_qr_receipt'),
+              onPressed: _openCompanionQr,
+              icon: const Icon(Icons.qr_code),
+              label: const Text('QR companion WiFi'),
+            ),
+          const SizedBox(height: 8),
           FilledButton(
             key: const Key('stock_receipt_scan_start_button'),
             onPressed: _scanBusy ? null : _startScanSession,
             child: const Text('Iniciar sesión de escaneo'),
-          )
+          ),
+        ]
         else ...[
           TextField(
             key: const Key('stock_receipt_scan_code_field'),

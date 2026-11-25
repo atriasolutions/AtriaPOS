@@ -288,6 +288,15 @@ Borrador de ingreso o conteo por códigos antes de confirmar stock.
 - Dado factura sin receptor o RUT inválido, entonces `VALIDACION`.
 - Dado plantilla sin factura, entonces `VALIDACION` al elegir factura.
 
+### RF-098 [M] Companion web LAN (SLICE-95–105, DEC-056…058)
+
+- Dado POS con servidor LAN activo, cuando supervisor muestra QR de flujo (vender/ingreso/conteo), entonces el código permite emparejar un dispositivo.
+- Dado emparejamiento válido, cuando el companion envía scan por WebSocket, entonces el POS recibe el código en el canal del modo acordado.
+- Dado segundo emparejamiento, entonces revoca el token del dispositivo anterior.
+- Dado token expirado o inválido, entonces rechaza REST/WS.
+- Dado modo VENDER, entonces alimenta `ScannerIngress` como BLE.
+- Dado modo ingreso/conteo, entonces companion usa API `scan-sessions` con token companion.
+
 ### RF-093 [S] Cambiar usuario / fin de sesión (SLICE-82)
 
 - Dado sesión expirada, cuando opera en UI, entonces ofrece **Iniciar sesión** y vuelve a login.

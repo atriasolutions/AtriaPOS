@@ -109,9 +109,9 @@ Detalle: [`20c-plan-revision-intermedia-operacion.md`](20c-plan-revision-interme
 | Bloque | Plan | Slices | Estado |
 |--------|------|--------|--------|
 | **A** — Operación y productos (scanner-first) | [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md) | SLICE-85…94 | **Cerrado** SLICE-94 |
-| **B** — Companion web | [`22-plan-companion-web.md`](22-plan-companion-web.md) | Por definir | ⬜ stub |
+| **B** — Companion web | [`22-plan-companion-web.md`](22-plan-companion-web.md) | SLICE-95…105 | Gate R4-B ✅ — ver abajo |
 
-Respuestas Gate: [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md).
+Respuestas Gate A: [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md). Gate B: [`23b-gate-r4-b-respuestas.md`](23b-gate-r4-b-respuestas.md).
 
 | # | Slice | Fase | Resumen | RF | DoD resumido |
 |---|-------|------|---------|-----|--------------|
@@ -125,6 +125,23 @@ Respuestas Gate: [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md).
 | 92 | SLICE-92 | R4-A | Nota de crédito | RF-096 | SC-092-* ✅ |
 | 93 | SLICE-93 | R4-A | Factura | RF-097 | SC-093-* ✅ |
 | 94 | SLICE-94 | Cierre | Cierre bloque A | — | SC-094-* ✅ |
+
+### Bloque B — companion web WiFi
+
+| # | Slice | Fase | Resumen | RF | DoD resumido |
+|---|-------|------|---------|-----|--------------|
+| 95 | SLICE-95 | R4-B | Gate companion LAN | RF-098 | SC-095-* ✅ |
+| 95b | SLICE-95b | R4-B | Spike cámara HTTP | RNF-041 | Runbook ✅ (manual piloto) |
+| 96 | SLICE-96 | R4-B | Emparejamiento core | RF-098 | SC-096-* ✅ |
+| 97 | SLICE-97 | R4-B | Servidor HTTP LAN | RF-098 | SC-097-* ✅ |
+| 98 | SLICE-98 | R4-B | WebSocket ingress | RF-098 | SC-098-* ✅ |
+| 99 | SLICE-99 | R4-B | QR POS + arranque | RF-098 | SC-099-* ✅ |
+| 100 | SLICE-100 | R4-B | PWA companion | RF-098 | SC-100-* ✅ |
+| 101 | SLICE-101 | R4-B | E2E vender | RF-098 | SC-101-* ✅ |
+| 102 | SLICE-102 | R4-B | E2E ingreso scan | RF-085 | SC-102-* ✅ |
+| 103 | SLICE-103 | R4-B | E2E conteo scan | RF-088 | SC-103-* ✅ |
+| 104 | SLICE-104 | R4-B | Deprecar BLE default | RNF-041 | SC-104-* ✅ |
+| 105 | SLICE-105 | Cierre | Cierre bloque B | — | SC-105-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

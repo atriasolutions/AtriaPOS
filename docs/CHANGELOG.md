@@ -6,6 +6,10 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-105: Cierre Bloque B companion WiFi — `ci-local` + `companion_web`, acta §15, SC-105.
+- SLICE-96…104: Companion LAN — pairing core, `CompanionLanServer`, QR POS, `companion_web` PWA, e2e vender/ingreso/conteo, BLE fuera del default Windows.
+- SLICE-95: Gate R4-B companion web WiFi — RF-098, DEC-056…058, doc 22/23b, plan SLICE-95…105.
+
 - SLICE-94: Cierre Bloque A (operación y productos), `ci-local.ps1` verde, acta §14, doc 21 cerrado, SC-094.
 
 - SLICE-93: Factura electrónica en checkout (RF-097), tipo DTE 33, receptor RUT/razón social, UI `CheckoutPanel`, Drift v23, NC referencia 33, SC-093.

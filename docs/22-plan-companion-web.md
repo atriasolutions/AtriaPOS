@@ -1,47 +1,55 @@
 # 22 — Revisión siguiente · Bloque B — Companion web
 
-**Estado:** **stub** — sin slices ni fechas; **planificación por slices habilitada** (SLICE-94 cerrado 2026-11-25).  
-**Prerrequisito duro:** cumplido — plan Bloque A en [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md) **cerrado** (SLICE-85…94); implementación Bloque A cerrada antes de abrir backlog B por slices.
+**Estado:** **cerrado** — Bloque B (SLICE-95…105) ✅ 2026-11-25.  
+**Prerrequisito:** Bloque A cerrado (SLICE-94).  
+**Gate:** [23b-gate-r4-b-respuestas.md](23b-gate-r4-b-respuestas.md) · [DEC-056…058](decisiones/DEC-gate-r4-b-bloque-b.md).
 
 ---
 
-## Objetivo (borrador)
+## Objetivo
 
-Diseñar e implementar una **aplicación web** inspirada en el companion móvil existente (`apps/scanner_companion`), con cambios operativos que el cliente detallará en la **sesión de planificación Bloque B**.
+**PWA Flutter web** en Android (u otro navegador) que escanea por **cámara** y se conecta al POS por **WiFi LAN** (HTTP + WebSocket), reemplazando el companion BLE.
 
-**Punto de partida en repo:** companion Flutter Android + BLE periférico ([`apps/scanner_companion/lib/ble_peripheral.dart`](../apps/scanner_companion/lib/ble_peripheral.dart)); ingress hacia POS documentado en RNF-041 / SLICE-17–18.
-
----
-
-## Alcance preliminar (solo orientación)
-
-| Probable inclusión (a confirmar) | Fuera hasta planificar |
-|----------------------------------|-------------------------|
-| Escaneo desde navegador o web app emparejada con POS | Sustituir POS desktop |
-| Reuso de protocolo / códigos hacia el núcleo | Bloque A (ingreso/inventario en app POS) |
-| Despliegue y auth web (DEC futuro) | Integración Transbank |
-
-**Detalle funcional:** pendiente del cliente en planificación Bloque B.
+Flujos MVP: **Vender**, **ingreso stock** (`receiptScan`), **conteo inventario** (`countScan`).
 
 ---
 
-## Gate R4-B (futuro)
+## Orden de slices (Bloque B)
 
-1. ~~Cerrar Gate R4-A y SLICE-94.~~ ✅ (2026-11-25).  
-2. Workshop Bloque B: requisitos, stack web, frontera con POS (online/offline).  
-3. Redactar **tabla de slices** en este documento (mín. objetivos, RF, DoD).  
-4. Actualizar `10-plan-entregas.md` y acta.
+| # | Slice | Capa | Entregable | RF / notas | DoD resumido |
+|---|-------|------|------------|------------|--------------|
+| 95 | SLICE-95 | Docs | Gate R4-B | RF-098 | 23b, DEC, doc 10, amend 04/05/07 |
+| 95b | SLICE-95b | Spike | Cámara HTTP Android | RNF-041 | Runbook evidencia |
+| 96 | SLICE-96 | Core | Emparejamiento 1 slot | RF-098 | `PairCompanion`, SC-096-* |
+| 97 | SLICE-97 | Adapters | HTTP estático + health | RF-098 | Shelf, puerto configurable |
+| 98 | SLICE-98 | Core+adapters | WebSocket → ingress | RF-098 | WS scan + token |
+| 99 | SLICE-99 | App POS | QR por flujo + servidor | RF-098 UI | SC-099-UI-* |
+| 100 | SLICE-100 | App web | PWA pair + WS | RF-098 | `companion_web` |
+| 101 | SLICE-101 | E2E | Vender | RF-098 | Scan → carrito |
+| 102 | SLICE-102 | E2E | Ingreso scan | RF-085/094 | receiptScan remoto |
+| 103 | SLICE-103 | E2E | Conteo scan | RF-088/094 | countScan remoto |
+| 104 | SLICE-104 | Deprecación | BLE fuera default | RNF-041 | Doc + feature flag |
+| 105 | SLICE-105 | Cierre | Cierre Bloque B | — | ci-local + acta §15 |
 
-**Regla de programa:** slices Bloque B aún **no abiertos** hasta tabla slices en este doc + filas en doc 10; prerrequisito Bloque A **cumplido** (SLICE-94).
+```mermaid
+flowchart LR
+  S95[SLICE-95]
+  S96[SLICE-96]
+  S97[SLICE-97]
+  S98[SLICE-98]
+  S99[SLICE-99]
+  S100[SLICE-100]
+  S105[SLICE-105]
+  S95 --> S96 --> S97 --> S98
+  S98 --> S99
+  S98 --> S100
+  S99 --> S101
+  S100 --> S101
+  S101 --> S102 --> S103 --> S105
+```
 
 ---
 
-## Próximo paso
+## Confirmación
 
-Cuando el cliente indique que doc 21 está aprobado y decida abrir Bloque B, agendar planificación con:
-
-- Canales de escaneo en web (cámara, HID, BLE bridge).  
-- ¿Companion web reemplaza app Android o convive?  
-- Hosting y seguridad (PIN, tienda, PII).
-
-Hasta entonces, **este archivo no define SLICE-95+**.
+Gate R4-B cerrado 2026-11-25. Implementación slices 96+ con TDD vertical.

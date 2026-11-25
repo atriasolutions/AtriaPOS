@@ -32,7 +32,7 @@
 | ID | Requisito |
 |----|-----------|
 | RNF-040 | Sincronización hora con ntp.shoa.cl (fallback IP); UI muestra reloj |
-| RNF-041 | Escáner externo Android vía BLE companion (MVP) |
+| RNF-041 | Escáner externo: BLE legacy → **companion web WiFi** (Bloque B, DEC-056); cámara en PWA Android |
 
 ## Calidad y TDD
 

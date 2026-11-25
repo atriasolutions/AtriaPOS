@@ -213,6 +213,33 @@
 
 ---
 
+## 15. Bloque B — companion web WiFi (Gate R4-B)
+
+**Inicio:** 2026-11-25 — plan [`22-plan-companion-web.md`](22-plan-companion-web.md); respuestas [`23b-gate-r4-b-respuestas.md`](23b-gate-r4-b-respuestas.md).
+
+| Ítem | Estado |
+|------|--------|
+| Gate R4-B (DEC-056…058) | CERRADO documental |
+| SLICE-95 gate docs | CERRADO |
+| SLICE-96 emparejamiento | CERRADO — `slice_96_companion_pairing.md` |
+| SLICE-97–98 servidor LAN | CERRADO — `slice_97_98_lan_server.md` |
+| SLICE-99 QR POS | CERRADO — `slice_99_pos_qr.md` |
+| SLICE-100 PWA | CERRADO — `slice_100_companion_web.md` |
+| SLICE-101–103 E2E | CERRADO — `slice_101_103_companion_e2e.md` |
+| SLICE-104 BLE legacy default | CERRADO — `slice_104_ble_deprecation.md` |
+| SLICE-105 cierre Bloque B | CERRADO — `slice_105_cierre_bloque_b.md` |
+| BLE companion piloto hardware | **LEGACY** (opt-in `lanCompanionDefault=false`) |
+
+**Cierre Bloque B:** 2026-11-25 — SLICE-105; acceptance `slice_105_cierre_bloque_b.md`.
+
+### DoD cierre Bloque B (SLICE-105)
+
+- [x] Acceptance slices 96–105 + `slice_105_cierre_bloque_b.md`
+- [x] `scripts/ci-local.ps1` verde
+- [x] Doc 22 cerrado; doc 10 filas 95–105 ✅
+
+---
+
 ## 7. DoD revisión 2026-11-20
 
 - [x] `main` y tag documentados

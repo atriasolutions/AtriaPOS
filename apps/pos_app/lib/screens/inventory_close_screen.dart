@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:core/api/api.dart';
+import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../widgets/companion_qr_panel.dart';
 import 'product_create_screen.dart';
 
 enum _InventoryCloseMode { manual, scan }
@@ -297,6 +299,26 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
     );
   }
 
+  Future<void> _openCompanionQr() async {
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Companion WiFi — Conteo'),
+        content: CompanionQrPanel(
+          composition: widget.composition,
+          mode: CompanionMode.countScan,
+          qrKey: const Key('companion_qr_count'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cerrar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildModeSelector() {
     return Row(
       children: [
@@ -414,12 +436,21 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
             'Solo los productos escaneados se incluirán en el cierre.',
           ),
           const SizedBox(height: 16),
-          if (!sessionActive)
+          if (!sessionActive) ...[
+            if (widget.composition.companionLanServer != null)
+              TextButton.icon(
+                key: const Key('companion_qr_count'),
+                onPressed: _openCompanionQr,
+                icon: const Icon(Icons.qr_code),
+                label: const Text('QR companion WiFi'),
+              ),
+            const SizedBox(height: 8),
             FilledButton(
               key: const Key('inventory_close_scan_start_button'),
               onPressed: _scanBusy ? null : _startScanSession,
               child: const Text('Iniciar conteo por escaneo'),
-            )
+            ),
+          ]
           else ...[
             TextField(
               key: const Key('inventory_close_scan_code_field'),

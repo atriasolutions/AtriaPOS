@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'dart:io' show InternetAddress, Platform;
 
 import 'package:adapters/adapters.dart';
 import 'package:core/api/api.dart';
@@ -9,7 +9,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../config/store_config.dart';
 import '../scanner/ble_central_scanner_ingress.dart';
+import '../scanner/lan_scanner_ingress.dart';
 import '../scanner/scanner_ingress.dart';
+import '../widgets/companion_qr_panel.dart';
 
 /// Cableado local-first: Drift + carrito in-memory + DTE fake.
 class PosComposition {
@@ -39,6 +41,9 @@ class PosComposition {
     required this.reportService,
     required this.trustedClock,
     required this.scannerIngress,
+    required this.companionService,
+    this.companionLanServer,
+    required this.createCompanionOffer,
   });
 
   final AppDatabase database;
@@ -67,6 +72,15 @@ class PosComposition {
   final ReportService reportService;
   final NtpShoaTrustedClock trustedClock;
   final ScannerIngress scannerIngress;
+  final CompanionService companionService;
+  final CompanionLanServer? companionLanServer;
+  final CreateCompanionPairingOffer createCompanionOffer;
+
+  /// Companion LAN como escáner por defecto en Windows (SLICE-104).
+  static bool lanCompanionDefault = true;
+
+  /// Host anunciado en QR (tests: 127.0.0.1).
+  static String companionAdvertisedHost = '127.0.0.1';
 
   /// Cache del identificador de tienda activa (MVP una tienda).
   String? activeStoreId;
@@ -153,7 +167,23 @@ class PosComposition {
     final clockPersist = DriftClockStateRepository(db);
     final trustedClock = trustedClockOverride ??
         NtpShoaTrustedClock(MutableTrustedClock(), clockPersist);
-    final scannerIngress = scannerIngressOverride ?? _defaultScannerIngress();
+    final companionService = CompanionService();
+    final createCompanionOffer =
+        CreateCompanionPairingOffer(companionService.repository);
+    CompanionLanServer? companionLanServer;
+    final ScannerIngress scannerIngress;
+    if (scannerIngressOverride != null) {
+      scannerIngress = scannerIngressOverride;
+    } else if (_useLanCompanionDefault()) {
+      companionLanServer = CompanionLanServer(
+        companionService: companionService,
+        host: InternetAddress.loopbackIPv4.address,
+        port: 0,
+      );
+      scannerIngress = LanScannerIngress(companionLanServer.scans);
+    } else {
+      scannerIngress = _defaultScannerIngress();
+    }
     final scanSessions = InMemoryScanSessionRepository();
 
     return PosComposition._(
@@ -235,7 +265,47 @@ class PosComposition {
       ),
       trustedClock: trustedClock,
       scannerIngress: scannerIngress,
+      companionService: companionService,
+      companionLanServer: companionLanServer,
+      createCompanionOffer: createCompanionOffer,
     );
+  }
+
+  Future<void> ensureCompanionLanServerStarted() async {
+    final server = companionLanServer;
+    if (server == null || server.isRunning) return;
+    await server.start();
+  }
+
+  Future<CompanionQrState?> prepareCompanionQr(CompanionMode mode) async {
+    await ensureCompanionLanServerStarted();
+    final server = companionLanServer;
+    if (server == null) return null;
+  final storeId = activeStoreId ?? kDemoStoreId;
+    final offer = await createCompanionOffer(
+      CreateCompanionPairingOfferInput(storeId: storeId, mode: mode),
+    );
+    final port = server.boundPort ?? CompanionLanConstants.defaultPort;
+    final base = Uri(
+      scheme: 'http',
+      host: companionAdvertisedHost,
+      port: port,
+    );
+    final launchUrl = buildCompanionLaunchUrl(
+      base: base,
+      storeId: storeId,
+      mode: mode,
+      pairingCode: offer.pairingCode,
+    );
+    return CompanionQrState(
+      launchUrl: launchUrl,
+      pairingCode: offer.pairingCode,
+      serverRunning: server.isRunning,
+    );
+  }
+
+  static bool _useLanCompanionDefault() {
+    return !kIsWeb && Platform.isWindows && lanCompanionDefault;
   }
 
   Future<void> bootstrapClock() async {
@@ -352,7 +422,11 @@ class PosComposition {
     );
   }
 
-  Future<void> close() => closePosDatabase(database);
+  Future<void> close() async {
+    companionLanServer?.dispose();
+    scannerIngress.dispose();
+    await closePosDatabase(database);
+  }
 
   static ScannerIngress _defaultScannerIngress() {
     if (!kIsWeb && Platform.isWindows) {
