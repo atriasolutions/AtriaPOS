@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:scanner_companion/main.dart';
 
 void main() {
-  testWidgets('muestra pantalla de pareo', (tester) async {
+  testWidgets('la puerta es conectar por el enlace del POS', (tester) async {
     await tester.pumpWidget(const ScannerCompanionApp());
-    expect(find.textContaining('código'), findsWidgets);
-    expect(find.byKey(const Key('companion_pairing_code_field')), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_url_field')), findsOneWidget);
+    expect(find.text('Conectar'), findsOneWidget);
   });
 }

@@ -4,17 +4,23 @@ import 'package:flutter/services.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import 'ble_peripheral.dart';
+import 'companion_lan_client.dart';
+import 'companion_lan_gateway.dart';
+import 'lan_connect_screen.dart';
 
 void main() => runApp(const ScannerCompanionApp());
 
 class ScannerCompanionApp extends StatelessWidget {
-  const ScannerCompanionApp({super.key});
+  const ScannerCompanionApp({super.key, this.client});
+
+  final CompanionLanClient? client;
 
   @override
   Widget build(BuildContext context) {
+    final lan = client ?? CompanionLanClient(IoCompanionPosGateway.new);
     return MaterialApp(
-      title: 'POS Escáner',
-      home: const PairingScreen(),
+      title: 'Atria Companion',
+      home: LanConnectScreen(client: lan),
     );
   }
 }
