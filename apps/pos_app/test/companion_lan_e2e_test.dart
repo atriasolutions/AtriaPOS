@@ -24,7 +24,7 @@ void main() {
       final state = await composition.prepareCompanionQr(CompanionMode.vender);
       expect(state, isNotNull);
       expect(state!.serverRunning, isTrue);
-      expect(state.pairingCode.length, CompanionLanConstants.pairingCodeLength);
+      expect(state.pairingCode!.length, CompanionLanConstants.pairingCodeLength);
       expect(state.launchUrl, contains('/c/${state.pairingCode}'));
       expect(state.launchUrl!.contains('storeId'), isFalse);
     } finally {

@@ -7,7 +7,7 @@
 - [x] Regresión companion en `companion_lan_e2e_test.dart`
 - [x] `scripts/ci-local.ps1` cubre `pos_app` (incluye flow e2e)
 - [x] Acceptance 112 + esta acta
-- [ ] Piloto manual HTTPS triple flujo (PREPARADO en runbook)
+- [ ] Piloto manual HTTPS triple flujo → checklist en [`slice_115_cierre_piloto_https.md`](slice_115_cierre_piloto_https.md) (smoke PC: SC-115; celular: M1–M4)
 
 ## Slices de la tanda
 

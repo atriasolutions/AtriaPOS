@@ -34,7 +34,7 @@ Guía paso a paso para probar **companion WiFi** en tienda o laboratorio. Sin se
 2. En el PC: `ipconfig` → IP del adaptador tether (ej. `192.168.42.129`).
 3. Arrancar POS con esa IP fija:
    `--dart-define=COMPANION_LAN_HOST=192.168.42.129`
-4. En el **mismo teléfono**, Brave: probar primero `http://{ESA-IP}:8765/health` (debe responder JSON).
+4. En el **mismo teléfono**, Brave: probar primero `https://{ESA-IP}:8765/health` (debe responder JSON; primera vez marcará certificado no confiable hasta instalar CA).
 5. Si el QR no abre: **copiar la URL completa** del diálogo del POS (no confiar solo en el escáner).
 6. Firewall Windows → regla TCP **8765** en perfil **Privada** (el tether suele ser red privada).
 
@@ -65,48 +65,43 @@ El **certificado TLS** se emite al arrancar el POS con la IPv4 que se mostrará 
 - El QR usa **IPv4 LAN auto** (`NetworkInterface`). Forzar IP: `--dart-define=COMPANION_LAN_HOST=192.168.0.25`
 - El servidor escucha en **0.0.0.0** (accesible desde el celular en la misma WiFi).
 
+Con el POS en ejecución, **smoke en la PC** (antes del celular):
+
+```powershell
+cd <raíz del repo>
+.\scripts\verify-companion-lan.ps1
+```
+
+Opcional: `.\scripts\verify-companion-lan.ps1 -TargetHost 192.168.42.129` si pruebas por IP LAN desde otra máquina en la red.
+
 **Alternativa rápida (misma PC, sin celular):** `flutter run -d chrome` en `companion_web` y usa la URL del QR (sección 4).
 
 ### Firewall Windows
 
-- Permitir entrada **TCP** en el puerto que use el servidor (el QR lleva el puerto real; el POS usa puerto **dinámico** si `port: 0` en composition — léelo siempre del QR o de `GET /health`).
-- Regla sugerida: “Atria Companion LAN” → puerto mostrado en el QR → redes **privadas** only.
+- Permitir entrada **TCP** en el puerto **8765** (piloto HTTPS por defecto).
+- Regla sugerida: “Atria Companion LAN” → puerto **8765** → redes **privadas** only.
 
 ---
 
 ## 2. Arranque del POS
 
-1. Desde repo:
-   ```powershell
-   cd apps\pos_app
-   flutter pub get
-   flutter run -d windows
-   ```
+1. Preferido: `.\scripts\prepare-companion-pwa.ps1` y el `flutter run` que imprime (HTTPS, `COMPANION_WEB_ROOT`, puerto **8765**).
 2. Si es primera vez: bootstrap tienda demo (flujo normal de la app) o asegúrate de tener tienda activa.
 3. **Iniciar sesión** (supervisor o dueño) y **abrir turno** para flujo Vender.
-4. Abre **Companion WiFi** (botón con QR) en pantalla Vender — debe aparecer código alfanumérico y URL.
+4. Abre **Companion WiFi** (botón con QR) en pantalla Vender — debe aparecer código alfanumérico, URL corta `https://{ip}:8765/c/{código}` y bloque de instalación de CA (`companion_ca_install_hint`).
 
-**Smoke red (opcional en PC caja):**
-
-```powershell
-# Sustituye PUERTO e IP según el QR
-curl http://127.0.0.1:PUERTO/health
-```
-
-Respuesta esperada: `{"ok":true,"service":"companion-lan"}`.
+**Smoke en PC (obligatorio antes del celular):** `.\scripts\verify-companion-lan.ps1` — ver [`slice_115_companion_pilot_smoke.md`](../test/acceptance/slice_115_companion_pilot_smoke.md).
 
 ---
 
 ## 3. Abrir el companion en el celular
 
-1. En el POS: **Companion WiFi** → muestra QR y URL completa.
-2. En Android: escanea QR con la cámara o Chrome.
-3. La URL debe verse así:
-   `http://{IP}:{puerto}/companion/?storeId=…&mode=VENDER&pairingCode=XXXXXX`
-4. Si usas build web copiado al servidor: carga la PWA.
-5. Pulsa **Emparejar** — estado “Conectado”.
+1. **Primera vez:** copie del diálogo POS la URL `https://{IP}:8765/companion/instalar-certificado` e instale la CA (ver [`companion-lan-install-ca.md`](companion-lan-install-ca.md)).
+2. En el POS: **Companion WiFi** → escanee el QR (enlace corto `https://{IP}:8765/c/{código}`).
+3. El navegador redirige a `/companion/?storeId=…&mode=…&pairingCode=…` y carga la PWA (auto-empareja).
+4. Estado “Conectado” en la PWA; en el POS, chip de celular en diálogo QR cuando el WebSocket está activo (SLICE-111).
 
-Si emparejar falla: revisa IP en QR, firewall, que el código no haya expirado (**30 min**, doc 23b) ni hayas generado otro QR (invalida el anterior).
+Si emparejar falla: revise smoke PC, IP, firewall, CA instalada, aviso `companion_cert_ip_mismatch`, expiración del código (**30 min**, doc 23b) o QR regenerado.
 
 ---
 
@@ -202,8 +197,12 @@ Observaciones:
 | Celular no abre URL | QR con `127.0.0.1` | Cambiar `companionAdvertisedHost` a IP LAN y regenerar QR |
 | `Emparejamiento falló` | Código expirado o revocado | Cerrar diálogo QR y abrir de nuevo |
 | Scan no llega al POS | Token viejo tras nuevo QR | Re-emparejar en companion |
-| No hay UI en `/companion/` | Sin `build web` en servidor | Build + `staticRoot` o usar alternativa sección 4 |
-| Cámara no inicia | HTTP no seguro en Android | Spike 95b; planear TLS si falla |
+| Texto `No encontrado` en celular | Sin PWA servida | `prepare-companion-pwa.ps1` + reinicio POS (SLICE-113) |
+| `companion_pwa_missing` en POS | Sin build web | Script prepare + defines |
+| HTTPS tachado en rojo | CA no instalada | URL del diálogo QR → instalar CA (SLICE-114) |
+| `companion_cert_ip_mismatch` | IP cambió sin reinicio | Reiniciar POS o `COMPANION_LAN_HOST` |
+| No hay UI en `/companion/` | Smoke SC-115-02 falla | Ver verify script + build web |
+| Cámara no inicia | Permisos o política del navegador | Ingreso manual (DEC-061) |
 | Firewall bloquea | Puerta cerrada en Windows | Regla entrada TCP puerto del QR |
 | Modo ingreso sin sesión | Falta “Iniciar sesión escaneo” | B3 / C3 antes de escanear |
 

@@ -4,9 +4,19 @@
 
 Primera conexión HTTPS al POS (`https://{ip}:8765/c/...`).
 
+## Smoke previo (PC)
+
+Con el POS en ejecución:
+
+```powershell
+.\scripts\verify-companion-lan.ps1
+```
+
+Si falla SC-115-02 o SC-115-03, no avance al celular hasta corregir build/PWA.
+
 ## Pasos
 
-1. En el celular, abra `https://{ip}:8765/companion/instalar-certificado`.
+1. En el celular, abra la URL del diálogo QR o `https://{ip}:8765/companion/instalar-certificado`.
 2. Descargue `atria-ca.pem`.
 3. Android: **Ajustes → Seguridad → Más seguridad → Instalar certificado → CA**.
 4. Vuelva a escanear el QR del POS.
