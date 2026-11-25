@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-108: PWA companion pantalla simple — auto-pair, modo en español, ingreso manual sin cámara.
 - SLICE-107: Enlace corto companion QR — `GET /c/{code}` → 302 PWA, `ResolveCompanionShortLink`, QR sin query.
 - SLICE-106: Decisiones companion HTTPS — DEC-059…062, doc 23c, slices 107–112 pendientes de Plan.
 - SLICE-105: Cierre Bloque B companion WiFi — `ci-local` + `companion_web`, acta §15, SC-105.

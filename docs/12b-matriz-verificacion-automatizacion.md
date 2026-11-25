@@ -122,6 +122,12 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-107-03 | RF-098 | — | ✅ | — | `companion_lan_server_test.dart` redirect |
 | SC-107-04 | RF-098 | — | ✅ | — | mismo archivo — 404 |
 | SC-107-05 | RF-098 | ✅ | — | — | `companion_short_link_test.dart` URL QR |
+| SC-108-01 | RF-098 | — | — | ✅ | `companion_mode_labels_test.dart` |
+| SC-108-02 | RF-098 | — | — | ✅ | `companion_home_presenter_test.dart` |
+| SC-108-03 | RF-098 | — | — | ✅ | `companion_home_screen_test.dart` |
+| SC-108-04 | RF-098 | — | — | ✅ | mismo archivo |
+| SC-108-05 | RF-098 | — | — | ✅ | `companion_client_test.dart` regresión |
+| SC-108-06 | RF-098 | — | — | ✅ | `companion_home_screen_test.dart` |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

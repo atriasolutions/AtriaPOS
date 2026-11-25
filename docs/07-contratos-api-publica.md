@@ -1141,6 +1141,12 @@ Oferta inexistente o expirada → **404** (texto breve en español).
 
 **Tests:** `SC-096-*`, `SC-107-*`, `companion_lan_server_test.dart`, e2e SLICE-99–101.
 
+#### PWA `/companion/` (SLICE-108, DEC-061)
+
+Tras el redirect con query de emparejamiento: **auto-pair**, modo en español, sin UUID de tienda en pantalla, **sin visor de cámara** (ingreso manual prominente; reintento solo si falla la conexión).
+
+**Tests:** `SC-108-*` en `apps/companion_web/test/`.
+
 #### Oferta de emparejamiento (in-process, POS)
 
 `CompanionService.createPairingOffer(storeId, mode)` — genera código para QR; no expuesto como REST en slice 96.

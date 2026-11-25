@@ -151,7 +151,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 |---|-------|------|---------|-----|--------------|
 | 106 | SLICE-106 | Docs | Decisiones HTTPS | RF-098 | DEC-059…062 ✅ |
 | 107 | SLICE-107 | Adapters | Enlace corto `/c/{codigo}` | RF-098 | SC-107-* ✅ |
-| 108 | SLICE-108 | PWA | Pantalla simple | RF-098 | ⬜ Plan |
+| 108 | SLICE-108 | PWA | Pantalla simple | RF-098 | SC-108-* ✅ |
 | 109 | SLICE-109 | Adapters | HTTPS + CA instalable | RF-098 | ⬜ Plan |
 | 110 | SLICE-110 | PWA | Cámara o manual | RF-098 | ⬜ Plan |
 | 111 | SLICE-111 | POS | Estado celular conectado | RF-098 | ⬜ Plan |

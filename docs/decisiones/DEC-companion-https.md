@@ -53,7 +53,8 @@
 
 ## Decisión
 
-- Se intenta la cámara sobre HTTPS.
+- Al abrir `/companion/?…` la PWA **empareja sola** (SLICE-108); el botón manual solo aparece como «Reintentar» si falla la conexión.
+- Se intenta la cámara sobre HTTPS (SLICE-110).
 - Si el navegador la bloquea (`unsupported` u otro fallo), se oculta el visor vacío.
 - El camino de caja es **escribir el código**, con campo grande y un botón de envío.
 - La cámara no es requisito para cerrar la tanda.
