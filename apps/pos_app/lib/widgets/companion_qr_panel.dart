@@ -106,6 +106,22 @@ class CompanionQrPanel extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),
+            if (state.caInstallUrl != null) ...[
+              const SizedBox(height: 12),
+              CompanionCaInstallHint(installUrl: state.caInstallUrl!),
+            ],
+            if (state.certIpMismatch) ...[
+              const SizedBox(height: 8),
+              Text(
+                key: const Key('companion_cert_ip_mismatch'),
+                'La IP de red cambió respecto al certificado. '
+                'Reinicie el POS o fije COMPANION_LAN_HOST.',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ],
         );
       },
@@ -114,6 +130,30 @@ class CompanionQrPanel extends StatelessWidget {
 }
 
 enum CompanionQrBlockedReason { pwaMissing }
+
+/// Primera conexión HTTPS: instalar CA en el celular (SLICE-114).
+class CompanionCaInstallHint extends StatelessWidget {
+  const CompanionCaInstallHint({super.key, required this.installUrl});
+
+  final String installUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.bodySmall;
+    return Column(
+      key: const Key('companion_ca_install_hint'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Primera vez en el celular: abra esta página e instale el certificado.',
+          style: style,
+        ),
+        const SizedBox(height: 4),
+        SelectableText(installUrl, style: style),
+      ],
+    );
+  }
+}
 
 /// Instrucciones cuando falta el build de companion_web (SLICE-113).
 class CompanionPwaMissingInstructions extends StatelessWidget {
@@ -154,6 +194,8 @@ class CompanionQrState {
     required this.pairingCode,
     required this.serverRunning,
     this.blockedReason,
+    this.caInstallUrl,
+    this.certIpMismatch = false,
   });
 
   const CompanionQrState.blocked({
@@ -162,10 +204,14 @@ class CompanionQrState {
   })  : launchUrl = null,
         pairingCode = null,
         serverRunning = serverRunning,
-        blockedReason = reason;
+        blockedReason = reason,
+        caInstallUrl = null,
+        certIpMismatch = false;
 
   final String? launchUrl;
   final String? pairingCode;
   final bool serverRunning;
   final CompanionQrBlockedReason? blockedReason;
+  final String? caInstallUrl;
+  final bool certIpMismatch;
 }

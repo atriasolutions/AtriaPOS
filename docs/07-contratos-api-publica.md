@@ -1157,7 +1157,9 @@ Tras el redirect con query de emparejamiento: **auto-pair**, modo en español, s
 
 Build obligatorio con `--base-href=/companion/` en `companion_web` (script `prepare-companion-pwa.ps1`). Sin `index.html` en la carpeta servida, el POS **no muestra QR** en HTTPS (SLICE-113, clave UI `companion_pwa_missing`).
 
-**Tests:** `SC-108-*`, `SC-110-*` en `apps/companion_web/test/`; `SC-113-*` en `pos_app`.
+**Tests:** `SC-108-*`, `SC-110-*` en `apps/companion_web/test/`; `SC-113-*`, `SC-114-*` en `pos_app`.
+
+Al arrancar, el certificado servidor companion se emite para la IPv4 anunciada (misma que el QR). Instalación CA: UI `companion_ca_install_hint` → `GET /companion/instalar-certificado`.
 
 #### Oferta de emparejamiento (in-process, POS)
 

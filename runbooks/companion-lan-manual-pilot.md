@@ -60,6 +60,8 @@ Luego ejecuta el comando que imprime el script (incluye `COMPANION_WEB_ROOT` y p
 
 Si el diálogo QR del POS muestra **«Falta el build de Companion (PWA)»** (clave `companion_pwa_missing`), no habrá QR hasta ejecutar el script y reiniciar el POS con los `--dart-define` indicados.
 
+El **certificado TLS** se emite al arrancar el POS con la IPv4 que se mostrará en el QR. Si cambia el adaptador (USB ↔ Wi‑Fi), **reinicie el POS** o use `COMPANION_LAN_HOST`. El diálogo QR incluye el enlace a instalar la CA y avisa si la IP no coincide con el certificado guardado.
+
 - El QR usa **IPv4 LAN auto** (`NetworkInterface`). Forzar IP: `--dart-define=COMPANION_LAN_HOST=192.168.0.25`
 - El servidor escucha en **0.0.0.0** (accesible desde el celular en la misma WiFi).
 

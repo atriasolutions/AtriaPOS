@@ -96,7 +96,47 @@ abstract final class CompanionLanConfig {
     ];
   }
 
+  /// Solo para tests (SLICE-114).
+  static String? advertisedHostOverrideForTests;
+
+  static String resolveAdvertisedHostSync() {
+    final testOverride = advertisedHostOverrideForTests;
+    if (testOverride != null && testOverride.trim().isNotEmpty) {
+      return testOverride.trim();
+    }
+    final override = advertisedHostOverride.trim();
+    if (override.isNotEmpty) return override;
+    try {
+      final interfaces = _listNetworkInterfacesBlocking();
+      return _pickAdvertisedHostFromInterfaces(interfaces);
+    } catch (_) {}
+    return InternetAddress.loopbackIPv4.address;
+  }
+
+  static List<NetworkInterface> _listNetworkInterfacesBlocking() {
+    List<NetworkInterface>? result;
+    Object? error;
+    NetworkInterface.list(
+      type: InternetAddressType.IPv4,
+      includeLinkLocal: false,
+    )
+        .then((value) => result = value)
+        .catchError((Object e) => error = e);
+    final deadline = DateTime.now().add(const Duration(seconds: 3));
+    while (result == null && error == null) {
+      if (DateTime.now().isAfter(deadline)) break;
+      sleep(const Duration(milliseconds: 5));
+    }
+    if (result != null) return result!;
+    if (error != null) throw error!;
+    return [];
+  }
+
   static Future<String> resolveAdvertisedHost() async {
+    final testOverride = advertisedHostOverrideForTests;
+    if (testOverride != null && testOverride.trim().isNotEmpty) {
+      return testOverride.trim();
+    }
     final override = advertisedHostOverride.trim();
     if (override.isNotEmpty) return override;
     try {
@@ -104,23 +144,47 @@ abstract final class CompanionLanConfig {
         type: InternetAddressType.IPv4,
         includeLinkLocal: false,
       );
-      var bestIp = '';
-      var bestScore = -1 << 30;
-      for (final interface in interfaces) {
-        for (final addr in interface.addresses) {
-          if (addr.isLoopback) continue;
-          final raw = addr.address;
-          if (raw.startsWith('169.254.')) continue;
-          final score = companionLanScoreInterface(interface.name, raw);
-          if (score > bestScore) {
-            bestScore = score;
-            bestIp = raw;
-          }
-        }
-      }
-      if (bestIp.isNotEmpty) return bestIp;
+      return _pickAdvertisedHostFromInterfaces(interfaces);
     } catch (_) {}
     return InternetAddress.loopbackIPv4.address;
+  }
+
+  /// Prioriza la mejor IPv4 entre candidatos (SLICE-114).
+  static String pickAdvertisedHostIpv4({
+    required String hostOverride,
+    required Iterable<({String interfaceName, String ipv4})> addresses,
+  }) {
+    final override = hostOverride.trim();
+    if (override.isNotEmpty) return override;
+    var bestIp = '';
+    var bestScore = -1 << 30;
+    for (final entry in addresses) {
+      final raw = entry.ipv4;
+      if (raw.startsWith('169.254.')) continue;
+      final score = companionLanScoreInterface(entry.interfaceName, raw);
+      if (score > bestScore) {
+        bestScore = score;
+        bestIp = raw;
+      }
+    }
+    if (bestIp.isNotEmpty) return bestIp;
+    return InternetAddress.loopbackIPv4.address;
+  }
+
+  static String _pickAdvertisedHostFromInterfaces(
+    List<NetworkInterface> interfaces,
+  ) {
+    final entries = <({String interfaceName, String ipv4})>[];
+    for (final interface in interfaces) {
+      for (final addr in interface.addresses) {
+        if (addr.isLoopback) continue;
+        entries.add((interfaceName: interface.name, ipv4: addr.address));
+      }
+    }
+    return pickAdvertisedHostIpv4(
+      hostOverride: '',
+      addresses: entries,
+    );
   }
 
   /// Prioriza USB tether (RNDIS) y redes 192.168.42.x típicas de Android.

@@ -45,6 +45,7 @@ class PosComposition {
     required this.scannerIngress,
     required this.companionService,
     this.companionLanServer,
+    this.companionLanCertStorePath,
     required this.createCompanionOffer,
   });
 
@@ -76,6 +77,9 @@ class PosComposition {
   final ScannerIngress scannerIngress;
   final CompanionService companionService;
   final CompanionLanServer? companionLanServer;
+
+  /// Carpeta de datos del POS para certificados companion (`companion-lan/`).
+  final String? companionLanCertStorePath;
   final CreateCompanionPairingOffer createCompanionOffer;
 
   /// Companion LAN como escáner por defecto en Windows (SLICE-104).
@@ -278,6 +282,7 @@ class PosComposition {
       scannerIngress: scannerIngress,
       companionService: companionService,
       companionLanServer: companionLanServer,
+      companionLanCertStorePath: companionDataDir,
       createCompanionOffer: createCompanionOffer,
     );
   }
@@ -345,11 +350,24 @@ class PosComposition {
       base: base,
       pairingCode: offer.pairingCode,
     );
+    var certIpMismatch = false;
+    final certPath = companionLanCertStorePath;
+    if (server.usesTls && certPath != null) {
+      final stored = CompanionLanCertStore(certPath).storedServerIpSync();
+      if (stored != null && stored.isNotEmpty && stored != host) {
+        certIpMismatch = true;
+      }
+    }
+    final caInstallUrl = server.usesTls
+        ? base.replace(path: CompanionLanServer.caInstallHelpPath).toString()
+        : null;
     return CompanionQrState(
       launchUrl: launchUrl,
       pairingCode: offer.pairingCode,
       serverRunning: server.isRunning,
       blockedReason: null,
+      caInstallUrl: caInstallUrl,
+      certIpMismatch: certIpMismatch,
     );
   }
 
@@ -370,10 +388,10 @@ class PosComposition {
         port: 0,
       );
     }
+    final certIp = CompanionLanConfig.resolveAdvertisedHostSync();
     final material = dataDir == null
-        ? CompanionLanTlsMaterial.forTest()
-        : CompanionLanCertStore(dataDir)
-            .tlsMaterialForServerIpSync(InternetAddress.loopbackIPv4.address);
+        ? CompanionLanTlsMaterial.forTest(ip: certIp)
+        : CompanionLanCertStore(dataDir).tlsMaterialForServerIpSync(certIp);
     final port = CompanionLanConfig.lanPort > 0
         ? CompanionLanConfig.lanPort
         : CompanionLanConstants.defaultPort;

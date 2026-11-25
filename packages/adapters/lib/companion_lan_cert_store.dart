@@ -95,6 +95,14 @@ class CompanionLanCertStore {
     return material;
   }
 
+  /// IPv4 con la que se emitió el certificado servidor vigente, si existe.
+  String? storedServerIpSync() {
+    final ipFile = File('${_dir.path}${Platform.pathSeparator}$_serverIp');
+    if (!ipFile.existsSync()) return null;
+    final ip = ipFile.readAsStringSync().trim();
+    return ip.isEmpty ? null : ip;
+  }
+
   ({String caPem, String caKeyPem}) loadOrCreateCaSync() {
     _dir.createSync(recursive: true);
     final caFile = File('${_dir.path}${Platform.pathSeparator}$_caPem');

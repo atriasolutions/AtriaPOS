@@ -53,6 +53,17 @@ void main() {
     await server.close(force: true);
   });
 
+  test('SC-114-03 regenera certificado si cambia server-ip.txt', () async {
+    const ipA = '192.168.1.10';
+    const ipB = '192.168.1.20';
+    final store = CompanionLanCertStore(tempDir.path);
+    final first = await store.tlsMaterialForServerIp(ipA);
+    expect(store.storedServerIpSync(), ipA);
+    final second = await store.tlsMaterialForServerIp(ipB);
+    expect(store.storedServerIpSync(), ipB);
+    expect(second.serverCertPem, isNot(equals(first.serverCertPem)));
+  });
+
   test('CompanionLanTlsMaterial.forTest genera contexto usable', () {
     final material = CompanionLanTlsMaterial.forTest(ip: '127.0.0.1');
     expect(material.caPem, contains('BEGIN CERTIFICATE'));

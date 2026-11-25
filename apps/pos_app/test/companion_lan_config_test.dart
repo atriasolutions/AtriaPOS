@@ -74,4 +74,27 @@ void main() {
 
     expect(selected?.path, candidate.path);
   });
+
+  test('SC-114-01 override de host en tests sync', () {
+    CompanionLanConfig.advertisedHostOverrideForTests = '192.168.42.99';
+    addTearDown(() => CompanionLanConfig.advertisedHostOverrideForTests = null);
+    expect(CompanionLanConfig.resolveAdvertisedHostSync(), '192.168.42.99');
+  });
+
+  test('SC-114-02 RNDIS gana sobre VMware en pickAdvertisedHostIpv4', () {
+    final picked = CompanionLanConfig.pickAdvertisedHostIpv4(
+      hostOverride: '',
+      addresses: [
+        (
+          interfaceName: 'VMware Network Adapter VMnet8',
+          ipv4: '192.168.134.1',
+        ),
+        (
+          interfaceName: 'Remote NDIS Compatible Device',
+          ipv4: '192.168.42.129',
+        ),
+      ],
+    );
+    expect(picked, '192.168.42.129');
+  });
 }

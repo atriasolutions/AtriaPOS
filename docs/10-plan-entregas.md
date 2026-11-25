@@ -157,6 +157,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 111 | SLICE-111 | POS | Estado celular conectado | RF-098 | SC-111-* ✅ |
 | 112 | SLICE-112 | E2E | Vender, ingreso y conteo | RF-098 | SC-112-* ✅ |
 | 113 | SLICE-113 | POS | Root PWA válido + QR bloqueado | RF-098 | SC-113-* ✅ |
+| 114 | SLICE-114 | POS | TLS IP del QR + hint CA | RF-098 | SC-114-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 
