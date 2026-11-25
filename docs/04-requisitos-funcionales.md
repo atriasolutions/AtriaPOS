@@ -102,6 +102,7 @@ Complementa inventario barrio: recepción trazable sin crear SKU en el acto. Pan
 - Dado guía, lote o cantidad inválidos, entonces `VALIDACION`.
 - Dado `POST .../adjustments` con motivo `RECEPCION`, entonces `VALIDACION` (usar ingreso dedicado API-004).
 - El ingreso aparece en auditoría del día (RF-070) con guía y lote en el resumen.
+- Dado sesión `receiptScan` en borrador con líneas escaneadas (RF-094), cuando confirma ingreso, entonces por cada producto persiste un movimiento `RECEPCION` con guía/lote de la sesión y marca sesión `confirmed` (SLICE-86).
 
 ### RF-022 [S] Alerta stock bajo
 

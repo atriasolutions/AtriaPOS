@@ -8,16 +8,20 @@ class ScanSessionService {
   factory ScanSessionService({
     ScanSessionRepository? scanSessions,
     ProductRepository? products,
+    StockMovementRepository? stockMovements,
     SessionProvider? sessionProvider,
   }) {
     final sessions = scanSessions ?? InMemoryScanSessionRepository();
     final prods = products ?? InMemoryProductRepository();
+    final movements = stockMovements ?? InMemoryStockMovementRepository();
     final provider =
         sessionProvider ?? InMemorySessionProvider.supervisor();
+    final recordReceipt = RecordStockReceipt(prods, movements, provider);
     return ScanSessionService._(
       StartScanSession(sessions, provider),
       RecordScanBip(sessions, ResolveScanCode(prods), provider),
       CancelScanSession(sessions, provider),
+      ConfirmStockReceiptScan(sessions, recordReceipt, provider),
       sessions,
     );
   }
@@ -26,12 +30,14 @@ class ScanSessionService {
     this._start,
     this._bip,
     this._cancel,
+    this._confirm,
     this._repository,
   );
 
   final StartScanSession _start;
   final RecordScanBip _bip;
   final CancelScanSession _cancel;
+  final ConfirmStockReceiptScan _confirm;
   final ScanSessionRepository _repository;
 
   Future<ApiResult<ScanSessionResponse>> createScanSession(
@@ -123,6 +129,46 @@ class ScanSessionService {
     }
   }
 
+  Future<ApiResult<ConfirmScanSessionResponse>> confirmScanSession(
+    StoreId storeId,
+    ScanSessionId sessionId,
+    ConfirmScanSessionRequest request,
+  ) async {
+    try {
+      final result = await _confirm(
+        ConfirmStockReceiptScanInput(
+          storeId: storeId,
+          sessionId: sessionId,
+          idempotencyKey: request.idempotencyKey,
+        ),
+      );
+      return ApiSuccess(
+        _toConfirmResponse(result.session, result.lines),
+        statusCode: 200,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    } on ConflictFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 409,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    }
+  }
+
   Future<ApiResult<ScanSessionResponse>> cancelScanSession(
     StoreId storeId,
     ScanSessionId sessionId,
@@ -162,6 +208,28 @@ class ScanSessionService {
               productName: l.productName,
               quantity: l.quantity,
               lastScannedAt: l.lastScannedAt,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  static ConfirmScanSessionResponse _toConfirmResponse(
+    ScanSession session,
+    List<ScanSessionConfirmationLine> lines,
+  ) {
+    return ConfirmScanSessionResponse(
+      sessionId: session.id,
+      state: session.state.apiValue,
+      guideRef: session.guideRef,
+      lotRef: session.lotRef,
+      results: lines
+          .map(
+            (l) => ConfirmScanSessionLineResult(
+              productId: l.productId,
+              quantity: l.quantity,
+              stock: l.stock,
+              movementId: l.movementId,
             ),
           )
           .toList(),

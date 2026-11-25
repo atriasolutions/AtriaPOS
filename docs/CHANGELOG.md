@@ -6,6 +6,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-86: Confirmar ingreso desde sesión receiptScan (RF-085), `ConfirmStockReceiptScan`, idempotency.
+
 - SLICE-85: Gate R4-A Bloque A, RF-094 sesión escaneo, `ScanSessionService`, DEC-052…055, `23-gate-r4-a-respuestas.md`.
 
 - SLICE-84: Nuevo producto desde Stock de productos (RF-091), `canCreateProduct`, `slice_84_stock_nuevo_producto.md`.

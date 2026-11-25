@@ -47,6 +47,13 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-085-05 | RF-094 | — | — | ✅ | código desconocido 404 |
 | SC-085-06 | RF-094 | — | — | ✅ | cajero 403 |
 | SC-085-07 | RF-094 | — | — | ✅ | cancel + bip bloqueado |
+| SC-086-01 | RF-085 | — | — | ✅ | `scan_session_confirm_test.dart` |
+| SC-086-02 | RF-085 | — | — | ✅ | líneas vacías |
+| SC-086-03 | RF-085 | — | — | ✅ | countScan |
+| SC-086-04 | RF-085 | — | — | ✅ | doble confirm 409 |
+| SC-086-05 | RF-085 | — | — | ✅ | idempotency |
+| SC-086-06 | RF-085 | — | — | ✅ | cajero 403 |
+| SC-086-07 | RF-085 | — | — | ✅ | refs RECEPCION |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

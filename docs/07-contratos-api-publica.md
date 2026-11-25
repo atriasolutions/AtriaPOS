@@ -454,11 +454,43 @@ Resuelve barcode o QR (`parseProductIdFromScan`). **200** devuelve sesión actua
 
 ---
 
+### `POST /v0/stores/{storeId}/scan-sessions/{sessionId}/confirm` (RF-085, SLICE-86)
+
+Solo `receiptScan` en `draft` con líneas. Body opcional:
+
+```json
+{ "idempotencyKey": "uuid-opcional" }
+```
+
+**Response 200**
+
+```json
+{
+  "sessionId": "scan_01",
+  "state": "confirmed",
+  "guideRef": "GD-1",
+  "lotRef": "L-1",
+  "results": [
+    {
+      "productId": "prod_01",
+      "quantity": 3,
+      "stock": 13,
+      "movementId": "mov_01"
+    }
+  ]
+}
+```
+
+- Vacío / `countScan` / cancelada → `VALIDACION` (400).
+- Ya confirmada sin clave idempotente → `CONFLICTO` (409).
+- Misma `idempotencyKey` → 200 idempotente.
+- Segundo `recordStockReceipt` por línea vía `RecordStockReceipt`.
+
 ### `POST /v0/stores/{storeId}/scan-sessions/{sessionId}/cancel`
 
 **Response 200** — `state`: `cancelled`.
 
-Confirmación a stock (`receiptScan`) y conteo → `CloseInventory`: **SLICE-86+** (no parte de SLICE-85).
+Confirmación conteo `countScan` → **SLICE-88**.
 
 **Tests comportamiento (SLICE-85)**
 
@@ -469,6 +501,14 @@ Confirmación a stock (`receiptScan`) y conteo → `CloseInventory`: **SLICE-86+
 - Código desconocido → 404.
 - Cajero → 403.
 - Cancel → 200.
+
+**Tests comportamiento (SLICE-86)**
+
+- Confirm ingreso multi-SKU → 200, stocks y movimientos RECEPCION.
+- Sin líneas → 400.
+- `countScan` confirm → 400.
+- Doble confirm → 409; idempotency → 200.
+- Cajero → 403.
 
 ---
 

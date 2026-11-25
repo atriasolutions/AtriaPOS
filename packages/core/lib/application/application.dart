@@ -33,6 +33,7 @@ export 'start_scan_session.dart';
 export 'record_scan_bip.dart';
 export 'resolve_scan_code.dart';
 export 'cancel_scan_session.dart';
+export 'confirm_stock_receipt_scan.dart';
 export 'in_memory_scan_session_repository.dart';
 export 'ports/scan_session_repository.dart';
 export 'get_inventory_close_preview.dart';

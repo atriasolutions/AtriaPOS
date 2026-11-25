@@ -2,6 +2,7 @@ import 'failures.dart';
 import 'product_id.dart';
 import 'scan_session_id.dart';
 import 'scan_session_kind.dart';
+import 'scan_session_confirmation_line.dart';
 import 'scan_session_line.dart';
 import 'scan_session_state.dart';
 import 'store_id.dart';
@@ -19,6 +20,8 @@ class ScanSession {
     this.lotRef,
     this.lastBipCode,
     this.lastBipAt,
+    this.idempotencyKey,
+    this.confirmationLines,
   });
 
   final ScanSessionId id;
@@ -32,6 +35,8 @@ class ScanSession {
   final String createdByUserId;
   final String? lastBipCode;
   final DateTime? lastBipAt;
+  final String? idempotencyKey;
+  final List<ScanSessionConfirmationLine>? confirmationLines;
 
   static const int maxDistinctLines = 500;
 
@@ -73,6 +78,8 @@ class ScanSession {
     List<ScanSessionLine>? lines,
     String? lastBipCode,
     DateTime? lastBipAt,
+    String? idempotencyKey,
+    List<ScanSessionConfirmationLine>? confirmationLines,
   }) {
     return ScanSession(
       id: id,
@@ -86,6 +93,8 @@ class ScanSession {
       createdByUserId: createdByUserId,
       lastBipCode: lastBipCode,
       lastBipAt: lastBipAt,
+      idempotencyKey: idempotencyKey ?? this.idempotencyKey,
+      confirmationLines: confirmationLines ?? this.confirmationLines,
     );
   }
 }
