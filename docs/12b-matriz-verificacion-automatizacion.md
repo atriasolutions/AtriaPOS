@@ -151,6 +151,12 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-111-07 | RF-098 | — | — | ✅ | `companion_lan_e2e_test.dart` |
 | SC-111-08 | RF-098 | — | — | ✅ | mismo archivo |
 | SC-111-09 | RF-098 | ✅ | — | — | `companion_pairing_test.dart` |
+| SC-112-01 | RF-098 | — | — | ✅ | `companion_lan_flow_e2e_test.dart` |
+| SC-112-02 | RF-085 | — | — | ✅ | mismo archivo |
+| SC-112-03 | RF-088 | — | — | ✅ | mismo archivo |
+| SC-112-04 | RF-098 | — | — | ✅ | mismo archivo |
+| SC-112-05 | RF-098 | — | — | ✅ | `companion_lan_e2e_test.dart` regresión |
+| SC-112-06 | RF-098 | — | — | — | Piloto manual runbook |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

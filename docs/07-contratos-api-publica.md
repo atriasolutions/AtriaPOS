@@ -1161,6 +1161,18 @@ Tras el redirect con query de emparejamiento: **auto-pair**, modo en español, s
 
 `CompanionService.createPairingOffer(storeId, mode)` — genera código para QR; no expuesto como REST en slice 96.
 
+#### Efecto en POS por modo (SLICE-112)
+
+Mismo mensaje WS `scan` para los tres modos; la pantalla o sesión activa define el efecto:
+
+| Modo pair | Efecto POS esperado |
+|-----------|---------------------|
+| `VENDER` | `productService.searchProducts` / carrito (pantalla Vender) |
+| `RECEIPT_SCAN` | `scanSessionService.recordScan` en sesión ingreso |
+| `COUNT_SCAN` | `scanSessionService.recordScan` en sesión conteo |
+
+**Tests:** SC-112-* en `companion_lan_flow_e2e_test.dart`.
+
 #### Estado celular LAN (SLICE-111, in-process POS)
 
 - `CompanionService.getLanStatus(storeId)` → `CompanionLanStatus` con fases: `none`, `sessionOnly` (token sin WS), `live` (WebSocket abierto).

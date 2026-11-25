@@ -1,6 +1,6 @@
 # 22 — Revisión siguiente · Bloque B — Companion web
 
-**Estado:** Bloque B (SLICE-95…105) ✅ en HTTP. Tanda siguiente **106–112** (HTTPS) en [23c](23c-companion-https-respuestas.md).  
+**Estado:** Bloque B (SLICE-95…105) ✅ en HTTP. Tanda **106–112** (HTTPS) **cerrada** — ver [23c](23c-companion-https-respuestas.md) y `slice_112_cierre_tanda_https.md`.  
 **Prerrequisito:** Bloque A cerrado (SLICE-94).  
 **Gate:** [23b-gate-r4-b-respuestas.md](23b-gate-r4-b-respuestas.md) · [DEC-056…058](decisiones/DEC-gate-r4-b-bloque-b.md) · enmienda [DEC-059…062](decisiones/DEC-companion-https.md).
 

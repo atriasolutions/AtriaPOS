@@ -15,4 +15,4 @@ Cuando pair COUNT_SCAN y scan
 Entonces ingress recibe código
 
 ## Automatización
-`apps/pos_app/test/companion_lan_e2e_test.dart`
+`apps/pos_app/test/companion_lan_e2e_test.dart` (ingress). Efecto de negocio: SLICE-112 `companion_lan_flow_e2e_test.dart`.

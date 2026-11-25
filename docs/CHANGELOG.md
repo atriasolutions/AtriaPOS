@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-112: E2E companion tres flujos — scan LAN a búsqueda venta, recordScan ingreso/conteo, cierre tanda HTTPS 106–112.
 - SLICE-111: Estado celular companion en POS — fases none/sessionOnly/live, chip, desconectar sesión LAN.
 - SLICE-110: PWA companion cámara opcional — `mobile_scanner`, mismo `sendScan`, dedup 400 ms, degradación sin visor vacío.
 - SLICE-109: Companion LAN HTTPS — TLS local, CA descargable, IP activa en QR, puerto 8765.

@@ -231,7 +231,7 @@
 | BLE companion piloto hardware | **LEGACY** (opt-in `lanCompanionDefault=false`) |
 
 **Cierre Bloque B:** 2026-11-25 — SLICE-105; acceptance `slice_105_cierre_bloque_b.md`.  
-**Tanda HTTPS:** SLICE-106 guarda DEC-059…062 ([23c](23c-companion-https-respuestas.md)). Slices 107–112 pendientes, cada uno en Plan antes de Agent.
+**Tanda HTTPS:** **CERRADA** (SLICE-112, 2026-11-25) — DEC-059…062, slices 107–112, acceptance `slice_112_cierre_tanda_https.md`. Piloto manual triple flujo HTTPS: PREPARADO en runbook.
 
 ### DoD cierre Bloque B (SLICE-105)
 
