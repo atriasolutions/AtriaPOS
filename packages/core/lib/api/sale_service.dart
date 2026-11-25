@@ -16,12 +16,15 @@ class SaleService {
     SessionProvider? sessionProvider,
     CollaboratorRepository? collaboratorRepository,
     StoreRepository? storeRepository,
+    ProductExchangeRepository? productExchangeRepository,
     TrustedClock? clock,
   }) {
     final carts = cartRepository ?? InMemoryCartRepository();
     final trustedClock = clock ?? MutableTrustedClock();
     final products = productRepository ?? InMemoryProductRepository();
     final sales = saleRepository ?? InMemorySaleRepository();
+    final exchanges =
+        productExchangeRepository ?? InMemoryProductExchangeRepository();
     final movements =
         stockMovementRepository ?? InMemoryStockMovementRepository();
     final shifts = shiftRepository ?? InMemoryShiftRepository();
@@ -44,6 +47,7 @@ class SaleService {
       dteQueue,
       sessions,
       trustedClock,
+      exchanges,
     );
   }
 
@@ -59,6 +63,7 @@ class SaleService {
     DteQueueRepository dteQueue,
     SessionProvider sessions,
     TrustedClock clock,
+    ProductExchangeRepository exchanges,
   )   : _createCart = CreateCart(carts, shifts, sessions),
         _addLine = AddCartLine(carts, products, sessions),
         _updateLine = UpdateCartLineQuantity(carts, sessions),
@@ -85,7 +90,16 @@ class SaleService {
           dteQueue,
           sessions,
         ),
-        _listShiftSales = ListShiftSales(sales, shifts, sessions);
+        _listShiftSales = ListShiftSales(sales, shifts, sessions),
+        _registerProductExchange = RegisterProductExchange(
+          sales,
+          products,
+          movements,
+          shifts,
+          exchanges,
+          sessions,
+          clock,
+        );
 
   final CreateCart _createCart;
   final AddCartLine _addLine;
@@ -95,6 +109,7 @@ class SaleService {
   final ConfirmCheckout _checkout;
   final VoidSale _voidSale;
   final ListShiftSales _listShiftSales;
+  final RegisterProductExchange _registerProductExchange;
 
   Future<ApiResult<CreateCartResponse>> createCart(StoreId storeId) async {
     try {
@@ -353,6 +368,77 @@ class SaleService {
       return ApiFailure(
         ApiErrorBody(code: e.code, message: e.message),
         statusCode: 403,
+      );
+    }
+  }
+
+  Future<ApiResult<RegisterProductExchangeResponse>> registerProductExchange(
+    StoreId storeId,
+    SaleId saleId,
+    RegisterProductExchangeRequest request,
+  ) async {
+    try {
+      ProductExchangePaymentInput? paymentInput;
+      final dto = request.differencePayment;
+      if (dto != null) {
+        paymentInput = ProductExchangePaymentInput(
+          method: PaymentMethod.fromApi(dto.method),
+          amountClp: dto.amountClp,
+        );
+      }
+      final result = await _registerProductExchange(
+        RegisterProductExchangeInput(
+          storeId: storeId,
+          saleId: saleId,
+          returnProductId: request.returnProductId,
+          returnQuantity: request.returnQuantity,
+          newProductId: request.newProductId,
+          newQuantity: request.newQuantity,
+          differencePayment: paymentInput,
+        ),
+      );
+      final exchange = result.exchange;
+      return ApiSuccess(
+        RegisterProductExchangeResponse(
+          exchangeId: exchange.id,
+          newSaleId: exchange.newSaleId,
+          creditClp: exchange.creditClp,
+          chargeClp: exchange.chargeClp,
+          differenceClp: exchange.differenceClp,
+          returnProductStock: result.returnProductStock,
+          newProductStock: result.newProductStock,
+        ),
+        statusCode: 201,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on ConflictFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 409,
+      );
+    } on InsufficientStockFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 409,
+      );
+    } on TurnClosedFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
       );
     }
   }

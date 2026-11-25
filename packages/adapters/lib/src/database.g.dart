@@ -6057,6 +6057,1139 @@ class InventoryCloseLinesCompanion
   }
 }
 
+class $ProductExchangesTable extends ProductExchanges
+    with TableInfo<$ProductExchangesTable, ProductExchangeRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ProductExchangesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _storeIdMeta = const VerificationMeta(
+    'storeId',
+  );
+  @override
+  late final GeneratedColumn<String> storeId = GeneratedColumn<String>(
+    'store_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shiftIdMeta = const VerificationMeta(
+    'shiftId',
+  );
+  @override
+  late final GeneratedColumn<String> shiftId = GeneratedColumn<String>(
+    'shift_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _originalSaleIdMeta = const VerificationMeta(
+    'originalSaleId',
+  );
+  @override
+  late final GeneratedColumn<String> originalSaleId = GeneratedColumn<String>(
+    'original_sale_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _returnProductIdMeta = const VerificationMeta(
+    'returnProductId',
+  );
+  @override
+  late final GeneratedColumn<String> returnProductId = GeneratedColumn<String>(
+    'return_product_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _returnQuantityMeta = const VerificationMeta(
+    'returnQuantity',
+  );
+  @override
+  late final GeneratedColumn<int> returnQuantity = GeneratedColumn<int>(
+    'return_quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _originalUnitPriceClpMeta =
+      const VerificationMeta('originalUnitPriceClp');
+  @override
+  late final GeneratedColumn<int> originalUnitPriceClp = GeneratedColumn<int>(
+    'original_unit_price_clp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _newProductIdMeta = const VerificationMeta(
+    'newProductId',
+  );
+  @override
+  late final GeneratedColumn<String> newProductId = GeneratedColumn<String>(
+    'new_product_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _newQuantityMeta = const VerificationMeta(
+    'newQuantity',
+  );
+  @override
+  late final GeneratedColumn<int> newQuantity = GeneratedColumn<int>(
+    'new_quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _newUnitPriceClpMeta = const VerificationMeta(
+    'newUnitPriceClp',
+  );
+  @override
+  late final GeneratedColumn<int> newUnitPriceClp = GeneratedColumn<int>(
+    'new_unit_price_clp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _creditClpMeta = const VerificationMeta(
+    'creditClp',
+  );
+  @override
+  late final GeneratedColumn<int> creditClp = GeneratedColumn<int>(
+    'credit_clp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _chargeClpMeta = const VerificationMeta(
+    'chargeClp',
+  );
+  @override
+  late final GeneratedColumn<int> chargeClp = GeneratedColumn<int>(
+    'charge_clp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _differenceClpMeta = const VerificationMeta(
+    'differenceClp',
+  );
+  @override
+  late final GeneratedColumn<int> differenceClp = GeneratedColumn<int>(
+    'difference_clp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _newSaleIdMeta = const VerificationMeta(
+    'newSaleId',
+  );
+  @override
+  late final GeneratedColumn<String> newSaleId = GeneratedColumn<String>(
+    'new_sale_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _actorUserIdMeta = const VerificationMeta(
+    'actorUserId',
+  );
+  @override
+  late final GeneratedColumn<String> actorUserId = GeneratedColumn<String>(
+    'actor_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _differencePaymentMethodMeta =
+      const VerificationMeta('differencePaymentMethod');
+  @override
+  late final GeneratedColumn<String> differencePaymentMethod =
+      GeneratedColumn<String>(
+        'difference_payment_method',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _differencePaymentAmountClpMeta =
+      const VerificationMeta('differencePaymentAmountClp');
+  @override
+  late final GeneratedColumn<int> differencePaymentAmountClp =
+      GeneratedColumn<int>(
+        'difference_payment_amount_clp',
+        aliasedName,
+        true,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _creditNoteIdMeta = const VerificationMeta(
+    'creditNoteId',
+  );
+  @override
+  late final GeneratedColumn<String> creditNoteId = GeneratedColumn<String>(
+    'credit_note_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    storeId,
+    shiftId,
+    originalSaleId,
+    returnProductId,
+    returnQuantity,
+    originalUnitPriceClp,
+    newProductId,
+    newQuantity,
+    newUnitPriceClp,
+    creditClp,
+    chargeClp,
+    differenceClp,
+    newSaleId,
+    createdAt,
+    actorUserId,
+    differencePaymentMethod,
+    differencePaymentAmountClp,
+    creditNoteId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'product_exchanges';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ProductExchangeRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('store_id')) {
+      context.handle(
+        _storeIdMeta,
+        storeId.isAcceptableOrUnknown(data['store_id']!, _storeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_storeIdMeta);
+    }
+    if (data.containsKey('shift_id')) {
+      context.handle(
+        _shiftIdMeta,
+        shiftId.isAcceptableOrUnknown(data['shift_id']!, _shiftIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_shiftIdMeta);
+    }
+    if (data.containsKey('original_sale_id')) {
+      context.handle(
+        _originalSaleIdMeta,
+        originalSaleId.isAcceptableOrUnknown(
+          data['original_sale_id']!,
+          _originalSaleIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_originalSaleIdMeta);
+    }
+    if (data.containsKey('return_product_id')) {
+      context.handle(
+        _returnProductIdMeta,
+        returnProductId.isAcceptableOrUnknown(
+          data['return_product_id']!,
+          _returnProductIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_returnProductIdMeta);
+    }
+    if (data.containsKey('return_quantity')) {
+      context.handle(
+        _returnQuantityMeta,
+        returnQuantity.isAcceptableOrUnknown(
+          data['return_quantity']!,
+          _returnQuantityMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_returnQuantityMeta);
+    }
+    if (data.containsKey('original_unit_price_clp')) {
+      context.handle(
+        _originalUnitPriceClpMeta,
+        originalUnitPriceClp.isAcceptableOrUnknown(
+          data['original_unit_price_clp']!,
+          _originalUnitPriceClpMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_originalUnitPriceClpMeta);
+    }
+    if (data.containsKey('new_product_id')) {
+      context.handle(
+        _newProductIdMeta,
+        newProductId.isAcceptableOrUnknown(
+          data['new_product_id']!,
+          _newProductIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_newProductIdMeta);
+    }
+    if (data.containsKey('new_quantity')) {
+      context.handle(
+        _newQuantityMeta,
+        newQuantity.isAcceptableOrUnknown(
+          data['new_quantity']!,
+          _newQuantityMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_newQuantityMeta);
+    }
+    if (data.containsKey('new_unit_price_clp')) {
+      context.handle(
+        _newUnitPriceClpMeta,
+        newUnitPriceClp.isAcceptableOrUnknown(
+          data['new_unit_price_clp']!,
+          _newUnitPriceClpMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_newUnitPriceClpMeta);
+    }
+    if (data.containsKey('credit_clp')) {
+      context.handle(
+        _creditClpMeta,
+        creditClp.isAcceptableOrUnknown(data['credit_clp']!, _creditClpMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_creditClpMeta);
+    }
+    if (data.containsKey('charge_clp')) {
+      context.handle(
+        _chargeClpMeta,
+        chargeClp.isAcceptableOrUnknown(data['charge_clp']!, _chargeClpMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_chargeClpMeta);
+    }
+    if (data.containsKey('difference_clp')) {
+      context.handle(
+        _differenceClpMeta,
+        differenceClp.isAcceptableOrUnknown(
+          data['difference_clp']!,
+          _differenceClpMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_differenceClpMeta);
+    }
+    if (data.containsKey('new_sale_id')) {
+      context.handle(
+        _newSaleIdMeta,
+        newSaleId.isAcceptableOrUnknown(data['new_sale_id']!, _newSaleIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_newSaleIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('actor_user_id')) {
+      context.handle(
+        _actorUserIdMeta,
+        actorUserId.isAcceptableOrUnknown(
+          data['actor_user_id']!,
+          _actorUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_actorUserIdMeta);
+    }
+    if (data.containsKey('difference_payment_method')) {
+      context.handle(
+        _differencePaymentMethodMeta,
+        differencePaymentMethod.isAcceptableOrUnknown(
+          data['difference_payment_method']!,
+          _differencePaymentMethodMeta,
+        ),
+      );
+    }
+    if (data.containsKey('difference_payment_amount_clp')) {
+      context.handle(
+        _differencePaymentAmountClpMeta,
+        differencePaymentAmountClp.isAcceptableOrUnknown(
+          data['difference_payment_amount_clp']!,
+          _differencePaymentAmountClpMeta,
+        ),
+      );
+    }
+    if (data.containsKey('credit_note_id')) {
+      context.handle(
+        _creditNoteIdMeta,
+        creditNoteId.isAcceptableOrUnknown(
+          data['credit_note_id']!,
+          _creditNoteIdMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ProductExchangeRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ProductExchangeRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      storeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}store_id'],
+      )!,
+      shiftId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}shift_id'],
+      )!,
+      originalSaleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}original_sale_id'],
+      )!,
+      returnProductId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}return_product_id'],
+      )!,
+      returnQuantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}return_quantity'],
+      )!,
+      originalUnitPriceClp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}original_unit_price_clp'],
+      )!,
+      newProductId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}new_product_id'],
+      )!,
+      newQuantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}new_quantity'],
+      )!,
+      newUnitPriceClp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}new_unit_price_clp'],
+      )!,
+      creditClp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}credit_clp'],
+      )!,
+      chargeClp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}charge_clp'],
+      )!,
+      differenceClp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}difference_clp'],
+      )!,
+      newSaleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}new_sale_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      actorUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}actor_user_id'],
+      )!,
+      differencePaymentMethod: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}difference_payment_method'],
+      ),
+      differencePaymentAmountClp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}difference_payment_amount_clp'],
+      ),
+      creditNoteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}credit_note_id'],
+      ),
+    );
+  }
+
+  @override
+  $ProductExchangesTable createAlias(String alias) {
+    return $ProductExchangesTable(attachedDatabase, alias);
+  }
+}
+
+class ProductExchangeRow extends DataClass
+    implements Insertable<ProductExchangeRow> {
+  final String id;
+  final String storeId;
+  final String shiftId;
+  final String originalSaleId;
+  final String returnProductId;
+  final int returnQuantity;
+  final int originalUnitPriceClp;
+  final String newProductId;
+  final int newQuantity;
+  final int newUnitPriceClp;
+  final int creditClp;
+  final int chargeClp;
+  final int differenceClp;
+  final String newSaleId;
+  final String createdAt;
+  final String actorUserId;
+  final String? differencePaymentMethod;
+  final int? differencePaymentAmountClp;
+  final String? creditNoteId;
+  const ProductExchangeRow({
+    required this.id,
+    required this.storeId,
+    required this.shiftId,
+    required this.originalSaleId,
+    required this.returnProductId,
+    required this.returnQuantity,
+    required this.originalUnitPriceClp,
+    required this.newProductId,
+    required this.newQuantity,
+    required this.newUnitPriceClp,
+    required this.creditClp,
+    required this.chargeClp,
+    required this.differenceClp,
+    required this.newSaleId,
+    required this.createdAt,
+    required this.actorUserId,
+    this.differencePaymentMethod,
+    this.differencePaymentAmountClp,
+    this.creditNoteId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['store_id'] = Variable<String>(storeId);
+    map['shift_id'] = Variable<String>(shiftId);
+    map['original_sale_id'] = Variable<String>(originalSaleId);
+    map['return_product_id'] = Variable<String>(returnProductId);
+    map['return_quantity'] = Variable<int>(returnQuantity);
+    map['original_unit_price_clp'] = Variable<int>(originalUnitPriceClp);
+    map['new_product_id'] = Variable<String>(newProductId);
+    map['new_quantity'] = Variable<int>(newQuantity);
+    map['new_unit_price_clp'] = Variable<int>(newUnitPriceClp);
+    map['credit_clp'] = Variable<int>(creditClp);
+    map['charge_clp'] = Variable<int>(chargeClp);
+    map['difference_clp'] = Variable<int>(differenceClp);
+    map['new_sale_id'] = Variable<String>(newSaleId);
+    map['created_at'] = Variable<String>(createdAt);
+    map['actor_user_id'] = Variable<String>(actorUserId);
+    if (!nullToAbsent || differencePaymentMethod != null) {
+      map['difference_payment_method'] = Variable<String>(
+        differencePaymentMethod,
+      );
+    }
+    if (!nullToAbsent || differencePaymentAmountClp != null) {
+      map['difference_payment_amount_clp'] = Variable<int>(
+        differencePaymentAmountClp,
+      );
+    }
+    if (!nullToAbsent || creditNoteId != null) {
+      map['credit_note_id'] = Variable<String>(creditNoteId);
+    }
+    return map;
+  }
+
+  ProductExchangesCompanion toCompanion(bool nullToAbsent) {
+    return ProductExchangesCompanion(
+      id: Value(id),
+      storeId: Value(storeId),
+      shiftId: Value(shiftId),
+      originalSaleId: Value(originalSaleId),
+      returnProductId: Value(returnProductId),
+      returnQuantity: Value(returnQuantity),
+      originalUnitPriceClp: Value(originalUnitPriceClp),
+      newProductId: Value(newProductId),
+      newQuantity: Value(newQuantity),
+      newUnitPriceClp: Value(newUnitPriceClp),
+      creditClp: Value(creditClp),
+      chargeClp: Value(chargeClp),
+      differenceClp: Value(differenceClp),
+      newSaleId: Value(newSaleId),
+      createdAt: Value(createdAt),
+      actorUserId: Value(actorUserId),
+      differencePaymentMethod: differencePaymentMethod == null && nullToAbsent
+          ? const Value.absent()
+          : Value(differencePaymentMethod),
+      differencePaymentAmountClp:
+          differencePaymentAmountClp == null && nullToAbsent
+          ? const Value.absent()
+          : Value(differencePaymentAmountClp),
+      creditNoteId: creditNoteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creditNoteId),
+    );
+  }
+
+  factory ProductExchangeRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ProductExchangeRow(
+      id: serializer.fromJson<String>(json['id']),
+      storeId: serializer.fromJson<String>(json['storeId']),
+      shiftId: serializer.fromJson<String>(json['shiftId']),
+      originalSaleId: serializer.fromJson<String>(json['originalSaleId']),
+      returnProductId: serializer.fromJson<String>(json['returnProductId']),
+      returnQuantity: serializer.fromJson<int>(json['returnQuantity']),
+      originalUnitPriceClp: serializer.fromJson<int>(
+        json['originalUnitPriceClp'],
+      ),
+      newProductId: serializer.fromJson<String>(json['newProductId']),
+      newQuantity: serializer.fromJson<int>(json['newQuantity']),
+      newUnitPriceClp: serializer.fromJson<int>(json['newUnitPriceClp']),
+      creditClp: serializer.fromJson<int>(json['creditClp']),
+      chargeClp: serializer.fromJson<int>(json['chargeClp']),
+      differenceClp: serializer.fromJson<int>(json['differenceClp']),
+      newSaleId: serializer.fromJson<String>(json['newSaleId']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      actorUserId: serializer.fromJson<String>(json['actorUserId']),
+      differencePaymentMethod: serializer.fromJson<String?>(
+        json['differencePaymentMethod'],
+      ),
+      differencePaymentAmountClp: serializer.fromJson<int?>(
+        json['differencePaymentAmountClp'],
+      ),
+      creditNoteId: serializer.fromJson<String?>(json['creditNoteId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'storeId': serializer.toJson<String>(storeId),
+      'shiftId': serializer.toJson<String>(shiftId),
+      'originalSaleId': serializer.toJson<String>(originalSaleId),
+      'returnProductId': serializer.toJson<String>(returnProductId),
+      'returnQuantity': serializer.toJson<int>(returnQuantity),
+      'originalUnitPriceClp': serializer.toJson<int>(originalUnitPriceClp),
+      'newProductId': serializer.toJson<String>(newProductId),
+      'newQuantity': serializer.toJson<int>(newQuantity),
+      'newUnitPriceClp': serializer.toJson<int>(newUnitPriceClp),
+      'creditClp': serializer.toJson<int>(creditClp),
+      'chargeClp': serializer.toJson<int>(chargeClp),
+      'differenceClp': serializer.toJson<int>(differenceClp),
+      'newSaleId': serializer.toJson<String>(newSaleId),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'actorUserId': serializer.toJson<String>(actorUserId),
+      'differencePaymentMethod': serializer.toJson<String?>(
+        differencePaymentMethod,
+      ),
+      'differencePaymentAmountClp': serializer.toJson<int?>(
+        differencePaymentAmountClp,
+      ),
+      'creditNoteId': serializer.toJson<String?>(creditNoteId),
+    };
+  }
+
+  ProductExchangeRow copyWith({
+    String? id,
+    String? storeId,
+    String? shiftId,
+    String? originalSaleId,
+    String? returnProductId,
+    int? returnQuantity,
+    int? originalUnitPriceClp,
+    String? newProductId,
+    int? newQuantity,
+    int? newUnitPriceClp,
+    int? creditClp,
+    int? chargeClp,
+    int? differenceClp,
+    String? newSaleId,
+    String? createdAt,
+    String? actorUserId,
+    Value<String?> differencePaymentMethod = const Value.absent(),
+    Value<int?> differencePaymentAmountClp = const Value.absent(),
+    Value<String?> creditNoteId = const Value.absent(),
+  }) => ProductExchangeRow(
+    id: id ?? this.id,
+    storeId: storeId ?? this.storeId,
+    shiftId: shiftId ?? this.shiftId,
+    originalSaleId: originalSaleId ?? this.originalSaleId,
+    returnProductId: returnProductId ?? this.returnProductId,
+    returnQuantity: returnQuantity ?? this.returnQuantity,
+    originalUnitPriceClp: originalUnitPriceClp ?? this.originalUnitPriceClp,
+    newProductId: newProductId ?? this.newProductId,
+    newQuantity: newQuantity ?? this.newQuantity,
+    newUnitPriceClp: newUnitPriceClp ?? this.newUnitPriceClp,
+    creditClp: creditClp ?? this.creditClp,
+    chargeClp: chargeClp ?? this.chargeClp,
+    differenceClp: differenceClp ?? this.differenceClp,
+    newSaleId: newSaleId ?? this.newSaleId,
+    createdAt: createdAt ?? this.createdAt,
+    actorUserId: actorUserId ?? this.actorUserId,
+    differencePaymentMethod: differencePaymentMethod.present
+        ? differencePaymentMethod.value
+        : this.differencePaymentMethod,
+    differencePaymentAmountClp: differencePaymentAmountClp.present
+        ? differencePaymentAmountClp.value
+        : this.differencePaymentAmountClp,
+    creditNoteId: creditNoteId.present ? creditNoteId.value : this.creditNoteId,
+  );
+  ProductExchangeRow copyWithCompanion(ProductExchangesCompanion data) {
+    return ProductExchangeRow(
+      id: data.id.present ? data.id.value : this.id,
+      storeId: data.storeId.present ? data.storeId.value : this.storeId,
+      shiftId: data.shiftId.present ? data.shiftId.value : this.shiftId,
+      originalSaleId: data.originalSaleId.present
+          ? data.originalSaleId.value
+          : this.originalSaleId,
+      returnProductId: data.returnProductId.present
+          ? data.returnProductId.value
+          : this.returnProductId,
+      returnQuantity: data.returnQuantity.present
+          ? data.returnQuantity.value
+          : this.returnQuantity,
+      originalUnitPriceClp: data.originalUnitPriceClp.present
+          ? data.originalUnitPriceClp.value
+          : this.originalUnitPriceClp,
+      newProductId: data.newProductId.present
+          ? data.newProductId.value
+          : this.newProductId,
+      newQuantity: data.newQuantity.present
+          ? data.newQuantity.value
+          : this.newQuantity,
+      newUnitPriceClp: data.newUnitPriceClp.present
+          ? data.newUnitPriceClp.value
+          : this.newUnitPriceClp,
+      creditClp: data.creditClp.present ? data.creditClp.value : this.creditClp,
+      chargeClp: data.chargeClp.present ? data.chargeClp.value : this.chargeClp,
+      differenceClp: data.differenceClp.present
+          ? data.differenceClp.value
+          : this.differenceClp,
+      newSaleId: data.newSaleId.present ? data.newSaleId.value : this.newSaleId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      actorUserId: data.actorUserId.present
+          ? data.actorUserId.value
+          : this.actorUserId,
+      differencePaymentMethod: data.differencePaymentMethod.present
+          ? data.differencePaymentMethod.value
+          : this.differencePaymentMethod,
+      differencePaymentAmountClp: data.differencePaymentAmountClp.present
+          ? data.differencePaymentAmountClp.value
+          : this.differencePaymentAmountClp,
+      creditNoteId: data.creditNoteId.present
+          ? data.creditNoteId.value
+          : this.creditNoteId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ProductExchangeRow(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('shiftId: $shiftId, ')
+          ..write('originalSaleId: $originalSaleId, ')
+          ..write('returnProductId: $returnProductId, ')
+          ..write('returnQuantity: $returnQuantity, ')
+          ..write('originalUnitPriceClp: $originalUnitPriceClp, ')
+          ..write('newProductId: $newProductId, ')
+          ..write('newQuantity: $newQuantity, ')
+          ..write('newUnitPriceClp: $newUnitPriceClp, ')
+          ..write('creditClp: $creditClp, ')
+          ..write('chargeClp: $chargeClp, ')
+          ..write('differenceClp: $differenceClp, ')
+          ..write('newSaleId: $newSaleId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('actorUserId: $actorUserId, ')
+          ..write('differencePaymentMethod: $differencePaymentMethod, ')
+          ..write('differencePaymentAmountClp: $differencePaymentAmountClp, ')
+          ..write('creditNoteId: $creditNoteId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    storeId,
+    shiftId,
+    originalSaleId,
+    returnProductId,
+    returnQuantity,
+    originalUnitPriceClp,
+    newProductId,
+    newQuantity,
+    newUnitPriceClp,
+    creditClp,
+    chargeClp,
+    differenceClp,
+    newSaleId,
+    createdAt,
+    actorUserId,
+    differencePaymentMethod,
+    differencePaymentAmountClp,
+    creditNoteId,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ProductExchangeRow &&
+          other.id == this.id &&
+          other.storeId == this.storeId &&
+          other.shiftId == this.shiftId &&
+          other.originalSaleId == this.originalSaleId &&
+          other.returnProductId == this.returnProductId &&
+          other.returnQuantity == this.returnQuantity &&
+          other.originalUnitPriceClp == this.originalUnitPriceClp &&
+          other.newProductId == this.newProductId &&
+          other.newQuantity == this.newQuantity &&
+          other.newUnitPriceClp == this.newUnitPriceClp &&
+          other.creditClp == this.creditClp &&
+          other.chargeClp == this.chargeClp &&
+          other.differenceClp == this.differenceClp &&
+          other.newSaleId == this.newSaleId &&
+          other.createdAt == this.createdAt &&
+          other.actorUserId == this.actorUserId &&
+          other.differencePaymentMethod == this.differencePaymentMethod &&
+          other.differencePaymentAmountClp == this.differencePaymentAmountClp &&
+          other.creditNoteId == this.creditNoteId);
+}
+
+class ProductExchangesCompanion extends UpdateCompanion<ProductExchangeRow> {
+  final Value<String> id;
+  final Value<String> storeId;
+  final Value<String> shiftId;
+  final Value<String> originalSaleId;
+  final Value<String> returnProductId;
+  final Value<int> returnQuantity;
+  final Value<int> originalUnitPriceClp;
+  final Value<String> newProductId;
+  final Value<int> newQuantity;
+  final Value<int> newUnitPriceClp;
+  final Value<int> creditClp;
+  final Value<int> chargeClp;
+  final Value<int> differenceClp;
+  final Value<String> newSaleId;
+  final Value<String> createdAt;
+  final Value<String> actorUserId;
+  final Value<String?> differencePaymentMethod;
+  final Value<int?> differencePaymentAmountClp;
+  final Value<String?> creditNoteId;
+  final Value<int> rowid;
+  const ProductExchangesCompanion({
+    this.id = const Value.absent(),
+    this.storeId = const Value.absent(),
+    this.shiftId = const Value.absent(),
+    this.originalSaleId = const Value.absent(),
+    this.returnProductId = const Value.absent(),
+    this.returnQuantity = const Value.absent(),
+    this.originalUnitPriceClp = const Value.absent(),
+    this.newProductId = const Value.absent(),
+    this.newQuantity = const Value.absent(),
+    this.newUnitPriceClp = const Value.absent(),
+    this.creditClp = const Value.absent(),
+    this.chargeClp = const Value.absent(),
+    this.differenceClp = const Value.absent(),
+    this.newSaleId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.actorUserId = const Value.absent(),
+    this.differencePaymentMethod = const Value.absent(),
+    this.differencePaymentAmountClp = const Value.absent(),
+    this.creditNoteId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ProductExchangesCompanion.insert({
+    required String id,
+    required String storeId,
+    required String shiftId,
+    required String originalSaleId,
+    required String returnProductId,
+    required int returnQuantity,
+    required int originalUnitPriceClp,
+    required String newProductId,
+    required int newQuantity,
+    required int newUnitPriceClp,
+    required int creditClp,
+    required int chargeClp,
+    required int differenceClp,
+    required String newSaleId,
+    required String createdAt,
+    required String actorUserId,
+    this.differencePaymentMethod = const Value.absent(),
+    this.differencePaymentAmountClp = const Value.absent(),
+    this.creditNoteId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       storeId = Value(storeId),
+       shiftId = Value(shiftId),
+       originalSaleId = Value(originalSaleId),
+       returnProductId = Value(returnProductId),
+       returnQuantity = Value(returnQuantity),
+       originalUnitPriceClp = Value(originalUnitPriceClp),
+       newProductId = Value(newProductId),
+       newQuantity = Value(newQuantity),
+       newUnitPriceClp = Value(newUnitPriceClp),
+       creditClp = Value(creditClp),
+       chargeClp = Value(chargeClp),
+       differenceClp = Value(differenceClp),
+       newSaleId = Value(newSaleId),
+       createdAt = Value(createdAt),
+       actorUserId = Value(actorUserId);
+  static Insertable<ProductExchangeRow> custom({
+    Expression<String>? id,
+    Expression<String>? storeId,
+    Expression<String>? shiftId,
+    Expression<String>? originalSaleId,
+    Expression<String>? returnProductId,
+    Expression<int>? returnQuantity,
+    Expression<int>? originalUnitPriceClp,
+    Expression<String>? newProductId,
+    Expression<int>? newQuantity,
+    Expression<int>? newUnitPriceClp,
+    Expression<int>? creditClp,
+    Expression<int>? chargeClp,
+    Expression<int>? differenceClp,
+    Expression<String>? newSaleId,
+    Expression<String>? createdAt,
+    Expression<String>? actorUserId,
+    Expression<String>? differencePaymentMethod,
+    Expression<int>? differencePaymentAmountClp,
+    Expression<String>? creditNoteId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (storeId != null) 'store_id': storeId,
+      if (shiftId != null) 'shift_id': shiftId,
+      if (originalSaleId != null) 'original_sale_id': originalSaleId,
+      if (returnProductId != null) 'return_product_id': returnProductId,
+      if (returnQuantity != null) 'return_quantity': returnQuantity,
+      if (originalUnitPriceClp != null)
+        'original_unit_price_clp': originalUnitPriceClp,
+      if (newProductId != null) 'new_product_id': newProductId,
+      if (newQuantity != null) 'new_quantity': newQuantity,
+      if (newUnitPriceClp != null) 'new_unit_price_clp': newUnitPriceClp,
+      if (creditClp != null) 'credit_clp': creditClp,
+      if (chargeClp != null) 'charge_clp': chargeClp,
+      if (differenceClp != null) 'difference_clp': differenceClp,
+      if (newSaleId != null) 'new_sale_id': newSaleId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (actorUserId != null) 'actor_user_id': actorUserId,
+      if (differencePaymentMethod != null)
+        'difference_payment_method': differencePaymentMethod,
+      if (differencePaymentAmountClp != null)
+        'difference_payment_amount_clp': differencePaymentAmountClp,
+      if (creditNoteId != null) 'credit_note_id': creditNoteId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ProductExchangesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? storeId,
+    Value<String>? shiftId,
+    Value<String>? originalSaleId,
+    Value<String>? returnProductId,
+    Value<int>? returnQuantity,
+    Value<int>? originalUnitPriceClp,
+    Value<String>? newProductId,
+    Value<int>? newQuantity,
+    Value<int>? newUnitPriceClp,
+    Value<int>? creditClp,
+    Value<int>? chargeClp,
+    Value<int>? differenceClp,
+    Value<String>? newSaleId,
+    Value<String>? createdAt,
+    Value<String>? actorUserId,
+    Value<String?>? differencePaymentMethod,
+    Value<int?>? differencePaymentAmountClp,
+    Value<String?>? creditNoteId,
+    Value<int>? rowid,
+  }) {
+    return ProductExchangesCompanion(
+      id: id ?? this.id,
+      storeId: storeId ?? this.storeId,
+      shiftId: shiftId ?? this.shiftId,
+      originalSaleId: originalSaleId ?? this.originalSaleId,
+      returnProductId: returnProductId ?? this.returnProductId,
+      returnQuantity: returnQuantity ?? this.returnQuantity,
+      originalUnitPriceClp: originalUnitPriceClp ?? this.originalUnitPriceClp,
+      newProductId: newProductId ?? this.newProductId,
+      newQuantity: newQuantity ?? this.newQuantity,
+      newUnitPriceClp: newUnitPriceClp ?? this.newUnitPriceClp,
+      creditClp: creditClp ?? this.creditClp,
+      chargeClp: chargeClp ?? this.chargeClp,
+      differenceClp: differenceClp ?? this.differenceClp,
+      newSaleId: newSaleId ?? this.newSaleId,
+      createdAt: createdAt ?? this.createdAt,
+      actorUserId: actorUserId ?? this.actorUserId,
+      differencePaymentMethod:
+          differencePaymentMethod ?? this.differencePaymentMethod,
+      differencePaymentAmountClp:
+          differencePaymentAmountClp ?? this.differencePaymentAmountClp,
+      creditNoteId: creditNoteId ?? this.creditNoteId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (storeId.present) {
+      map['store_id'] = Variable<String>(storeId.value);
+    }
+    if (shiftId.present) {
+      map['shift_id'] = Variable<String>(shiftId.value);
+    }
+    if (originalSaleId.present) {
+      map['original_sale_id'] = Variable<String>(originalSaleId.value);
+    }
+    if (returnProductId.present) {
+      map['return_product_id'] = Variable<String>(returnProductId.value);
+    }
+    if (returnQuantity.present) {
+      map['return_quantity'] = Variable<int>(returnQuantity.value);
+    }
+    if (originalUnitPriceClp.present) {
+      map['original_unit_price_clp'] = Variable<int>(
+        originalUnitPriceClp.value,
+      );
+    }
+    if (newProductId.present) {
+      map['new_product_id'] = Variable<String>(newProductId.value);
+    }
+    if (newQuantity.present) {
+      map['new_quantity'] = Variable<int>(newQuantity.value);
+    }
+    if (newUnitPriceClp.present) {
+      map['new_unit_price_clp'] = Variable<int>(newUnitPriceClp.value);
+    }
+    if (creditClp.present) {
+      map['credit_clp'] = Variable<int>(creditClp.value);
+    }
+    if (chargeClp.present) {
+      map['charge_clp'] = Variable<int>(chargeClp.value);
+    }
+    if (differenceClp.present) {
+      map['difference_clp'] = Variable<int>(differenceClp.value);
+    }
+    if (newSaleId.present) {
+      map['new_sale_id'] = Variable<String>(newSaleId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (actorUserId.present) {
+      map['actor_user_id'] = Variable<String>(actorUserId.value);
+    }
+    if (differencePaymentMethod.present) {
+      map['difference_payment_method'] = Variable<String>(
+        differencePaymentMethod.value,
+      );
+    }
+    if (differencePaymentAmountClp.present) {
+      map['difference_payment_amount_clp'] = Variable<int>(
+        differencePaymentAmountClp.value,
+      );
+    }
+    if (creditNoteId.present) {
+      map['credit_note_id'] = Variable<String>(creditNoteId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ProductExchangesCompanion(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('shiftId: $shiftId, ')
+          ..write('originalSaleId: $originalSaleId, ')
+          ..write('returnProductId: $returnProductId, ')
+          ..write('returnQuantity: $returnQuantity, ')
+          ..write('originalUnitPriceClp: $originalUnitPriceClp, ')
+          ..write('newProductId: $newProductId, ')
+          ..write('newQuantity: $newQuantity, ')
+          ..write('newUnitPriceClp: $newUnitPriceClp, ')
+          ..write('creditClp: $creditClp, ')
+          ..write('chargeClp: $chargeClp, ')
+          ..write('differenceClp: $differenceClp, ')
+          ..write('newSaleId: $newSaleId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('actorUserId: $actorUserId, ')
+          ..write('differencePaymentMethod: $differencePaymentMethod, ')
+          ..write('differencePaymentAmountClp: $differencePaymentAmountClp, ')
+          ..write('creditNoteId: $creditNoteId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $DteFolioCountersTable extends DteFolioCounters
     with TableInfo<$DteFolioCountersTable, DteFolioCounterRow> {
   @override
@@ -6817,6 +7950,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $InventoryCloseLinesTable inventoryCloseLines =
       $InventoryCloseLinesTable(this);
+  late final $ProductExchangesTable productExchanges = $ProductExchangesTable(
+    this,
+  );
   late final $DteFolioCountersTable dteFolioCounters = $DteFolioCountersTable(
     this,
   );
@@ -6838,6 +7974,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     collaborators,
     inventoryCloses,
     inventoryCloseLines,
+    productExchanges,
     dteFolioCounters,
     clockState,
   ];
@@ -9901,6 +11038,506 @@ typedef $$InventoryCloseLinesTableProcessedTableManager =
       InventoryCloseLineRow,
       PrefetchHooks Function()
     >;
+typedef $$ProductExchangesTableCreateCompanionBuilder =
+    ProductExchangesCompanion Function({
+      required String id,
+      required String storeId,
+      required String shiftId,
+      required String originalSaleId,
+      required String returnProductId,
+      required int returnQuantity,
+      required int originalUnitPriceClp,
+      required String newProductId,
+      required int newQuantity,
+      required int newUnitPriceClp,
+      required int creditClp,
+      required int chargeClp,
+      required int differenceClp,
+      required String newSaleId,
+      required String createdAt,
+      required String actorUserId,
+      Value<String?> differencePaymentMethod,
+      Value<int?> differencePaymentAmountClp,
+      Value<String?> creditNoteId,
+      Value<int> rowid,
+    });
+typedef $$ProductExchangesTableUpdateCompanionBuilder =
+    ProductExchangesCompanion Function({
+      Value<String> id,
+      Value<String> storeId,
+      Value<String> shiftId,
+      Value<String> originalSaleId,
+      Value<String> returnProductId,
+      Value<int> returnQuantity,
+      Value<int> originalUnitPriceClp,
+      Value<String> newProductId,
+      Value<int> newQuantity,
+      Value<int> newUnitPriceClp,
+      Value<int> creditClp,
+      Value<int> chargeClp,
+      Value<int> differenceClp,
+      Value<String> newSaleId,
+      Value<String> createdAt,
+      Value<String> actorUserId,
+      Value<String?> differencePaymentMethod,
+      Value<int?> differencePaymentAmountClp,
+      Value<String?> creditNoteId,
+      Value<int> rowid,
+    });
+
+class $$ProductExchangesTableFilterComposer
+    extends Composer<_$AppDatabase, $ProductExchangesTable> {
+  $$ProductExchangesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shiftId => $composableBuilder(
+    column: $table.shiftId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get originalSaleId => $composableBuilder(
+    column: $table.originalSaleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get returnProductId => $composableBuilder(
+    column: $table.returnProductId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get returnQuantity => $composableBuilder(
+    column: $table.returnQuantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get originalUnitPriceClp => $composableBuilder(
+    column: $table.originalUnitPriceClp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get newProductId => $composableBuilder(
+    column: $table.newProductId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get newQuantity => $composableBuilder(
+    column: $table.newQuantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get newUnitPriceClp => $composableBuilder(
+    column: $table.newUnitPriceClp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get creditClp => $composableBuilder(
+    column: $table.creditClp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get chargeClp => $composableBuilder(
+    column: $table.chargeClp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get differenceClp => $composableBuilder(
+    column: $table.differenceClp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get newSaleId => $composableBuilder(
+    column: $table.newSaleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get differencePaymentMethod => $composableBuilder(
+    column: $table.differencePaymentMethod,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get differencePaymentAmountClp => $composableBuilder(
+    column: $table.differencePaymentAmountClp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get creditNoteId => $composableBuilder(
+    column: $table.creditNoteId,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ProductExchangesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ProductExchangesTable> {
+  $$ProductExchangesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shiftId => $composableBuilder(
+    column: $table.shiftId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get originalSaleId => $composableBuilder(
+    column: $table.originalSaleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get returnProductId => $composableBuilder(
+    column: $table.returnProductId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get returnQuantity => $composableBuilder(
+    column: $table.returnQuantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get originalUnitPriceClp => $composableBuilder(
+    column: $table.originalUnitPriceClp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get newProductId => $composableBuilder(
+    column: $table.newProductId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get newQuantity => $composableBuilder(
+    column: $table.newQuantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get newUnitPriceClp => $composableBuilder(
+    column: $table.newUnitPriceClp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get creditClp => $composableBuilder(
+    column: $table.creditClp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get chargeClp => $composableBuilder(
+    column: $table.chargeClp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get differenceClp => $composableBuilder(
+    column: $table.differenceClp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get newSaleId => $composableBuilder(
+    column: $table.newSaleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get differencePaymentMethod => $composableBuilder(
+    column: $table.differencePaymentMethod,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get differencePaymentAmountClp => $composableBuilder(
+    column: $table.differencePaymentAmountClp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get creditNoteId => $composableBuilder(
+    column: $table.creditNoteId,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ProductExchangesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ProductExchangesTable> {
+  $$ProductExchangesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get storeId =>
+      $composableBuilder(column: $table.storeId, builder: (column) => column);
+
+  GeneratedColumn<String> get shiftId =>
+      $composableBuilder(column: $table.shiftId, builder: (column) => column);
+
+  GeneratedColumn<String> get originalSaleId => $composableBuilder(
+    column: $table.originalSaleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get returnProductId => $composableBuilder(
+    column: $table.returnProductId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get returnQuantity => $composableBuilder(
+    column: $table.returnQuantity,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get originalUnitPriceClp => $composableBuilder(
+    column: $table.originalUnitPriceClp,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get newProductId => $composableBuilder(
+    column: $table.newProductId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get newQuantity => $composableBuilder(
+    column: $table.newQuantity,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get newUnitPriceClp => $composableBuilder(
+    column: $table.newUnitPriceClp,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get creditClp =>
+      $composableBuilder(column: $table.creditClp, builder: (column) => column);
+
+  GeneratedColumn<int> get chargeClp =>
+      $composableBuilder(column: $table.chargeClp, builder: (column) => column);
+
+  GeneratedColumn<int> get differenceClp => $composableBuilder(
+    column: $table.differenceClp,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get newSaleId =>
+      $composableBuilder(column: $table.newSaleId, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get differencePaymentMethod => $composableBuilder(
+    column: $table.differencePaymentMethod,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get differencePaymentAmountClp => $composableBuilder(
+    column: $table.differencePaymentAmountClp,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get creditNoteId => $composableBuilder(
+    column: $table.creditNoteId,
+    builder: (column) => column,
+  );
+}
+
+class $$ProductExchangesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ProductExchangesTable,
+          ProductExchangeRow,
+          $$ProductExchangesTableFilterComposer,
+          $$ProductExchangesTableOrderingComposer,
+          $$ProductExchangesTableAnnotationComposer,
+          $$ProductExchangesTableCreateCompanionBuilder,
+          $$ProductExchangesTableUpdateCompanionBuilder,
+          (
+            ProductExchangeRow,
+            BaseReferences<
+              _$AppDatabase,
+              $ProductExchangesTable,
+              ProductExchangeRow
+            >,
+          ),
+          ProductExchangeRow,
+          PrefetchHooks Function()
+        > {
+  $$ProductExchangesTableTableManager(
+    _$AppDatabase db,
+    $ProductExchangesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ProductExchangesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ProductExchangesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ProductExchangesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> storeId = const Value.absent(),
+                Value<String> shiftId = const Value.absent(),
+                Value<String> originalSaleId = const Value.absent(),
+                Value<String> returnProductId = const Value.absent(),
+                Value<int> returnQuantity = const Value.absent(),
+                Value<int> originalUnitPriceClp = const Value.absent(),
+                Value<String> newProductId = const Value.absent(),
+                Value<int> newQuantity = const Value.absent(),
+                Value<int> newUnitPriceClp = const Value.absent(),
+                Value<int> creditClp = const Value.absent(),
+                Value<int> chargeClp = const Value.absent(),
+                Value<int> differenceClp = const Value.absent(),
+                Value<String> newSaleId = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String> actorUserId = const Value.absent(),
+                Value<String?> differencePaymentMethod = const Value.absent(),
+                Value<int?> differencePaymentAmountClp = const Value.absent(),
+                Value<String?> creditNoteId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ProductExchangesCompanion(
+                id: id,
+                storeId: storeId,
+                shiftId: shiftId,
+                originalSaleId: originalSaleId,
+                returnProductId: returnProductId,
+                returnQuantity: returnQuantity,
+                originalUnitPriceClp: originalUnitPriceClp,
+                newProductId: newProductId,
+                newQuantity: newQuantity,
+                newUnitPriceClp: newUnitPriceClp,
+                creditClp: creditClp,
+                chargeClp: chargeClp,
+                differenceClp: differenceClp,
+                newSaleId: newSaleId,
+                createdAt: createdAt,
+                actorUserId: actorUserId,
+                differencePaymentMethod: differencePaymentMethod,
+                differencePaymentAmountClp: differencePaymentAmountClp,
+                creditNoteId: creditNoteId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String storeId,
+                required String shiftId,
+                required String originalSaleId,
+                required String returnProductId,
+                required int returnQuantity,
+                required int originalUnitPriceClp,
+                required String newProductId,
+                required int newQuantity,
+                required int newUnitPriceClp,
+                required int creditClp,
+                required int chargeClp,
+                required int differenceClp,
+                required String newSaleId,
+                required String createdAt,
+                required String actorUserId,
+                Value<String?> differencePaymentMethod = const Value.absent(),
+                Value<int?> differencePaymentAmountClp = const Value.absent(),
+                Value<String?> creditNoteId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ProductExchangesCompanion.insert(
+                id: id,
+                storeId: storeId,
+                shiftId: shiftId,
+                originalSaleId: originalSaleId,
+                returnProductId: returnProductId,
+                returnQuantity: returnQuantity,
+                originalUnitPriceClp: originalUnitPriceClp,
+                newProductId: newProductId,
+                newQuantity: newQuantity,
+                newUnitPriceClp: newUnitPriceClp,
+                creditClp: creditClp,
+                chargeClp: chargeClp,
+                differenceClp: differenceClp,
+                newSaleId: newSaleId,
+                createdAt: createdAt,
+                actorUserId: actorUserId,
+                differencePaymentMethod: differencePaymentMethod,
+                differencePaymentAmountClp: differencePaymentAmountClp,
+                creditNoteId: creditNoteId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ProductExchangesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ProductExchangesTable,
+      ProductExchangeRow,
+      $$ProductExchangesTableFilterComposer,
+      $$ProductExchangesTableOrderingComposer,
+      $$ProductExchangesTableAnnotationComposer,
+      $$ProductExchangesTableCreateCompanionBuilder,
+      $$ProductExchangesTableUpdateCompanionBuilder,
+      (
+        ProductExchangeRow,
+        BaseReferences<
+          _$AppDatabase,
+          $ProductExchangesTable,
+          ProductExchangeRow
+        >,
+      ),
+      ProductExchangeRow,
+      PrefetchHooks Function()
+    >;
 typedef $$DteFolioCountersTableCreateCompanionBuilder =
     DteFolioCountersCompanion Function({
       required String storeId,
@@ -10345,6 +11982,8 @@ class $AppDatabaseManager {
       $$InventoryClosesTableTableManager(_db, _db.inventoryCloses);
   $$InventoryCloseLinesTableTableManager get inventoryCloseLines =>
       $$InventoryCloseLinesTableTableManager(_db, _db.inventoryCloseLines);
+  $$ProductExchangesTableTableManager get productExchanges =>
+      $$ProductExchangesTableTableManager(_db, _db.productExchanges);
   $$DteFolioCountersTableTableManager get dteFolioCounters =>
       $$DteFolioCountersTableTableManager(_db, _db.dteFolioCounters);
   $$ClockStateTableTableManager get clockState =>

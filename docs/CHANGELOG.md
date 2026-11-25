@@ -6,6 +6,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-90: Cambio de producto core, `RegisterProductExchange`, permiso `cambiarProducto`, Drift v21, SC-090.
+
 - SLICE-89: UI conteo por escaneo en Cierre inventario, cableo `ScanSessionService` con Drift, SC-088-SCAN-UI.
 
 - SLICE-88: Confirmar conteo inventario desde sesión `countScan`, `ConfirmInventoryCountScan`, `confirm-count`, SC-088-SCAN.

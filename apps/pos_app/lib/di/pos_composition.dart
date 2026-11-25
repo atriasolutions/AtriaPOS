@@ -188,6 +188,7 @@ class PosComposition {
         shiftRepository: shifts,
         collaboratorRepository: collaborators,
         storeRepository: storeRepo,
+        productExchangeRepository: DriftProductExchangeRepository(db),
         dteGateway: dteGateway,
         dteQueueRepository: dteQueue,
         sessionProvider: sessions,

@@ -114,6 +114,34 @@ class SaleLines extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+@DataClassName('ProductExchangeRow')
+class ProductExchanges extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().named('store_id')();
+  TextColumn get shiftId => text().named('shift_id')();
+  TextColumn get originalSaleId => text().named('original_sale_id')();
+  TextColumn get returnProductId => text().named('return_product_id')();
+  IntColumn get returnQuantity => integer().named('return_quantity')();
+  IntColumn get originalUnitPriceClp => integer().named('original_unit_price_clp')();
+  TextColumn get newProductId => text().named('new_product_id')();
+  IntColumn get newQuantity => integer().named('new_quantity')();
+  IntColumn get newUnitPriceClp => integer().named('new_unit_price_clp')();
+  IntColumn get creditClp => integer().named('credit_clp')();
+  IntColumn get chargeClp => integer().named('charge_clp')();
+  IntColumn get differenceClp => integer().named('difference_clp')();
+  TextColumn get newSaleId => text().named('new_sale_id')();
+  TextColumn get createdAt => text().named('created_at')();
+  TextColumn get actorUserId => text().named('actor_user_id')();
+  TextColumn get differencePaymentMethod =>
+      text().named('difference_payment_method').nullable()();
+  IntColumn get differencePaymentAmountClp =>
+      integer().named('difference_payment_amount_clp').nullable()();
+  TextColumn get creditNoteId => text().named('credit_note_id').nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 @DataClassName('InventoryCloseRow')
 class InventoryCloses extends Table {
   TextColumn get id => text()();
@@ -221,6 +249,7 @@ class DteFolioCounters extends Table {
   Collaborators,
   InventoryCloses,
   InventoryCloseLines,
+  ProductExchanges,
   DteFolioCounters,
   ClockState,
 ])
@@ -228,7 +257,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 20;
+  int get schemaVersion => 21;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -359,6 +388,9 @@ WHERE (
               "UPDATE stores SET pos_template_id = 'ATRIA_POS' "
               'WHERE pos_template_id IS NULL',
             );
+          }
+          if (from < 21) {
+            await m.createTable(productExchanges);
           }
         },
       );

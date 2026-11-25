@@ -33,6 +33,8 @@ export 'product_sales_rank.dart';
 export 'top_sales_period_policy.dart';
 export 'product_qr.dart';
 export 'product_id.dart';
+export 'product_exchange.dart';
+export 'product_exchange_id.dart';
 export 'stock_adjustment_reason.dart';
 export 'stock_movement.dart';
 export 'sale.dart';

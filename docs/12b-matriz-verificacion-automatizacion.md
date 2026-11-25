@@ -66,6 +66,14 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-088-SCAN-06 | RF-088 | — | — | ✅ | 409 |
 | SC-088-SCAN-07 | RF-088 | — | — | ✅ | cajero 403 |
 | SC-088-SCAN-08 | RF-088 | — | — | ✅ | regresión confirm ingreso |
+| SC-090-01 | RF-095 | — | — | ✅ | `register_product_exchange_test.dart` |
+| SC-090-02 | RF-095 | — | — | ✅ | parcial / agotado |
+| SC-090-03 | RF-095 | — | — | ✅ | diferencia mayor |
+| SC-090-04 | RF-095 | — | — | ✅ | devolución OTRO |
+| SC-090-05 | RF-095 | — | — | ✅ | turno venta |
+| SC-090-06 | RF-095 | — | — | ✅ | cajero 403 |
+| SC-090-07 | RF-095 | — | — | ✅ | DTE emitida |
+| SC-090-08 | RF-095 | — | — | ✅ | stock insuficiente |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

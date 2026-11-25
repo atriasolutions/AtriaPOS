@@ -6,7 +6,9 @@ enum StockAdjustmentReason {
   recepcion('RECEPCION'),
   correccion('CORRECCION'),
   venta('VENTA'),
-  anulacionVenta('ANULACION_VENTA');
+  anulacionVenta('ANULACION_VENTA'),
+  cambioDevolucion('CAMBIO_DEVOLUCION'),
+  cambioEntrega('CAMBIO_ENTREGA');
 
   const StockAdjustmentReason(this.apiValue);
 

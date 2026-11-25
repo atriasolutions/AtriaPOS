@@ -143,3 +143,49 @@ class ListActiveCollaboratorsResponse {
 
   final List<ActiveCollaboratorResponse> items;
 }
+
+class ProductExchangePaymentDto {
+  const ProductExchangePaymentDto({
+    required this.method,
+    required this.amountClp,
+  });
+
+  final String method;
+  final int amountClp;
+}
+
+class RegisterProductExchangeRequest {
+  const RegisterProductExchangeRequest({
+    required this.returnProductId,
+    required this.returnQuantity,
+    required this.newProductId,
+    required this.newQuantity,
+    this.differencePayment,
+  });
+
+  final String returnProductId;
+  final int returnQuantity;
+  final String newProductId;
+  final int newQuantity;
+  final ProductExchangePaymentDto? differencePayment;
+}
+
+class RegisterProductExchangeResponse {
+  const RegisterProductExchangeResponse({
+    required this.exchangeId,
+    required this.newSaleId,
+    required this.creditClp,
+    required this.chargeClp,
+    required this.differenceClp,
+    required this.returnProductStock,
+    required this.newProductStock,
+  });
+
+  final String exchangeId;
+  final String newSaleId;
+  final int creditClp;
+  final int chargeClp;
+  final int differenceClp;
+  final int returnProductStock;
+  final int newProductStock;
+}

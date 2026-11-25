@@ -270,6 +270,8 @@ Borrador de ingreso o conteo por códigos antes de confirmar stock.
 - Dado supervisor con `cambiarProducto` y turno abierto, cuando registra cambio sobre línea de venta del turno, entonces ajusta stock y persiste `ProductExchange`.
 - Dado diferencia de precio, entonces registra cobro o devolución con medios DEC-012 (sin Transbank).
 - Dado boleta emitida, entonces exige flujo NC (RF-096) antes de cerrar cambio fiscal.
+- Dado cambio parcial, cuando la suma de unidades cambiadas alcanza lo vendido, entonces rechaza excesos (`CONFLICTO`).
+- Dado venta con DTE no emitida, cuando confirma cambio, entonces crea venta nueva por SKU entregado y movimientos `CAMBIO_DEVOLUCION` / `CAMBIO_ENTREGA` (SLICE-90).
 
 ### RF-096 [M] Nota de crédito electrónica (SLICE-92, DEC-055)
 

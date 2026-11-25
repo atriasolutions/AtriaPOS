@@ -242,6 +242,46 @@ Solo supervisor/dueño. Requiere turno abierto.
 
 Estados `status` venta: `CONFIRMADA` | `ANULADA`.
 
+### `POST /v0/stores/{storeId}/sales/{saleId}/product-exchanges` (RF-095, SLICE-90)
+
+Requiere `cambiarProducto` y **turno abierto** (venta del turno actual).
+
+```json
+{
+  "returnProductId": "prod_01",
+  "returnQuantity": 1,
+  "newProductId": "prod_02",
+  "newQuantity": 1,
+  "differencePayment": { "method": "EFECTIVO", "amountClp": 200 }
+}
+```
+
+`differencePayment` obligatorio si `differenceClp ≠ 0` (cargo o devolución); omitir si cero.
+
+**Response 201**
+
+```json
+{
+  "exchangeId": "ex_01",
+  "newSaleId": "sale_02",
+  "creditClp": 500,
+  "chargeClp": 700,
+  "differenceClp": 200,
+  "returnProductStock": 4,
+  "newProductStock": 9
+}
+```
+
+- Crédito al **precio de línea original**; cargo al **precio vigente** del producto nuevo.
+- Ajusta stock (`CAMBIO_DEVOLUCION` / `CAMBIO_ENTREGA`) y persiste `ProductExchange`.
+- Cambios **parciales** por `productId` hasta agotar cantidad vendida.
+- `dteStatus` `EMITIDA` en venta original → `400` (NC en SLICE-92).
+- Sin unidades disponibles → `409` `CONFLICTO`.
+- Stock insuficiente producto nuevo → `409`.
+- `SaleService.registerProductExchange`.
+
+**Tests:** SC-090-01…08 en `register_product_exchange_test.dart`, `product_exchange_api_test.dart`.
+
 ---
 
 ## API-003 — Turno y cierre
@@ -718,7 +758,7 @@ Cierra sesión local. Precondición: **sin turno abierto** (DEC-050).
 
 **Tests SLICE-7 / SLICE-61 (SC-070-01…04, SC-081-xx):** login válido; PIN malo; matriz RF-081 (`RoleCapabilities`); cajero bloqueado en reportes/ajuste/cierre; dueño crea usuario.
 
-**Matriz 403 (RF-081):** reportes → `consultarReportes`; auditoría → `consultarAuditoria`; certificado → `consultarCertificado`; ventas del turno → `listarVentasTurno`; anular → `anularVenta`.
+**Matriz 403 (RF-081):** reportes → `consultarReportes`; auditoría → `consultarAuditoria`; certificado → `consultarCertificado`; ventas del turno → `listarVentasTurno`; anular → `anularVenta`; cambio producto → `cambiarProducto`.
 
 ### `createUser` (in-process, SLICE-60 / RF-080)
 

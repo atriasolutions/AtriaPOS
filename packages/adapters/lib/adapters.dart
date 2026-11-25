@@ -26,6 +26,7 @@ export 'drift_sale_repository.dart';
 export 'drift_shift_repository.dart';
 export 'drift_stock_movement_repository.dart';
 export 'drift_inventory_close_repository.dart';
+export 'drift_product_exchange_repository.dart';
 export 'drift_clock_state_repository.dart';
 export 'ntp_shoa_clock.dart';
 export 'src/database.dart';

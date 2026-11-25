@@ -17,6 +17,7 @@ class RoleCapabilities {
     Permission.cerrarCaja,
     Permission.configurarCatalogo,
     Permission.anularVenta,
+    Permission.cambiarProducto,
   };
 
   static const _duenoExtra = {

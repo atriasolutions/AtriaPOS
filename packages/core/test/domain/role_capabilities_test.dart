@@ -14,6 +14,7 @@ void main() {
       final caps = RoleCapabilities.forRole(UserRole.supervisor);
       expect(caps, contains(Permission.vender));
       expect(caps, contains(Permission.consultarAuditoria));
+      expect(caps, contains(Permission.cambiarProducto));
       expect(caps, isNot(contains(Permission.gestionarUsuarios)));
     });
 
