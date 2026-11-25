@@ -1,6 +1,8 @@
 import 'cart_id.dart';
+import 'dte_document_type.dart';
 import 'dte_status.dart';
 import 'payment.dart';
+import 'sale_invoice_receiver.dart';
 import 'sale_id.dart';
 import 'sale_line.dart';
 import 'sale_status.dart';
@@ -26,7 +28,9 @@ class Sale {
     this.sellerCode,
     this.voidedAt,
     this.voidedByUserId,
-  });
+    int? dteDocumentType,
+    this.invoiceReceiver,
+  }) : dteDocumentType = dteDocumentType ?? DteDocumentType.boleta;
 
   final SaleId id;
   final StoreId storeId;
@@ -45,6 +49,8 @@ class Sale {
   final String? sellerCode;
   final DateTime? voidedAt;
   final String? voidedByUserId;
+  final int dteDocumentType;
+  final SaleInvoiceReceiver? invoiceReceiver;
 
   bool get isAnulada => status == SaleStatus.anulada;
 
@@ -70,6 +76,8 @@ class Sale {
         sellerCode: sellerCode,
         voidedAt: voidedAt.toUtc(),
         voidedByUserId: voidedByUserId,
+        dteDocumentType: dteDocumentType,
+        invoiceReceiver: invoiceReceiver,
       );
 
   Sale withDte({
@@ -95,5 +103,7 @@ class Sale {
         sellerCode: sellerCode,
         voidedAt: voidedAt,
         voidedByUserId: voidedByUserId,
+        dteDocumentType: dteDocumentType,
+        invoiceReceiver: invoiceReceiver,
       );
 }

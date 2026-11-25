@@ -23,6 +23,16 @@ class CheckoutPaymentInput {
   final int amountClp;
 }
 
+class ConfirmCheckoutInvoiceReceiverInput {
+  const ConfirmCheckoutInvoiceReceiverInput({
+    required this.rut,
+    required this.businessName,
+  });
+
+  final String rut;
+  final String businessName;
+}
+
 class ConfirmCheckoutInput {
   const ConfirmCheckoutInput({
     required this.storeId,
@@ -30,6 +40,8 @@ class ConfirmCheckoutInput {
     required this.sellerCode,
     required this.payments,
     required this.changeClp,
+    this.documentKind = CheckoutDocumentKind.boleta,
+    this.invoiceReceiver,
   });
 
   final StoreId storeId;
@@ -37,6 +49,8 @@ class ConfirmCheckoutInput {
   final String sellerCode;
   final List<CheckoutPaymentInput> payments;
   final int changeClp;
+  final CheckoutDocumentKind documentKind;
+  final ConfirmCheckoutInvoiceReceiverInput? invoiceReceiver;
 }
 
 class ConfirmCheckoutResult {
@@ -48,6 +62,7 @@ class ConfirmCheckoutResult {
     required this.createdAt,
     this.folio,
     this.pdfUrl,
+    this.dteDocumentType = DteDocumentType.boleta,
   });
 
   final SaleId saleId;
@@ -57,6 +72,7 @@ class ConfirmCheckoutResult {
   final DateTime createdAt;
   final int? folio;
   final String? pdfUrl;
+  final int dteDocumentType;
 }
 
 class ConfirmCheckout {
@@ -93,6 +109,33 @@ class ConfirmCheckout {
     final store = await _stores.findById(input.storeId);
     final templateId = store?.posTemplateId ?? PosTemplateId.atriaPos;
     final requiresSeller = CheckoutTemplatePolicy.requiresSellerCode(templateId);
+
+    SaleInvoiceReceiver? invoiceReceiver;
+    final documentKind = input.documentKind;
+    if (documentKind == CheckoutDocumentKind.factura) {
+      if (!CheckoutTemplatePolicy.allowsInvoiceCheckout(templateId)) {
+        throw const ValidationFailure(
+          'La plantilla de esta tienda no permite emitir factura',
+        );
+      }
+      final raw = input.invoiceReceiver;
+      if (raw == null) {
+        throw const ValidationFailure('Ingrese datos del receptor para factura');
+      }
+      invoiceReceiver = SaleInvoiceReceiver.validate(
+        rutRaw: raw.rut,
+        businessNameRaw: raw.businessName,
+      );
+    } else {
+      final raw = input.invoiceReceiver;
+      if (raw != null &&
+          (raw.rut.trim().isNotEmpty || raw.businessName.trim().isNotEmpty)) {
+        throw const ValidationFailure(
+          'No envíe datos de receptor en venta con boleta',
+        );
+      }
+    }
+    final dteDocumentType = documentKind.dteDocumentType;
     String? sellerCode;
     if (requiresSeller) {
       if (input.sellerCode.trim().isEmpty) {
@@ -173,6 +216,8 @@ class ConfirmCheckout {
       createdAt: _clock.now(),
       confirmedByUserId: actorId,
       sellerCode: sellerCode,
+      dteDocumentType: dteDocumentType,
+      invoiceReceiver: invoiceReceiver,
     );
 
     for (final line in cart.lines) {
@@ -211,6 +256,7 @@ class ConfirmCheckout {
       createdAt: sale.createdAt,
       folio: sale.folio,
       pdfUrl: sale.pdfUrl,
+      dteDocumentType: sale.dteDocumentType,
     );
   }
 }

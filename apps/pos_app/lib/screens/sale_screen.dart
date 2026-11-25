@@ -403,6 +403,8 @@ class _SaleScreenState extends State<SaleScreen> {
     final visibleMenu = _visibleMenuEntries(role);
     final requiresSellerCode =
         CheckoutTemplatePolicy.requiresSellerCode(_templateId);
+    final allowsInvoiceCheckout =
+        CheckoutTemplatePolicy.allowsInvoiceCheckout(_templateId);
     final hasOpsMenu = visibleMenu.isNotEmpty;
     final showProductStock = role != null &&
         AuthPolicy.allows(role, Permission.consultarStock);
@@ -609,6 +611,7 @@ class _SaleScreenState extends State<SaleScreen> {
                         totalClp: totalClp,
                         enabled: cartHasLines,
                         requiresSellerCode: requiresSellerCode,
+                        allowsInvoiceCheckout: allowsInvoiceCheckout,
                         onSuccess: _onCheckoutSuccess,
                       ),
                     ),

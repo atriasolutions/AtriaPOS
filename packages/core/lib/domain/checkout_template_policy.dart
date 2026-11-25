@@ -8,4 +8,10 @@ class CheckoutTemplatePolicy {
         .features
         .contains(PosFeature.sellerCodeCheckout);
   }
+
+  static bool allowsInvoiceCheckout(PosTemplateId templateId) {
+    return PosTemplateRegistry.resolve(templateId)
+        .features
+        .contains(PosFeature.invoiceCheckout);
+  }
 }

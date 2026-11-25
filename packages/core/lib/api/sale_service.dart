@@ -320,6 +320,8 @@ class SaleService {
             ),
           )
           .toList();
+      final documentKind = CheckoutDocumentKind.fromApi(request.documentType);
+      final receiverDto = request.invoiceReceiver;
       final result = await _checkout(
         ConfirmCheckoutInput(
           storeId: storeId,
@@ -327,6 +329,13 @@ class SaleService {
           sellerCode: request.sellerCode,
           payments: payments,
           changeClp: request.changeClp,
+          documentKind: documentKind,
+          invoiceReceiver: receiverDto == null
+              ? null
+              : ConfirmCheckoutInvoiceReceiverInput(
+                  rut: receiverDto.rut,
+                  businessName: receiverDto.businessName,
+                ),
         ),
       );
       return ApiSuccess(
@@ -338,6 +347,7 @@ class SaleService {
           createdAt: result.createdAt.toUtc().toIso8601String(),
           folio: result.folio,
           pdfUrl: result.pdfUrl,
+          documentType: result.dteDocumentType,
         ),
         statusCode: 201,
       );

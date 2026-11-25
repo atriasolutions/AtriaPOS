@@ -40,4 +40,46 @@ void main() {
     expect(xml, contains('Minimarket'));
     expect(xml, contains('<MntTotal>500</MntTotal>'));
   });
+
+  test('SC-093 XML factura 33 incluye receptor', () {
+    const emisor = SiiEmisorConfig(
+      rutEmisor: '76192083-9',
+      razonSocial: 'Minimarket',
+      giro: 'Almacen',
+    );
+    final sale = Sale(
+      id: 's2',
+      storeId: 't1',
+      shiftId: 'sh1',
+      cartId: 'c2',
+      lines: [
+        SaleLine(
+          productId: 'p1',
+          productName: 'Pan',
+          quantity: 1,
+          unitPriceClp: 500,
+        ),
+      ],
+      payments: [
+        Payment.create(method: PaymentMethod.efectivo, amountClp: 500),
+      ],
+      totalClp: 500,
+      changeClp: 0,
+      createdAt: DateTime.utc(2026, 1, 1),
+      dteDocumentType: DteDocumentType.factura,
+      invoiceReceiver: const SaleInvoiceReceiver(
+        rut: '12.345.678-5',
+        businessName: 'Cliente SpA',
+      ),
+    );
+    final xml = SiiDteXmlBuilder().buildDocumento(
+      sale: sale,
+      folio: 7001,
+      emisor: emisor,
+    );
+    expect(xml, contains('<TipoDTE>33</TipoDTE>'));
+    expect(xml, contains('<Receptor>'));
+    expect(xml, contains('12.345.678-5'));
+    expect(xml, contains('Cliente SpA'));
+  });
 }

@@ -2345,6 +2345,40 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _dteDocumentTypeMeta = const VerificationMeta(
+    'dteDocumentType',
+  );
+  @override
+  late final GeneratedColumn<int> dteDocumentType = GeneratedColumn<int>(
+    'dte_document_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(39),
+  );
+  static const VerificationMeta _invoiceReceiverRutMeta =
+      const VerificationMeta('invoiceReceiverRut');
+  @override
+  late final GeneratedColumn<String> invoiceReceiverRut =
+      GeneratedColumn<String>(
+        'invoice_receiver_rut',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _invoiceReceiverNameMeta =
+      const VerificationMeta('invoiceReceiverName');
+  @override
+  late final GeneratedColumn<String> invoiceReceiverName =
+      GeneratedColumn<String>(
+        'invoice_receiver_name',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2362,6 +2396,9 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     sellerCode,
     voidedAt,
     voidedByUserId,
+    dteDocumentType,
+    invoiceReceiverRut,
+    invoiceReceiverName,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2482,6 +2519,33 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         ),
       );
     }
+    if (data.containsKey('dte_document_type')) {
+      context.handle(
+        _dteDocumentTypeMeta,
+        dteDocumentType.isAcceptableOrUnknown(
+          data['dte_document_type']!,
+          _dteDocumentTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('invoice_receiver_rut')) {
+      context.handle(
+        _invoiceReceiverRutMeta,
+        invoiceReceiverRut.isAcceptableOrUnknown(
+          data['invoice_receiver_rut']!,
+          _invoiceReceiverRutMeta,
+        ),
+      );
+    }
+    if (data.containsKey('invoice_receiver_name')) {
+      context.handle(
+        _invoiceReceiverNameMeta,
+        invoiceReceiverName.isAcceptableOrUnknown(
+          data['invoice_receiver_name']!,
+          _invoiceReceiverNameMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2551,6 +2615,18 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         DriftSqlType.string,
         data['${effectivePrefix}voided_by_user_id'],
       ),
+      dteDocumentType: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}dte_document_type'],
+      )!,
+      invoiceReceiverRut: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invoice_receiver_rut'],
+      ),
+      invoiceReceiverName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invoice_receiver_name'],
+      ),
     );
   }
 
@@ -2576,6 +2652,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
   final String? sellerCode;
   final String? voidedAt;
   final String? voidedByUserId;
+  final int dteDocumentType;
+  final String? invoiceReceiverRut;
+  final String? invoiceReceiverName;
   const SaleRow({
     required this.id,
     required this.storeId,
@@ -2592,6 +2671,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     this.sellerCode,
     this.voidedAt,
     this.voidedByUserId,
+    required this.dteDocumentType,
+    this.invoiceReceiverRut,
+    this.invoiceReceiverName,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2622,6 +2704,13 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     }
     if (!nullToAbsent || voidedByUserId != null) {
       map['voided_by_user_id'] = Variable<String>(voidedByUserId);
+    }
+    map['dte_document_type'] = Variable<int>(dteDocumentType);
+    if (!nullToAbsent || invoiceReceiverRut != null) {
+      map['invoice_receiver_rut'] = Variable<String>(invoiceReceiverRut);
+    }
+    if (!nullToAbsent || invoiceReceiverName != null) {
+      map['invoice_receiver_name'] = Variable<String>(invoiceReceiverName);
     }
     return map;
   }
@@ -2655,6 +2744,13 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       voidedByUserId: voidedByUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(voidedByUserId),
+      dteDocumentType: Value(dteDocumentType),
+      invoiceReceiverRut: invoiceReceiverRut == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceReceiverRut),
+      invoiceReceiverName: invoiceReceiverName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceReceiverName),
     );
   }
 
@@ -2681,6 +2777,13 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       sellerCode: serializer.fromJson<String?>(json['sellerCode']),
       voidedAt: serializer.fromJson<String?>(json['voidedAt']),
       voidedByUserId: serializer.fromJson<String?>(json['voidedByUserId']),
+      dteDocumentType: serializer.fromJson<int>(json['dteDocumentType']),
+      invoiceReceiverRut: serializer.fromJson<String?>(
+        json['invoiceReceiverRut'],
+      ),
+      invoiceReceiverName: serializer.fromJson<String?>(
+        json['invoiceReceiverName'],
+      ),
     );
   }
   @override
@@ -2702,6 +2805,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       'sellerCode': serializer.toJson<String?>(sellerCode),
       'voidedAt': serializer.toJson<String?>(voidedAt),
       'voidedByUserId': serializer.toJson<String?>(voidedByUserId),
+      'dteDocumentType': serializer.toJson<int>(dteDocumentType),
+      'invoiceReceiverRut': serializer.toJson<String?>(invoiceReceiverRut),
+      'invoiceReceiverName': serializer.toJson<String?>(invoiceReceiverName),
     };
   }
 
@@ -2721,6 +2827,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     Value<String?> sellerCode = const Value.absent(),
     Value<String?> voidedAt = const Value.absent(),
     Value<String?> voidedByUserId = const Value.absent(),
+    int? dteDocumentType,
+    Value<String?> invoiceReceiverRut = const Value.absent(),
+    Value<String?> invoiceReceiverName = const Value.absent(),
   }) => SaleRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -2741,6 +2850,13 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     voidedByUserId: voidedByUserId.present
         ? voidedByUserId.value
         : this.voidedByUserId,
+    dteDocumentType: dteDocumentType ?? this.dteDocumentType,
+    invoiceReceiverRut: invoiceReceiverRut.present
+        ? invoiceReceiverRut.value
+        : this.invoiceReceiverRut,
+    invoiceReceiverName: invoiceReceiverName.present
+        ? invoiceReceiverName.value
+        : this.invoiceReceiverName,
   );
   SaleRow copyWithCompanion(SalesCompanion data) {
     return SaleRow(
@@ -2765,6 +2881,15 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       voidedByUserId: data.voidedByUserId.present
           ? data.voidedByUserId.value
           : this.voidedByUserId,
+      dteDocumentType: data.dteDocumentType.present
+          ? data.dteDocumentType.value
+          : this.dteDocumentType,
+      invoiceReceiverRut: data.invoiceReceiverRut.present
+          ? data.invoiceReceiverRut.value
+          : this.invoiceReceiverRut,
+      invoiceReceiverName: data.invoiceReceiverName.present
+          ? data.invoiceReceiverName.value
+          : this.invoiceReceiverName,
     );
   }
 
@@ -2785,7 +2910,10 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           ..write('confirmedByUserId: $confirmedByUserId, ')
           ..write('sellerCode: $sellerCode, ')
           ..write('voidedAt: $voidedAt, ')
-          ..write('voidedByUserId: $voidedByUserId')
+          ..write('voidedByUserId: $voidedByUserId, ')
+          ..write('dteDocumentType: $dteDocumentType, ')
+          ..write('invoiceReceiverRut: $invoiceReceiverRut, ')
+          ..write('invoiceReceiverName: $invoiceReceiverName')
           ..write(')'))
         .toString();
   }
@@ -2807,6 +2935,9 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     sellerCode,
     voidedAt,
     voidedByUserId,
+    dteDocumentType,
+    invoiceReceiverRut,
+    invoiceReceiverName,
   );
   @override
   bool operator ==(Object other) =>
@@ -2826,7 +2957,10 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           other.confirmedByUserId == this.confirmedByUserId &&
           other.sellerCode == this.sellerCode &&
           other.voidedAt == this.voidedAt &&
-          other.voidedByUserId == this.voidedByUserId);
+          other.voidedByUserId == this.voidedByUserId &&
+          other.dteDocumentType == this.dteDocumentType &&
+          other.invoiceReceiverRut == this.invoiceReceiverRut &&
+          other.invoiceReceiverName == this.invoiceReceiverName);
 }
 
 class SalesCompanion extends UpdateCompanion<SaleRow> {
@@ -2845,6 +2979,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
   final Value<String?> sellerCode;
   final Value<String?> voidedAt;
   final Value<String?> voidedByUserId;
+  final Value<int> dteDocumentType;
+  final Value<String?> invoiceReceiverRut;
+  final Value<String?> invoiceReceiverName;
   final Value<int> rowid;
   const SalesCompanion({
     this.id = const Value.absent(),
@@ -2862,6 +2999,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.sellerCode = const Value.absent(),
     this.voidedAt = const Value.absent(),
     this.voidedByUserId = const Value.absent(),
+    this.dteDocumentType = const Value.absent(),
+    this.invoiceReceiverRut = const Value.absent(),
+    this.invoiceReceiverName = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SalesCompanion.insert({
@@ -2880,6 +3020,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.sellerCode = const Value.absent(),
     this.voidedAt = const Value.absent(),
     this.voidedByUserId = const Value.absent(),
+    this.dteDocumentType = const Value.absent(),
+    this.invoiceReceiverRut = const Value.absent(),
+    this.invoiceReceiverName = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -2904,6 +3047,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Expression<String>? sellerCode,
     Expression<String>? voidedAt,
     Expression<String>? voidedByUserId,
+    Expression<int>? dteDocumentType,
+    Expression<String>? invoiceReceiverRut,
+    Expression<String>? invoiceReceiverName,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2922,6 +3068,11 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       if (sellerCode != null) 'seller_code': sellerCode,
       if (voidedAt != null) 'voided_at': voidedAt,
       if (voidedByUserId != null) 'voided_by_user_id': voidedByUserId,
+      if (dteDocumentType != null) 'dte_document_type': dteDocumentType,
+      if (invoiceReceiverRut != null)
+        'invoice_receiver_rut': invoiceReceiverRut,
+      if (invoiceReceiverName != null)
+        'invoice_receiver_name': invoiceReceiverName,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2942,6 +3093,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Value<String?>? sellerCode,
     Value<String?>? voidedAt,
     Value<String?>? voidedByUserId,
+    Value<int>? dteDocumentType,
+    Value<String?>? invoiceReceiverRut,
+    Value<String?>? invoiceReceiverName,
     Value<int>? rowid,
   }) {
     return SalesCompanion(
@@ -2960,6 +3114,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       sellerCode: sellerCode ?? this.sellerCode,
       voidedAt: voidedAt ?? this.voidedAt,
       voidedByUserId: voidedByUserId ?? this.voidedByUserId,
+      dteDocumentType: dteDocumentType ?? this.dteDocumentType,
+      invoiceReceiverRut: invoiceReceiverRut ?? this.invoiceReceiverRut,
+      invoiceReceiverName: invoiceReceiverName ?? this.invoiceReceiverName,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3012,6 +3169,17 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     if (voidedByUserId.present) {
       map['voided_by_user_id'] = Variable<String>(voidedByUserId.value);
     }
+    if (dteDocumentType.present) {
+      map['dte_document_type'] = Variable<int>(dteDocumentType.value);
+    }
+    if (invoiceReceiverRut.present) {
+      map['invoice_receiver_rut'] = Variable<String>(invoiceReceiverRut.value);
+    }
+    if (invoiceReceiverName.present) {
+      map['invoice_receiver_name'] = Variable<String>(
+        invoiceReceiverName.value,
+      );
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3036,6 +3204,9 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
           ..write('sellerCode: $sellerCode, ')
           ..write('voidedAt: $voidedAt, ')
           ..write('voidedByUserId: $voidedByUserId, ')
+          ..write('dteDocumentType: $dteDocumentType, ')
+          ..write('invoiceReceiverRut: $invoiceReceiverRut, ')
+          ..write('invoiceReceiverName: $invoiceReceiverName, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -10287,6 +10458,9 @@ typedef $$SalesTableCreateCompanionBuilder =
       Value<String?> sellerCode,
       Value<String?> voidedAt,
       Value<String?> voidedByUserId,
+      Value<int> dteDocumentType,
+      Value<String?> invoiceReceiverRut,
+      Value<String?> invoiceReceiverName,
       Value<int> rowid,
     });
 typedef $$SalesTableUpdateCompanionBuilder =
@@ -10306,6 +10480,9 @@ typedef $$SalesTableUpdateCompanionBuilder =
       Value<String?> sellerCode,
       Value<String?> voidedAt,
       Value<String?> voidedByUserId,
+      Value<int> dteDocumentType,
+      Value<String?> invoiceReceiverRut,
+      Value<String?> invoiceReceiverName,
       Value<int> rowid,
     });
 
@@ -10389,6 +10566,21 @@ class $$SalesTableFilterComposer extends Composer<_$AppDatabase, $SalesTable> {
 
   ColumnFilters<String> get voidedByUserId => $composableBuilder(
     column: $table.voidedByUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get dteDocumentType => $composableBuilder(
+    column: $table.dteDocumentType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get invoiceReceiverRut => $composableBuilder(
+    column: $table.invoiceReceiverRut,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get invoiceReceiverName => $composableBuilder(
+    column: $table.invoiceReceiverName,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -10476,6 +10668,21 @@ class $$SalesTableOrderingComposer
     column: $table.voidedByUserId,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get dteDocumentType => $composableBuilder(
+    column: $table.dteDocumentType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get invoiceReceiverRut => $composableBuilder(
+    column: $table.invoiceReceiverRut,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get invoiceReceiverName => $composableBuilder(
+    column: $table.invoiceReceiverName,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SalesTableAnnotationComposer
@@ -10537,6 +10744,21 @@ class $$SalesTableAnnotationComposer
     column: $table.voidedByUserId,
     builder: (column) => column,
   );
+
+  GeneratedColumn<int> get dteDocumentType => $composableBuilder(
+    column: $table.dteDocumentType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get invoiceReceiverRut => $composableBuilder(
+    column: $table.invoiceReceiverRut,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get invoiceReceiverName => $composableBuilder(
+    column: $table.invoiceReceiverName,
+    builder: (column) => column,
+  );
 }
 
 class $$SalesTableTableManager
@@ -10582,6 +10804,9 @@ class $$SalesTableTableManager
                 Value<String?> sellerCode = const Value.absent(),
                 Value<String?> voidedAt = const Value.absent(),
                 Value<String?> voidedByUserId = const Value.absent(),
+                Value<int> dteDocumentType = const Value.absent(),
+                Value<String?> invoiceReceiverRut = const Value.absent(),
+                Value<String?> invoiceReceiverName = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion(
                 id: id,
@@ -10599,6 +10824,9 @@ class $$SalesTableTableManager
                 sellerCode: sellerCode,
                 voidedAt: voidedAt,
                 voidedByUserId: voidedByUserId,
+                dteDocumentType: dteDocumentType,
+                invoiceReceiverRut: invoiceReceiverRut,
+                invoiceReceiverName: invoiceReceiverName,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -10618,6 +10846,9 @@ class $$SalesTableTableManager
                 Value<String?> sellerCode = const Value.absent(),
                 Value<String?> voidedAt = const Value.absent(),
                 Value<String?> voidedByUserId = const Value.absent(),
+                Value<int> dteDocumentType = const Value.absent(),
+                Value<String?> invoiceReceiverRut = const Value.absent(),
+                Value<String?> invoiceReceiverName = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion.insert(
                 id: id,
@@ -10635,6 +10866,9 @@ class $$SalesTableTableManager
                 sellerCode: sellerCode,
                 voidedAt: voidedAt,
                 voidedByUserId: voidedByUserId,
+                dteDocumentType: dteDocumentType,
+                invoiceReceiverRut: invoiceReceiverRut,
+                invoiceReceiverName: invoiceReceiverName,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

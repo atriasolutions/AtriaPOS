@@ -1,4 +1,5 @@
 import 'package:core/api/api.dart';
+import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 
 import '../di/pos_composition.dart';
@@ -11,6 +12,7 @@ class CheckoutPanel extends StatefulWidget {
     required this.totalClp,
     required this.enabled,
     required this.requiresSellerCode,
+    required this.allowsInvoiceCheckout,
     required this.onSuccess,
   });
 
@@ -19,6 +21,7 @@ class CheckoutPanel extends StatefulWidget {
   final int totalClp;
   final bool enabled;
   final bool requiresSellerCode;
+  final bool allowsInvoiceCheckout;
   final Future<void> Function(CheckoutResponse response) onSuccess;
 
   @override
@@ -32,6 +35,9 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
   List<ActiveCollaboratorResponse> _active = [];
   String? _selectedSellerCode;
   final _sellerCodeController = TextEditingController();
+  bool _invoiceSelected = false;
+  final _invoiceRutController = TextEditingController();
+  final _invoiceNameController = TextEditingController();
 
   @override
   void initState() {
@@ -42,6 +48,12 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
       _loadingCollaborators = false;
     }
     _sellerCodeController.addListener(_onManualCodeChanged);
+    _invoiceRutController.addListener(_onInvoiceFieldsChanged);
+    _invoiceNameController.addListener(_onInvoiceFieldsChanged);
+  }
+
+  void _onInvoiceFieldsChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -65,6 +77,10 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
   void dispose() {
     _sellerCodeController.removeListener(_onManualCodeChanged);
     _sellerCodeController.dispose();
+    _invoiceRutController.removeListener(_onInvoiceFieldsChanged);
+    _invoiceNameController.removeListener(_onInvoiceFieldsChanged);
+    _invoiceRutController.dispose();
+    _invoiceNameController.dispose();
     super.dispose();
   }
 
@@ -107,9 +123,16 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     if (!widget.enabled || widget.cartId == null || _confirming) {
       return false;
     }
-    if (!widget.requiresSellerCode) return true;
-    if (_loadingCollaborators) return false;
-    return (_effectiveSellerCode ?? '').isNotEmpty;
+    if (widget.requiresSellerCode) {
+      if (_loadingCollaborators) return false;
+      if ((_effectiveSellerCode ?? '').isEmpty) return false;
+    }
+    if (_invoiceSelected) {
+      final rut = _invoiceRutController.text.trim();
+      final name = _invoiceNameController.text.trim();
+      if (rut.isEmpty || name.isEmpty) return false;
+    }
+    return true;
   }
 
   Future<void> _confirm() async {
@@ -124,6 +147,13 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     }
 
     setState(() => _confirming = true);
+    final documentType = _invoiceSelected ? 'FACTURA' : 'BOLETA';
+    final invoiceReceiver = _invoiceSelected
+        ? CheckoutInvoiceReceiverDto(
+            rut: _invoiceRutController.text.trim(),
+            businessName: _invoiceNameController.text.trim(),
+          )
+        : null;
     final result = await widget.composition.saleService.checkout(
       widget.composition.requireStoreId,
       cartId,
@@ -136,6 +166,8 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
           ),
         ],
         changeClp: 0,
+        documentType: documentType,
+        invoiceReceiver: invoiceReceiver,
       ),
     );
     if (!mounted) return;
@@ -204,6 +236,70 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
           'Pago: efectivo por el total exacto.',
           style: theme.textTheme.bodySmall,
         ),
+        if (widget.allowsInvoiceCheckout) ...[
+          const SizedBox(height: 16),
+          Text('Documento', style: theme.textTheme.titleSmall),
+          const SizedBox(height: 8),
+          SegmentedButton<bool>(
+            segments: const [
+              ButtonSegment(
+                value: false,
+                label: Text('Boleta'),
+                icon: Icon(Icons.receipt_long_outlined),
+              ),
+              ButtonSegment(
+                value: true,
+                label: Text('Factura'),
+                icon: Icon(Icons.description_outlined),
+              ),
+            ],
+            selected: {_invoiceSelected},
+            onSelectionChanged: widget.enabled
+                ? (selection) {
+                    setState(() {
+                      _invoiceSelected = selection.first;
+                    });
+                  }
+                : null,
+            style: ButtonStyle(
+              visualDensity: VisualDensity.compact,
+            ),
+            showSelectedIcon: false,
+            key: const Key('checkout_document_type_segment'),
+          ),
+          if (_invoiceSelected) ...[
+            const SizedBox(height: 12),
+            TextField(
+              key: const Key('checkout_invoice_rut'),
+              controller: _invoiceRutController,
+              enabled: widget.enabled,
+              decoration: const InputDecoration(
+                labelText: 'RUT receptor',
+              ),
+              textCapitalization: TextCapitalization.characters,
+              onChanged: (value) {
+                final formatted = RutChile.formatAsUserTypes(value);
+                if (formatted != value) {
+                  _invoiceRutController.value = TextEditingValue(
+                    text: formatted,
+                    selection:
+                        TextSelection.collapsed(offset: formatted.length),
+                  );
+                }
+              },
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const Key('checkout_invoice_business_name'),
+              controller: _invoiceNameController,
+              enabled: widget.enabled,
+              decoration: const InputDecoration(
+                labelText: 'Razón social receptor',
+              ),
+              textCapitalization: TextCapitalization.words,
+            ),
+          ],
+        ],
         if (widget.requiresSellerCode) ...[
           const SizedBox(height: 16),
           const Text('Vendedor'),

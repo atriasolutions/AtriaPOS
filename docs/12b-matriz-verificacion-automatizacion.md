@@ -92,6 +92,18 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-092-09 | RF-096 | — | — | ✅ | cambio + `creditNoteId` |
 | SC-092 API | RF-096 | — | — | ✅ | `credit_note_api_test.dart` |
 | SC-092 XML | RF-096 | — | ✅ | ✅ | `credit_note_xml_test.dart` |
+| SC-093-01 | RF-097 | — | — | ✅ | `invoice_checkout_test.dart` |
+| SC-093-02 | RF-097 | — | — | ✅ | RUT inválido API/core |
+| SC-093-03 | RF-097 | — | — | ✅ | razón social vacía |
+| SC-093-04 | RF-097 | — | — | ✅ | regresión boleta 39 |
+| SC-093-05 | RF-097 | — | — | ✅ | plantilla sin factura |
+| SC-093-06 | RF-097 | — | — | ✅ | cola + retry tipo 33 |
+| SC-093-07 | RF-097 | — | ✅ | ✅ | NC ref 33 `credit_note_xml_test.dart` |
+| SC-093 API | RF-097 | — | — | ✅ | `invoice_checkout_api_test.dart` |
+| SC-093-UI-01 | RF-097 | — | — | ✅ | `invoice_checkout_ui_e2e_test.dart` |
+| SC-093-UI-02 | RF-097 | — | — | ✅ | checkout factura e2e |
+| SC-093-UI-03 | RF-097 | — | — | ✅ | validación RUT UI |
+| SC-093 drift | RF-097 | — | ✅ | — | `drift_sale_test.dart` factura |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

@@ -36,6 +36,7 @@ Future<Sale> emitSaleDte(
           DteQueueEntry(
             saleId: sale.id,
             storeId: sale.storeId,
+            documentType: sale.dteDocumentType,
             attempts: 0,
             createdAt: trustedClock.now(),
           ),

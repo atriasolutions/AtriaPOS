@@ -180,6 +180,7 @@ class SiiLiveDteGateway implements DteGateway {
       folio: folio,
       emisor: emisor,
       referencedFolio: request.referencedSaleFolio,
+      referencedDocumentType: request.referencedDocumentType,
       lines: request.lines,
       totalClp: request.totalClp,
     );

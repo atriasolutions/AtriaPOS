@@ -220,7 +220,7 @@ class IssueCreditNote {
       createdAt: createdAt,
       actorUserId: actorId,
       referencedSaleFolio: sale.folio!,
-      referencedDocumentType: CreditNote.defaultReferencedDocType(),
+      referencedDocumentType: sale.dteDocumentType,
     );
 
     draft = await emitCreditNoteDte(draft, sale, _dte, _dteQueue, _clock);

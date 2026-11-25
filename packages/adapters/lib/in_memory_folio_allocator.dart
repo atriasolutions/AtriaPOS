@@ -9,8 +9,11 @@ class InMemoryFolioAllocator implements FolioAllocator {
     CafRange? range,
     CafRange? creditNoteRange,
     int? initialNext,
+    CafRange? invoiceRange,
   })  : _ranges = {
           39: range ?? const CafRange(documentType: 39, desde: 9001, hasta: 9010),
+          33: invoiceRange ??
+              const CafRange(documentType: 33, desde: 7001, hasta: 7010),
           61: creditNoteRange ??
               const CafRange(documentType: 61, desde: 1, hasta: 500),
         },

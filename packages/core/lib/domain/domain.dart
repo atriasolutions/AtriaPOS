@@ -65,5 +65,7 @@ export 'pos_template_definition.dart';
 export 'pos_menu_entry.dart';
 export 'pos_menu_policy.dart';
 export 'checkout_template_policy.dart';
+export 'checkout_document_kind.dart';
+export 'sale_invoice_receiver.dart';
 export 'rut_chile.dart';
 export 'tax_config.dart';

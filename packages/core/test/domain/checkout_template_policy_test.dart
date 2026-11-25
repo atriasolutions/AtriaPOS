@@ -15,4 +15,15 @@ void main() {
       isFalse,
     );
   });
+
+  test('SC-093 Atria permite factura en checkout', () {
+    expect(
+      CheckoutTemplatePolicy.allowsInvoiceCheckout(PosTemplateId.atriaPos),
+      isTrue,
+    );
+    expect(
+      CheckoutTemplatePolicy.allowsInvoiceCheckout(PosTemplateId.barrioMinTest),
+      isFalse,
+    );
+  });
 }

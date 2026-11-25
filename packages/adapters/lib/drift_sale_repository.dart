@@ -46,6 +46,9 @@ class DriftSaleRepository implements SaleRepository {
               sellerCode: Value(sale.sellerCode),
               voidedAt: Value(sale.voidedAt?.toUtc().toIso8601String()),
               voidedByUserId: Value(sale.voidedByUserId),
+              dteDocumentType: Value(sale.dteDocumentType),
+              invoiceReceiverRut: Value(sale.invoiceReceiver?.rut),
+              invoiceReceiverName: Value(sale.invoiceReceiver?.businessName),
             ),
           );
       for (final line in sale.lines) {
@@ -250,5 +253,13 @@ class DriftSaleRepository implements SaleRepository {
             ? null
             : DateTime.parse(row.voidedAt!).toUtc(),
         voidedByUserId: row.voidedByUserId,
+        dteDocumentType: row.dteDocumentType,
+        invoiceReceiver: row.invoiceReceiverRut == null ||
+                row.invoiceReceiverName == null
+            ? null
+            : SaleInvoiceReceiver(
+                rut: row.invoiceReceiverRut!,
+                businessName: row.invoiceReceiverName!,
+              ),
       );
 }

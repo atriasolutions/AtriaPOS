@@ -22,6 +22,7 @@ void main() {
   late GetProductStock getProductStock;
 
   setUp(() async {
+    // store seeded below before confirmCheckout
     db = AppDatabase(NativeDatabase.memory());
     products = DriftProductRepository(db);
     movements = DriftStockMovementRepository(db);
@@ -35,6 +36,15 @@ void main() {
     openShift = OpenShift(shifts);
     createCart = CreateCart(carts, shifts, sessions);
     addCartLine = AddCartLine(carts, products, sessions);
+    final storeRepo = InMemoryStoreRepository();
+    await storeRepo.save(
+      Store.create(
+        id: storeId,
+        rutRaw: '12.345.678-5',
+        legalName: 'Tienda Demo',
+        businessLine: 'Retail',
+      ),
+    );
     confirmCheckout = ConfirmCheckout(
       carts,
       products,
@@ -42,7 +52,7 @@ void main() {
       movements,
       shifts,
       collaborators,
-      InMemoryStoreRepository(),
+      storeRepo,
       FakeDteGateway(),
       InMemoryDteQueueRepository(),
       sessions,
@@ -171,5 +181,48 @@ void main() {
     final inDay = await sales.listByStoreCreatedBetween(storeId, from, to);
     expect(inDay, hasLength(1));
     expect(inDay.first.id, 's1');
+  });
+
+  test('SC-093 drift persiste factura y receptor', () async {
+    await openShift(storeId, 0);
+    final product = await createProduct(
+      const CreateProductInput(
+        storeId: storeId,
+        name: 'Pan',
+        salePriceClp: 500,
+        initialStock: 5,
+      ),
+    );
+    final cart = await createCart(storeId);
+    await addCartLine(
+      AddCartLineInput(
+        storeId: storeId,
+        cartId: cart.id,
+        productId: product.id,
+        quantity: 1,
+      ),
+    );
+    final checkout = await confirmCheckout(
+      ConfirmCheckoutInput(
+        storeId: storeId,
+        cartId: cart.id,
+        sellerCode: 'V01',
+        payments: const [
+          CheckoutPaymentInput(
+            method: PaymentMethod.efectivo,
+            amountClp: 500,
+          ),
+        ],
+        changeClp: 0,
+        documentKind: CheckoutDocumentKind.factura,
+        invoiceReceiver: const ConfirmCheckoutInvoiceReceiverInput(
+          rut: '12.345.678-5',
+          businessName: 'Cliente SpA',
+        ),
+      ),
+    );
+    final stored = await sales.findById(storeId, checkout.saleId);
+    expect(stored!.dteDocumentType, DteDocumentType.factura);
+    expect(stored.invoiceReceiver?.businessName, 'Cliente SpA');
   });
 }

@@ -17,7 +17,7 @@ class DteEmitRequest {
         saleId: sale.id,
         storeId: sale.storeId,
         totalClp: sale.totalClp,
-        documentType: 39,
+        documentType: sale.dteDocumentType,
       );
 }
 

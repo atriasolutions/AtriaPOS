@@ -49,6 +49,7 @@ class PosTemplateRegistry {
     PosFeature.stockAdjust,
     PosFeature.productCreate,
     PosFeature.userManagement,
+    PosFeature.invoiceCheckout,
   };
 
   static PosTemplateDefinition resolve(PosTemplateId id) {

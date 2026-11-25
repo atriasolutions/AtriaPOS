@@ -84,6 +84,12 @@ class Sales extends Table {
   TextColumn get voidedAt => text().named('voided_at').nullable()();
   TextColumn get voidedByUserId =>
       text().named('voided_by_user_id').nullable()();
+  IntColumn get dteDocumentType => integer().named('dte_document_type')
+      .withDefault(const Constant(39))();
+  TextColumn get invoiceReceiverRut =>
+      text().named('invoice_receiver_rut').nullable()();
+  TextColumn get invoiceReceiverName =>
+      text().named('invoice_receiver_name').nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -294,7 +300,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 22;
+  int get schemaVersion => 23;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -449,6 +455,11 @@ SELECT sale_id, sale_id, store_id, 39, attempts, last_error, created_at FROM dte
 DROP TABLE dte_queue;
 ALTER TABLE dte_queue_new RENAME TO dte_queue;
 ''');
+          }
+          if (from < 23) {
+            await m.addColumn(sales, sales.dteDocumentType);
+            await m.addColumn(sales, sales.invoiceReceiverRut);
+            await m.addColumn(sales, sales.invoiceReceiverName);
           }
         },
       );

@@ -58,16 +58,30 @@ class CheckoutPaymentDto {
   final int amountClp;
 }
 
+class CheckoutInvoiceReceiverDto {
+  const CheckoutInvoiceReceiverDto({
+    required this.rut,
+    required this.businessName,
+  });
+
+  final String rut;
+  final String businessName;
+}
+
 class CheckoutRequest {
   const CheckoutRequest({
     required this.sellerCode,
     required this.payments,
     required this.changeClp,
+    this.documentType,
+    this.invoiceReceiver,
   });
 
   final String sellerCode;
   final List<CheckoutPaymentDto> payments;
   final int changeClp;
+  final String? documentType;
+  final CheckoutInvoiceReceiverDto? invoiceReceiver;
 }
 
 class VoidSaleResponse {
@@ -113,6 +127,7 @@ class CheckoutResponse {
     required this.createdAt,
     this.folio,
     this.pdfUrl,
+    this.documentType,
   });
 
   final String saleId;
@@ -122,6 +137,7 @@ class CheckoutResponse {
   final String createdAt;
   final int? folio;
   final String? pdfUrl;
+  final int? documentType;
 }
 
 class ActiveCollaboratorResponse {

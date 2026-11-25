@@ -152,7 +152,26 @@ Lista catálogo de la tienda con stock (solo lectura).
   "payments": [
     { "method": "EFECTIVO", "amountClp": 1000 }
   ],
-  "changeClp": 0
+  "changeClp": 0,
+  "documentType": "BOLETA",
+  "invoiceReceiver": null
+}
+```
+
+Boleta (default): omitir `documentType` o `BOLETA`; no enviar `invoiceReceiver`.
+
+Factura (SLICE-93, RF-097, plantilla con `invoiceCheckout`):
+
+```json
+{
+  "sellerCode": "V01",
+  "payments": [{ "method": "EFECTIVO", "amountClp": 1000 }],
+  "changeClp": 0,
+  "documentType": "FACTURA",
+  "invoiceReceiver": {
+    "rut": "12.345.678-5",
+    "businessName": "Cliente SpA"
+  }
 }
 ```
 
@@ -169,9 +188,12 @@ Métodos: `EFECTIVO`, `OTRO`.
   "sellerCode": "V01",
   "dteStatus": "EMITIDA",
   "folio": 1001,
-  "pdfUrl": null
+  "pdfUrl": null,
+  "documentType": 39
 }
 ```
+
+**SLICE-93 (RF-097):** `documentType` en response es código SII (`39` boleta, `33` factura). Factura con RUT inválido o razón social vacía → `VALIDACION`. Plantilla sin factura → `VALIDACION`. Tests `SC-093-*` en `invoice_checkout_test.dart`, `invoice_checkout_api_test.dart`, `invoice_checkout_ui_e2e_test.dart`.
 
 **Tests comportamiento SLICE-3 (RF-030, RF-031 parcial)**
 

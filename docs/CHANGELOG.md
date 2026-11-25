@@ -6,6 +6,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-93: Factura electrónica en checkout (RF-097), tipo DTE 33, receptor RUT/razón social, UI `CheckoutPanel`, Drift v23, NC referencia 33, SC-093.
+
 - SLICE-92: Nota de crédito electrónica core, `IssueCreditNote`, DTE tipo 61, Drift v22, cola NC, cambio con `creditNoteId`, SC-092.
 
 - SLICE-91: UI cambio mostrador, `GetSaleProductExchangeContext`, `ProductExchangeScreen`, menú y atajo en ventas del turno, SC-091.

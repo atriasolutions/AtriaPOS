@@ -13,6 +13,7 @@ enum PosFeature {
   stockAdjust('stockAdjust'),
   productCreate('productCreate'),
   userManagement('userManagement'),
+  invoiceCheckout('invoiceCheckout'),
   ;
 
   const PosFeature(this.apiValue);

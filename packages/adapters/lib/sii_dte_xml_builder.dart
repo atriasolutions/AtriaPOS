@@ -11,6 +11,7 @@ class SiiDteXmlBuilder {
     required int folio,
     required SiiEmisorConfig emisor,
   }) {
+    final tipoDte = sale.dteDocumentType;
     final builder = XmlBuilder();
     builder.element(
       'Documento',
@@ -18,7 +19,7 @@ class SiiDteXmlBuilder {
         'ID': 'DOC_${sale.id}_$folio',
       },
       nest: () {
-        builder.element('TipoDTE', nest: () => builder.text('39'));
+        builder.element('TipoDTE', nest: () => builder.text('$tipoDte'));
         builder.element('Folio', nest: () => builder.text('$folio'));
         builder.element(
           'Emisor',
@@ -28,6 +29,21 @@ class SiiDteXmlBuilder {
             builder.element('GiroEmis', nest: () => builder.text(emisor.giro));
           },
         );
+        if (tipoDte == DteDocumentType.factura) {
+          final receiver = sale.invoiceReceiver;
+          if (receiver != null) {
+            builder.element(
+              'Receptor',
+              nest: () {
+                builder.element('RUT', nest: () => builder.text(receiver.rut));
+                builder.element(
+                  'RznSoc',
+                  nest: () => builder.text(receiver.businessName),
+                );
+              },
+            );
+          }
+        }
         builder.element('MntTotal', nest: () => builder.text('${sale.totalClp}'));
         builder.element(
           'Detalle',
@@ -58,6 +74,7 @@ class SiiDteXmlBuilder {
     required int folio,
     required SiiEmisorConfig emisor,
     required int referencedFolio,
+    required int referencedDocumentType,
     required List<DteCreditNoteLineRequest> lines,
     required int totalClp,
   }) {
@@ -73,7 +90,10 @@ class SiiDteXmlBuilder {
         builder.element(
           'Referencia',
           nest: () {
-            builder.element('TpoDocRef', nest: () => builder.text('39'));
+            builder.element(
+              'TpoDocRef',
+              nest: () => builder.text('$referencedDocumentType'),
+            );
             builder.element('FolioRef', nest: () => builder.text('$referencedFolio'));
             builder.element('FchRef', nest: () => builder.text('${sale.createdAt.toIso8601String().split('T').first}'));
           },
