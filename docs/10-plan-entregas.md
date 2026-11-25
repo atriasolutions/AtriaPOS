@@ -108,7 +108,7 @@ Detalle: [`20c-plan-revision-intermedia-operacion.md`](20c-plan-revision-interme
 
 | Bloque | Plan | Slices | Estado |
 |--------|------|--------|--------|
-| **A** — Operación y productos (scanner-first) | [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md) | SLICE-85…94 | Gate R4-A ✅ — ver abajo |
+| **A** — Operación y productos (scanner-first) | [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md) | SLICE-85…94 | **Cerrado** SLICE-94 |
 | **B** — Companion web | [`22-plan-companion-web.md`](22-plan-companion-web.md) | Por definir | ⬜ stub |
 
 Respuestas Gate: [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md).
@@ -124,7 +124,7 @@ Respuestas Gate: [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md).
 | 91 | SLICE-91 | R4-A | UI cambio mostrador | RF-095 | SC-091-UI-* ✅ |
 | 92 | SLICE-92 | R4-A | Nota de crédito | RF-096 | SC-092-* ✅ |
 | 93 | SLICE-93 | R4-A | Factura | RF-097 | SC-093-* ✅ |
-| 94 | SLICE-94 | Cierre | Cierre bloque A | — | ci-local + acta ⬜ |
+| 94 | SLICE-94 | Cierre | Cierre bloque A | — | SC-094-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

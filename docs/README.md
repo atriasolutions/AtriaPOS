@@ -2,7 +2,7 @@
 
 Índice de definición previa al desarrollo.
 
-**Gates:** [Gate 1](12-cierre-gate-1.md) ✅ → [Plan definición](15-plan-definicion-pre-implementacion.md) → [Gate 2](17-cierre-gate-2.md) antes de SLICE-1 TDD → **revisión 2** ✅ (SLICE-59…77, acta [19](19-revision-progreso-20251120.md) §12) → **revisión intermedia UX** ([20c](20c-plan-revision-intermedia-operacion.md), SLICE-78…84) → **revisión siguiente (2 bloques):** [21 Bloque A productos](21-plan-revision-operacion-productos.md) · [22 Bloque B companion web](22-plan-companion-web.md) (stub) → esbozo fiscal/Kora: [20b](20b-esbozo-revision-3.md).
+**Gates:** [Gate 1](12-cierre-gate-1.md) ✅ → [Plan definición](15-plan-definicion-pre-implementacion.md) → [Gate 2](17-cierre-gate-2.md) antes de SLICE-1 TDD → **revisión 2** ✅ (SLICE-59…77, acta [19](19-revision-progreso-20251120.md) §12) → **revisión intermedia UX** ([20c](20c-plan-revision-intermedia-operacion.md), SLICE-78…83) → **Bloque A** ✅ (SLICE-85…94, acta §14) → **Bloque B** [22](22-plan-companion-web.md) (planificación habilitada) → esbozo fiscal/Kora: [20b](20b-esbozo-revision-3.md).
 
 | # | Documento | Propósito |
 |---|-----------|-----------|
@@ -30,9 +30,9 @@
 | 20 | [Plan revisión 2 Atria POS](20-plan-revision-2-atria-pos.md) | R2 cerrada — SLICE-59…76 producto; SLICE-77 cierre |
 | 20c | [Revisión intermedia piloto UX](20c-plan-revision-intermedia-operacion.md) | Post-R2, pre-R3 |
 | 20b | [Esbozo revisión 3 SII/Kora](20b-esbozo-revision-3.md) | Fuera de alcance R2 |
-| 21 | [Bloque A — operación y productos](21-plan-revision-operacion-productos.md) | Scanner-first, cambio, NC/factura; Gate R4-A ✅ |
+| 21 | [Bloque A — operación y productos](21-plan-revision-operacion-productos.md) | Cerrado SLICE-94; scanner-first, NC/factura |
 | 23 | [Gate R4-A respuestas](23-gate-r4-a-respuestas.md) | Decisiones Bloque A |
-| 22 | [Bloque B — companion web](22-plan-companion-web.md) | Stub; slices tras aprobar doc 21 |
+| 22 | [Bloque B — companion web](22-plan-companion-web.md) | Stub; planificación slices habilitada post-SLICE-94 |
 | 08b | [Esquema SQLite v1 borrador](08b-esquema-sqlite-v1.md) | DDL pendiente Gate 2 |
 | — | [ADRs](decisiones/README.md) | Plantilla decisiones |
 

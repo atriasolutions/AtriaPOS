@@ -183,14 +183,33 @@
 
 ## 14. Bloque A — operación y productos (Gate R4-A)
 
-**Inicio:** 2026-11-25 — plan [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md); respuestas [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md).
+**Inicio:** 2026-11-25 — plan [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md); respuestas [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md).  
+**Cierre Bloque A:** 2026-11-25 — SLICE-94; acceptance [`slice_94_cierre_bloque_a.md`](../test/acceptance/slice_94_cierre_bloque_a.md).
 
 | Ítem | Estado |
 |------|--------|
 | Gate R4-A (DEC-052…055) | CERRADO documental |
-| SLICE-85 contrato `ScanSession` | CERRADO |
-| SLICE-86…94 | planificado en doc 10 |
-| Bloque B companion web | stub — sin slices |
+| SLICE-85 contrato `ScanSession` | CERRADO — `slice_85_scan_session.md` |
+| SLICE-86 confirm ingreso scan | CERRADO — `slice_86_confirm_receipt_scan.md` |
+| SLICE-87 UI ingreso scan | CERRADO — `slice_87_stock_receipt_scan_ui.md` |
+| SLICE-88 conteo scan core | CERRADO — `slice_88_conteo_escaneo_core.md` |
+| SLICE-89 UI conteo scan | CERRADO — `slice_89_conteo_escaneo_ui.md` |
+| SLICE-90 cambio producto core | CERRADO — `slice_90_cambio_producto_core.md` |
+| SLICE-91 cambio mostrador UI | CERRADO — `slice_91_cambio_producto_ui.md` |
+| SLICE-92 nota de crédito | CERRADO — `slice_92_nota_credito.md` |
+| SLICE-93 factura checkout | CERRADO — `slice_93_factura.md` |
+| SLICE-94 cierre Bloque A | CERRADO — `slice_94_cierre_bloque_a.md` |
+| `ci-local.ps1` Bloque A | CERRADO (ver SC-094-01) |
+| SLICE-50 BLE hardware | **ABIERTO** (sin bloqueo de programa) |
+| Gate 23 ítems `[REVISAR]` | **ABIERTO** anotado — no bloquea cierre |
+| Bloque B companion web | stub — **planificación por slices habilitada** (doc 22) |
+
+### DoD cierre Bloque A (SLICE-94)
+
+- [x] Acceptance [`slice_94_cierre_bloque_a.md`](../test/acceptance/slice_94_cierre_bloque_a.md)
+- [x] `scripts/ci-local.ps1` verde antes del commit de cierre
+- [x] Commit `feat(slice-94): cierre revision operacion productos.`
+- [x] Doc 21 cerrado; doc 10 filas 85–94 ✅
 
 ---
 

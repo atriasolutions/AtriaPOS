@@ -1,6 +1,6 @@
 # 21 — Revisión siguiente · Bloque A — Operación y productos (scanner-first)
 
-**Estado:** en ejecución — **Gate R4-A cerrado** ([`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md)); SLICE-85 ✅.  
+**Estado:** **cerrada** (2026-11-25) — **Gate R4-A cerrado** ([`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md)); slices **85–94** ✅; acceptance cierre [`slice_94_cierre_bloque_a.md`](../test/acceptance/slice_94_cierre_bloque_a.md).  
 **Par de documentos:** Bloque B (companion web) en [`22-plan-companion-web.md`](22-plan-companion-web.md) — **no se planifica por slices hasta cerrar este plan**.  
 **Prerrequisitos:** revisión 2 ✅ (SLICE-77); revisión intermedia ✅ incl. SLICE-84 (2026-11-24).
 
@@ -107,4 +107,4 @@ flowchart LR
 
 ## Confirmación
 
-Gate R4-A cerrado 2026-11-25. Ítems `[REVISAR]` en doc 23 sin bloquear SLICE-86+. **No iniciar Bloque B** ([22](22-plan-companion-web.md)) hasta SLICE-94.
+Gate R4-A cerrado 2026-11-25. Bloque A cerrado con SLICE-94 (2026-11-25). Ítems `[REVISAR]` en doc 23 permanecen ABIERTO sin bloquear cierre. **Planificación Bloque B** ([22](22-plan-companion-web.md)) habilitada; slices B aún sin abrir.

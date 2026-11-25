@@ -1,7 +1,7 @@
 # 22 — Revisión siguiente · Bloque B — Companion web
 
-**Estado:** **stub** — sin slices ni fechas.  
-**Prerrequisito duro:** plan Bloque A **aprobado y completo por slices** en [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md) y, por acuerdo de programa, **implementación Bloque A cerrada** (SLICE-94) antes de abrir el backlog B por slices.
+**Estado:** **stub** — sin slices ni fechas; **planificación por slices habilitada** (SLICE-94 cerrado 2026-11-25).  
+**Prerrequisito duro:** cumplido — plan Bloque A en [`21-plan-revision-operacion-productos.md`](21-plan-revision-operacion-productos.md) **cerrado** (SLICE-85…94); implementación Bloque A cerrada antes de abrir backlog B por slices.
 
 ---
 
@@ -27,12 +27,12 @@ Diseñar e implementar una **aplicación web** inspirada en el companion móvil 
 
 ## Gate R4-B (futuro)
 
-1. Cerrar Gate R4-A y SLICE-94.  
+1. ~~Cerrar Gate R4-A y SLICE-94.~~ ✅ (2026-11-25).  
 2. Workshop Bloque B: requisitos, stack web, frontera con POS (online/offline).  
 3. Redactar **tabla de slices** en este documento (mín. objetivos, RF, DoD).  
 4. Actualizar `10-plan-entregas.md` y acta.
 
-**Regla de programa:** no pasar al Bloque B ni esbozar slices B hasta que el plan del Bloque A esté **completo y validado** (este criterio cumplido al aprobar doc 21).
+**Regla de programa:** slices Bloque B aún **no abiertos** hasta tabla slices en este doc + filas en doc 10; prerrequisito Bloque A **cumplido** (SLICE-94).
 
 ---
 

@@ -104,6 +104,8 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-093-UI-02 | RF-097 | — | — | ✅ | checkout factura e2e |
 | SC-093-UI-03 | RF-097 | — | — | ✅ | validación RUT UI |
 | SC-093 drift | RF-097 | — | ✅ | — | `drift_sale_test.dart` factura |
+| SC-094-01 | — | — | — | — | `scripts/ci-local.ps1` — cierre Bloque A |
+| SC-094-02 | — | — | — | — | `slice_94_cierre_bloque_a.md` + acceptance 85–93 |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |
