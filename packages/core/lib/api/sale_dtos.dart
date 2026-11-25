@@ -161,6 +161,7 @@ class RegisterProductExchangeRequest {
     required this.newProductId,
     required this.newQuantity,
     this.differencePayment,
+    this.creditNoteId,
   });
 
   final String returnProductId;
@@ -168,6 +169,53 @@ class RegisterProductExchangeRequest {
   final String newProductId;
   final int newQuantity;
   final ProductExchangePaymentDto? differencePayment;
+  final String? creditNoteId;
+}
+
+class IssueCreditNoteLineRequest {
+  const IssueCreditNoteLineRequest({
+    required this.productId,
+    required this.quantity,
+  });
+
+  final String productId;
+  final int quantity;
+}
+
+class IssueCreditNoteRequest {
+  const IssueCreditNoteRequest({this.lines = const []});
+
+  final List<IssueCreditNoteLineRequest> lines;
+}
+
+class IssueCreditNoteReturnedLineDto {
+  const IssueCreditNoteReturnedLineDto({
+    required this.productId,
+    required this.quantity,
+    required this.stockAfter,
+  });
+
+  final String productId;
+  final int quantity;
+  final int stockAfter;
+}
+
+class IssueCreditNoteResponse {
+  const IssueCreditNoteResponse({
+    required this.creditNoteId,
+    required this.folio,
+    required this.dteStatus,
+    required this.creditedClp,
+    required this.saleStatus,
+    required this.returnedLines,
+  });
+
+  final String creditNoteId;
+  final int? folio;
+  final String dteStatus;
+  final int creditedClp;
+  final String saleStatus;
+  final List<IssueCreditNoteReturnedLineDto> returnedLines;
 }
 
 class SaleProductExchangeLineDto {
@@ -211,6 +259,7 @@ class RegisterProductExchangeResponse {
     required this.differenceClp,
     required this.returnProductStock,
     required this.newProductStock,
+    this.creditNoteId,
   });
 
   final String exchangeId;
@@ -220,4 +269,5 @@ class RegisterProductExchangeResponse {
   final int differenceClp;
   final int returnProductStock;
   final int newProductStock;
+  final String? creditNoteId;
 }

@@ -9,6 +9,7 @@ void main() {
   late InMemoryStockMovementRepository movements;
   late InMemoryShiftRepository shifts;
   late InMemoryProductExchangeRepository exchanges;
+  late InMemoryCreditNoteRepository creditNotes;
   late RegisterProductExchange register;
 
   setUp(() async {
@@ -17,12 +18,14 @@ void main() {
     movements = InMemoryStockMovementRepository();
     shifts = InMemoryShiftRepository();
     exchanges = InMemoryProductExchangeRepository();
+    creditNotes = InMemoryCreditNoteRepository();
     register = RegisterProductExchange(
       sales,
       products,
       movements,
       shifts,
       exchanges,
+      creditNotes,
       InMemorySessionProvider.supervisor(),
     );
     await shifts.save(
@@ -60,6 +63,7 @@ void main() {
     int lineQty = 1,
     int unitPrice = 500,
     DteStatus dte = DteStatus.pendienteDte,
+    int? folio,
   }) async {
     final sale = Sale(
       id: id,
@@ -81,6 +85,7 @@ void main() {
       changeClp: 0,
       createdAt: DateTime.utc(2026, 1, 2),
       dteStatus: dte,
+      folio: folio,
     );
     await sales.save(sale);
     return sale;
@@ -258,6 +263,7 @@ void main() {
       movements,
       shifts,
       exchanges,
+      creditNotes,
       InMemorySessionProvider.cajero(),
     );
     expect(
@@ -316,5 +322,44 @@ void main() {
       ),
       throwsA(isA<InsufficientStockFailure>()),
     );
+  });
+
+  test('SC-092-09 cambio con EMITIDA tras NC', () async {
+    await seedSale(dte: DteStatus.emitida, lineQty: 2, folio: 1001);
+
+    final issue = IssueCreditNote(
+      sales,
+      products,
+      movements,
+      shifts,
+      creditNotes,
+      FakeDteGateway(),
+      InMemoryDteQueueRepository(),
+      InMemorySessionProvider.supervisor(),
+    );
+    final nc = await issue(
+      const IssueCreditNoteInput(
+        storeId: storeId,
+        saleId: 'sale_1',
+        lines: [
+          IssueCreditNoteLineInput(productId: 'p-old', quantity: 1),
+        ],
+      ),
+    );
+    expect(nc.sale.status, SaleStatus.confirmada);
+
+    final result = await register(
+      RegisterProductExchangeInput(
+        storeId: storeId,
+        saleId: 'sale_1',
+        returnProductId: 'p-old',
+        returnQuantity: 1,
+        newProductId: 'p-new',
+        newQuantity: 1,
+        creditNoteId: nc.creditNote.id,
+      ),
+    );
+    expect(result.exchange.creditNoteId, nc.creditNote.id);
+    expect(result.newProductStock, 9);
   });
 }

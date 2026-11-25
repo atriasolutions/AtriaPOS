@@ -5,7 +5,7 @@ abstract class DteQueueRepository {
 
   Future<void> save(DteQueueEntry entry);
 
-  Future<void> remove(StoreId storeId, SaleId saleId);
+  Future<void> remove(StoreId storeId, String documentId);
 
   Future<List<DteQueueEntry>> listPending(StoreId storeId);
 }

@@ -17,6 +17,7 @@ class SaleService {
     CollaboratorRepository? collaboratorRepository,
     StoreRepository? storeRepository,
     ProductExchangeRepository? productExchangeRepository,
+    CreditNoteRepository? creditNoteRepository,
     TrustedClock? clock,
   }) {
     final carts = cartRepository ?? InMemoryCartRepository();
@@ -25,6 +26,8 @@ class SaleService {
     final sales = saleRepository ?? InMemorySaleRepository();
     final exchanges =
         productExchangeRepository ?? InMemoryProductExchangeRepository();
+    final creditNotes =
+        creditNoteRepository ?? InMemoryCreditNoteRepository();
     final movements =
         stockMovementRepository ?? InMemoryStockMovementRepository();
     final shifts = shiftRepository ?? InMemoryShiftRepository();
@@ -48,6 +51,7 @@ class SaleService {
       sessions,
       trustedClock,
       exchanges,
+      creditNotes,
     );
   }
 
@@ -64,6 +68,7 @@ class SaleService {
     SessionProvider sessions,
     TrustedClock clock,
     ProductExchangeRepository exchanges,
+    CreditNoteRepository creditNotes,
   )   : _createCart = CreateCart(carts, shifts, sessions),
         _addLine = AddCartLine(carts, products, sessions),
         _updateLine = UpdateCartLineQuantity(carts, sessions),
@@ -97,6 +102,7 @@ class SaleService {
           movements,
           shifts,
           exchanges,
+          creditNotes,
           sessions,
           clock,
         ),
@@ -105,6 +111,17 @@ class SaleService {
           shifts,
           exchanges,
           sessions,
+        ),
+        _issueCreditNote = IssueCreditNote(
+          sales,
+          products,
+          movements,
+          shifts,
+          creditNotes,
+          dte,
+          dteQueue,
+          sessions,
+          clock,
         );
 
   final CreateCart _createCart;
@@ -117,6 +134,7 @@ class SaleService {
   final ListShiftSales _listShiftSales;
   final RegisterProductExchange _registerProductExchange;
   final GetSaleProductExchangeContext _getSaleProductExchangeContext;
+  final IssueCreditNote _issueCreditNote;
 
   Future<ApiResult<CreateCartResponse>> createCart(StoreId storeId) async {
     try {
@@ -425,6 +443,72 @@ class SaleService {
     }
   }
 
+  Future<ApiResult<IssueCreditNoteResponse>> issueCreditNote(
+    StoreId storeId,
+    SaleId saleId,
+    IssueCreditNoteRequest request,
+  ) async {
+    try {
+      final result = await _issueCreditNote(
+        IssueCreditNoteInput(
+          storeId: storeId,
+          saleId: saleId,
+          lines: [
+            for (final line in request.lines)
+              IssueCreditNoteLineInput(
+                productId: line.productId,
+                quantity: line.quantity,
+              ),
+          ],
+        ),
+      );
+      final note = result.creditNote;
+      return ApiSuccess(
+        IssueCreditNoteResponse(
+          creditNoteId: note.id,
+          folio: note.folio,
+          dteStatus: note.dteStatus.apiValue,
+          creditedClp: note.totalClp,
+          saleStatus: result.sale.status.apiValue,
+          returnedLines: [
+            for (final line in result.returnedLines)
+              IssueCreditNoteReturnedLineDto(
+                productId: line.productId,
+                quantity: line.quantity,
+                stockAfter: line.stockAfter,
+              ),
+          ],
+        ),
+        statusCode: 201,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on ConflictFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 409,
+      );
+    } on TurnClosedFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    }
+  }
+
   Future<ApiResult<RegisterProductExchangeResponse>> registerProductExchange(
     StoreId storeId,
     SaleId saleId,
@@ -448,6 +532,7 @@ class SaleService {
           newProductId: request.newProductId,
           newQuantity: request.newQuantity,
           differencePayment: paymentInput,
+          creditNoteId: request.creditNoteId,
         ),
       );
       final exchange = result.exchange;
@@ -460,6 +545,7 @@ class SaleService {
           differenceClp: exchange.differenceClp,
           returnProductStock: result.returnProductStock,
           newProductStock: result.newProductStock,
+          creditNoteId: exchange.creditNoteId,
         ),
         statusCode: 201,
       );

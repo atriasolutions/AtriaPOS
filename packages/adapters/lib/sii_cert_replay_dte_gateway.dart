@@ -98,6 +98,32 @@ class SiiCertReplayDteGateway implements DteGateway {
     return result;
   }
 
+  @override
+  Future<DteEmitResult> emitCreditNote(DteCreditNoteEmitRequest request) async {
+    try {
+      await _validate(request.storeId);
+    } on CertificateNotConfiguredFailure catch (e) {
+      return _pendiente(e.message);
+    } on CertificateExpiredFailure catch (e) {
+      return _pendiente(e.message);
+    }
+
+    return switch (scenario) {
+      SiiReplayScenario.success => DteEmitResult(
+          status: DteStatus.emitida,
+          folio: successFolio + 1,
+        ),
+      SiiReplayScenario.timeout => const DteEmitResult(
+          status: DteStatus.pendienteDte,
+          errorMessage: 'Timeout replay NC',
+        ),
+      SiiReplayScenario.rechazada => const DteEmitResult(
+          status: DteStatus.rechazadaSii,
+          errorMessage: 'Rechazo replay NC',
+        ),
+    };
+  }
+
   DteEmitResult _pendiente(String message) => DteEmitResult(
         status: DteStatus.pendienteDte,
         errorMessage: message,

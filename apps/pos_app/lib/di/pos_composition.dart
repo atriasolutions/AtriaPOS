@@ -189,6 +189,7 @@ class PosComposition {
         collaboratorRepository: collaborators,
         storeRepository: storeRepo,
         productExchangeRepository: DriftProductExchangeRepository(db),
+        creditNoteRepository: DriftCreditNoteRepository(db),
         dteGateway: dteGateway,
         dteQueueRepository: dteQueue,
         sessionProvider: sessions,
@@ -214,6 +215,7 @@ class PosComposition {
       dteService: DteService(
         queueRepository: dteQueue,
         saleRepository: sales,
+        creditNoteRepository: DriftCreditNoteRepository(db),
         dteGateway: dteGateway,
       ),
       fiscalService: FiscalService(

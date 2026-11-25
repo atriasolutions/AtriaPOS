@@ -1,5 +1,6 @@
 import '../domain/domain.dart';
 import 'auth_helpers.dart';
+import 'ports/credit_note_repository.dart';
 import 'ports/product_exchange_repository.dart';
 import 'ports/product_repository.dart';
 import 'ports/sale_repository.dart';
@@ -27,6 +28,7 @@ class RegisterProductExchangeInput {
     required this.newProductId,
     required this.newQuantity,
     this.differencePayment,
+    this.creditNoteId,
   });
 
   final StoreId storeId;
@@ -36,6 +38,7 @@ class RegisterProductExchangeInput {
   final ProductId newProductId;
   final int newQuantity;
   final ProductExchangePaymentInput? differencePayment;
+  final CreditNoteId? creditNoteId;
 }
 
 class RegisterProductExchangeResult {
@@ -59,6 +62,7 @@ class RegisterProductExchange {
     this._movements,
     this._shifts,
     this._exchanges,
+    this._creditNotes,
     this._sessions, [
     TrustedClock? clock,
   ]) : _clock = clock ?? MutableTrustedClock();
@@ -68,6 +72,7 @@ class RegisterProductExchange {
   final StockMovementRepository _movements;
   final ShiftRepository _shifts;
   final ProductExchangeRepository _exchanges;
+  final CreditNoteRepository _creditNotes;
   final SessionProvider _sessions;
   final TrustedClock _clock;
 
@@ -94,11 +99,34 @@ class RegisterProductExchange {
         'No se puede cambiar producto en una venta anulada',
       );
     }
+    CreditNote? linkedCreditNote;
     if (sale.dteStatus == DteStatus.emitida) {
-      throw const ValidationFailure(
-        'No se puede cambiar producto con boleta emitida. '
-        'Registre nota de crédito antes del cambio.',
-      );
+      final ncId = input.creditNoteId;
+      if (ncId == null) {
+        throw const ValidationFailure(
+          'Registre nota de crédito antes del cambio con boleta emitida.',
+        );
+      }
+      final note = await _creditNotes.findById(input.storeId, ncId);
+      if (note == null ||
+          !note.isEmitida ||
+          note.saleId != sale.id) {
+        throw const ValidationFailure(
+          'La nota de crédito no es válida para esta venta.',
+        );
+      }
+      var ncQty = 0;
+      for (final line in note.lines) {
+        if (line.productId == input.returnProductId) {
+          ncQty += line.quantity;
+        }
+      }
+      if (ncQty < input.returnQuantity) {
+        throw const ValidationFailure(
+          'La nota de crédito no cubre la cantidad a devolver.',
+        );
+      }
+      linkedCreditNote = note;
     }
 
     final openShift = await _shifts.findOpenByStore(input.storeId);
@@ -242,19 +270,24 @@ class RegisterProductExchange {
       dteStatus: DteStatus.pendienteDte,
     );
 
-    final updatedReturn = returnProduct.applyStockDelta(input.returnQuantity);
-    await _products.save(updatedReturn);
-    await _movements.save(
-      StockMovement.record(
-        storeId: input.storeId,
-        productId: returnProduct.id,
-        delta: input.returnQuantity,
-        reason: StockAdjustmentReason.cambioDevolucion,
-        note: 'Cambio $exchangeId venta ${sale.id}',
-        actorId: actorId,
-        createdAt: createdAt,
-      ),
-    );
+    Product updatedReturn;
+    if (linkedCreditNote != null) {
+      updatedReturn = returnProduct;
+    } else {
+      updatedReturn = returnProduct.applyStockDelta(input.returnQuantity);
+      await _products.save(updatedReturn);
+      await _movements.save(
+        StockMovement.record(
+          storeId: input.storeId,
+          productId: returnProduct.id,
+          delta: input.returnQuantity,
+          reason: StockAdjustmentReason.cambioDevolucion,
+          note: 'Cambio $exchangeId venta ${sale.id}',
+          actorId: actorId,
+          createdAt: createdAt,
+        ),
+      );
+    }
 
     final updatedNew = newProduct.applyStockDelta(-input.newQuantity);
     await _products.save(updatedNew);
@@ -291,6 +324,7 @@ class RegisterProductExchange {
       actorUserId: actorId,
       differencePaymentMethod: diffMethod,
       differencePaymentAmountClp: diffAmount,
+      creditNoteId: linkedCreditNote?.id,
     );
     await _exchanges.save(exchange);
 

@@ -12,8 +12,10 @@ class DriftDteQueueRepository implements DteQueueRepository {
   Future<void> enqueue(DteQueueEntry entry) async {
     await _db.into(_db.dteQueue).insert(
           DteQueueCompanion.insert(
+            documentId: entry.documentId,
             saleId: entry.saleId,
             storeId: entry.storeId,
+            documentType: Value(entry.documentType),
             attempts: Value(entry.attempts),
             lastError: Value(entry.lastError),
             createdAt: entry.createdAt.toUtc().toIso8601String(),
@@ -23,7 +25,8 @@ class DriftDteQueueRepository implements DteQueueRepository {
 
   @override
   Future<void> save(DteQueueEntry entry) async {
-    await (_db.update(_db.dteQueue)..where((t) => t.saleId.equals(entry.saleId)))
+    await (_db.update(_db.dteQueue)
+          ..where((t) => t.documentId.equals(entry.documentId)))
         .write(
       DteQueueCompanion(
         attempts: Value(entry.attempts),
@@ -33,9 +36,11 @@ class DriftDteQueueRepository implements DteQueueRepository {
   }
 
   @override
-  Future<void> remove(StoreId storeId, SaleId saleId) async {
+  Future<void> remove(StoreId storeId, String documentId) async {
     await (_db.delete(_db.dteQueue)
-          ..where((t) => t.saleId.equals(saleId) & t.storeId.equals(storeId)))
+          ..where(
+            (t) => t.documentId.equals(documentId) & t.storeId.equals(storeId),
+          ))
         .go();
   }
 
@@ -49,6 +54,8 @@ class DriftDteQueueRepository implements DteQueueRepository {
           (r) => DteQueueEntry(
             saleId: r.saleId,
             storeId: r.storeId,
+            documentType: r.documentType,
+            documentId: r.documentId,
             attempts: r.attempts,
             lastError: r.lastError,
             createdAt: DateTime.parse(r.createdAt).toUtc(),

@@ -81,6 +81,17 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-091-UI-03 | RF-095 | — | — | ✅ | cajero sin menú |
 | SC-091-UI-04 | RF-095 | — | — | ✅ | DTE emitida |
 | SC-091-UI-05 | RF-095 | — | — | ✅ | cambio parcial x2 |
+| SC-092-01 | RF-096 | — | — | ✅ | `issue_credit_note_test.dart` |
+| SC-092-02 | RF-096 | — | — | ✅ | NC parcial |
+| SC-092-03 | RF-096 | — | — | ✅ | regresión `void_sale_test` |
+| SC-092-04 | RF-096 | — | — | ✅ | void EMITIDA → credit-notes |
+| SC-092-05 | RF-096 | — | — | ✅ | cola NC + retry |
+| SC-092-06 | RF-096 | — | — | ✅ | cajero 403 |
+| SC-092-07 | RF-096 | — | — | ✅ | turno venta |
+| SC-092-08 | RF-096 | — | — | ✅ | devolución pura |
+| SC-092-09 | RF-096 | — | — | ✅ | cambio + `creditNoteId` |
+| SC-092 API | RF-096 | — | — | ✅ | `credit_note_api_test.dart` |
+| SC-092 XML | RF-096 | — | ✅ | ✅ | `credit_note_xml_test.dart` |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

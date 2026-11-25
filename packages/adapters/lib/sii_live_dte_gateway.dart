@@ -143,6 +143,75 @@ class SiiLiveDteGateway implements DteGateway {
     return _fallbackEmisor;
   }
 
+  @override
+  Future<DteEmitResult> emitCreditNote(DteCreditNoteEmitRequest request) async {
+    try {
+      await _validate(request.storeId);
+    } on CertificateNotConfiguredFailure catch (e) {
+      return _pendiente(e.message);
+    } on CertificateExpiredFailure catch (e) {
+      return _pendiente(e.message);
+    }
+
+    final emisor = await _resolveEmisor(request.storeId);
+    if (!emisor.isConfigured) {
+      return _pendiente(
+        'Configure los datos de la tienda o SII_RUT_EMISOR para emisión live',
+      );
+    }
+
+    int folio;
+    try {
+      folio = await _folios.allocateNext(
+        request.storeId,
+        DteDocumentType.notaCredito,
+      );
+    } on FolioAgotadoException catch (e) {
+      return _pendiente(e.message);
+    }
+
+    final sale = await _sales.findById(request.storeId, request.referencedSaleId);
+    if (sale == null) {
+      return _pendiente('Venta no encontrada para NC');
+    }
+
+    final documentXml = _xmlBuilder.buildNotaCredito(
+      sale: sale,
+      folio: folio,
+      emisor: emisor,
+      referencedFolio: request.referencedSaleFolio,
+      lines: request.lines,
+      totalClp: request.totalClp,
+    );
+    final signed = _signer.signXml(
+      documentXml,
+      certPath: _certPath,
+      password: _certPassword,
+    );
+
+    final response = await _transport.sendSignedDte(
+      signed,
+      tipoDte: DteDocumentType.notaCredito,
+      folio: folio,
+    );
+
+    return switch (response.outcome) {
+      SiiTransportOutcome.emitida => DteEmitResult(
+          status: DteStatus.emitida,
+          folio: folio,
+          pdfUrl: response.trackId,
+        ),
+      SiiTransportOutcome.rechazada => DteEmitResult(
+          status: DteStatus.rechazadaSii,
+          errorMessage: response.rejectionDetail ?? 'Rechazo SII NC',
+        ),
+      SiiTransportOutcome.timeout => DteEmitResult(
+          status: DteStatus.pendienteDte,
+          errorMessage: response.rejectionDetail ?? 'Timeout SII NC',
+        ),
+    };
+  }
+
   DteEmitResult _pendiente(String message) => DteEmitResult(
         status: DteStatus.pendienteDte,
         errorMessage: message,

@@ -3772,6 +3772,17 @@ class $DteQueueTable extends DteQueue
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $DteQueueTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _documentIdMeta = const VerificationMeta(
+    'documentId',
+  );
+  @override
+  late final GeneratedColumn<String> documentId = GeneratedColumn<String>(
+    'document_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _saleIdMeta = const VerificationMeta('saleId');
   @override
   late final GeneratedColumn<String> saleId = GeneratedColumn<String>(
@@ -3791,6 +3802,18 @@ class $DteQueueTable extends DteQueue
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+  );
+  static const VerificationMeta _documentTypeMeta = const VerificationMeta(
+    'documentType',
+  );
+  @override
+  late final GeneratedColumn<int> documentType = GeneratedColumn<int>(
+    'document_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(39),
   );
   static const VerificationMeta _attemptsMeta = const VerificationMeta(
     'attempts',
@@ -3828,8 +3851,10 @@ class $DteQueueTable extends DteQueue
   );
   @override
   List<GeneratedColumn> get $columns => [
+    documentId,
     saleId,
     storeId,
+    documentType,
     attempts,
     lastError,
     createdAt,
@@ -3846,6 +3871,14 @@ class $DteQueueTable extends DteQueue
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('document_id')) {
+      context.handle(
+        _documentIdMeta,
+        documentId.isAcceptableOrUnknown(data['document_id']!, _documentIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_documentIdMeta);
+    }
     if (data.containsKey('sale_id')) {
       context.handle(
         _saleIdMeta,
@@ -3861,6 +3894,15 @@ class $DteQueueTable extends DteQueue
       );
     } else if (isInserting) {
       context.missing(_storeIdMeta);
+    }
+    if (data.containsKey('document_type')) {
+      context.handle(
+        _documentTypeMeta,
+        documentType.isAcceptableOrUnknown(
+          data['document_type']!,
+          _documentTypeMeta,
+        ),
+      );
     }
     if (data.containsKey('attempts')) {
       context.handle(
@@ -3886,11 +3928,15 @@ class $DteQueueTable extends DteQueue
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {saleId};
+  Set<GeneratedColumn> get $primaryKey => {documentId};
   @override
   DteQueueRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DteQueueRow(
+      documentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}document_id'],
+      )!,
       saleId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}sale_id'],
@@ -3898,6 +3944,10 @@ class $DteQueueTable extends DteQueue
       storeId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}store_id'],
+      )!,
+      documentType: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}document_type'],
       )!,
       attempts: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
@@ -3921,14 +3971,18 @@ class $DteQueueTable extends DteQueue
 }
 
 class DteQueueRow extends DataClass implements Insertable<DteQueueRow> {
+  final String documentId;
   final String saleId;
   final String storeId;
+  final int documentType;
   final int attempts;
   final String? lastError;
   final String createdAt;
   const DteQueueRow({
+    required this.documentId,
     required this.saleId,
     required this.storeId,
+    required this.documentType,
     required this.attempts,
     this.lastError,
     required this.createdAt,
@@ -3936,8 +3990,10 @@ class DteQueueRow extends DataClass implements Insertable<DteQueueRow> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['document_id'] = Variable<String>(documentId);
     map['sale_id'] = Variable<String>(saleId);
     map['store_id'] = Variable<String>(storeId);
+    map['document_type'] = Variable<int>(documentType);
     map['attempts'] = Variable<int>(attempts);
     if (!nullToAbsent || lastError != null) {
       map['last_error'] = Variable<String>(lastError);
@@ -3948,8 +4004,10 @@ class DteQueueRow extends DataClass implements Insertable<DteQueueRow> {
 
   DteQueueCompanion toCompanion(bool nullToAbsent) {
     return DteQueueCompanion(
+      documentId: Value(documentId),
       saleId: Value(saleId),
       storeId: Value(storeId),
+      documentType: Value(documentType),
       attempts: Value(attempts),
       lastError: lastError == null && nullToAbsent
           ? const Value.absent()
@@ -3964,8 +4022,10 @@ class DteQueueRow extends DataClass implements Insertable<DteQueueRow> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DteQueueRow(
+      documentId: serializer.fromJson<String>(json['documentId']),
       saleId: serializer.fromJson<String>(json['saleId']),
       storeId: serializer.fromJson<String>(json['storeId']),
+      documentType: serializer.fromJson<int>(json['documentType']),
       attempts: serializer.fromJson<int>(json['attempts']),
       lastError: serializer.fromJson<String?>(json['lastError']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
@@ -3975,8 +4035,10 @@ class DteQueueRow extends DataClass implements Insertable<DteQueueRow> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'documentId': serializer.toJson<String>(documentId),
       'saleId': serializer.toJson<String>(saleId),
       'storeId': serializer.toJson<String>(storeId),
+      'documentType': serializer.toJson<int>(documentType),
       'attempts': serializer.toJson<int>(attempts),
       'lastError': serializer.toJson<String?>(lastError),
       'createdAt': serializer.toJson<String>(createdAt),
@@ -3984,22 +4046,32 @@ class DteQueueRow extends DataClass implements Insertable<DteQueueRow> {
   }
 
   DteQueueRow copyWith({
+    String? documentId,
     String? saleId,
     String? storeId,
+    int? documentType,
     int? attempts,
     Value<String?> lastError = const Value.absent(),
     String? createdAt,
   }) => DteQueueRow(
+    documentId: documentId ?? this.documentId,
     saleId: saleId ?? this.saleId,
     storeId: storeId ?? this.storeId,
+    documentType: documentType ?? this.documentType,
     attempts: attempts ?? this.attempts,
     lastError: lastError.present ? lastError.value : this.lastError,
     createdAt: createdAt ?? this.createdAt,
   );
   DteQueueRow copyWithCompanion(DteQueueCompanion data) {
     return DteQueueRow(
+      documentId: data.documentId.present
+          ? data.documentId.value
+          : this.documentId,
       saleId: data.saleId.present ? data.saleId.value : this.saleId,
       storeId: data.storeId.present ? data.storeId.value : this.storeId,
+      documentType: data.documentType.present
+          ? data.documentType.value
+          : this.documentType,
       attempts: data.attempts.present ? data.attempts.value : this.attempts,
       lastError: data.lastError.present ? data.lastError.value : this.lastError,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
@@ -4009,8 +4081,10 @@ class DteQueueRow extends DataClass implements Insertable<DteQueueRow> {
   @override
   String toString() {
     return (StringBuffer('DteQueueRow(')
+          ..write('documentId: $documentId, ')
           ..write('saleId: $saleId, ')
           ..write('storeId: $storeId, ')
+          ..write('documentType: $documentType, ')
           ..write('attempts: $attempts, ')
           ..write('lastError: $lastError, ')
           ..write('createdAt: $createdAt')
@@ -4019,55 +4093,75 @@ class DteQueueRow extends DataClass implements Insertable<DteQueueRow> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(saleId, storeId, attempts, lastError, createdAt);
+  int get hashCode => Object.hash(
+    documentId,
+    saleId,
+    storeId,
+    documentType,
+    attempts,
+    lastError,
+    createdAt,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DteQueueRow &&
+          other.documentId == this.documentId &&
           other.saleId == this.saleId &&
           other.storeId == this.storeId &&
+          other.documentType == this.documentType &&
           other.attempts == this.attempts &&
           other.lastError == this.lastError &&
           other.createdAt == this.createdAt);
 }
 
 class DteQueueCompanion extends UpdateCompanion<DteQueueRow> {
+  final Value<String> documentId;
   final Value<String> saleId;
   final Value<String> storeId;
+  final Value<int> documentType;
   final Value<int> attempts;
   final Value<String?> lastError;
   final Value<String> createdAt;
   final Value<int> rowid;
   const DteQueueCompanion({
+    this.documentId = const Value.absent(),
     this.saleId = const Value.absent(),
     this.storeId = const Value.absent(),
+    this.documentType = const Value.absent(),
     this.attempts = const Value.absent(),
     this.lastError = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   DteQueueCompanion.insert({
+    required String documentId,
     required String saleId,
     required String storeId,
+    this.documentType = const Value.absent(),
     this.attempts = const Value.absent(),
     this.lastError = const Value.absent(),
     required String createdAt,
     this.rowid = const Value.absent(),
-  }) : saleId = Value(saleId),
+  }) : documentId = Value(documentId),
+       saleId = Value(saleId),
        storeId = Value(storeId),
        createdAt = Value(createdAt);
   static Insertable<DteQueueRow> custom({
+    Expression<String>? documentId,
     Expression<String>? saleId,
     Expression<String>? storeId,
+    Expression<int>? documentType,
     Expression<int>? attempts,
     Expression<String>? lastError,
     Expression<String>? createdAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (documentId != null) 'document_id': documentId,
       if (saleId != null) 'sale_id': saleId,
       if (storeId != null) 'store_id': storeId,
+      if (documentType != null) 'document_type': documentType,
       if (attempts != null) 'attempts': attempts,
       if (lastError != null) 'last_error': lastError,
       if (createdAt != null) 'created_at': createdAt,
@@ -4076,16 +4170,20 @@ class DteQueueCompanion extends UpdateCompanion<DteQueueRow> {
   }
 
   DteQueueCompanion copyWith({
+    Value<String>? documentId,
     Value<String>? saleId,
     Value<String>? storeId,
+    Value<int>? documentType,
     Value<int>? attempts,
     Value<String?>? lastError,
     Value<String>? createdAt,
     Value<int>? rowid,
   }) {
     return DteQueueCompanion(
+      documentId: documentId ?? this.documentId,
       saleId: saleId ?? this.saleId,
       storeId: storeId ?? this.storeId,
+      documentType: documentType ?? this.documentType,
       attempts: attempts ?? this.attempts,
       lastError: lastError ?? this.lastError,
       createdAt: createdAt ?? this.createdAt,
@@ -4096,11 +4194,17 @@ class DteQueueCompanion extends UpdateCompanion<DteQueueRow> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (documentId.present) {
+      map['document_id'] = Variable<String>(documentId.value);
+    }
     if (saleId.present) {
       map['sale_id'] = Variable<String>(saleId.value);
     }
     if (storeId.present) {
       map['store_id'] = Variable<String>(storeId.value);
+    }
+    if (documentType.present) {
+      map['document_type'] = Variable<int>(documentType.value);
     }
     if (attempts.present) {
       map['attempts'] = Variable<int>(attempts.value);
@@ -4120,8 +4224,10 @@ class DteQueueCompanion extends UpdateCompanion<DteQueueRow> {
   @override
   String toString() {
     return (StringBuffer('DteQueueCompanion(')
+          ..write('documentId: $documentId, ')
           ..write('saleId: $saleId, ')
           ..write('storeId: $storeId, ')
+          ..write('documentType: $documentType, ')
           ..write('attempts: $attempts, ')
           ..write('lastError: $lastError, ')
           ..write('createdAt: $createdAt, ')
@@ -7190,6 +7296,1113 @@ class ProductExchangesCompanion extends UpdateCompanion<ProductExchangeRow> {
   }
 }
 
+class $CreditNotesTable extends CreditNotes
+    with TableInfo<$CreditNotesTable, CreditNoteRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CreditNotesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _storeIdMeta = const VerificationMeta(
+    'storeId',
+  );
+  @override
+  late final GeneratedColumn<String> storeId = GeneratedColumn<String>(
+    'store_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saleIdMeta = const VerificationMeta('saleId');
+  @override
+  late final GeneratedColumn<String> saleId = GeneratedColumn<String>(
+    'sale_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalClpMeta = const VerificationMeta(
+    'totalClp',
+  );
+  @override
+  late final GeneratedColumn<int> totalClp = GeneratedColumn<int>(
+    'total_clp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dteStatusMeta = const VerificationMeta(
+    'dteStatus',
+  );
+  @override
+  late final GeneratedColumn<String> dteStatus = GeneratedColumn<String>(
+    'dte_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _folioMeta = const VerificationMeta('folio');
+  @override
+  late final GeneratedColumn<int> folio = GeneratedColumn<int>(
+    'folio',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _pdfUrlMeta = const VerificationMeta('pdfUrl');
+  @override
+  late final GeneratedColumn<String> pdfUrl = GeneratedColumn<String>(
+    'pdf_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _actorUserIdMeta = const VerificationMeta(
+    'actorUserId',
+  );
+  @override
+  late final GeneratedColumn<String> actorUserId = GeneratedColumn<String>(
+    'actor_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _referencedSaleFolioMeta =
+      const VerificationMeta('referencedSaleFolio');
+  @override
+  late final GeneratedColumn<int> referencedSaleFolio = GeneratedColumn<int>(
+    'referenced_sale_folio',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _referencedDocumentTypeMeta =
+      const VerificationMeta('referencedDocumentType');
+  @override
+  late final GeneratedColumn<int> referencedDocumentType = GeneratedColumn<int>(
+    'referenced_document_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    storeId,
+    saleId,
+    totalClp,
+    dteStatus,
+    folio,
+    pdfUrl,
+    createdAt,
+    actorUserId,
+    referencedSaleFolio,
+    referencedDocumentType,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'credit_notes';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CreditNoteRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('store_id')) {
+      context.handle(
+        _storeIdMeta,
+        storeId.isAcceptableOrUnknown(data['store_id']!, _storeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_storeIdMeta);
+    }
+    if (data.containsKey('sale_id')) {
+      context.handle(
+        _saleIdMeta,
+        saleId.isAcceptableOrUnknown(data['sale_id']!, _saleIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_saleIdMeta);
+    }
+    if (data.containsKey('total_clp')) {
+      context.handle(
+        _totalClpMeta,
+        totalClp.isAcceptableOrUnknown(data['total_clp']!, _totalClpMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_totalClpMeta);
+    }
+    if (data.containsKey('dte_status')) {
+      context.handle(
+        _dteStatusMeta,
+        dteStatus.isAcceptableOrUnknown(data['dte_status']!, _dteStatusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dteStatusMeta);
+    }
+    if (data.containsKey('folio')) {
+      context.handle(
+        _folioMeta,
+        folio.isAcceptableOrUnknown(data['folio']!, _folioMeta),
+      );
+    }
+    if (data.containsKey('pdf_url')) {
+      context.handle(
+        _pdfUrlMeta,
+        pdfUrl.isAcceptableOrUnknown(data['pdf_url']!, _pdfUrlMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('actor_user_id')) {
+      context.handle(
+        _actorUserIdMeta,
+        actorUserId.isAcceptableOrUnknown(
+          data['actor_user_id']!,
+          _actorUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_actorUserIdMeta);
+    }
+    if (data.containsKey('referenced_sale_folio')) {
+      context.handle(
+        _referencedSaleFolioMeta,
+        referencedSaleFolio.isAcceptableOrUnknown(
+          data['referenced_sale_folio']!,
+          _referencedSaleFolioMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_referencedSaleFolioMeta);
+    }
+    if (data.containsKey('referenced_document_type')) {
+      context.handle(
+        _referencedDocumentTypeMeta,
+        referencedDocumentType.isAcceptableOrUnknown(
+          data['referenced_document_type']!,
+          _referencedDocumentTypeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_referencedDocumentTypeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CreditNoteRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CreditNoteRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      storeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}store_id'],
+      )!,
+      saleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sale_id'],
+      )!,
+      totalClp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_clp'],
+      )!,
+      dteStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}dte_status'],
+      )!,
+      folio: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}folio'],
+      ),
+      pdfUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pdf_url'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      actorUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}actor_user_id'],
+      )!,
+      referencedSaleFolio: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}referenced_sale_folio'],
+      )!,
+      referencedDocumentType: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}referenced_document_type'],
+      )!,
+    );
+  }
+
+  @override
+  $CreditNotesTable createAlias(String alias) {
+    return $CreditNotesTable(attachedDatabase, alias);
+  }
+}
+
+class CreditNoteRow extends DataClass implements Insertable<CreditNoteRow> {
+  final String id;
+  final String storeId;
+  final String saleId;
+  final int totalClp;
+  final String dteStatus;
+  final int? folio;
+  final String? pdfUrl;
+  final String createdAt;
+  final String actorUserId;
+  final int referencedSaleFolio;
+  final int referencedDocumentType;
+  const CreditNoteRow({
+    required this.id,
+    required this.storeId,
+    required this.saleId,
+    required this.totalClp,
+    required this.dteStatus,
+    this.folio,
+    this.pdfUrl,
+    required this.createdAt,
+    required this.actorUserId,
+    required this.referencedSaleFolio,
+    required this.referencedDocumentType,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['store_id'] = Variable<String>(storeId);
+    map['sale_id'] = Variable<String>(saleId);
+    map['total_clp'] = Variable<int>(totalClp);
+    map['dte_status'] = Variable<String>(dteStatus);
+    if (!nullToAbsent || folio != null) {
+      map['folio'] = Variable<int>(folio);
+    }
+    if (!nullToAbsent || pdfUrl != null) {
+      map['pdf_url'] = Variable<String>(pdfUrl);
+    }
+    map['created_at'] = Variable<String>(createdAt);
+    map['actor_user_id'] = Variable<String>(actorUserId);
+    map['referenced_sale_folio'] = Variable<int>(referencedSaleFolio);
+    map['referenced_document_type'] = Variable<int>(referencedDocumentType);
+    return map;
+  }
+
+  CreditNotesCompanion toCompanion(bool nullToAbsent) {
+    return CreditNotesCompanion(
+      id: Value(id),
+      storeId: Value(storeId),
+      saleId: Value(saleId),
+      totalClp: Value(totalClp),
+      dteStatus: Value(dteStatus),
+      folio: folio == null && nullToAbsent
+          ? const Value.absent()
+          : Value(folio),
+      pdfUrl: pdfUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(pdfUrl),
+      createdAt: Value(createdAt),
+      actorUserId: Value(actorUserId),
+      referencedSaleFolio: Value(referencedSaleFolio),
+      referencedDocumentType: Value(referencedDocumentType),
+    );
+  }
+
+  factory CreditNoteRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CreditNoteRow(
+      id: serializer.fromJson<String>(json['id']),
+      storeId: serializer.fromJson<String>(json['storeId']),
+      saleId: serializer.fromJson<String>(json['saleId']),
+      totalClp: serializer.fromJson<int>(json['totalClp']),
+      dteStatus: serializer.fromJson<String>(json['dteStatus']),
+      folio: serializer.fromJson<int?>(json['folio']),
+      pdfUrl: serializer.fromJson<String?>(json['pdfUrl']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      actorUserId: serializer.fromJson<String>(json['actorUserId']),
+      referencedSaleFolio: serializer.fromJson<int>(
+        json['referencedSaleFolio'],
+      ),
+      referencedDocumentType: serializer.fromJson<int>(
+        json['referencedDocumentType'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'storeId': serializer.toJson<String>(storeId),
+      'saleId': serializer.toJson<String>(saleId),
+      'totalClp': serializer.toJson<int>(totalClp),
+      'dteStatus': serializer.toJson<String>(dteStatus),
+      'folio': serializer.toJson<int?>(folio),
+      'pdfUrl': serializer.toJson<String?>(pdfUrl),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'actorUserId': serializer.toJson<String>(actorUserId),
+      'referencedSaleFolio': serializer.toJson<int>(referencedSaleFolio),
+      'referencedDocumentType': serializer.toJson<int>(referencedDocumentType),
+    };
+  }
+
+  CreditNoteRow copyWith({
+    String? id,
+    String? storeId,
+    String? saleId,
+    int? totalClp,
+    String? dteStatus,
+    Value<int?> folio = const Value.absent(),
+    Value<String?> pdfUrl = const Value.absent(),
+    String? createdAt,
+    String? actorUserId,
+    int? referencedSaleFolio,
+    int? referencedDocumentType,
+  }) => CreditNoteRow(
+    id: id ?? this.id,
+    storeId: storeId ?? this.storeId,
+    saleId: saleId ?? this.saleId,
+    totalClp: totalClp ?? this.totalClp,
+    dteStatus: dteStatus ?? this.dteStatus,
+    folio: folio.present ? folio.value : this.folio,
+    pdfUrl: pdfUrl.present ? pdfUrl.value : this.pdfUrl,
+    createdAt: createdAt ?? this.createdAt,
+    actorUserId: actorUserId ?? this.actorUserId,
+    referencedSaleFolio: referencedSaleFolio ?? this.referencedSaleFolio,
+    referencedDocumentType:
+        referencedDocumentType ?? this.referencedDocumentType,
+  );
+  CreditNoteRow copyWithCompanion(CreditNotesCompanion data) {
+    return CreditNoteRow(
+      id: data.id.present ? data.id.value : this.id,
+      storeId: data.storeId.present ? data.storeId.value : this.storeId,
+      saleId: data.saleId.present ? data.saleId.value : this.saleId,
+      totalClp: data.totalClp.present ? data.totalClp.value : this.totalClp,
+      dteStatus: data.dteStatus.present ? data.dteStatus.value : this.dteStatus,
+      folio: data.folio.present ? data.folio.value : this.folio,
+      pdfUrl: data.pdfUrl.present ? data.pdfUrl.value : this.pdfUrl,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      actorUserId: data.actorUserId.present
+          ? data.actorUserId.value
+          : this.actorUserId,
+      referencedSaleFolio: data.referencedSaleFolio.present
+          ? data.referencedSaleFolio.value
+          : this.referencedSaleFolio,
+      referencedDocumentType: data.referencedDocumentType.present
+          ? data.referencedDocumentType.value
+          : this.referencedDocumentType,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CreditNoteRow(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('saleId: $saleId, ')
+          ..write('totalClp: $totalClp, ')
+          ..write('dteStatus: $dteStatus, ')
+          ..write('folio: $folio, ')
+          ..write('pdfUrl: $pdfUrl, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('actorUserId: $actorUserId, ')
+          ..write('referencedSaleFolio: $referencedSaleFolio, ')
+          ..write('referencedDocumentType: $referencedDocumentType')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    storeId,
+    saleId,
+    totalClp,
+    dteStatus,
+    folio,
+    pdfUrl,
+    createdAt,
+    actorUserId,
+    referencedSaleFolio,
+    referencedDocumentType,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CreditNoteRow &&
+          other.id == this.id &&
+          other.storeId == this.storeId &&
+          other.saleId == this.saleId &&
+          other.totalClp == this.totalClp &&
+          other.dteStatus == this.dteStatus &&
+          other.folio == this.folio &&
+          other.pdfUrl == this.pdfUrl &&
+          other.createdAt == this.createdAt &&
+          other.actorUserId == this.actorUserId &&
+          other.referencedSaleFolio == this.referencedSaleFolio &&
+          other.referencedDocumentType == this.referencedDocumentType);
+}
+
+class CreditNotesCompanion extends UpdateCompanion<CreditNoteRow> {
+  final Value<String> id;
+  final Value<String> storeId;
+  final Value<String> saleId;
+  final Value<int> totalClp;
+  final Value<String> dteStatus;
+  final Value<int?> folio;
+  final Value<String?> pdfUrl;
+  final Value<String> createdAt;
+  final Value<String> actorUserId;
+  final Value<int> referencedSaleFolio;
+  final Value<int> referencedDocumentType;
+  final Value<int> rowid;
+  const CreditNotesCompanion({
+    this.id = const Value.absent(),
+    this.storeId = const Value.absent(),
+    this.saleId = const Value.absent(),
+    this.totalClp = const Value.absent(),
+    this.dteStatus = const Value.absent(),
+    this.folio = const Value.absent(),
+    this.pdfUrl = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.actorUserId = const Value.absent(),
+    this.referencedSaleFolio = const Value.absent(),
+    this.referencedDocumentType = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CreditNotesCompanion.insert({
+    required String id,
+    required String storeId,
+    required String saleId,
+    required int totalClp,
+    required String dteStatus,
+    this.folio = const Value.absent(),
+    this.pdfUrl = const Value.absent(),
+    required String createdAt,
+    required String actorUserId,
+    required int referencedSaleFolio,
+    required int referencedDocumentType,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       storeId = Value(storeId),
+       saleId = Value(saleId),
+       totalClp = Value(totalClp),
+       dteStatus = Value(dteStatus),
+       createdAt = Value(createdAt),
+       actorUserId = Value(actorUserId),
+       referencedSaleFolio = Value(referencedSaleFolio),
+       referencedDocumentType = Value(referencedDocumentType);
+  static Insertable<CreditNoteRow> custom({
+    Expression<String>? id,
+    Expression<String>? storeId,
+    Expression<String>? saleId,
+    Expression<int>? totalClp,
+    Expression<String>? dteStatus,
+    Expression<int>? folio,
+    Expression<String>? pdfUrl,
+    Expression<String>? createdAt,
+    Expression<String>? actorUserId,
+    Expression<int>? referencedSaleFolio,
+    Expression<int>? referencedDocumentType,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (storeId != null) 'store_id': storeId,
+      if (saleId != null) 'sale_id': saleId,
+      if (totalClp != null) 'total_clp': totalClp,
+      if (dteStatus != null) 'dte_status': dteStatus,
+      if (folio != null) 'folio': folio,
+      if (pdfUrl != null) 'pdf_url': pdfUrl,
+      if (createdAt != null) 'created_at': createdAt,
+      if (actorUserId != null) 'actor_user_id': actorUserId,
+      if (referencedSaleFolio != null)
+        'referenced_sale_folio': referencedSaleFolio,
+      if (referencedDocumentType != null)
+        'referenced_document_type': referencedDocumentType,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CreditNotesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? storeId,
+    Value<String>? saleId,
+    Value<int>? totalClp,
+    Value<String>? dteStatus,
+    Value<int?>? folio,
+    Value<String?>? pdfUrl,
+    Value<String>? createdAt,
+    Value<String>? actorUserId,
+    Value<int>? referencedSaleFolio,
+    Value<int>? referencedDocumentType,
+    Value<int>? rowid,
+  }) {
+    return CreditNotesCompanion(
+      id: id ?? this.id,
+      storeId: storeId ?? this.storeId,
+      saleId: saleId ?? this.saleId,
+      totalClp: totalClp ?? this.totalClp,
+      dteStatus: dteStatus ?? this.dteStatus,
+      folio: folio ?? this.folio,
+      pdfUrl: pdfUrl ?? this.pdfUrl,
+      createdAt: createdAt ?? this.createdAt,
+      actorUserId: actorUserId ?? this.actorUserId,
+      referencedSaleFolio: referencedSaleFolio ?? this.referencedSaleFolio,
+      referencedDocumentType:
+          referencedDocumentType ?? this.referencedDocumentType,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (storeId.present) {
+      map['store_id'] = Variable<String>(storeId.value);
+    }
+    if (saleId.present) {
+      map['sale_id'] = Variable<String>(saleId.value);
+    }
+    if (totalClp.present) {
+      map['total_clp'] = Variable<int>(totalClp.value);
+    }
+    if (dteStatus.present) {
+      map['dte_status'] = Variable<String>(dteStatus.value);
+    }
+    if (folio.present) {
+      map['folio'] = Variable<int>(folio.value);
+    }
+    if (pdfUrl.present) {
+      map['pdf_url'] = Variable<String>(pdfUrl.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (actorUserId.present) {
+      map['actor_user_id'] = Variable<String>(actorUserId.value);
+    }
+    if (referencedSaleFolio.present) {
+      map['referenced_sale_folio'] = Variable<int>(referencedSaleFolio.value);
+    }
+    if (referencedDocumentType.present) {
+      map['referenced_document_type'] = Variable<int>(
+        referencedDocumentType.value,
+      );
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CreditNotesCompanion(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('saleId: $saleId, ')
+          ..write('totalClp: $totalClp, ')
+          ..write('dteStatus: $dteStatus, ')
+          ..write('folio: $folio, ')
+          ..write('pdfUrl: $pdfUrl, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('actorUserId: $actorUserId, ')
+          ..write('referencedSaleFolio: $referencedSaleFolio, ')
+          ..write('referencedDocumentType: $referencedDocumentType, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CreditNoteLinesTable extends CreditNoteLines
+    with TableInfo<$CreditNoteLinesTable, CreditNoteLineRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CreditNoteLinesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _creditNoteIdMeta = const VerificationMeta(
+    'creditNoteId',
+  );
+  @override
+  late final GeneratedColumn<String> creditNoteId = GeneratedColumn<String>(
+    'credit_note_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _productIdMeta = const VerificationMeta(
+    'productId',
+  );
+  @override
+  late final GeneratedColumn<String> productId = GeneratedColumn<String>(
+    'product_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _productNameMeta = const VerificationMeta(
+    'productName',
+  );
+  @override
+  late final GeneratedColumn<String> productName = GeneratedColumn<String>(
+    'product_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _quantityMeta = const VerificationMeta(
+    'quantity',
+  );
+  @override
+  late final GeneratedColumn<int> quantity = GeneratedColumn<int>(
+    'quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _unitPriceClpMeta = const VerificationMeta(
+    'unitPriceClp',
+  );
+  @override
+  late final GeneratedColumn<int> unitPriceClp = GeneratedColumn<int>(
+    'unit_price_clp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    creditNoteId,
+    productId,
+    productName,
+    quantity,
+    unitPriceClp,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'credit_note_lines';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CreditNoteLineRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('credit_note_id')) {
+      context.handle(
+        _creditNoteIdMeta,
+        creditNoteId.isAcceptableOrUnknown(
+          data['credit_note_id']!,
+          _creditNoteIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_creditNoteIdMeta);
+    }
+    if (data.containsKey('product_id')) {
+      context.handle(
+        _productIdMeta,
+        productId.isAcceptableOrUnknown(data['product_id']!, _productIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_productIdMeta);
+    }
+    if (data.containsKey('product_name')) {
+      context.handle(
+        _productNameMeta,
+        productName.isAcceptableOrUnknown(
+          data['product_name']!,
+          _productNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_productNameMeta);
+    }
+    if (data.containsKey('quantity')) {
+      context.handle(
+        _quantityMeta,
+        quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_quantityMeta);
+    }
+    if (data.containsKey('unit_price_clp')) {
+      context.handle(
+        _unitPriceClpMeta,
+        unitPriceClp.isAcceptableOrUnknown(
+          data['unit_price_clp']!,
+          _unitPriceClpMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_unitPriceClpMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CreditNoteLineRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CreditNoteLineRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      creditNoteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}credit_note_id'],
+      )!,
+      productId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}product_id'],
+      )!,
+      productName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}product_name'],
+      )!,
+      quantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}quantity'],
+      )!,
+      unitPriceClp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}unit_price_clp'],
+      )!,
+    );
+  }
+
+  @override
+  $CreditNoteLinesTable createAlias(String alias) {
+    return $CreditNoteLinesTable(attachedDatabase, alias);
+  }
+}
+
+class CreditNoteLineRow extends DataClass
+    implements Insertable<CreditNoteLineRow> {
+  final String id;
+  final String creditNoteId;
+  final String productId;
+  final String productName;
+  final int quantity;
+  final int unitPriceClp;
+  const CreditNoteLineRow({
+    required this.id,
+    required this.creditNoteId,
+    required this.productId,
+    required this.productName,
+    required this.quantity,
+    required this.unitPriceClp,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['credit_note_id'] = Variable<String>(creditNoteId);
+    map['product_id'] = Variable<String>(productId);
+    map['product_name'] = Variable<String>(productName);
+    map['quantity'] = Variable<int>(quantity);
+    map['unit_price_clp'] = Variable<int>(unitPriceClp);
+    return map;
+  }
+
+  CreditNoteLinesCompanion toCompanion(bool nullToAbsent) {
+    return CreditNoteLinesCompanion(
+      id: Value(id),
+      creditNoteId: Value(creditNoteId),
+      productId: Value(productId),
+      productName: Value(productName),
+      quantity: Value(quantity),
+      unitPriceClp: Value(unitPriceClp),
+    );
+  }
+
+  factory CreditNoteLineRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CreditNoteLineRow(
+      id: serializer.fromJson<String>(json['id']),
+      creditNoteId: serializer.fromJson<String>(json['creditNoteId']),
+      productId: serializer.fromJson<String>(json['productId']),
+      productName: serializer.fromJson<String>(json['productName']),
+      quantity: serializer.fromJson<int>(json['quantity']),
+      unitPriceClp: serializer.fromJson<int>(json['unitPriceClp']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'creditNoteId': serializer.toJson<String>(creditNoteId),
+      'productId': serializer.toJson<String>(productId),
+      'productName': serializer.toJson<String>(productName),
+      'quantity': serializer.toJson<int>(quantity),
+      'unitPriceClp': serializer.toJson<int>(unitPriceClp),
+    };
+  }
+
+  CreditNoteLineRow copyWith({
+    String? id,
+    String? creditNoteId,
+    String? productId,
+    String? productName,
+    int? quantity,
+    int? unitPriceClp,
+  }) => CreditNoteLineRow(
+    id: id ?? this.id,
+    creditNoteId: creditNoteId ?? this.creditNoteId,
+    productId: productId ?? this.productId,
+    productName: productName ?? this.productName,
+    quantity: quantity ?? this.quantity,
+    unitPriceClp: unitPriceClp ?? this.unitPriceClp,
+  );
+  CreditNoteLineRow copyWithCompanion(CreditNoteLinesCompanion data) {
+    return CreditNoteLineRow(
+      id: data.id.present ? data.id.value : this.id,
+      creditNoteId: data.creditNoteId.present
+          ? data.creditNoteId.value
+          : this.creditNoteId,
+      productId: data.productId.present ? data.productId.value : this.productId,
+      productName: data.productName.present
+          ? data.productName.value
+          : this.productName,
+      quantity: data.quantity.present ? data.quantity.value : this.quantity,
+      unitPriceClp: data.unitPriceClp.present
+          ? data.unitPriceClp.value
+          : this.unitPriceClp,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CreditNoteLineRow(')
+          ..write('id: $id, ')
+          ..write('creditNoteId: $creditNoteId, ')
+          ..write('productId: $productId, ')
+          ..write('productName: $productName, ')
+          ..write('quantity: $quantity, ')
+          ..write('unitPriceClp: $unitPriceClp')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    creditNoteId,
+    productId,
+    productName,
+    quantity,
+    unitPriceClp,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CreditNoteLineRow &&
+          other.id == this.id &&
+          other.creditNoteId == this.creditNoteId &&
+          other.productId == this.productId &&
+          other.productName == this.productName &&
+          other.quantity == this.quantity &&
+          other.unitPriceClp == this.unitPriceClp);
+}
+
+class CreditNoteLinesCompanion extends UpdateCompanion<CreditNoteLineRow> {
+  final Value<String> id;
+  final Value<String> creditNoteId;
+  final Value<String> productId;
+  final Value<String> productName;
+  final Value<int> quantity;
+  final Value<int> unitPriceClp;
+  final Value<int> rowid;
+  const CreditNoteLinesCompanion({
+    this.id = const Value.absent(),
+    this.creditNoteId = const Value.absent(),
+    this.productId = const Value.absent(),
+    this.productName = const Value.absent(),
+    this.quantity = const Value.absent(),
+    this.unitPriceClp = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CreditNoteLinesCompanion.insert({
+    required String id,
+    required String creditNoteId,
+    required String productId,
+    required String productName,
+    required int quantity,
+    required int unitPriceClp,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       creditNoteId = Value(creditNoteId),
+       productId = Value(productId),
+       productName = Value(productName),
+       quantity = Value(quantity),
+       unitPriceClp = Value(unitPriceClp);
+  static Insertable<CreditNoteLineRow> custom({
+    Expression<String>? id,
+    Expression<String>? creditNoteId,
+    Expression<String>? productId,
+    Expression<String>? productName,
+    Expression<int>? quantity,
+    Expression<int>? unitPriceClp,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (creditNoteId != null) 'credit_note_id': creditNoteId,
+      if (productId != null) 'product_id': productId,
+      if (productName != null) 'product_name': productName,
+      if (quantity != null) 'quantity': quantity,
+      if (unitPriceClp != null) 'unit_price_clp': unitPriceClp,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CreditNoteLinesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? creditNoteId,
+    Value<String>? productId,
+    Value<String>? productName,
+    Value<int>? quantity,
+    Value<int>? unitPriceClp,
+    Value<int>? rowid,
+  }) {
+    return CreditNoteLinesCompanion(
+      id: id ?? this.id,
+      creditNoteId: creditNoteId ?? this.creditNoteId,
+      productId: productId ?? this.productId,
+      productName: productName ?? this.productName,
+      quantity: quantity ?? this.quantity,
+      unitPriceClp: unitPriceClp ?? this.unitPriceClp,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (creditNoteId.present) {
+      map['credit_note_id'] = Variable<String>(creditNoteId.value);
+    }
+    if (productId.present) {
+      map['product_id'] = Variable<String>(productId.value);
+    }
+    if (productName.present) {
+      map['product_name'] = Variable<String>(productName.value);
+    }
+    if (quantity.present) {
+      map['quantity'] = Variable<int>(quantity.value);
+    }
+    if (unitPriceClp.present) {
+      map['unit_price_clp'] = Variable<int>(unitPriceClp.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CreditNoteLinesCompanion(')
+          ..write('id: $id, ')
+          ..write('creditNoteId: $creditNoteId, ')
+          ..write('productId: $productId, ')
+          ..write('productName: $productName, ')
+          ..write('quantity: $quantity, ')
+          ..write('unitPriceClp: $unitPriceClp, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $DteFolioCountersTable extends DteFolioCounters
     with TableInfo<$DteFolioCountersTable, DteFolioCounterRow> {
   @override
@@ -7953,6 +9166,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ProductExchangesTable productExchanges = $ProductExchangesTable(
     this,
   );
+  late final $CreditNotesTable creditNotes = $CreditNotesTable(this);
+  late final $CreditNoteLinesTable creditNoteLines = $CreditNoteLinesTable(
+    this,
+  );
   late final $DteFolioCountersTable dteFolioCounters = $DteFolioCountersTable(
     this,
   );
@@ -7975,6 +9192,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     inventoryCloses,
     inventoryCloseLines,
     productExchanges,
+    creditNotes,
+    creditNoteLines,
     dteFolioCounters,
     clockState,
   ];
@@ -9843,8 +11062,10 @@ typedef $$PaymentsTableProcessedTableManager =
     >;
 typedef $$DteQueueTableCreateCompanionBuilder =
     DteQueueCompanion Function({
+      required String documentId,
       required String saleId,
       required String storeId,
+      Value<int> documentType,
       Value<int> attempts,
       Value<String?> lastError,
       required String createdAt,
@@ -9852,8 +11073,10 @@ typedef $$DteQueueTableCreateCompanionBuilder =
     });
 typedef $$DteQueueTableUpdateCompanionBuilder =
     DteQueueCompanion Function({
+      Value<String> documentId,
       Value<String> saleId,
       Value<String> storeId,
+      Value<int> documentType,
       Value<int> attempts,
       Value<String?> lastError,
       Value<String> createdAt,
@@ -9869,6 +11092,11 @@ class $$DteQueueTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnFilters<String> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<String> get saleId => $composableBuilder(
     column: $table.saleId,
     builder: (column) => ColumnFilters(column),
@@ -9876,6 +11104,11 @@ class $$DteQueueTableFilterComposer
 
   ColumnFilters<String> get storeId => $composableBuilder(
     column: $table.storeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get documentType => $composableBuilder(
+    column: $table.documentType,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -9904,6 +11137,11 @@ class $$DteQueueTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnOrderings<String> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get saleId => $composableBuilder(
     column: $table.saleId,
     builder: (column) => ColumnOrderings(column),
@@ -9911,6 +11149,11 @@ class $$DteQueueTableOrderingComposer
 
   ColumnOrderings<String> get storeId => $composableBuilder(
     column: $table.storeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get documentType => $composableBuilder(
+    column: $table.documentType,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -9939,11 +11182,21 @@ class $$DteQueueTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  GeneratedColumn<String> get documentId => $composableBuilder(
+    column: $table.documentId,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<String> get saleId =>
       $composableBuilder(column: $table.saleId, builder: (column) => column);
 
   GeneratedColumn<String> get storeId =>
       $composableBuilder(column: $table.storeId, builder: (column) => column);
+
+  GeneratedColumn<int> get documentType => $composableBuilder(
+    column: $table.documentType,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get attempts =>
       $composableBuilder(column: $table.attempts, builder: (column) => column);
@@ -9986,15 +11239,19 @@ class $$DteQueueTableTableManager
               $$DteQueueTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
+                Value<String> documentId = const Value.absent(),
                 Value<String> saleId = const Value.absent(),
                 Value<String> storeId = const Value.absent(),
+                Value<int> documentType = const Value.absent(),
                 Value<int> attempts = const Value.absent(),
                 Value<String?> lastError = const Value.absent(),
                 Value<String> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DteQueueCompanion(
+                documentId: documentId,
                 saleId: saleId,
                 storeId: storeId,
+                documentType: documentType,
                 attempts: attempts,
                 lastError: lastError,
                 createdAt: createdAt,
@@ -10002,15 +11259,19 @@ class $$DteQueueTableTableManager
               ),
           createCompanionCallback:
               ({
+                required String documentId,
                 required String saleId,
                 required String storeId,
+                Value<int> documentType = const Value.absent(),
                 Value<int> attempts = const Value.absent(),
                 Value<String?> lastError = const Value.absent(),
                 required String createdAt,
                 Value<int> rowid = const Value.absent(),
               }) => DteQueueCompanion.insert(
+                documentId: documentId,
                 saleId: saleId,
                 storeId: storeId,
+                documentType: documentType,
                 attempts: attempts,
                 lastError: lastError,
                 createdAt: createdAt,
@@ -11538,6 +12799,557 @@ typedef $$ProductExchangesTableProcessedTableManager =
       ProductExchangeRow,
       PrefetchHooks Function()
     >;
+typedef $$CreditNotesTableCreateCompanionBuilder =
+    CreditNotesCompanion Function({
+      required String id,
+      required String storeId,
+      required String saleId,
+      required int totalClp,
+      required String dteStatus,
+      Value<int?> folio,
+      Value<String?> pdfUrl,
+      required String createdAt,
+      required String actorUserId,
+      required int referencedSaleFolio,
+      required int referencedDocumentType,
+      Value<int> rowid,
+    });
+typedef $$CreditNotesTableUpdateCompanionBuilder =
+    CreditNotesCompanion Function({
+      Value<String> id,
+      Value<String> storeId,
+      Value<String> saleId,
+      Value<int> totalClp,
+      Value<String> dteStatus,
+      Value<int?> folio,
+      Value<String?> pdfUrl,
+      Value<String> createdAt,
+      Value<String> actorUserId,
+      Value<int> referencedSaleFolio,
+      Value<int> referencedDocumentType,
+      Value<int> rowid,
+    });
+
+class $$CreditNotesTableFilterComposer
+    extends Composer<_$AppDatabase, $CreditNotesTable> {
+  $$CreditNotesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get saleId => $composableBuilder(
+    column: $table.saleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalClp => $composableBuilder(
+    column: $table.totalClp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get dteStatus => $composableBuilder(
+    column: $table.dteStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get folio => $composableBuilder(
+    column: $table.folio,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pdfUrl => $composableBuilder(
+    column: $table.pdfUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get referencedSaleFolio => $composableBuilder(
+    column: $table.referencedSaleFolio,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get referencedDocumentType => $composableBuilder(
+    column: $table.referencedDocumentType,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CreditNotesTableOrderingComposer
+    extends Composer<_$AppDatabase, $CreditNotesTable> {
+  $$CreditNotesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get saleId => $composableBuilder(
+    column: $table.saleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalClp => $composableBuilder(
+    column: $table.totalClp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get dteStatus => $composableBuilder(
+    column: $table.dteStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get folio => $composableBuilder(
+    column: $table.folio,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pdfUrl => $composableBuilder(
+    column: $table.pdfUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get referencedSaleFolio => $composableBuilder(
+    column: $table.referencedSaleFolio,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get referencedDocumentType => $composableBuilder(
+    column: $table.referencedDocumentType,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CreditNotesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CreditNotesTable> {
+  $$CreditNotesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get storeId =>
+      $composableBuilder(column: $table.storeId, builder: (column) => column);
+
+  GeneratedColumn<String> get saleId =>
+      $composableBuilder(column: $table.saleId, builder: (column) => column);
+
+  GeneratedColumn<int> get totalClp =>
+      $composableBuilder(column: $table.totalClp, builder: (column) => column);
+
+  GeneratedColumn<String> get dteStatus =>
+      $composableBuilder(column: $table.dteStatus, builder: (column) => column);
+
+  GeneratedColumn<int> get folio =>
+      $composableBuilder(column: $table.folio, builder: (column) => column);
+
+  GeneratedColumn<String> get pdfUrl =>
+      $composableBuilder(column: $table.pdfUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get referencedSaleFolio => $composableBuilder(
+    column: $table.referencedSaleFolio,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get referencedDocumentType => $composableBuilder(
+    column: $table.referencedDocumentType,
+    builder: (column) => column,
+  );
+}
+
+class $$CreditNotesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CreditNotesTable,
+          CreditNoteRow,
+          $$CreditNotesTableFilterComposer,
+          $$CreditNotesTableOrderingComposer,
+          $$CreditNotesTableAnnotationComposer,
+          $$CreditNotesTableCreateCompanionBuilder,
+          $$CreditNotesTableUpdateCompanionBuilder,
+          (
+            CreditNoteRow,
+            BaseReferences<_$AppDatabase, $CreditNotesTable, CreditNoteRow>,
+          ),
+          CreditNoteRow,
+          PrefetchHooks Function()
+        > {
+  $$CreditNotesTableTableManager(_$AppDatabase db, $CreditNotesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CreditNotesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CreditNotesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CreditNotesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> storeId = const Value.absent(),
+                Value<String> saleId = const Value.absent(),
+                Value<int> totalClp = const Value.absent(),
+                Value<String> dteStatus = const Value.absent(),
+                Value<int?> folio = const Value.absent(),
+                Value<String?> pdfUrl = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String> actorUserId = const Value.absent(),
+                Value<int> referencedSaleFolio = const Value.absent(),
+                Value<int> referencedDocumentType = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CreditNotesCompanion(
+                id: id,
+                storeId: storeId,
+                saleId: saleId,
+                totalClp: totalClp,
+                dteStatus: dteStatus,
+                folio: folio,
+                pdfUrl: pdfUrl,
+                createdAt: createdAt,
+                actorUserId: actorUserId,
+                referencedSaleFolio: referencedSaleFolio,
+                referencedDocumentType: referencedDocumentType,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String storeId,
+                required String saleId,
+                required int totalClp,
+                required String dteStatus,
+                Value<int?> folio = const Value.absent(),
+                Value<String?> pdfUrl = const Value.absent(),
+                required String createdAt,
+                required String actorUserId,
+                required int referencedSaleFolio,
+                required int referencedDocumentType,
+                Value<int> rowid = const Value.absent(),
+              }) => CreditNotesCompanion.insert(
+                id: id,
+                storeId: storeId,
+                saleId: saleId,
+                totalClp: totalClp,
+                dteStatus: dteStatus,
+                folio: folio,
+                pdfUrl: pdfUrl,
+                createdAt: createdAt,
+                actorUserId: actorUserId,
+                referencedSaleFolio: referencedSaleFolio,
+                referencedDocumentType: referencedDocumentType,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CreditNotesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CreditNotesTable,
+      CreditNoteRow,
+      $$CreditNotesTableFilterComposer,
+      $$CreditNotesTableOrderingComposer,
+      $$CreditNotesTableAnnotationComposer,
+      $$CreditNotesTableCreateCompanionBuilder,
+      $$CreditNotesTableUpdateCompanionBuilder,
+      (
+        CreditNoteRow,
+        BaseReferences<_$AppDatabase, $CreditNotesTable, CreditNoteRow>,
+      ),
+      CreditNoteRow,
+      PrefetchHooks Function()
+    >;
+typedef $$CreditNoteLinesTableCreateCompanionBuilder =
+    CreditNoteLinesCompanion Function({
+      required String id,
+      required String creditNoteId,
+      required String productId,
+      required String productName,
+      required int quantity,
+      required int unitPriceClp,
+      Value<int> rowid,
+    });
+typedef $$CreditNoteLinesTableUpdateCompanionBuilder =
+    CreditNoteLinesCompanion Function({
+      Value<String> id,
+      Value<String> creditNoteId,
+      Value<String> productId,
+      Value<String> productName,
+      Value<int> quantity,
+      Value<int> unitPriceClp,
+      Value<int> rowid,
+    });
+
+class $$CreditNoteLinesTableFilterComposer
+    extends Composer<_$AppDatabase, $CreditNoteLinesTable> {
+  $$CreditNoteLinesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get creditNoteId => $composableBuilder(
+    column: $table.creditNoteId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get productId => $composableBuilder(
+    column: $table.productId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get unitPriceClp => $composableBuilder(
+    column: $table.unitPriceClp,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CreditNoteLinesTableOrderingComposer
+    extends Composer<_$AppDatabase, $CreditNoteLinesTable> {
+  $$CreditNoteLinesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get creditNoteId => $composableBuilder(
+    column: $table.creditNoteId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get productId => $composableBuilder(
+    column: $table.productId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get unitPriceClp => $composableBuilder(
+    column: $table.unitPriceClp,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CreditNoteLinesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CreditNoteLinesTable> {
+  $$CreditNoteLinesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get creditNoteId => $composableBuilder(
+    column: $table.creditNoteId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get productId =>
+      $composableBuilder(column: $table.productId, builder: (column) => column);
+
+  GeneratedColumn<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get quantity =>
+      $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  GeneratedColumn<int> get unitPriceClp => $composableBuilder(
+    column: $table.unitPriceClp,
+    builder: (column) => column,
+  );
+}
+
+class $$CreditNoteLinesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CreditNoteLinesTable,
+          CreditNoteLineRow,
+          $$CreditNoteLinesTableFilterComposer,
+          $$CreditNoteLinesTableOrderingComposer,
+          $$CreditNoteLinesTableAnnotationComposer,
+          $$CreditNoteLinesTableCreateCompanionBuilder,
+          $$CreditNoteLinesTableUpdateCompanionBuilder,
+          (
+            CreditNoteLineRow,
+            BaseReferences<
+              _$AppDatabase,
+              $CreditNoteLinesTable,
+              CreditNoteLineRow
+            >,
+          ),
+          CreditNoteLineRow,
+          PrefetchHooks Function()
+        > {
+  $$CreditNoteLinesTableTableManager(
+    _$AppDatabase db,
+    $CreditNoteLinesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CreditNoteLinesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CreditNoteLinesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CreditNoteLinesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> creditNoteId = const Value.absent(),
+                Value<String> productId = const Value.absent(),
+                Value<String> productName = const Value.absent(),
+                Value<int> quantity = const Value.absent(),
+                Value<int> unitPriceClp = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CreditNoteLinesCompanion(
+                id: id,
+                creditNoteId: creditNoteId,
+                productId: productId,
+                productName: productName,
+                quantity: quantity,
+                unitPriceClp: unitPriceClp,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String creditNoteId,
+                required String productId,
+                required String productName,
+                required int quantity,
+                required int unitPriceClp,
+                Value<int> rowid = const Value.absent(),
+              }) => CreditNoteLinesCompanion.insert(
+                id: id,
+                creditNoteId: creditNoteId,
+                productId: productId,
+                productName: productName,
+                quantity: quantity,
+                unitPriceClp: unitPriceClp,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CreditNoteLinesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CreditNoteLinesTable,
+      CreditNoteLineRow,
+      $$CreditNoteLinesTableFilterComposer,
+      $$CreditNoteLinesTableOrderingComposer,
+      $$CreditNoteLinesTableAnnotationComposer,
+      $$CreditNoteLinesTableCreateCompanionBuilder,
+      $$CreditNoteLinesTableUpdateCompanionBuilder,
+      (
+        CreditNoteLineRow,
+        BaseReferences<_$AppDatabase, $CreditNoteLinesTable, CreditNoteLineRow>,
+      ),
+      CreditNoteLineRow,
+      PrefetchHooks Function()
+    >;
 typedef $$DteFolioCountersTableCreateCompanionBuilder =
     DteFolioCountersCompanion Function({
       required String storeId,
@@ -11984,6 +13796,10 @@ class $AppDatabaseManager {
       $$InventoryCloseLinesTableTableManager(_db, _db.inventoryCloseLines);
   $$ProductExchangesTableTableManager get productExchanges =>
       $$ProductExchangesTableTableManager(_db, _db.productExchanges);
+  $$CreditNotesTableTableManager get creditNotes =>
+      $$CreditNotesTableTableManager(_db, _db.creditNotes);
+  $$CreditNoteLinesTableTableManager get creditNoteLines =>
+      $$CreditNoteLinesTableTableManager(_db, _db.creditNoteLines);
   $$DteFolioCountersTableTableManager get dteFolioCounters =>
       $$DteFolioCountersTableTableManager(_db, _db.dteFolioCounters);
   $$ClockStateTableTableManager get clockState =>

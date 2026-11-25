@@ -91,14 +91,49 @@ class Sales extends Table {
 
 @DataClassName('DteQueueRow')
 class DteQueue extends Table {
-  TextColumn get saleId => text()();
+  TextColumn get documentId => text().named('document_id')();
+  TextColumn get saleId => text().named('sale_id')();
   TextColumn get storeId => text()();
+  IntColumn get documentType =>
+      integer().named('document_type').withDefault(const Constant(39))();
   IntColumn get attempts => integer().withDefault(const Constant(0))();
   TextColumn get lastError => text().nullable()();
   TextColumn get createdAt => text()();
 
   @override
-  Set<Column<Object>> get primaryKey => {saleId};
+  Set<Column<Object>> get primaryKey => {documentId};
+}
+
+@DataClassName('CreditNoteRow')
+class CreditNotes extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().named('store_id')();
+  TextColumn get saleId => text().named('sale_id')();
+  IntColumn get totalClp => integer().named('total_clp')();
+  TextColumn get dteStatus => text().named('dte_status')();
+  IntColumn get folio => integer().nullable()();
+  TextColumn get pdfUrl => text().named('pdf_url').nullable()();
+  TextColumn get createdAt => text().named('created_at')();
+  TextColumn get actorUserId => text().named('actor_user_id')();
+  IntColumn get referencedSaleFolio => integer().named('referenced_sale_folio')();
+  IntColumn get referencedDocumentType =>
+      integer().named('referenced_document_type')();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+@DataClassName('CreditNoteLineRow')
+class CreditNoteLines extends Table {
+  TextColumn get id => text()();
+  TextColumn get creditNoteId => text().named('credit_note_id')();
+  TextColumn get productId => text().named('product_id')();
+  TextColumn get productName => text().named('product_name')();
+  IntColumn get quantity => integer()();
+  IntColumn get unitPriceClp => integer().named('unit_price_clp')();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
 }
 
 @DataClassName('SaleLineRow')
@@ -250,6 +285,8 @@ class DteFolioCounters extends Table {
   InventoryCloses,
   InventoryCloseLines,
   ProductExchanges,
+  CreditNotes,
+  CreditNoteLines,
   DteFolioCounters,
   ClockState,
 ])
@@ -257,7 +294,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 21;
+  int get schemaVersion => 22;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -391,6 +428,27 @@ WHERE (
           }
           if (from < 21) {
             await m.createTable(productExchanges);
+          }
+          if (from < 22) {
+            await m.createTable(creditNotes);
+            await m.createTable(creditNoteLines);
+            await customStatement('''
+CREATE TABLE dte_queue_new (
+  document_id TEXT NOT NULL PRIMARY KEY,
+  sale_id TEXT NOT NULL,
+  store_id TEXT NOT NULL,
+  document_type INTEGER NOT NULL DEFAULT 39,
+  attempts INTEGER NOT NULL DEFAULT 0,
+  last_error TEXT,
+  created_at TEXT NOT NULL
+);
+INSERT INTO dte_queue_new (
+  document_id, sale_id, store_id, document_type, attempts, last_error, created_at
+)
+SELECT sale_id, sale_id, store_id, 39, attempts, last_error, created_at FROM dte_queue;
+DROP TABLE dte_queue;
+ALTER TABLE dte_queue_new RENAME TO dte_queue;
+''');
           }
         },
       );

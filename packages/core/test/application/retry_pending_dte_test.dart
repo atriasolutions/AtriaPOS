@@ -86,6 +86,7 @@ void main() {
     final retry = RetryPendingDte(
       dteQueue,
       sales,
+      InMemoryCreditNoteRepository(),
       FakeDteGateway(startingFolio: 2000),
     );
     final retryResult = await retry(storeId);

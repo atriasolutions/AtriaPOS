@@ -183,7 +183,7 @@ Reporte: ventas por medio, efectivo esperado vs contado, diferencia.
 
 ### RF-050 [M] Emitir boleta electrónica
 
-Al confirmar venta conectada y certificado válido.
+Al confirmar venta conectada y certificado válido. Tipos **39** (boleta) y **61** (nota de crédito electrónica, SLICE-92).
 
 ### RF-051 [M] Cola offline / fallo SII
 
@@ -277,7 +277,9 @@ Borrador de ingreso o conteo por códigos antes de confirmar stock.
 ### RF-096 [M] Nota de crédito electrónica (SLICE-92, DEC-055)
 
 - Dado venta con DTE emitida, cuando emite NC referenciada, entonces encola documento y revierte stock según reglas de anulación parcial/total.
-- Dado venta solo `PENDIENTE_DTE`, entonces aplica anulación interna sin NC.
+- Dado venta solo `PENDIENTE_DTE`, entonces aplica anulación interna sin NC (`POST .../void`).
+- Dado boleta emitida, `void` directo rechazado; usar `POST .../credit-notes` (total o parcial).
+- Dado cambio con boleta emitida, cuando existe NC emitida que cubre la devolución, entonces permite `registerProductExchange` con `creditNoteId` (sin doble stock en devolución).
 
 ### RF-097 [M] Factura electrónica en venta (SLICE-93, DEC-055)
 

@@ -35,6 +35,42 @@ class DteEmitResult {
   final String? errorMessage;
 }
 
+class DteCreditNoteEmitRequest {
+  const DteCreditNoteEmitRequest({
+    required this.creditNoteId,
+    required this.storeId,
+    required this.referencedSaleId,
+    required this.referencedSaleFolio,
+    required this.referencedDocumentType,
+    required this.referencedSaleCreatedAt,
+    required this.totalClp,
+    required this.lines,
+  });
+
+  final String creditNoteId;
+  final StoreId storeId;
+  final SaleId referencedSaleId;
+  final int referencedSaleFolio;
+  final int referencedDocumentType;
+  final DateTime referencedSaleCreatedAt;
+  final int totalClp;
+  final List<DteCreditNoteLineRequest> lines;
+}
+
+class DteCreditNoteLineRequest {
+  const DteCreditNoteLineRequest({
+    required this.productName,
+    required this.quantity,
+    required this.unitPriceClp,
+  });
+
+  final String productName;
+  final int quantity;
+  final int unitPriceClp;
+}
+
 abstract class DteGateway {
   Future<DteEmitResult> emit(DteEmitRequest request);
+
+  Future<DteEmitResult> emitCreditNote(DteCreditNoteEmitRequest request);
 }

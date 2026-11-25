@@ -95,7 +95,11 @@ void main() {
     await _seedSale(sales, storeId, 'sh1', dte: DteStatus.emitida);
     expect(
       () => voidSale(storeId, 'sale_1'),
-      throwsA(isA<ValidationFailure>()),
+      throwsA(
+        predicate<ValidationFailure>(
+          (e) => e.message.contains('nota de crédito'),
+        ),
+      ),
     );
   });
 

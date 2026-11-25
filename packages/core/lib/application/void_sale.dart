@@ -43,7 +43,7 @@ class VoidSale {
     if (sale.dteStatus == DteStatus.emitida) {
       throw const ValidationFailure(
         'No se puede anular una venta con boleta emitida. '
-        'Registre nota de crédito manual en el SII.',
+        'Registre nota de crédito en el POS.',
       );
     }
 

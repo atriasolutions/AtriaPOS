@@ -224,6 +224,27 @@ Solo supervisor/dueño. Requiere turno abierto.
 }
 ```
 
+### `POST /v0/stores/{storeId}/sales/{saleId}/credit-notes` (RF-096, SLICE-92)
+
+Requiere `anularVenta` y venta con `dteStatus` **EMITIDA** del turno abierto.
+
+```json
+{
+  "lines": [
+    { "productId": "prod_01", "quantity": 1 }
+  ]
+}
+```
+
+`lines` vacío = NC total (anula fiscalmente la venta al completar todo el stock acreditado).
+
+**201:** `creditNoteId`, `folio`, `dteStatus`, `creditedClp`, `saleStatus`, `returnedLines[]`.
+
+Errores: `403`, `404`, `400`, `409` (exceso / sin unidades).
+
+- `SaleService.issueCreditNote`.
+- Tests: SC-092-* en `issue_credit_note_test.dart`, `credit_note_api_test.dart`.
+
 ### `POST /v0/stores/{storeId}/sales/{saleId}/void`
 
 **Response 200**
@@ -237,7 +258,7 @@ Solo supervisor/dueño. Requiere turno abierto.
 - Supervisor/dueño, turno abierto, DTE no emitida → `200`, stock revertido.
 - Cajero → `403` `PERMISO_DENEGADO`.
 - Venta ya anulada → `409` `CONFLICTO`.
-- `dteStatus` `EMITIDA` → `400` `VALIDACION`.
+- `dteStatus` `EMITIDA` → `400` `VALIDACION` (usar `credit-notes`).
 - Sin turno abierto → `403` `TURNO_CERRADO`.
 
 Estados `status` venta: `CONFIRMADA` | `ANULADA`.
@@ -281,11 +302,13 @@ Requiere `cambiarProducto` y **turno abierto** (venta del turno actual).
   "returnQuantity": 1,
   "newProductId": "prod_02",
   "newQuantity": 1,
-  "differencePayment": { "method": "EFECTIVO", "amountClp": 200 }
+  "differencePayment": { "method": "EFECTIVO", "amountClp": 200 },
+  "creditNoteId": "nc_01"
 }
 ```
 
 `differencePayment` obligatorio si `differenceClp ≠ 0` (cargo o devolución); omitir si cero.
+`creditNoteId` obligatorio si la venta original tiene `dteStatus` **EMITIDA** (SLICE-92).
 
 **Response 201**
 
@@ -671,7 +694,7 @@ Reintenta pendientes. Response: `{ "processed": 2, "failed": 0 }`.
 
 ### `GET /v0/stores/{storeId}/dte-queue`
 
-Lista pendientes para UI supervisor.
+Lista pendientes para UI supervisor. Ítems incluyen `documentType` (39 boleta, 61 NC) y `documentId` (SLICE-92).
 
 Consulta de certificado: ver **API-010**.
 

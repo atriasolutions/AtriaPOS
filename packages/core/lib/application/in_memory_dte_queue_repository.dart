@@ -4,21 +4,21 @@ import 'ports/dte_queue_repository.dart';
 class InMemoryDteQueueRepository implements DteQueueRepository {
   final _entries = <String, DteQueueEntry>{};
 
-  String _key(StoreId storeId, SaleId saleId) => '$storeId::$saleId';
+  String _key(DteQueueEntry entry) => '${entry.storeId}::${entry.documentId}';
 
   @override
   Future<void> enqueue(DteQueueEntry entry) async {
-    _entries[_key(entry.storeId, entry.saleId)] = entry;
+    _entries[_key(entry)] = entry;
   }
 
   @override
   Future<void> save(DteQueueEntry entry) async {
-    _entries[_key(entry.storeId, entry.saleId)] = entry;
+    _entries[_key(entry)] = entry;
   }
 
   @override
-  Future<void> remove(StoreId storeId, SaleId saleId) async {
-    _entries.remove(_key(storeId, saleId));
+  Future<void> remove(StoreId storeId, String documentId) async {
+    _entries.remove('$storeId::$documentId');
   }
 
   @override

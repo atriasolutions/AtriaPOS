@@ -7,20 +7,24 @@ class DteService {
   factory DteService({
     DteQueueRepository? queueRepository,
     SaleRepository? saleRepository,
+    CreditNoteRepository? creditNoteRepository,
     DteGateway? dteGateway,
   }) {
     final queue = queueRepository ?? InMemoryDteQueueRepository();
     final sales = saleRepository ?? InMemorySaleRepository();
+    final creditNotes =
+        creditNoteRepository ?? InMemoryCreditNoteRepository();
     final dte = dteGateway ?? FakeDteGateway();
-    return DteService._(queue, sales, dte);
+    return DteService._(queue, sales, creditNotes, dte);
   }
 
   DteService._(
     DteQueueRepository queue,
     SaleRepository sales,
+    CreditNoteRepository creditNotes,
     DteGateway dte,
   )   : _listPending = ListPendingDte(queue),
-        _retry = RetryPendingDte(queue, sales, dte);
+        _retry = RetryPendingDte(queue, sales, creditNotes, dte);
 
   final ListPendingDte _listPending;
   final RetryPendingDte _retry;
@@ -33,6 +37,8 @@ class DteService {
             .map(
               (e) => DteQueueEntryResponse(
                 saleId: e.saleId,
+                documentType: e.documentType,
+                documentId: e.documentId,
                 attempts: e.attempts,
                 lastError: e.lastError,
                 createdAt: e.createdAt.toUtc().toIso8601String(),
