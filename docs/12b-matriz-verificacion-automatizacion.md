@@ -86,6 +86,10 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-088-UI-02 | RF-088 | — | — | ✅ | Mismo archivo |
 | SC-088-UI-03 | RF-088 | — | — | ✅ | Mismo archivo |
 | SC-088-UI-04 | RF-088 | — | — | ✅ | `inventory_close_menu_cajero_ui_test.dart` |
+| SC-088-SCAN-UI-01 | RF-088 | — | — | ✅ | `inventory_close_scan_ui_e2e_test.dart` |
+| SC-088-SCAN-UI-02 | RF-088 | — | — | ✅ | regresión manual |
+| SC-088-SCAN-UI-03 | RF-088 | — | — | ✅ | crear producto |
+| SC-088-SCAN-UI-04 | RF-088 | — | — | ✅ | confirm sin líneas |
 | SC-075-UI-01 | — | — | — | ✅ | `ui_shell_sale_e2e_test.dart` |
 | SC-075-UI-02 | — | — | — | ✅ | Mismo archivo |
 | SC-075-UI-03 | — | — | — | ✅ | Mismo archivo |

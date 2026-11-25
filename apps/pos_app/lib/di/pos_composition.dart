@@ -205,6 +205,9 @@ class PosComposition {
         scanSessions: scanSessions,
         products: products,
         stockMovements: movements,
+        shiftRepository: shifts,
+        saleRepository: sales,
+        inventoryCloseRepository: DriftInventoryCloseRepository(db),
         sessionProvider: sessions,
       ),
       dteService: DteService(

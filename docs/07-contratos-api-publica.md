@@ -590,6 +590,8 @@ Validación: lista vacía, `countedQty` negativo, producto duplicado o inexisten
 
 **SLICE-74 (UI RF-088):** `InventoryCloseScreen` en menú Operación; tests `SC-088-UI-01`…`04` en `inventory_close_ui_e2e_test.dart`, `inventory_close_menu_cajero_ui_test.dart`. `PosComposition` cablea `shiftRepository`, `saleRepository` e `inventoryCloseRepository` en `InventoryService`.
 
+**SLICE-89 (UI escaneo RF-088):** pestañas Manual / Por escaneo en `InventoryCloseScreen`; `confirmInventoryCountScan` + `ScannerIngress`; `ScanSessionService` comparte repos Drift con `InventoryService`; tests `SC-088-SCAN-UI-*` en `inventory_close_scan_ui_e2e_test.dart`.
+
 ---
 
 ## API-005 — Cola DTE
