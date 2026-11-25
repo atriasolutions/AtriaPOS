@@ -30,6 +30,7 @@ export 'drift_product_exchange_repository.dart';
 export 'drift_credit_note_repository.dart';
 export 'drift_clock_state_repository.dart';
 export 'ntp_shoa_clock.dart';
+export 'companion_lan_live_registry.dart';
 export 'companion_lan_server.dart';
 export 'companion_lan_tls.dart';
 export 'companion_lan_cert_store.dart';

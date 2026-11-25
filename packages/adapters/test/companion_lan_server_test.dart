@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:adapters/companion_lan_live_registry.dart';
 import 'package:adapters/companion_lan_server.dart';
 import 'package:adapters/companion_lan_tls.dart';
 import 'package:core/api/api.dart';
@@ -19,10 +20,12 @@ HttpClient trustedHttpClient(String trustPem) {
 }
 
 void main() {
+  late CompanionLanLiveRegistry liveRegistry;
   late CompanionService service;
 
   setUp(() {
-    service = CompanionService();
+    liveRegistry = CompanionLanLiveRegistry();
+    service = CompanionService(liveSessions: liveRegistry);
   });
 
   group('HTTP', () {
@@ -31,6 +34,7 @@ void main() {
     setUp(() async {
       server = CompanionLanServer(
         companionService: service,
+        liveRegistry: liveRegistry,
         host: InternetAddress.loopbackIPv4.address,
         port: 0,
       );
@@ -127,6 +131,61 @@ void main() {
       expect(scanned, '7801234567890');
       await channel.sink.close();
     });
+
+    test('SC-111-03 WS registrado marca celular live', () async {
+      const storeId = 't1';
+      final offer = await service.createPairingOffer(
+        storeId,
+        CompanionMode.vender,
+      );
+      final code =
+          (offer as ApiSuccess<CreateCompanionPairingOfferResponse>).data
+              .pairingCode;
+      final pairUri = server.baseUri.replace(
+        path: '/v0/stores/$storeId/companion/pair',
+      );
+      final client = HttpClient();
+      final pairReq = await client.postUrl(pairUri);
+      pairReq.headers.contentType = ContentType.json;
+      pairReq.write(jsonEncode({'pairingCode': code, 'mode': 'VENDER'}));
+      final pairRes = await pairReq.close();
+      final pairBody = jsonDecode(
+        await pairRes.transform(utf8.decoder).join(),
+      ) as Map<String, dynamic>;
+      final token = pairBody['token'] as String;
+
+      expect(liveRegistry.isLive(token), isFalse);
+      expect((await service.getLanStatus(storeId)).phase, CompanionLanPhase.sessionOnly);
+
+      final wsUri = server.baseUri
+          .replace(
+            path: CompanionLanConstants.wsPath,
+            queryParameters: {'token': token},
+          )
+          .toString()
+          .replaceFirst('http', 'ws');
+      final channel = WebSocketChannel.connect(Uri.parse(wsUri));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      expect(liveRegistry.isLive(token), isTrue);
+      expect((await service.getLanStatus(storeId)).phase, CompanionLanPhase.live);
+      await channel.sink.close();
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      expect(liveRegistry.isLive(token), isFalse);
+    });
+
+    test('SC-111-05 token inválido no deja socket live', () async {
+      final wsUri = server.baseUri
+          .replace(
+            path: CompanionLanConstants.wsPath,
+            queryParameters: {'token': 'ctok_invalid'},
+          )
+          .toString()
+          .replaceFirst('http', 'ws');
+      final channel = WebSocketChannel.connect(Uri.parse(wsUri));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      expect(liveRegistry.isLive('ctok_invalid'), isFalse);
+      await channel.sink.close();
+    });
   });
 
   group('HTTPS (SLICE-109)', () {
@@ -137,6 +196,7 @@ void main() {
       tls = CompanionLanTlsMaterial.forTest(ip: '127.0.0.1');
       server = CompanionLanServer(
         companionService: service,
+        liveRegistry: liveRegistry,
         host: InternetAddress.loopbackIPv4.address,
         port: 0,
         securityContext: tls.securityContext,

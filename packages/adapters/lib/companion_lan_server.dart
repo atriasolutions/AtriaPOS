@@ -11,18 +11,22 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import 'companion_lan_live_registry.dart';
+
 /// Servidor HTTP/WebSocket embebido para companion LAN (SLICE-97–98).
 class CompanionLanServer {
   CompanionLanServer({
     required this.companionService,
+    CompanionLanLiveRegistry? liveRegistry,
     this.host = '0.0.0.0',
     this.port = CompanionLanConstants.defaultPort,
     this.staticRoot,
     this.securityContext,
     this.caPem,
-  });
+  }) : liveRegistry = liveRegistry ?? CompanionLanLiveRegistry();
 
   final CompanionService companionService;
+  final CompanionLanLiveRegistry liveRegistry;
   final String host;
   final int port;
   final Directory? staticRoot;
@@ -85,6 +89,10 @@ class CompanionLanServer {
     );
   }
 
+  CompanionLiveSessions get liveSessions => liveRegistry;
+
+  Stream<void> get companionStatusChanges => liveRegistry.statusChanges;
+
   Future<void> stop() async {
     await _httpServer?.close(force: true);
     _httpServer = null;
@@ -138,16 +146,19 @@ class CompanionLanServer {
         CompanionPairRequest(pairingCode: pairingCode, mode: mode),
       );
       return switch (result) {
-        ApiSuccess(:final data, :final statusCode) => Response(
-            statusCode,
-            body: jsonEncode({
-              'token': data.token,
-              'expiresAt': data.expiresAt,
-              'wsPath': data.wsPath,
-              'mode': data.mode,
-            }),
-            headers: _jsonHeaders,
-          ),
+        ApiSuccess(:final data, :final statusCode) => () {
+            liveRegistry.notifyStatusChanged();
+            return Response(
+              statusCode,
+              body: jsonEncode({
+                'token': data.token,
+                'expiresAt': data.expiresAt,
+                'wsPath': data.wsPath,
+                'mode': data.mode,
+              }),
+              headers: _jsonHeaders,
+            );
+          }(),
         ApiFailure(:final error, :final statusCode) => Response(
             statusCode,
             body: jsonEncode({'code': error.code, 'message': error.message}),
@@ -170,6 +181,16 @@ class CompanionLanServer {
   }
 
   void _onWebSocket(WebSocketChannel channel, String token) {
+    unawaited(_handleWebSocket(channel, token));
+  }
+
+  Future<void> _handleWebSocket(WebSocketChannel channel, String token) async {
+    final session = await companionService.repository.findByToken(token);
+    if (session == null || session.isExpired) {
+      await channel.sink.close();
+      return;
+    }
+    liveRegistry.register(token, channel);
     channel.stream.listen(
       (dynamic raw) async {
         if (raw is! String) return;
@@ -187,6 +208,7 @@ class CompanionLanServer {
         channel.sink.add(jsonEncode({'type': 'scan', 'accepted': true}));
       },
       onError: (_) {},
+      onDone: () => liveRegistry.unregister(token, channel),
       cancelOnError: true,
     );
   }

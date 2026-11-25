@@ -17,6 +17,10 @@ Primera conexión HTTPS al POS (`https://{ip}:8765/c/...`).
 - Si la IP cambia (USB ↔ Wi‑Fi), escanee el QR nuevo.
 - Puerto por defecto: **8765**.
 
+## Desconectar celular (SLICE-111)
+
+Si cambia el operador del mostrador o el celular deja de usarse, en el POS use **Desconectar celular** en el diálogo del QR o cierre la sesión antes de un nuevo emparejamiento.
+
 ## Cámara (SLICE-110, piloto manual)
 
 Requiere `flutter build web` en `apps/companion_web` antes de servir la PWA.

@@ -87,6 +87,105 @@ void main() {
   test('SC-103-01 countScan entrega código al ingress', () async {
     await _expectModeScanOnIngress(CompanionMode.countScan, 'COUNT_SCAN');
   }, skip: !Platform.isWindows ? 'Solo Windows (LAN default)' : false);
+
+  test('SC-111-07 pair y WS dejan estado live', () async {
+    final composition = PosComposition.memory();
+    try {
+      final server = composition.companionLanServer;
+      if (server == null) return;
+      await composition.ensureDemoStore();
+      await composition.ensureCompanionLanServerStarted();
+      final offer = await composition.companionService.createPairingOffer(
+        kDemoStoreId,
+        CompanionMode.vender,
+      );
+      final code =
+          (offer as ApiSuccess<CreateCompanionPairingOfferResponse>).data
+              .pairingCode;
+      final pairUri = server.baseUri.replace(
+        path: '/v0/stores/$kDemoStoreId/companion/pair',
+      );
+      final client = HttpClient();
+      final req = await client.postUrl(pairUri);
+      req.headers.contentType = ContentType.json;
+      req.write(jsonEncode({'pairingCode': code, 'mode': 'VENDER'}));
+      final res = await req.close();
+      final body = jsonDecode(await res.transform(utf8.decoder).join())
+          as Map<String, dynamic>;
+      final token = body['token'] as String;
+
+      var status = await composition.fetchCompanionLanStatus();
+      expect(status.phase, CompanionLanPhase.sessionOnly);
+
+      final wsUri = server.baseUri
+          .replace(
+            path: CompanionLanConstants.wsPath,
+            queryParameters: {'token': token},
+          )
+          .toString()
+          .replaceFirst('http', 'ws');
+      final channel = WebSocketChannel.connect(Uri.parse(wsUri));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      status = await composition.fetchCompanionLanStatus();
+      expect(status.phase, CompanionLanPhase.live);
+      await channel.sink.close();
+    } finally {
+      await composition.close();
+    }
+  }, skip: !Platform.isWindows ? 'Solo Windows (LAN default)' : false);
+
+  test('SC-111-08 disconnect limpia sesión y escaneo', () async {
+    final composition = PosComposition.memory();
+    try {
+      final server = composition.companionLanServer;
+      if (server == null) return;
+      await composition.ensureDemoStore();
+      await composition.ensureCompanionLanServerStarted();
+      final offer = await composition.companionService.createPairingOffer(
+        kDemoStoreId,
+        CompanionMode.vender,
+      );
+      final code =
+          (offer as ApiSuccess<CreateCompanionPairingOfferResponse>).data
+              .pairingCode;
+      final pairUri = server.baseUri.replace(
+        path: '/v0/stores/$kDemoStoreId/companion/pair',
+      );
+      final client = HttpClient();
+      final req = await client.postUrl(pairUri);
+      req.headers.contentType = ContentType.json;
+      req.write(jsonEncode({'pairingCode': code, 'mode': 'VENDER'}));
+      final res = await req.close();
+      final body = jsonDecode(await res.transform(utf8.decoder).join())
+          as Map<String, dynamic>;
+      final token = body['token'] as String;
+      final wsUri = server.baseUri
+          .replace(
+            path: CompanionLanConstants.wsPath,
+            queryParameters: {'token': token},
+          )
+          .toString()
+          .replaceFirst('http', 'ws');
+      final channel = WebSocketChannel.connect(Uri.parse(wsUri));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+
+      await composition.disconnectCompanionLan();
+
+      final status = await composition.fetchCompanionLanStatus();
+      expect(status.phase, CompanionLanPhase.none);
+      expect(server.liveRegistry.isLive(token), isFalse);
+
+      String? received;
+      final sub = server.scans.listen((code) => received = code);
+      channel.sink.add(jsonEncode({'type': 'scan', 'code': 'nope'}));
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+      await sub.cancel();
+      expect(received, isNull);
+      await channel.sink.close();
+    } finally {
+      await composition.close();
+    }
+  }, skip: !Platform.isWindows ? 'Solo Windows (LAN default)' : false);
 }
 
 Future<void> _expectModeScanOnIngress(

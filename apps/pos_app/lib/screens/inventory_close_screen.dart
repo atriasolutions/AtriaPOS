@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../widgets/companion_lan_status_chip.dart';
 import '../widgets/companion_qr_panel.dart';
 import 'product_create_screen.dart';
 
@@ -304,10 +305,16 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Companion WiFi — Conteo'),
-        content: CompanionQrPanel(
-          composition: widget.composition,
-          mode: CompanionMode.countScan,
-          qrKey: const Key('companion_qr_count'),
+        content: SizedBox(
+          width: 320,
+          child: SingleChildScrollView(
+            child: CompanionQrPanel(
+              composition: widget.composition,
+              mode: CompanionMode.countScan,
+              qrKey: const Key('companion_qr_count'),
+              statusKey: const Key('companion_lan_status'),
+            ),
+          ),
         ),
         actions: [
           TextButton(
@@ -525,6 +532,13 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    if (widget.composition.companionLanServer != null)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                        child: CompanionLanStatusChip(
+                          composition: widget.composition,
+                        ),
+                      ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                       child: _buildModeSelector(),

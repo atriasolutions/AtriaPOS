@@ -1161,6 +1161,14 @@ Tras el redirect con query de emparejamiento: **auto-pair**, modo en español, s
 
 `CompanionService.createPairingOffer(storeId, mode)` — genera código para QR; no expuesto como REST en slice 96.
 
+#### Estado celular LAN (SLICE-111, in-process POS)
+
+- `CompanionService.getLanStatus(storeId)` → `CompanionLanStatus` con fases: `none`, `sessionOnly` (token sin WS), `live` (WebSocket abierto).
+- `CompanionService.disconnectLan(storeId)` → revoca sesión y cierra sockets del token.
+- UI POS: chip `companion_lan_status_chip`, botón `companion_disconnect_button` en diálogo QR.
+
+**Tests:** SC-111-* en core, adapters y `companion_lan_e2e_test.dart`.
+
 ---
 
 ## Matriz RF ↔ API

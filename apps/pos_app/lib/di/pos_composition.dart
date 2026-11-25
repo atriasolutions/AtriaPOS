@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' show File, InternetAddress, Platform;
 
 import 'package:adapters/adapters.dart';
@@ -175,7 +176,9 @@ class PosComposition {
     final clockPersist = DriftClockStateRepository(db);
     final trustedClock = trustedClockOverride ??
         NtpShoaTrustedClock(MutableTrustedClock(), clockPersist);
-    final companionService = CompanionService();
+    final companionLiveRegistry = CompanionLanLiveRegistry();
+    final companionService =
+        CompanionService(liveSessions: companionLiveRegistry);
     final createCompanionOffer =
         CreateCompanionPairingOffer(companionService.repository);
     CompanionLanServer? companionLanServer;
@@ -186,6 +189,7 @@ class PosComposition {
       companionLanServer = _createCompanionLanServer(
         companionService,
         companionDataDir,
+        companionLiveRegistry,
       );
       scannerIngress = LanScannerIngress(companionLanServer.scans);
     } else {
@@ -284,6 +288,34 @@ class PosComposition {
     await server.start();
   }
 
+  StoreId get _companionStoreId => activeStoreId ?? kDemoStoreId;
+
+  Future<CompanionLanStatus> fetchCompanionLanStatus() =>
+      companionService.getLanStatus(_companionStoreId);
+
+  Future<void> disconnectCompanionLan() =>
+      companionService.disconnectLan(_companionStoreId);
+
+  Stream<CompanionLanStatus> companionLanStatusStream() {
+    final server = companionLanServer;
+    final storeId = _companionStoreId;
+    if (server == null) {
+      return Stream.value(
+        CompanionLanStatus(storeId: storeId, phase: CompanionLanPhase.none),
+      );
+    }
+    return Stream.multi((controller) async {
+      Future<void> emit() async {
+        if (controller.isClosed) return;
+        controller.add(await companionService.getLanStatus(storeId));
+      }
+
+      await emit();
+      final sub = server.companionStatusChanges.listen((_) => unawaited(emit()));
+      controller.onCancel = sub.cancel;
+    });
+  }
+
   Future<CompanionQrState?> prepareCompanionQr(CompanionMode mode) async {
     await ensureCompanionLanServerStarted();
     final server = companionLanServer;
@@ -321,10 +353,12 @@ class PosComposition {
   static CompanionLanServer _createCompanionLanServer(
     CompanionService service,
     String? dataDir,
+    CompanionLanLiveRegistry liveRegistry,
   ) {
     if (!lanCompanionTls) {
       return CompanionLanServer(
         companionService: service,
+        liveRegistry: liveRegistry,
         host: InternetAddress.loopbackIPv4.address,
         port: 0,
       );
@@ -338,6 +372,7 @@ class PosComposition {
         : CompanionLanConstants.defaultPort;
     return CompanionLanServer(
       companionService: service,
+      liveRegistry: liveRegistry,
       host: CompanionLanConfig.bindHost,
       port: port,
       staticRoot: CompanionLanConfig.resolveCompanionWebRoot(),

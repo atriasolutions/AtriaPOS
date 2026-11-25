@@ -13,6 +13,7 @@ import '../scanner/scanner_connection_state.dart';
 import '../widgets/atria_bordered_panel.dart';
 import '../widgets/atria_sale_top_bar.dart';
 import '../widgets/checkout_panel.dart';
+import '../widgets/companion_lan_status_chip.dart';
 import '../widgets/companion_qr_panel.dart';
 
 class SaleScreen extends StatefulWidget {
@@ -173,11 +174,16 @@ class _SaleScreenState extends State<SaleScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Companion WiFi — Vender'),
-        content: CompanionQrPanel(
-          composition: widget.composition,
-          mode: CompanionMode.vender,
-          qrKey: const Key('companion_qr_vender'),
-          statusKey: const Key('companion_lan_status'),
+        content: SizedBox(
+          width: 320,
+          child: SingleChildScrollView(
+            child: CompanionQrPanel(
+              composition: widget.composition,
+              mode: CompanionMode.vender,
+              qrKey: const Key('companion_qr_vender'),
+              statusKey: const Key('companion_lan_status'),
+            ),
+          ),
         ),
         actions: [
           TextButton(
@@ -454,6 +460,11 @@ class _SaleScreenState extends State<SaleScreen> {
 
     return Scaffold(
       body: Column(
+        children: [
+          if (widget.composition.companionLanServer != null)
+            CompanionLanStatusChip(composition: widget.composition),
+          Expanded(
+            child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (hasOpsMenu || scannerAction != null || showProductStock)
@@ -648,6 +659,9 @@ class _SaleScreenState extends State<SaleScreen> {
                   ),
                 ],
               ),
+            ),
+          ),
+        ],
             ),
           ),
         ],

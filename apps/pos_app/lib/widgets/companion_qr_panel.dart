@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../di/pos_composition.dart';
+import 'companion_lan_status_presenter.dart';
 
 /// URL corta del QR (DEC-060, SLICE-107).
 String buildCompanionLaunchUrl({
@@ -56,10 +57,46 @@ class CompanionQrPanel extends StatelessWidget {
             if (statusKey != null)
               Text(
                 key: statusKey,
-                state.serverRunning
-                    ? 'Companion LAN activo'
-                    : 'Companion LAN detenido',
+                companionLanServerLabel(state.serverRunning),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
+            const SizedBox(height: 12),
+            StreamBuilder<CompanionLanStatus>(
+              stream: composition.companionLanStatusStream(),
+              builder: (context, statusSnap) {
+                final status = statusSnap.data;
+                if (status == null || status.phase == CompanionLanPhase.none) {
+                  return Text(
+                    companionLanStatusLabel(
+                      const CompanionLanStatus(
+                        storeId: '',
+                        phase: CompanionLanPhase.none,
+                      ),
+                    ),
+                    key: const Key('companion_phone_status'),
+                  );
+                }
+                return Column(
+                  children: [
+                    Text(
+                      key: const Key('companion_phone_status'),
+                      companionLanStatusLabel(status),
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    if (shouldShowDisconnectButton(status.phase)) ...[
+                      const SizedBox(height: 8),
+                      OutlinedButton(
+                        key: const Key('companion_disconnect_button'),
+                        onPressed: () async {
+                          await composition.disconnectCompanionLan();
+                        },
+                        child: const Text('Desconectar celular'),
+                      ),
+                    ],
+                  ],
+                );
+              },
+            ),
             const SizedBox(height: 4),
             Text(
               state.launchUrl,

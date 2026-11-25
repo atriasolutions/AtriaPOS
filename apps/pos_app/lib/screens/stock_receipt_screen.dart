@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../widgets/companion_lan_status_chip.dart';
 import '../widgets/companion_qr_panel.dart';
 import 'product_create_screen.dart';
 
@@ -322,10 +323,16 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Companion WiFi — Ingreso'),
-        content: CompanionQrPanel(
-          composition: widget.composition,
-          mode: CompanionMode.receiptScan,
-          qrKey: const Key('companion_qr_receipt'),
+        content: SizedBox(
+          width: 320,
+          child: SingleChildScrollView(
+            child: CompanionQrPanel(
+              composition: widget.composition,
+              mode: CompanionMode.receiptScan,
+              qrKey: const Key('companion_qr_receipt'),
+              statusKey: const Key('companion_lan_status'),
+            ),
+          ),
         ),
         actions: [
           TextButton(
@@ -549,6 +556,8 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              if (widget.composition.companionLanServer != null)
+                CompanionLanStatusChip(composition: widget.composition),
               _buildModeSelector(),
               const SizedBox(height: 16),
               if (_mode == _StockReceiptMode.manual)

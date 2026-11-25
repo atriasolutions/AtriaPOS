@@ -142,6 +142,15 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-110-05 | RF-098 | — | — | ✅ | mismo archivo |
 | SC-110-06 | RF-098 | — | — | ✅ | `companion_camera_panel_test.dart` |
 | SC-110-07 | RF-098 | — | — | ✅ | `companion_client_test.dart` |
+| SC-111-01 | RF-098 | ✅ | — | — | `get_companion_lan_status_test.dart` |
+| SC-111-02 | RF-098 | ✅ | — | — | mismo archivo |
+| SC-111-03 | RF-098 | — | ✅ | — | `companion_lan_server_test.dart` |
+| SC-111-04 | RF-098 | ✅ | — | — | `disconnect_companion_lan_test.dart` |
+| SC-111-05 | RF-098 | — | ✅ | — | `companion_lan_server_test.dart` |
+| SC-111-06 | RF-098 | — | — | ✅ | `companion_lan_status_presenter_test.dart` |
+| SC-111-07 | RF-098 | — | — | ✅ | `companion_lan_e2e_test.dart` |
+| SC-111-08 | RF-098 | — | — | ✅ | mismo archivo |
+| SC-111-09 | RF-098 | ✅ | — | — | `companion_pairing_test.dart` |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

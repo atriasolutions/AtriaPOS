@@ -71,5 +71,6 @@ export 'companion_mode.dart';
 export 'companion_lan_constants.dart';
 export 'companion_pairing_offer.dart';
 export 'companion_active_session.dart';
+export 'companion_lan_status.dart';
 export 'rut_chile.dart';
 export 'tax_config.dart';

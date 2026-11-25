@@ -8,12 +8,16 @@ class CompanionService {
   factory CompanionService({
     CompanionPairingRepository? repository,
     TrustedClock? clock,
+    CompanionLiveSessions? liveSessions,
   }) {
     final repo = repository ?? InMemoryCompanionPairingRepository();
+    final live = liveSessions ?? const NoopCompanionLiveSessions();
     return CompanionService._(
       CreateCompanionPairingOffer(repo, clock),
       PairCompanion(repo, clock),
       CompanionSubmitScan(repo, clock),
+      GetCompanionLanStatus(repo, live),
+      DisconnectCompanionLan(repo, live),
       repo,
     );
   }
@@ -22,12 +26,16 @@ class CompanionService {
     this._createOffer,
     this._pair,
     this._submitScan,
+    this._getLanStatus,
+    this._disconnectLan,
     this._repo,
   );
 
   final CreateCompanionPairingOffer _createOffer;
   final PairCompanion _pair;
   final CompanionSubmitScan _submitScan;
+  final GetCompanionLanStatus _getLanStatus;
+  final DisconnectCompanionLan _disconnectLan;
   final CompanionPairingRepository _repo;
 
   Future<ApiResult<CreateCompanionPairingOfferResponse>> createPairingOffer(
@@ -104,6 +112,11 @@ class CompanionService {
       return null;
     }
   }
+
+  Future<CompanionLanStatus> getLanStatus(StoreId storeId) =>
+      _getLanStatus(storeId);
+
+  Future<void> disconnectLan(StoreId storeId) => _disconnectLan(storeId);
 
   CompanionPairingRepository get repository => _repo;
 }

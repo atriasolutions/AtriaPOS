@@ -154,7 +154,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 108 | SLICE-108 | PWA | Pantalla simple | RF-098 | SC-108-* ✅ |
 | 109 | SLICE-109 | Adapters | HTTPS + CA instalable | RF-098 | SC-109-* ✅ |
 | 110 | SLICE-110 | PWA | Cámara o manual | RF-098 | SC-110-* ✅ |
-| 111 | SLICE-111 | POS | Estado celular conectado | RF-098 | ⬜ Plan |
+| 111 | SLICE-111 | POS | Estado celular conectado | RF-098 | SC-111-* ✅ |
 | 112 | SLICE-112 | E2E | Vender, ingreso y conteo | RF-098 | ⬜ Plan |
 
 ## Orden TDD sugerido (semana orientativa)
