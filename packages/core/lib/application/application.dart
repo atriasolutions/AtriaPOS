@@ -45,6 +45,7 @@ export 'close_shift.dart';
 export 'confirm_checkout.dart';
 export 'void_sale.dart';
 export 'register_product_exchange.dart';
+export 'get_sale_product_exchange_context.dart';
 export 'in_memory_product_exchange_repository.dart';
 export 'ports/product_exchange_repository.dart';
 export 'list_shift_sales.dart';

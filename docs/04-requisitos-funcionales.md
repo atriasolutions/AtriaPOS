@@ -272,6 +272,7 @@ Borrador de ingreso o conteo por códigos antes de confirmar stock.
 - Dado boleta emitida, entonces exige flujo NC (RF-096) antes de cerrar cambio fiscal.
 - Dado cambio parcial, cuando la suma de unidades cambiadas alcanza lo vendido, entonces rechaza excesos (`CONFLICTO`).
 - Dado venta con DTE no emitida, cuando confirma cambio, entonces crea venta nueva por SKU entregado y movimientos `CAMBIO_DEVOLUCION` / `CAMBIO_ENTREGA` (SLICE-90).
+- Dado supervisor con permiso, cuando abre **Cambio mostrador** (`product_exchange`), consulta venta por `saleId`, elige línea y confirma cambio en UI (SLICE-91); cajero no ve el ítem de menú.
 
 ### RF-096 [M] Nota de crédito electrónica (SLICE-92, DEC-055)
 

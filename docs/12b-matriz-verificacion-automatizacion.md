@@ -74,6 +74,13 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-090-06 | RF-095 | — | — | ✅ | cajero 403 |
 | SC-090-07 | RF-095 | — | — | ✅ | DTE emitida |
 | SC-090-08 | RF-095 | — | — | ✅ | stock insuficiente |
+| SC-091-01 | RF-095 | — | — | ✅ | `get_sale_product_exchange_context_test.dart` |
+| SC-091-02 | RF-095 | — | — | ✅ | `sale_product_exchange_context_api_test.dart` |
+| SC-091-UI-01 | RF-095 | — | — | ✅ | `product_exchange_ui_e2e_test.dart` |
+| SC-091-UI-02 | RF-095 | — | — | ✅ | diferencia pago UI |
+| SC-091-UI-03 | RF-095 | — | — | ✅ | cajero sin menú |
+| SC-091-UI-04 | RF-095 | — | — | ✅ | DTE emitida |
+| SC-091-UI-05 | RF-095 | — | — | ✅ | cambio parcial x2 |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

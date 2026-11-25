@@ -242,6 +242,35 @@ Solo supervisor/dueño. Requiere turno abierto.
 
 Estados `status` venta: `CONFIRMADA` | `ANULADA`.
 
+### `GET /v0/stores/{storeId}/sales/{saleId}/product-exchange-context` (RF-095, SLICE-91)
+
+Requiere `cambiarProducto`. Venta del turno abierto, no anulada.
+
+**Response 200**
+
+```json
+{
+  "saleId": "sale_01",
+  "dteStatus": "PENDIENTE_DTE",
+  "status": "CONFIRMADA",
+  "lines": [
+    {
+      "productId": "prod_01",
+      "productName": "Pan",
+      "quantity": 2,
+      "unitPriceClp": 500,
+      "returnedQuantity": 0,
+      "availableQuantity": 2
+    }
+  ]
+}
+```
+
+Errores: `403`, `404`, `400` turno cerrado / venta anulada / otra validación.
+
+- `SaleService.getSaleProductExchangeContext`.
+- Tests: SC-091-01… en `get_sale_product_exchange_context_test.dart`, `sale_product_exchange_context_api_test.dart`.
+
 ### `POST /v0/stores/{storeId}/sales/{saleId}/product-exchanges` (RF-095, SLICE-90)
 
 Requiere `cambiarProducto` y **turno abierto** (venta del turno actual).

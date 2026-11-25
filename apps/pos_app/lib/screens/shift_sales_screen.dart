@@ -3,6 +3,7 @@ import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 
 import '../di/pos_composition.dart';
+import 'product_exchange_screen.dart';
 
 class ShiftSalesScreen extends StatefulWidget {
   const ShiftSalesScreen({super.key, required this.composition});
@@ -50,6 +51,17 @@ class _ShiftSalesScreenState extends State<ShiftSalesScreen> {
   bool _canVoid(ShiftSaleItemResponse item) =>
       item.status == SaleStatus.confirmada.apiValue &&
       item.dteStatus != DteStatus.emitida.apiValue;
+
+  void _openProductExchange(String saleId) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => ProductExchangeScreen(
+          composition: widget.composition,
+          initialSaleId: saleId,
+        ),
+      ),
+    );
+  }
 
   Future<void> _confirmVoid(ShiftSaleItemResponse item) async {
     final ok = await showDialog<bool>(
@@ -113,10 +125,23 @@ class _ShiftSalesScreenState extends State<ShiftSalesScreen> {
                             '${item.status} · ${item.dteStatus}$folio',
                           ),
                           trailing: _canVoid(item)
-                              ? TextButton(
-                                  key: Key('void_sale_button_${item.saleId}'),
-                                  onPressed: () => _confirmVoid(item),
-                                  child: const Text('Anular'),
+                              ? Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TextButton(
+                                      key: Key(
+                                        'product_exchange_open_${item.saleId}',
+                                      ),
+                                      onPressed: () =>
+                                          _openProductExchange(item.saleId),
+                                      child: const Text('Cambiar'),
+                                    ),
+                                    TextButton(
+                                      key: Key('void_sale_button_${item.saleId}'),
+                                      onPressed: () => _confirmVoid(item),
+                                      child: const Text('Anular'),
+                                    ),
+                                  ],
                                 )
                               : null,
                         );

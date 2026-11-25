@@ -170,6 +170,38 @@ class RegisterProductExchangeRequest {
   final ProductExchangePaymentDto? differencePayment;
 }
 
+class SaleProductExchangeLineDto {
+  const SaleProductExchangeLineDto({
+    required this.productId,
+    required this.productName,
+    required this.quantity,
+    required this.unitPriceClp,
+    required this.returnedQuantity,
+    required this.availableQuantity,
+  });
+
+  final String productId;
+  final String productName;
+  final int quantity;
+  final int unitPriceClp;
+  final int returnedQuantity;
+  final int availableQuantity;
+}
+
+class SaleProductExchangeContextResponse {
+  const SaleProductExchangeContextResponse({
+    required this.saleId,
+    required this.status,
+    required this.dteStatus,
+    required this.lines,
+  });
+
+  final String saleId;
+  final String status;
+  final String dteStatus;
+  final List<SaleProductExchangeLineDto> lines;
+}
+
 class RegisterProductExchangeResponse {
   const RegisterProductExchangeResponse({
     required this.exchangeId,

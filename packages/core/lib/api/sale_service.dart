@@ -99,6 +99,12 @@ class SaleService {
           exchanges,
           sessions,
           clock,
+        ),
+        _getSaleProductExchangeContext = GetSaleProductExchangeContext(
+          sales,
+          shifts,
+          exchanges,
+          sessions,
         );
 
   final CreateCart _createCart;
@@ -110,6 +116,7 @@ class SaleService {
   final VoidSale _voidSale;
   final ListShiftSales _listShiftSales;
   final RegisterProductExchange _registerProductExchange;
+  final GetSaleProductExchangeContext _getSaleProductExchangeContext;
 
   Future<ApiResult<CreateCartResponse>> createCart(StoreId storeId) async {
     try {
@@ -368,6 +375,52 @@ class SaleService {
       return ApiFailure(
         ApiErrorBody(code: e.code, message: e.message),
         statusCode: 403,
+      );
+    }
+  }
+
+  Future<ApiResult<SaleProductExchangeContextResponse>>
+      getSaleProductExchangeContext(StoreId storeId, SaleId saleId) async {
+    try {
+      final ctx = await _getSaleProductExchangeContext(storeId, saleId);
+      return ApiSuccess(
+        SaleProductExchangeContextResponse(
+          saleId: ctx.saleId,
+          status: ctx.status.apiValue,
+          dteStatus: ctx.dteStatus.apiValue,
+          lines: [
+            for (final line in ctx.lines)
+              SaleProductExchangeLineDto(
+                productId: line.productId,
+                productName: line.productName,
+                quantity: line.quantity,
+                unitPriceClp: line.unitPriceClp,
+                returnedQuantity: line.returnedQuantity,
+                availableQuantity: line.availableQuantity,
+              ),
+          ],
+        ),
+        statusCode: 200,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on TurnClosedFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
       );
     }
   }

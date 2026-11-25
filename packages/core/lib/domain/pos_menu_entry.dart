@@ -6,6 +6,10 @@ enum PosMenuEntry {
     feature: PosFeature.shiftSalesList,
     permission: Permission.listarVentasTurno,
   ),
+  productExchange(
+    feature: PosFeature.shiftSalesList,
+    permission: Permission.cambiarProducto,
+  ),
   closeShift(
     feature: PosFeature.closeShift,
     permission: Permission.cerrarCaja,

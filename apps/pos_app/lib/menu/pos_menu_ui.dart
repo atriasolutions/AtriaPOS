@@ -9,6 +9,7 @@ import '../screens/daily_sales_screen.dart';
 import '../screens/dte_queue_screen.dart';
 import '../screens/inventory_close_screen.dart';
 import '../screens/product_create_screen.dart';
+import '../screens/product_exchange_screen.dart';
 import '../screens/shift_sales_screen.dart';
 import '../screens/stock_adjust_screen.dart';
 import '../screens/stock_insights_screen.dart';
@@ -18,6 +19,7 @@ import '../screens/user_list_screen.dart';
 /// Orden visual del menú operación (sin duplicar productCreate en popup si va en top bar).
 const posMenuDisplayOrder = <PosMenuEntry>[
   PosMenuEntry.shiftSales,
+  PosMenuEntry.productExchange,
   PosMenuEntry.closeShift,
   PosMenuEntry.dteQueue,
   PosMenuEntry.fiscalCertificate,
@@ -45,6 +47,7 @@ bool canCreateProduct(UserRole role, PosTemplateId templateId) {
 String popupValueFor(PosMenuEntry entry) {
   return switch (entry) {
     PosMenuEntry.shiftSales => 'sales',
+    PosMenuEntry.productExchange => 'product_exchange',
     PosMenuEntry.closeShift => 'close',
     PosMenuEntry.dteQueue => 'dte',
     PosMenuEntry.fiscalCertificate => 'certificate',
@@ -62,6 +65,7 @@ String popupValueFor(PosMenuEntry entry) {
 String menuLabelFor(PosMenuEntry entry) {
   return switch (entry) {
     PosMenuEntry.shiftSales => 'Ventas del turno',
+    PosMenuEntry.productExchange => 'Cambio mostrador',
     PosMenuEntry.closeShift => 'Cerrar caja',
     PosMenuEntry.dteQueue => 'Cola DTE',
     PosMenuEntry.fiscalCertificate => 'Certificado SII',
@@ -79,6 +83,8 @@ String menuLabelFor(PosMenuEntry entry) {
 Key menuItemKeyFor(PosMenuEntry entry) {
   return switch (entry) {
     PosMenuEntry.shiftSales => const Key('operation_menu_sales'),
+    PosMenuEntry.productExchange =>
+      const Key('operation_menu_product_exchange'),
     PosMenuEntry.closeShift => const Key('operation_menu_close'),
     PosMenuEntry.dteQueue => const Key('operation_menu_dte'),
     PosMenuEntry.fiscalCertificate => const Key('operation_menu_certificate'),
@@ -100,6 +106,8 @@ void navigateForMenuEntry(
 ) {
   final screen = switch (entry) {
     PosMenuEntry.shiftSales => ShiftSalesScreen(composition: composition),
+    PosMenuEntry.productExchange =>
+      ProductExchangeScreen(composition: composition),
     PosMenuEntry.closeShift => CloseShiftScreen(composition: composition),
     PosMenuEntry.dteQueue => DteQueueScreen(composition: composition),
     PosMenuEntry.fiscalCertificate =>
