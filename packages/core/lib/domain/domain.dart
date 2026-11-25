@@ -46,6 +46,7 @@ export 'shift_id.dart';
 export 'stock_movement_id.dart';
 export 'scan_session.dart';
 export 'scan_session_confirmation_line.dart';
+export 'scan_session_inventory_confirmation_line.dart';
 export 'scan_session_id.dart';
 export 'scan_session_kind.dart';
 export 'scan_session_line.dart';

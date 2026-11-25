@@ -2,7 +2,10 @@ import 'failures.dart';
 import 'product_id.dart';
 import 'scan_session_id.dart';
 import 'scan_session_kind.dart';
+import 'inventory_close_id.dart';
 import 'scan_session_confirmation_line.dart';
+import 'scan_session_inventory_confirmation_line.dart';
+import 'shift_id.dart';
 import 'scan_session_line.dart';
 import 'scan_session_state.dart';
 import 'store_id.dart';
@@ -22,6 +25,10 @@ class ScanSession {
     this.lastBipAt,
     this.idempotencyKey,
     this.confirmationLines,
+    this.inventoryCloseId,
+    this.inventoryCloseShiftId,
+    this.inventoryClosedAt,
+    this.inventoryConfirmationLines,
   });
 
   final ScanSessionId id;
@@ -37,6 +44,10 @@ class ScanSession {
   final DateTime? lastBipAt;
   final String? idempotencyKey;
   final List<ScanSessionConfirmationLine>? confirmationLines;
+  final InventoryCloseId? inventoryCloseId;
+  final ShiftId? inventoryCloseShiftId;
+  final DateTime? inventoryClosedAt;
+  final List<ScanSessionInventoryConfirmationLine>? inventoryConfirmationLines;
 
   static const int maxDistinctLines = 500;
 
@@ -80,6 +91,10 @@ class ScanSession {
     DateTime? lastBipAt,
     String? idempotencyKey,
     List<ScanSessionConfirmationLine>? confirmationLines,
+    InventoryCloseId? inventoryCloseId,
+    ShiftId? inventoryCloseShiftId,
+    DateTime? inventoryClosedAt,
+    List<ScanSessionInventoryConfirmationLine>? inventoryConfirmationLines,
   }) {
     return ScanSession(
       id: id,
@@ -95,6 +110,12 @@ class ScanSession {
       lastBipAt: lastBipAt,
       idempotencyKey: idempotencyKey ?? this.idempotencyKey,
       confirmationLines: confirmationLines ?? this.confirmationLines,
+      inventoryCloseId: inventoryCloseId ?? this.inventoryCloseId,
+      inventoryCloseShiftId:
+          inventoryCloseShiftId ?? this.inventoryCloseShiftId,
+      inventoryClosedAt: inventoryClosedAt ?? this.inventoryClosedAt,
+      inventoryConfirmationLines:
+          inventoryConfirmationLines ?? this.inventoryConfirmationLines,
     );
   }
 }

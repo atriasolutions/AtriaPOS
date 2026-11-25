@@ -6,6 +6,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-88: Confirmar conteo inventario desde sesión `countScan`, `ConfirmInventoryCountScan`, `confirm-count`, SC-088-SCAN.
+
 - SLICE-87: UI ingreso por escaneo en StockReceiptScreen, `ScanSessionService` en composition, SC-087-UI.
 
 - SLICE-86: Confirmar ingreso desde sesión receiptScan (RF-085), `ConfirmStockReceiptScan`, idempotency.

@@ -9,19 +9,36 @@ class ScanSessionService {
     ScanSessionRepository? scanSessions,
     ProductRepository? products,
     StockMovementRepository? stockMovements,
+    ShiftRepository? shiftRepository,
+    SaleRepository? saleRepository,
+    InventoryCloseRepository? inventoryCloseRepository,
     SessionProvider? sessionProvider,
   }) {
     final sessions = scanSessions ?? InMemoryScanSessionRepository();
     final prods = products ?? InMemoryProductRepository();
     final movements = stockMovements ?? InMemoryStockMovementRepository();
+    final shifts = shiftRepository ?? InMemoryShiftRepository();
+    final sales = saleRepository ?? InMemorySaleRepository();
+    final inventoryCloses =
+        inventoryCloseRepository ?? InMemoryInventoryCloseRepository();
     final provider =
         sessionProvider ?? InMemorySessionProvider.supervisor();
     final recordReceipt = RecordStockReceipt(prods, movements, provider);
+    final adjustStock = AdjustStock(prods, movements, provider);
+    final closeInventory = CloseInventory(
+      shifts,
+      prods,
+      sales,
+      adjustStock,
+      inventoryCloses,
+      provider,
+    );
     return ScanSessionService._(
       StartScanSession(sessions, provider),
       RecordScanBip(sessions, ResolveScanCode(prods), provider),
       CancelScanSession(sessions, provider),
       ConfirmStockReceiptScan(sessions, recordReceipt, provider),
+      ConfirmInventoryCountScan(sessions, closeInventory, provider),
       sessions,
     );
   }
@@ -31,6 +48,7 @@ class ScanSessionService {
     this._bip,
     this._cancel,
     this._confirm,
+    this._confirmCount,
     this._repository,
   );
 
@@ -38,6 +56,7 @@ class ScanSessionService {
   final RecordScanBip _bip;
   final CancelScanSession _cancel;
   final ConfirmStockReceiptScan _confirm;
+  final ConfirmInventoryCountScan _confirmCount;
   final ScanSessionRepository _repository;
 
   Future<ApiResult<ScanSessionResponse>> createScanSession(
@@ -169,6 +188,47 @@ class ScanSessionService {
     }
   }
 
+  Future<ApiResult<ConfirmInventoryCountScanResponse>>
+      confirmInventoryCountScan(
+    StoreId storeId,
+    ScanSessionId sessionId,
+    ConfirmInventoryCountScanRequest request,
+  ) async {
+    try {
+      final result = await _confirmCount(
+        ConfirmInventoryCountScanInput(
+          storeId: storeId,
+          sessionId: sessionId,
+          idempotencyKey: request.idempotencyKey,
+        ),
+      );
+      return ApiSuccess(
+        _toCountConfirmResponse(result.session, result.lines),
+        statusCode: 200,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    } on ConflictFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 409,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    }
+  }
+
   Future<ApiResult<ScanSessionResponse>> cancelScanSession(
     StoreId storeId,
     ScanSessionId sessionId,
@@ -230,6 +290,30 @@ class ScanSessionService {
               quantity: l.quantity,
               stock: l.stock,
               movementId: l.movementId,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  static ConfirmInventoryCountScanResponse _toCountConfirmResponse(
+    ScanSession session,
+    List<ScanSessionInventoryConfirmationLine> lines,
+  ) {
+    return ConfirmInventoryCountScanResponse(
+      sessionId: session.id,
+      state: session.state.apiValue,
+      closeId: session.inventoryCloseId!,
+      shiftId: session.inventoryCloseShiftId!,
+      closedAt: session.inventoryClosedAt!.toUtc().toIso8601String(),
+      lines: lines
+          .map(
+            (l) => ConfirmInventoryCountScanLineResult(
+              productId: l.productId,
+              systemStock: l.systemStock,
+              countedStock: l.countedStock,
+              variance: l.variance,
+              unitsSoldInShift: l.unitsSoldInShift,
             ),
           )
           .toList(),

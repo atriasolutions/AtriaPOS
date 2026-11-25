@@ -237,6 +237,7 @@ Con **turno abierto**, supervisor o dueño:
 - Envían **recuento manual** por producto; el sistema calcula `variance = contado - sistema`.
 - Si `variance ≠ 0`, aplica movimiento **CORRECCION** y deja stock al contado; si es cero, solo registra la línea.
 - Persiste cabecera y líneas de cierre para trazabilidad. Sin turno abierto → error alineado a SC-040. Pantalla **Cierre inventario** en menú Operación (SLICE-74).
+- Dado sesión `countScan` en borrador con productos escaneados (RF-094), cuando confirma conteo (`confirm-count`), entonces aplica `CloseInventory` **solo** con esos SKU (conteo parcial v1) y marca la sesión `confirmed` (SLICE-88).
 
 ---
 

@@ -488,11 +488,45 @@ Solo `receiptScan` en `draft` con líneas. Body opcional:
 - Misma `idempotencyKey` → 200 idempotente.
 - Segundo `recordStockReceipt` por línea vía `RecordStockReceipt`.
 
+### `POST /v0/stores/{storeId}/scan-sessions/{sessionId}/confirm-count` (RF-088, SLICE-88)
+
+Solo `countScan` en `draft` con líneas. Requiere **turno abierto** (misma regla que `CloseInventory`). Body opcional:
+
+```json
+{ "idempotencyKey": "uuid-opcional" }
+```
+
+**Response 200**
+
+```json
+{
+  "sessionId": "scan_01",
+  "state": "confirmed",
+  "closeId": "ic_01",
+  "shiftId": "sh_01",
+  "closedAt": "2026-01-01T12:00:00.000Z",
+  "lines": [
+    {
+      "productId": "prod_01",
+      "systemStock": 12,
+      "countedStock": 9,
+      "variance": -3,
+      "unitsSoldInShift": 0
+    }
+  ]
+}
+```
+
+- Solo entran al cierre los **SKU escaneados** en la sesión (conteo parcial v1).
+- Vacío / `receiptScan` / cancelada → `VALIDACION` (400).
+- Sin turno abierto → `NO_ENCONTRADO` (404).
+- Ya confirmada sin clave idempotente → `CONFLICTO` (409).
+- Misma `idempotencyKey` → 200 idempotente.
+- Delega en `CloseInventory` (`ScanSessionService.confirmInventoryCountScan`).
+
 ### `POST /v0/stores/{storeId}/scan-sessions/{sessionId}/cancel`
 
 **Response 200** — `state`: `cancelled`.
-
-Confirmación conteo `countScan` → **SLICE-88**.
 
 **Tests comportamiento (SLICE-85)**
 
@@ -511,6 +545,10 @@ Confirmación conteo `countScan` → **SLICE-88**.
 - `countScan` confirm → 400.
 - Doble confirm → 409; idempotency → 200.
 - Cajero → 403.
+
+**Tests comportamiento (SLICE-88)**
+
+- `SC-088-SCAN-01`…`08` en `packages/core/test/api/scan_session_count_confirm_test.dart`.
 
 ---
 

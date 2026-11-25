@@ -83,3 +83,43 @@ class ConfirmScanSessionResponse {
   final String? lotRef;
   final List<ConfirmScanSessionLineResult> results;
 }
+
+class ConfirmInventoryCountScanRequest {
+  const ConfirmInventoryCountScanRequest({this.idempotencyKey});
+
+  final String? idempotencyKey;
+}
+
+class ConfirmInventoryCountScanLineResult {
+  const ConfirmInventoryCountScanLineResult({
+    required this.productId,
+    required this.systemStock,
+    required this.countedStock,
+    required this.variance,
+    required this.unitsSoldInShift,
+  });
+
+  final String productId;
+  final int systemStock;
+  final int countedStock;
+  final int variance;
+  final int unitsSoldInShift;
+}
+
+class ConfirmInventoryCountScanResponse {
+  const ConfirmInventoryCountScanResponse({
+    required this.sessionId,
+    required this.state,
+    required this.closeId,
+    required this.shiftId,
+    required this.closedAt,
+    required this.lines,
+  });
+
+  final String sessionId;
+  final String state;
+  final String closeId;
+  final String shiftId;
+  final String closedAt;
+  final List<ConfirmInventoryCountScanLineResult> lines;
+}

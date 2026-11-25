@@ -58,6 +58,14 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-087-UI-02 | RF-085 | — | — | ✅ | regresión manual |
 | SC-087-UI-03 | RF-085 | — | — | ✅ | crear producto barcode |
 | SC-087-UI-04 | RF-085 | — | — | ✅ | confirm sin líneas |
+| SC-088-SCAN-01 | RF-088 | — | — | ✅ | `scan_session_count_confirm_test.dart` |
+| SC-088-SCAN-02 | RF-088 | — | — | ✅ | sesión vacía |
+| SC-088-SCAN-03 | RF-088 | — | — | ✅ | receiptScan en confirm-count |
+| SC-088-SCAN-04 | RF-088 | — | — | ✅ | sin turno |
+| SC-088-SCAN-05 | RF-088 | — | — | ✅ | idempotency |
+| SC-088-SCAN-06 | RF-088 | — | — | ✅ | 409 |
+| SC-088-SCAN-07 | RF-088 | — | — | ✅ | cajero 403 |
+| SC-088-SCAN-08 | RF-088 | — | — | ✅ | regresión confirm ingreso |
 | SC-081-01 | RF-092 | — | — | ✅ | `qr_labels_pdf_test.dart` |
 | SC-082-01 | RF-093 | ✅ | — | ✅ | `end_session_test.dart`, `sale_change_session` |
 | SC-010-QR-01 | RF-010 | ✅ | ✅ | ✅ | `product_qr_test`, QR en create UI |

@@ -118,7 +118,7 @@ Respuestas Gate: [`23-gate-r4-a-respuestas.md`](23-gate-r4-a-respuestas.md).
 | 85 | SLICE-85 | R4-A | Contrato sesión escaneo | RF-094 | SC-085-* ✅ |
 | 86 | SLICE-86 | R4-A | Confirmar ingreso desde sesión | RF-085 | SC-086-* ✅ |
 | 87 | SLICE-87 | R4-A | UI ingreso escaneo | RF-085 | SC-087-UI-* ✅ |
-| 88 | SLICE-88 | R4-A | Conteo inventario escaneo (core) | RF-088 | SC-088-SCAN-* ⬜ |
+| 88 | SLICE-88 | R4-A | Conteo inventario escaneo (core) | RF-088 | SC-088-SCAN-* ✅ |
 | 89 | SLICE-89 | R4-A | UI conteo escaneo | RF-088 | SC-088-SCAN-UI-* ⬜ |
 | 90 | SLICE-90 | R4-A | Cambio producto core | RF-095 | SC-090-* ⬜ |
 | 91 | SLICE-91 | R4-A | UI cambio mostrador | RF-095 | SC-091-UI-* ⬜ |
