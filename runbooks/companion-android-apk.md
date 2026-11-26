@@ -1,4 +1,4 @@
-# Companion Android — APK de piloto (SLICE-121)
+# Companion Android — APK de piloto (SLICE-121, SLICE-124)
 
 App Flutter en `apps/scanner_companion`. Cámara nativa. No instala la CA en el teléfono.
 
@@ -11,6 +11,8 @@ flutter build apk
 ```
 
 El APK queda en `build\app\outputs\flutter-apk\app-release.apk`. Cópielo al celular e instálelo (orígenes desconocidos).
+
+**SLICE-124:** Tras cambios en `android/app/proguard-rules.pro`, reconstruya e **reinstale** el APK. R8 en release necesita esas reglas para que `mobile_scanner`/ML Kit no fallen con `genericError` (NPE en Logcat). Si la cámara falla solo en release y no en `flutter run`, revise las reglas antes de desactivar minify.
 
 ## Uso
 

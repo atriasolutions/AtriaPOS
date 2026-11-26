@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-124: Reglas ProGuard en APK release para mobile_scanner/ML Kit; corrige NPE/genericError en cámara (piloto SC-124-01 en dispositivo).
 - SLICE-123: Permiso de cámara antes del visor y error del escáner en español, con reintento.
 - SLICE-122: La app Android lee el QR del POS con la cámara para conectar, sin pegar el enlace.
 - SLICE-117…121: App Android `scanner_companion` — enlace `/c/`, pair, WebSocket, pantalla Conectar, cámara con dedup, integración y runbook APK.

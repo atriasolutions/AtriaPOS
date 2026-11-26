@@ -167,6 +167,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 121 | SLICE-121 | App | Integración servidor + APK | RF-098 | SC-121-* ✅ |
 | 122 | SLICE-122 | App | Leer QR del POS en Conectar | RF-098 | SC-122-01 ✅ |
 | 123 | SLICE-123 | App | Permiso de cámara y error en español | RF-098 | SC-123-* ✅ |
+| 124 | SLICE-124 | App | ProGuard release cámara ML Kit | RF-098 | SC-124-02 ✅ SC-124-01 manual |
 
 ## Orden TDD sugerido (semana orientativa)
 
