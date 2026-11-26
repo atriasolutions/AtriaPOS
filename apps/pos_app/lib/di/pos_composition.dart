@@ -6,7 +6,7 @@ import 'package:core/api/api.dart';
 import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
 import 'package:core/atria_pos_core.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, visibleForTesting;
 
 import '../config/companion_lan_config.dart';
 import '../config/store_config.dart';
@@ -90,6 +90,9 @@ class PosComposition {
 
   /// Host anunciado en QR; vacío = autodetectar en `prepareCompanionQr`.
   static String companionAdvertisedHost = '';
+
+  @visibleForTesting
+  static int prepareCompanionQrCallCount = 0;
 
   /// Cache del identificador de tienda activa (MVP una tienda).
   String? activeStoreId;
@@ -322,6 +325,7 @@ class PosComposition {
   }
 
   Future<CompanionQrState?> prepareCompanionQr(CompanionMode mode) async {
+    prepareCompanionQrCallCount++;
     await ensureCompanionLanServerStarted();
     final server = companionLanServer;
     if (server == null) return null;
@@ -336,10 +340,11 @@ class PosComposition {
       CreateCompanionPairingOfferInput(storeId: storeId, mode: mode),
     );
     final port = server.boundPort ?? CompanionLanConstants.defaultPort;
-    final host = companionAdvertisedHost.trim().isNotEmpty
-        ? companionAdvertisedHost.trim()
-        : await CompanionLanConfig.resolveAdvertisedHost();
-    companionAdvertisedHost = host;
+    final endpoint = await CompanionLanConfig.resolveAdvertisedEndpoint();
+    final host = endpoint.host;
+    if (CompanionLanConfig.advertisedHostOverride.trim().isNotEmpty) {
+      companionAdvertisedHost = host;
+    }
     final scheme = server.usesTls ? 'https' : 'http';
     final base = Uri(
       scheme: scheme,
@@ -368,6 +373,8 @@ class PosComposition {
       blockedReason: null,
       caInstallUrl: caInstallUrl,
       certIpMismatch: certIpMismatch,
+      advertisedHost: host,
+      advertisedInterface: endpoint.interfaceName,
     );
   }
 
@@ -392,9 +399,10 @@ class PosComposition {
     final material = dataDir == null
         ? CompanionLanTlsMaterial.forTest(ip: certIp)
         : CompanionLanCertStore(dataDir).tlsMaterialForServerIpSync(certIp);
-    final port = CompanionLanConfig.lanPort > 0
-        ? CompanionLanConfig.lanPort
-        : CompanionLanConstants.defaultPort;
+    final port = CompanionLanConfig.lanPortOverrideForTests ??
+        (CompanionLanConfig.lanPort > 0
+            ? CompanionLanConfig.lanPort
+            : CompanionLanConstants.defaultPort);
     return CompanionLanServer(
       companionService: service,
       liveRegistry: liveRegistry,

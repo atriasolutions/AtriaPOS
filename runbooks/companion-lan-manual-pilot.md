@@ -62,7 +62,8 @@ Si el diálogo QR del POS muestra **«Falta el build de Companion (PWA)»** (cla
 
 El **certificado TLS** se emite al arrancar el POS con la IPv4 que se mostrará en el QR. Si cambia el adaptador (USB ↔ Wi‑Fi), **reinicie el POS** o use `COMPANION_LAN_HOST`. El diálogo QR incluye el enlace a instalar la CA y avisa si la IP no coincide con el certificado guardado.
 
-- El QR usa **IPv4 LAN auto** (`NetworkInterface`). Forzar IP: `--dart-define=COMPANION_LAN_HOST=192.168.0.25`
+- El QR usa **IPv4 LAN auto** en cada apertura del diálogo (línea **Red: …**). Contrastar con `ipconfig`. Forzar IP: `--dart-define=COMPANION_LAN_HOST=192.168.0.25`
+- **Actualizar código** regenera emparejamiento e IP; el código no cambia solo al refrescar el estado del celular (SLICE-130).
 - El servidor escucha en **0.0.0.0** (accesible desde el celular en la misma WiFi).
 
 Con el POS en ejecución, **smoke en la PC** (antes del celular):

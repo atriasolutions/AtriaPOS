@@ -97,4 +97,59 @@ void main() {
     );
     expect(picked, '192.168.42.129');
   });
+
+  test('SC-126-01 pick distinto si cambia la tabla de interfaces', () {
+    final first = CompanionLanConfig.pickAdvertisedHostIpv4(
+      hostOverride: '',
+      addresses: [
+        (interfaceName: 'Ethernet 2', ipv4: '10.165.87.116'),
+      ],
+    );
+    final second = CompanionLanConfig.pickAdvertisedHostIpv4(
+      hostOverride: '',
+      addresses: [
+        (interfaceName: 'Ethernet 5', ipv4: '10.165.87.218'),
+      ],
+    );
+    expect(first, '10.165.87.116');
+    expect(second, '10.165.87.218');
+  });
+
+  test('SC-127-02 endpoint devuelve interfaz ganadora', () {
+    final endpoint = CompanionLanConfig.pickAdvertisedEndpointIpv4(
+      hostOverride: '',
+      addresses: [
+        (
+          interfaceName: 'Remote NDIS Compatible Device',
+          ipv4: '192.168.42.129',
+        ),
+        (interfaceName: 'Ethernet 5', ipv4: '10.165.87.218'),
+      ],
+    );
+    expect(endpoint.host, '192.168.42.129');
+    expect(endpoint.interfaceName, contains('NDIS'));
+  });
+
+  test('SC-128-01 Ethernet 10.x gana sobre VMware en la misma red', () {
+    final vmware = CompanionLanConfig.companionLanScoreInterface(
+      'VMware Network Adapter VMnet8',
+      '10.165.87.1',
+    );
+    final ethernet = CompanionLanConfig.companionLanScoreInterface(
+      'Ethernet 5',
+      '10.165.87.218',
+    );
+    expect(ethernet, greaterThan(vmware));
+    final picked = CompanionLanConfig.pickAdvertisedHostIpv4(
+      hostOverride: '',
+      addresses: [
+        (
+          interfaceName: 'VMware Network Adapter VMnet8',
+          ipv4: '10.165.87.1',
+        ),
+        (interfaceName: 'Ethernet 5', ipv4: '10.165.87.218'),
+      ],
+    );
+    expect(picked, '10.165.87.218');
+  });
 }

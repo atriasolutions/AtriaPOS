@@ -169,6 +169,11 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 123 | SLICE-123 | App | Permiso de cámara y error en español | RF-098 | SC-123-* ✅ |
 | 124 | SLICE-124 | App | ProGuard release cámara ML Kit | RF-098 | SC-124-02 ✅ SC-124-01 manual |
 | 125 | SLICE-125 | App | Un solo pop al leer QR del POS | RF-098 | SC-125-01 ✅ |
+| 126 | SLICE-126 | POS | IP fresca al generar QR | RF-098 | SC-126-01 ✅ |
+| 127 | SLICE-127 | POS | IP e interfaz en diálogo QR | RF-098 | SC-127-* ✅ |
+| 128 | SLICE-128 | POS | Score multi-NIC Ethernet/WiFi | RF-098 | SC-128-01 ✅ |
+| 129 | SLICE-129 | POS | Aviso cert vs IP sin hot-reload | RF-098 | SC-129-01 ✅ |
+| 130 | SLICE-130 | POS | Un Future por diálogo QR | RF-098 | SC-130-01 ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

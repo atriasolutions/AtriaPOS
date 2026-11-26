@@ -99,6 +99,9 @@ abstract final class CompanionLanConfig {
   /// Solo para tests (SLICE-114).
   static String? advertisedHostOverrideForTests;
 
+  /// Puerto companion en tests (0 = efímero). Evita choque con POS en 8765.
+  static int? lanPortOverrideForTests;
+
   static String resolveAdvertisedHostSync() {
     final testOverride = advertisedHostOverrideForTests;
     if (testOverride != null && testOverride.trim().isNotEmpty) {
@@ -133,20 +136,31 @@ abstract final class CompanionLanConfig {
   }
 
   static Future<String> resolveAdvertisedHost() async {
+    return (await resolveAdvertisedEndpoint()).host;
+  }
+
+  /// Host e interfaz para el QR (SLICE-126/127).
+  static Future<CompanionAdvertisedEndpoint> resolveAdvertisedEndpoint() async {
     final testOverride = advertisedHostOverrideForTests;
     if (testOverride != null && testOverride.trim().isNotEmpty) {
-      return testOverride.trim();
+      return CompanionAdvertisedEndpoint(
+        host: testOverride.trim(),
+      );
     }
     final override = advertisedHostOverride.trim();
-    if (override.isNotEmpty) return override;
+    if (override.isNotEmpty) {
+      return CompanionAdvertisedEndpoint(host: override);
+    }
     try {
       final interfaces = await NetworkInterface.list(
         type: InternetAddressType.IPv4,
         includeLinkLocal: false,
       );
-      return _pickAdvertisedHostFromInterfaces(interfaces);
+      return _pickEndpointFromInterfaces(interfaces);
     } catch (_) {}
-    return InternetAddress.loopbackIPv4.address;
+    return CompanionAdvertisedEndpoint(
+      host: InternetAddress.loopbackIPv4.address,
+    );
   }
 
   /// Prioriza la mejor IPv4 entre candidatos (SLICE-114).
@@ -154,9 +168,23 @@ abstract final class CompanionLanConfig {
     required String hostOverride,
     required Iterable<({String interfaceName, String ipv4})> addresses,
   }) {
+    return pickAdvertisedEndpointIpv4(
+      hostOverride: hostOverride,
+      addresses: addresses,
+    ).host;
+  }
+
+  /// IPv4 e interfaz ganadora (SLICE-127).
+  static CompanionAdvertisedEndpoint pickAdvertisedEndpointIpv4({
+    required String hostOverride,
+    required Iterable<({String interfaceName, String ipv4})> addresses,
+  }) {
     final override = hostOverride.trim();
-    if (override.isNotEmpty) return override;
+    if (override.isNotEmpty) {
+      return CompanionAdvertisedEndpoint(host: override);
+    }
     var bestIp = '';
+    var bestName = '';
     var bestScore = -1 << 30;
     for (final entry in addresses) {
       final raw = entry.ipv4;
@@ -165,13 +193,21 @@ abstract final class CompanionLanConfig {
       if (score > bestScore) {
         bestScore = score;
         bestIp = raw;
+        bestName = entry.interfaceName;
       }
     }
-    if (bestIp.isNotEmpty) return bestIp;
-    return InternetAddress.loopbackIPv4.address;
+    if (bestIp.isNotEmpty) {
+      return CompanionAdvertisedEndpoint(
+        host: bestIp,
+        interfaceName: bestName.isEmpty ? null : bestName,
+      );
+    }
+    return CompanionAdvertisedEndpoint(
+      host: InternetAddress.loopbackIPv4.address,
+    );
   }
 
-  static String _pickAdvertisedHostFromInterfaces(
+  static CompanionAdvertisedEndpoint _pickEndpointFromInterfaces(
     List<NetworkInterface> interfaces,
   ) {
     final entries = <({String interfaceName, String ipv4})>[];
@@ -181,10 +217,16 @@ abstract final class CompanionLanConfig {
         entries.add((interfaceName: interface.name, ipv4: addr.address));
       }
     }
-    return pickAdvertisedHostIpv4(
+    return pickAdvertisedEndpointIpv4(
       hostOverride: '',
       addresses: entries,
     );
+  }
+
+  static String _pickAdvertisedHostFromInterfaces(
+    List<NetworkInterface> interfaces,
+  ) {
+    return _pickEndpointFromInterfaces(interfaces).host;
   }
 
   /// Prioriza USB tether (RNDIS) y redes 192.168.42.x típicas de Android.
@@ -206,6 +248,11 @@ abstract final class CompanionLanConfig {
     } else if (ipv4.startsWith('10.')) {
       score += 15;
     }
+    if (name.contains('ethernet') ||
+        name.contains('wi-fi') ||
+        name.contains('wifi')) {
+      score += 45;
+    }
     if (name.contains('vmware') ||
         name.contains('virtual') ||
         name.contains('hyper-v') ||
@@ -216,4 +263,15 @@ abstract final class CompanionLanConfig {
     }
     return score;
   }
+}
+
+/// IP anunciada en el QR y nombre de adaptador si se autodetectó.
+class CompanionAdvertisedEndpoint {
+  const CompanionAdvertisedEndpoint({
+    required this.host,
+    this.interfaceName,
+  });
+
+  final String host;
+  final String? interfaceName;
 }

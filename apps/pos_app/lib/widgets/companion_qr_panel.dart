@@ -1,5 +1,6 @@
 import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -14,13 +15,28 @@ String buildCompanionLaunchUrl({
   return buildCompanionShortLinkUrl(base: base, pairingCode: pairingCode);
 }
 
-class CompanionQrPanel extends StatelessWidget {
+/// Aviso cuando la IP del QR no coincide con el certificado guardado (SLICE-129).
+const companionCertIpMismatchMessage =
+    'La IP de red ya no coincide con el certificado HTTPS.\n'
+    '1. Cierre este diálogo.\n'
+    '2. Reinicie el POS.\n'
+    '3. Vuelva a abrir el QR del companion.\n'
+    'Opcional: fije COMPANION_LAN_HOST con la IPv4 de ipconfig.';
+
+class CompanionQrPanel extends StatefulWidget {
+  @visibleForTesting
+  static bool suppressQrImageForTests = false;
+
+  @visibleForTesting
+  static bool suppressPhoneStatusForTests = false;
+
   const CompanionQrPanel({
     super.key,
     required this.composition,
     required this.mode,
     required this.qrKey,
     this.statusKey,
+    this.qrFutureForTests,
   });
 
   final PosComposition composition;
@@ -28,10 +44,36 @@ class CompanionQrPanel extends StatelessWidget {
   final Key qrKey;
   final Key? statusKey;
 
+  @visibleForTesting
+  final Future<CompanionQrState?>? qrFutureForTests;
+
+  @override
+  State<CompanionQrPanel> createState() => _CompanionQrPanelState();
+}
+
+class _CompanionQrPanelState extends State<CompanionQrPanel> {
+  late Future<CompanionQrState?> _qrFuture;
+  late final Stream<CompanionLanStatus> _statusStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _qrFuture =
+        widget.qrFutureForTests ??
+        widget.composition.prepareCompanionQr(widget.mode);
+    _statusStream = widget.composition.companionLanStatusStream();
+  }
+
+  void _refreshQr() {
+    setState(() {
+      _qrFuture = widget.composition.prepareCompanionQr(widget.mode);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<CompanionQrState?>(
-      future: composition.prepareCompanionQr(mode),
+      future: _qrFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
@@ -46,59 +88,79 @@ class CompanionQrPanel extends StatelessWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            QrImageView(
-              key: qrKey,
-              data: state.launchUrl!,
-              version: QrVersions.auto,
-              size: 200,
-            ),
+            if (CompanionQrPanel.suppressQrImageForTests)
+              SizedBox(key: widget.qrKey, height: 200, width: 200)
+            else
+              QrImageView(
+                key: widget.qrKey,
+                data: state.launchUrl!,
+                version: QrVersions.auto,
+                size: 200,
+              ),
             const SizedBox(height: 8),
             Text(
               'Código: ${state.pairingCode}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            if (statusKey != null)
+            if (state.advertisedHost != null) ...[
+              const SizedBox(height: 4),
               Text(
-                key: statusKey,
+                _networkLabel(state),
+                key: const Key('companion_advertised_host'),
+                style: Theme.of(context).textTheme.bodySmall,
+                textAlign: TextAlign.center,
+              ),
+            ],
+            if (widget.statusKey != null)
+              Text(
+                key: widget.statusKey,
                 companionLanServerLabel(state.serverRunning),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
-            const SizedBox(height: 12),
-            StreamBuilder<CompanionLanStatus>(
-              stream: composition.companionLanStatusStream(),
-              builder: (context, statusSnap) {
-                final status = statusSnap.data;
-                if (status == null || status.phase == CompanionLanPhase.none) {
-                  return Text(
-                    companionLanStatusLabel(
-                      const CompanionLanStatus(
-                        storeId: '',
-                        phase: CompanionLanPhase.none,
+            if (!CompanionQrPanel.suppressPhoneStatusForTests) ...[
+              const SizedBox(height: 12),
+              StreamBuilder<CompanionLanStatus>(
+                stream: _statusStream,
+                builder: (context, statusSnap) {
+                  final status = statusSnap.data;
+                  if (status == null || status.phase == CompanionLanPhase.none) {
+                    return Text(
+                      companionLanStatusLabel(
+                        const CompanionLanStatus(
+                          storeId: '',
+                          phase: CompanionLanPhase.none,
+                        ),
                       ),
-                    ),
-                    key: const Key('companion_phone_status'),
-                  );
-                }
-                return Column(
-                  children: [
-                    Text(
                       key: const Key('companion_phone_status'),
-                      companionLanStatusLabel(status),
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    if (shouldShowDisconnectButton(status.phase)) ...[
-                      const SizedBox(height: 8),
-                      OutlinedButton(
-                        key: const Key('companion_disconnect_button'),
-                        onPressed: () async {
-                          await composition.disconnectCompanionLan();
-                        },
-                        child: const Text('Desconectar celular'),
+                    );
+                  }
+                  return Column(
+                    children: [
+                      Text(
+                        key: const Key('companion_phone_status'),
+                        companionLanStatusLabel(status),
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
+                      if (shouldShowDisconnectButton(status.phase)) ...[
+                        const SizedBox(height: 8),
+                        OutlinedButton(
+                          key: const Key('companion_disconnect_button'),
+                          onPressed: () async {
+                            await widget.composition.disconnectCompanionLan();
+                          },
+                          child: const Text('Desconectar celular'),
+                        ),
+                      ],
                     ],
-                  ],
-                );
-              },
+                  );
+                },
+              ),
+            ],
+            const SizedBox(height: 8),
+            OutlinedButton(
+              key: const Key('companion_qr_refresh_button'),
+              onPressed: _refreshQr,
+              child: const Text('Actualizar código'),
             ),
             const SizedBox(height: 4),
             Text(
@@ -112,19 +174,46 @@ class CompanionQrPanel extends StatelessWidget {
             ],
             if (state.certIpMismatch) ...[
               const SizedBox(height: 8),
-              Text(
+              CompanionCertIpMismatchHint(
                 key: const Key('companion_cert_ip_mismatch'),
-                'La IP de red cambió respecto al certificado. '
-                'Reinicie el POS o fije COMPANION_LAN_HOST.',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                textAlign: TextAlign.center,
               ),
             ],
           ],
         );
       },
+    );
+  }
+
+  String _networkLabel(CompanionQrState state) {
+    final host = state.advertisedHost!;
+    final iface = state.advertisedInterface;
+    if (iface == null || iface.isEmpty) {
+      return 'Red: $host';
+    }
+    return 'Red: $host ($iface)';
+  }
+}
+
+class CompanionCertIpMismatchHint extends StatelessWidget {
+  const CompanionCertIpMismatchHint({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: colors.errorContainer,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        companionCertIpMismatchMessage,
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: colors.onErrorContainer,
+            ),
+        textAlign: TextAlign.start,
+      ),
     );
   }
 }
@@ -196,6 +285,8 @@ class CompanionQrState {
     this.blockedReason,
     this.caInstallUrl,
     this.certIpMismatch = false,
+    this.advertisedHost,
+    this.advertisedInterface,
   });
 
   const CompanionQrState.blocked({
@@ -206,7 +297,9 @@ class CompanionQrState {
         serverRunning = serverRunning,
         blockedReason = reason,
         caInstallUrl = null,
-        certIpMismatch = false;
+        certIpMismatch = false,
+        advertisedHost = null,
+        advertisedInterface = null;
 
   final String? launchUrl;
   final String? pairingCode;
@@ -214,4 +307,6 @@ class CompanionQrState {
   final CompanionQrBlockedReason? blockedReason;
   final String? caInstallUrl;
   final bool certIpMismatch;
+  final String? advertisedHost;
+  final String? advertisedInterface;
 }
