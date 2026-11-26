@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'companion_armed_scan.dart';
 import 'companion_camera_view.dart';
 import 'companion_lan_client.dart';
-import 'companion_scan_dedup.dart';
 
 /// Visor de productos. [camera] permite pruebas sin abrir la cámara real.
 class LanScanScreen extends StatefulWidget {
@@ -22,15 +22,22 @@ class LanScanScreen extends StatefulWidget {
 }
 
 class _LanScanScreenState extends State<LanScanScreen> {
-  final _dedup = CompanionScanDedup();
+  final _armed = CompanionArmedScan();
   String _status = 'Apunte la cámara al código';
 
   DateTime _now() => widget.now?.call() ?? DateTime.now();
 
   void handleCode(String raw) {
-    final code = raw.trim();
-    if (code.isEmpty) return;
-    if (!_dedup.shouldAccept(code, _now())) return;
+    if (!_armed.onDetect(raw, _now())) return;
+    setState(() => _status = 'Listo: ${_armed.pending}');
+  }
+
+  void _send() {
+    final code = _armed.trigger();
+    if (code == null) {
+      setState(() => _status = 'Apunte la cámara al código');
+      return;
+    }
     widget.session.sendScan(code);
     setState(() => _status = 'Leído: $code');
   }
@@ -49,10 +56,20 @@ class _LanScanScreenState extends State<LanScanScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(
-              _status,
-              key: const Key('companion_lan_scan_status'),
-              textAlign: TextAlign.center,
+            child: Column(
+              children: [
+                Text(
+                  _status,
+                  key: const Key('companion_lan_scan_status'),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                FilledButton(
+                  key: const Key('companion_lan_send_scan_button'),
+                  onPressed: _send,
+                  child: const Text('Escanear'),
+                ),
+              ],
             ),
           ),
         ],

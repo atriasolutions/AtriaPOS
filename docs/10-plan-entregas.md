@@ -174,6 +174,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 128 | SLICE-128 | POS | Score multi-NIC Ethernet/WiFi | RF-098 | SC-128-01 ✅ |
 | 129 | SLICE-129 | POS | Aviso cert vs IP sin hot-reload | RF-098 | SC-129-01 ✅ |
 | 130 | SLICE-130 | POS | Un Future por diálogo QR | RF-098 | SC-130-01 ✅ |
+| 131 | SLICE-131 | App | Un envío por toque Escanear | RF-098 | SC-131-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

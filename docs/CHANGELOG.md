@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-131: App companion — la cámara no envía sola; botón **Escanear** manda un código al POS.
 - SLICE-126…130: IP fresca al abrir QR, etiqueta Red en diálogo, score Ethernet/WiFi, aviso certificado sin hot-reload TLS, un pairing por apertura + botón Actualizar código.
 - SLICE-125: Lectura del QR del POS ignora detections duplicadas; evita pantalla negra por doble `Navigator.pop`.
 - SLICE-124: Reglas ProGuard en APK release para mobile_scanner/ML Kit; corrige NPE/genericError en cámara (piloto SC-124-01 en dispositivo).

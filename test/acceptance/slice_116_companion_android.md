@@ -28,10 +28,10 @@ Al pegar el enlace y conectar, la pantalla muestra el modo (Vender).
 Si el enlace no sirve, se ve el error y no hay sesión.
 
 ### SC-120-01
-Dos lecturas iguales dentro de 400 ms producen un solo envío.
+Dos lecturas iguales sin pulsar Escanear no envían (SLICE-131).
 
 ### SC-120-02
-Dos códigos distintos se envían los dos.
+Dos códigos distintos sin pulsar Escanear no envían (SLICE-131).
 
 ### SC-121-01
 Contra `CompanionLanServer` en loopback, un scan llega al stream del servidor.
