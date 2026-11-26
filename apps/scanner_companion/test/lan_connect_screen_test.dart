@@ -64,7 +64,19 @@ void main() {
     expect(find.byKey(const Key('companion_lan_read_qr_button')), findsOneWidget);
     expect(find.byIcon(Icons.qr_code_scanner), findsOneWidget);
     expect(find.byKey(const Key('companion_lan_more_options')), findsOneWidget);
+    await tester.tap(find.text(companionMoreOptionsTitle));
+    await tester.pumpAndSettle();
     expect(find.byIcon(Icons.link), findsOneWidget);
+  });
+
+  testWidgets('SC-140-01 vincular y mas opciones en zona inferior', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(home: LanConnectScreen(client: _venderClient())),
+    );
+    final linkBtn = tester.getBottomLeft(find.byKey(const Key('companion_lan_read_qr_button')));
+    final moreBtn = tester.getBottomLeft(find.byKey(const Key('companion_lan_more_options')));
+    expect(linkBtn.dy, greaterThan(400));
+    expect(moreBtn.dy, greaterThan(linkBtn.dy));
   });
 
   testWidgets('SC-136-01 enlace oculto hasta Más opciones', (tester) async {
@@ -84,10 +96,29 @@ void main() {
     );
     expect(find.text(companionConnectTitle), findsOneWidget);
     expect(find.text(companionConnectIntro), findsOneWidget);
-    expect(find.text(companionReadBoxCodeButtonLabel), findsOneWidget);
+    expect(find.text(companionLinkWithBoxButtonLabel), findsOneWidget);
     expect(find.byKey(const Key('companion_lan_url_field')), findsNothing);
     expect(find.textContaining('POS'), findsNothing);
     expect(find.textContaining('QR'), findsNothing);
+  });
+
+  testWidgets('SC-141-01 conectado En la caja sin mas opciones', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LanConnectScreen(
+          client: _venderClient(),
+          scanCamera: _idleCamera(),
+        ),
+      ),
+    );
+    await _pasteLink(tester, 'https://10.0.0.8:8765/c/ABCDEF');
+    await tester.tap(find.byKey(const Key('companion_lan_connect_button')));
+    await tester.pumpAndSettle();
+    expect(find.text(companionInBoxTitle), findsOneWidget);
+    expect(find.text('Vender'), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_more_options')), findsNothing);
+    expect(find.byIcon(Icons.logout), findsOneWidget);
+    expect(find.text(companionLeaveBoxButtonLabel), findsNothing);
   });
 
   testWidgets('SC-119-01 conectar muestra el modo Vender', (tester) async {

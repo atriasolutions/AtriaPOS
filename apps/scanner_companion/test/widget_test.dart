@@ -7,7 +7,7 @@ void main() {
   testWidgets('la puerta es conectar a la caja', (tester) async {
     await tester.pumpWidget(const ScannerCompanionApp());
     expect(find.text(companionConnectTitle), findsOneWidget);
-    expect(find.text(companionReadBoxCodeButtonLabel), findsOneWidget);
+    expect(find.text(companionLinkWithBoxButtonLabel), findsOneWidget);
     expect(find.byKey(const Key('companion_lan_url_field')), findsNothing);
     expect(find.textContaining('POS'), findsNothing);
   });

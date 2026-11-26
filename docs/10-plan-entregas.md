@@ -182,6 +182,11 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 136 | SLICE-136 | App | Más opciones + runbook armed | RF-098 | SC-136-* ✅ |
 | 137 | SLICE-137 | PWA | Cámara armed (confirmar Escanear) | RF-098 | SC-137-* ✅ |
 | 138 | SLICE-138 | App | Código manual en visor Android | RF-098 | SC-138-* ✅ |
+| 139 | SLICE-139 | Docs | Brief UX v2 companion Android | RF-098 | SC-139-DOC-01 ✅ |
+| 140 | SLICE-140 | App | Layout desconectado (CTA inferior) | RF-098 | SC-140-* ✅ |
+| 141 | SLICE-141 | App | Layout conectado (En la caja) | RF-098 | SC-141-* ✅ |
+| 142 | SLICE-142 | App | Shell LAN sin push al visor | RF-098 | SC-142-* ✅ |
+| 143 | SLICE-143 | Ops | Piloto UX v2 + runbook | RF-098 | SC-143-UI-01 manual |
 
 ## Orden TDD sugerido (semana orientativa)
 

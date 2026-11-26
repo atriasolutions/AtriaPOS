@@ -25,6 +25,7 @@ class ScannerCompanionApp extends StatelessWidget {
   }
 }
 
+// BLE legacy — no es la puerta LAN (ver runbooks/companion-android-apk.md).
 class PairingScreen extends StatefulWidget {
   const PairingScreen({super.key});
 

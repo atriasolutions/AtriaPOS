@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-139–143: Companion Android UX v2 — shell LAN, CTA inferior, En la caja, piloto runbook.
 - SLICE-138: App companion — ingreso manual de código en el visor (Escribir código).
 - SLICE-137: PWA companion — cámara armed; botón Escanear antes de enviar al POS.
 - SLICE-136: App companion — enlace bajo Más opciones; DEC-065 armed scan; runbooks piloto Android.

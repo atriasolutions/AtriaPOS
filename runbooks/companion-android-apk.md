@@ -14,14 +14,28 @@ El APK queda en `build\app\outputs\flutter-apk\app-release.apk`. Cópielo al cel
 
 **SLICE-124:** Tras cambios en `android/app/proguard-rules.pro`, reconstruya e **reinstale** el APK. R8 en release necesita esas reglas para que `mobile_scanner`/ML Kit no fallen con `genericError` (NPE en Logcat). Si la cámara falla solo en release y no en `flutter run`, revise las reglas antes de desactivar minify.
 
-## Uso
+## Uso (UX v2 — SLICE-139…143)
 
 1. En el POS, abra **Companion WiFi** (QR) en Vender, Ingreso o Conteo.
-2. En la app: **Leer código de la caja**. La primera vez Android pide la cámara: acéptela. Si la negó, use **Abrir ajustes de la app**.
-3. Alternativa: expanda **Más opciones** → **Pegar enlace** → pegue `https://{ip}:8765/c/{codigo}` → **Usar este enlace**.
-4. En el visor: apunte al código de barras hasta ver **Listo:** … → pulse **Escanear** (un envío por toque; ver DEC-065). Si la etiqueta no lee: **Escribir código** → **Enviar código**.
-5. **Salir de la caja** vuelve a la pantalla de conexión.
-6. Si cambia la IP, pida un código nuevo en la caja o pegue el enlace actualizado. No hay que instalar certificados en el teléfono.
+2. En la app: toque inferior **Vincular con la caja** → cámara para el QR del POS (primera vez: permiso de cámara).
+3. Tras vincular: barra **En la caja** + modo (ej. Vender). **Más opciones** ya no aparece.
+4. Escanee productos; pulse **Escanear** (DEC-065). Manual: **Escribir código**.
+5. Ícono salir (arriba derecha) desvincula.
+6. Desconectado: **Más opciones** (debajo del botón) → pegar enlace `https://{ip}:8765/c/{codigo}`.
+
+Brief: [`docs/companion-android-ux-v2.md`](../docs/companion-android-ux-v2.md).
+
+**No usar** el flujo BLE «Pareo escáner» en `main.dart` para companion LAN (legacy en código).
+
+## Piloto v2 (SC-143-UI-01)
+
+| Paso | OK |
+|------|-----|
+| Botón vincular al pulgar | ☐ |
+| QR → «En la caja» sin confundir con escaneo local | ☐ |
+| Producto llega al POS | ☐ |
+| Salir vuelve a vincular | ☐ |
+| Fecha / commit / foto fuera repo | ☐ |
 
 ## Smoke
 

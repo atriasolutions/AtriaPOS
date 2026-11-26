@@ -2,7 +2,9 @@
 
 const companionConnectTitle = 'Conectar a la caja';
 const companionConnectIntro =
-    'Apunte al código que aparece en la caja para empezar.';
+    'Use el botón inferior para vincular; después escanee productos en la caja.';
+const companionInBoxTitle = 'En la caja';
+const companionLinkWithBoxButtonLabel = 'Vincular con la caja';
 const companionReadBoxCodeButtonLabel = 'Leer código de la caja';
 const companionMoreOptionsTitle = 'Más opciones';
 const companionPasteLinkButtonLabel = 'Pegar enlace';
