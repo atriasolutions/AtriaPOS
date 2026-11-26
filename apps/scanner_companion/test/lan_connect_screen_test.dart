@@ -94,6 +94,40 @@ void main() {
     expect(find.text('Conectado · Vender'), findsOneWidget);
   });
 
+  testWidgets('SC-125-01 doble lectura del QR no saca Conectar del stack', (
+    tester,
+  ) async {
+    const link = 'https://10.0.0.8:8765/c/ABCDEF';
+    final client = CompanionLanClient(
+      (_) => _Gateway(
+        Uri.parse(
+          'https://10.0.0.8:8765/companion/?storeId=t&mode=VENDER&pairingCode=ABCDEF',
+        ),
+      ),
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LanConnectScreen(
+          client: client,
+          ensureCamera: () async => true,
+          qrReader: (onCode) => TextButton(
+            onPressed: () {
+              onCode(link);
+              onCode(link);
+            },
+            child: const Text('simular-qr-doble'),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.byKey(const Key('companion_lan_read_qr_button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('simular-qr-doble'));
+    await tester.pumpAndSettle();
+    expect(find.text('Conectado · Vender'), findsOneWidget);
+    expect(find.text('Conectar al POS'), findsOneWidget);
+  });
+
   testWidgets('SC-123-01 sin permiso no abre el visor', (tester) async {
     final client = CompanionLanClient((_) => _Gateway(null));
     await tester.pumpWidget(

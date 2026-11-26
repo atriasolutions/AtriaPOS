@@ -84,24 +84,8 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
       return;
     }
     final value = await Navigator.of(context).push<String>(
-      MaterialPageRoute(
-        builder: (routeContext) {
-          void accept(String raw) {
-            if (parseCompanionQrLink(raw) == null) return;
-            Navigator.of(routeContext).pop(raw.trim());
-          }
-
-          final reader = widget.qrReader;
-          return Scaffold(
-            appBar: AppBar(title: const Text('Apunte al QR del POS')),
-            body: reader != null
-                ? reader(accept)
-                : CompanionCameraView(
-                    onlyPairingLink: true,
-                    onCode: accept,
-                  ),
-          );
-        },
+      MaterialPageRoute<String>(
+        builder: (_) => _CompanionQrScanPage(qrReader: widget.qrReader),
       ),
     );
     if (!mounted || value == null || value.isEmpty) return;
@@ -185,6 +169,43 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Lectura única del QR: evita varios `pop` si el escáner repite el código.
+class _CompanionQrScanPage extends StatefulWidget {
+  const _CompanionQrScanPage({this.qrReader});
+
+  final Widget Function(void Function(String value) onCode)? qrReader;
+
+  @override
+  State<_CompanionQrScanPage> createState() => _CompanionQrScanPageState();
+}
+
+class _CompanionQrScanPageState extends State<_CompanionQrScanPage> {
+  var _handled = false;
+
+  void _accept(String raw) {
+    if (_handled) return;
+    if (parseCompanionQrLink(raw) == null) return;
+    _handled = true;
+    final nav = Navigator.of(context);
+    if (!nav.canPop()) return;
+    nav.pop(raw.trim());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final reader = widget.qrReader;
+    return Scaffold(
+      appBar: AppBar(title: const Text('Apunte al QR del POS')),
+      body: reader != null
+          ? reader(_accept)
+          : CompanionCameraView(
+              onlyPairingLink: true,
+              onCode: _accept,
+            ),
     );
   }
 }
