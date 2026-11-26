@@ -11,6 +11,7 @@ class LanConnectScreen extends StatefulWidget {
     super.key,
     required this.client,
     this.qrReader,
+    this.scanCamera,
     this.ensureCamera,
     this.openSettings,
   });
@@ -19,6 +20,9 @@ class LanConnectScreen extends StatefulWidget {
 
   /// Sustituye la cámara en pruebas. Recibe el texto leído.
   final Widget Function(void Function(String value) onCode)? qrReader;
+
+  /// Visor de productos en pruebas (evita MobileScanner).
+  final Widget Function(void Function(String code) onCode)? scanCamera;
 
   /// True si el usuario concedió la cámara. En pruebas se inyecta.
   final Future<bool> Function()? ensureCamera;
@@ -33,8 +37,6 @@ class LanConnectScreen extends StatefulWidget {
 class _LanConnectScreenState extends State<LanConnectScreen> {
   final _url = TextEditingController();
   String? _error;
-  String? _modeLabel;
-  CompanionLanSession? _session;
   bool _busy = false;
 
   @override
@@ -51,16 +53,19 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
     setState(() {
       _busy = true;
       _error = null;
-      _modeLabel = null;
     });
     try {
       final session = await widget.client.connectLink(_url.text);
       if (!mounted) return;
-      setState(() {
-        _session = session;
-        _modeLabel = companionLanModeLabel(session.modeApi);
-        _busy = false;
-      });
+      setState(() => _busy = false);
+      await Navigator.of(context).push<void>(
+        MaterialPageRoute<void>(
+          builder: (_) => LanScanScreen(
+            session: session,
+            camera: widget.scanCamera,
+          ),
+        ),
+      );
     } on CompanionLinkRejected {
       if (!mounted) return;
       setState(() {
@@ -139,33 +144,12 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
                 ),
               ],
             ],
-            if (_modeLabel != null) ...[
-              const SizedBox(height: 12),
-              Text(
-                'Conectado · $_modeLabel',
-                key: const Key('companion_lan_status'),
-              ),
-            ],
             const SizedBox(height: 16),
             OutlinedButton(
               key: const Key('companion_lan_connect_button'),
               onPressed: _busy ? null : _connect,
               child: const Text('Conectar'),
             ),
-            if (_session != null) ...[
-              const SizedBox(height: 12),
-              FilledButton(
-                key: const Key('companion_lan_scan_button'),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => LanScanScreen(session: _session!),
-                    ),
-                  );
-                },
-                child: const Text('Escanear productos'),
-              ),
-            ],
           ],
         ),
       ),

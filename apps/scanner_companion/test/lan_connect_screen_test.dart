@@ -29,17 +29,29 @@ class _Gateway implements CompanionPosGateway {
   }
 }
 
+Widget Function(void Function(String code) onCode) _idleCamera() {
+  return (_) => const SizedBox(key: Key('companion_lan_idle_camera'));
+}
+
+CompanionLanClient _venderClient() {
+  return CompanionLanClient(
+    (_) => _Gateway(
+      Uri.parse(
+        'https://10.0.0.8:8765/companion/?storeId=t&mode=VENDER&pairingCode=ABCDEF',
+      ),
+    ),
+  );
+}
+
 void main() {
   testWidgets('SC-119-01 conectar muestra el modo Vender', (tester) async {
-    final client = CompanionLanClient(
-      (_) => _Gateway(
-        Uri.parse(
-          'https://10.0.0.8:8765/companion/?storeId=t&mode=VENDER&pairingCode=ABCDEF',
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LanConnectScreen(
+          client: _venderClient(),
+          scanCamera: _idleCamera(),
         ),
       ),
-    );
-    await tester.pumpWidget(
-      MaterialApp(home: LanConnectScreen(client: client)),
     );
     await tester.enterText(
       find.byKey(const Key('companion_lan_url_field')),
@@ -47,7 +59,8 @@ void main() {
     );
     await tester.tap(find.byKey(const Key('companion_lan_connect_button')));
     await tester.pumpAndSettle();
-    expect(find.text('Conectado · Vender'), findsOneWidget);
+    expect(find.text('Vender'), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_send_scan_button')), findsOneWidget);
     expect(find.byKey(const Key('companion_lan_error')), findsNothing);
   });
 
@@ -64,22 +77,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Enlace no válido o expirado'), findsOneWidget);
     expect(find.byKey(const Key('companion_lan_status')), findsNothing);
+    expect(find.byKey(const Key('companion_lan_send_scan_button')), findsNothing);
   });
 
   testWidgets('SC-122-01 leer el QR conecta sin pegar el enlace', (tester) async {
     const link = 'https://10.0.0.8:8765/c/ABCDEF';
-    final client = CompanionLanClient(
-      (_) => _Gateway(
-        Uri.parse(
-          'https://10.0.0.8:8765/companion/?storeId=t&mode=VENDER&pairingCode=ABCDEF',
-        ),
-      ),
-    );
     await tester.pumpWidget(
       MaterialApp(
         home: LanConnectScreen(
-          client: client,
+          client: _venderClient(),
           ensureCamera: () async => true,
+          scanCamera: _idleCamera(),
           qrReader: (onCode) => TextButton(
             onPressed: () => onCode(link),
             child: const Text('simular-qr'),
@@ -91,25 +99,20 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('simular-qr'));
     await tester.pumpAndSettle();
-    expect(find.text('Conectado · Vender'), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_send_scan_button')), findsOneWidget);
+    expect(find.text('Vender'), findsOneWidget);
   });
 
   testWidgets('SC-125-01 doble lectura del QR no saca Conectar del stack', (
     tester,
   ) async {
     const link = 'https://10.0.0.8:8765/c/ABCDEF';
-    final client = CompanionLanClient(
-      (_) => _Gateway(
-        Uri.parse(
-          'https://10.0.0.8:8765/companion/?storeId=t&mode=VENDER&pairingCode=ABCDEF',
-        ),
-      ),
-    );
     await tester.pumpWidget(
       MaterialApp(
         home: LanConnectScreen(
-          client: client,
+          client: _venderClient(),
           ensureCamera: () async => true,
+          scanCamera: _idleCamera(),
           qrReader: (onCode) => TextButton(
             onPressed: () {
               onCode(link);
@@ -124,8 +127,8 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('simular-qr-doble'));
     await tester.pumpAndSettle();
-    expect(find.text('Conectado · Vender'), findsOneWidget);
-    expect(find.text('Conectar al POS'), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_send_scan_button')), findsOneWidget);
+    expect(find.byType(MaterialApp), findsOneWidget);
   });
 
   testWidgets('SC-123-01 sin permiso no abre el visor', (tester) async {
@@ -151,18 +154,12 @@ void main() {
 
   testWidgets('SC-123-02 con permiso el QR simulado conecta', (tester) async {
     const link = 'https://10.0.0.8:8765/c/ABCDEF';
-    final client = CompanionLanClient(
-      (_) => _Gateway(
-        Uri.parse(
-          'https://10.0.0.8:8765/companion/?storeId=t&mode=VENDER&pairingCode=ABCDEF',
-        ),
-      ),
-    );
     await tester.pumpWidget(
       MaterialApp(
         home: LanConnectScreen(
-          client: client,
+          client: _venderClient(),
           ensureCamera: () async => true,
+          scanCamera: _idleCamera(),
           qrReader: (onCode) => TextButton(
             onPressed: () => onCode(link),
             child: const Text('simular-qr'),
@@ -174,6 +171,67 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('simular-qr'));
     await tester.pumpAndSettle();
-    expect(find.text('Conectado · Vender'), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_send_scan_button')), findsOneWidget);
+  });
+
+  testWidgets(
+    'SC-132-01 conectar abre trabajo y oculta el formulario',
+    (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: LanConnectScreen(
+            client: _venderClient(),
+            scanCamera: _idleCamera(),
+          ),
+        ),
+      );
+      await tester.enterText(
+        find.byKey(const Key('companion_lan_url_field')),
+        'https://10.0.0.8:8765/c/ABCDEF',
+      );
+      await tester.tap(find.byKey(const Key('companion_lan_connect_button')));
+      await tester.pumpAndSettle();
+      expect(
+        find.byKey(const Key('companion_lan_send_scan_button')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: find.ancestor(
+            of: find.byKey(const Key('companion_lan_send_scan_button')),
+            matching: find.byType(Scaffold),
+          ),
+          matching: find.byKey(const Key('companion_lan_url_field')),
+        ),
+        findsNothing,
+      );
+      expect(find.text('Escanear productos'), findsNothing);
+    },
+  );
+
+  testWidgets('SC-132-02 Cerrar conexión vuelve al empareje', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LanConnectScreen(
+          client: _venderClient(),
+          scanCamera: _idleCamera(),
+        ),
+      ),
+    );
+    await tester.enterText(
+      find.byKey(const Key('companion_lan_url_field')),
+      'https://10.0.0.8:8765/c/ABCDEF',
+    );
+    await tester.tap(find.byKey(const Key('companion_lan_connect_button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('companion_lan_disconnect_button')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('companion_lan_url_field')), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_connect_button')), findsOneWidget);
+    expect(find.textContaining('Conectado'), findsNothing);
+    expect(
+      find.byKey(const Key('companion_lan_send_scan_button')),
+      findsNothing,
+    );
   });
 }

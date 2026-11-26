@@ -46,7 +46,19 @@ class _LanScanScreenState extends State<LanScanScreen> {
   Widget build(BuildContext context) {
     final camera = widget.camera;
     return Scaffold(
-      appBar: AppBar(title: const Text('Escanear')),
+      appBar: AppBar(
+        title: Text(companionLanModeLabel(widget.session.modeApi)),
+        actions: [
+          TextButton(
+            key: const Key('companion_lan_disconnect_button'),
+            onPressed: () {
+              final nav = Navigator.of(context);
+              if (nav.canPop()) nav.pop();
+            },
+            child: const Text('Cerrar conexión'),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
