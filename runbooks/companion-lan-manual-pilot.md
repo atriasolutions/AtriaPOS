@@ -97,12 +97,28 @@ Opcional: `.\scripts\verify-companion-lan.ps1 -TargetHost 192.168.42.129` si pru
 
 ## 3. Abrir el companion en el celular
 
+### 3a — PWA en navegador (Chrome / Brave)
+
 1. **Primera vez:** copie del diálogo POS la URL `https://{IP}:8765/companion/instalar-certificado` e instale la CA (ver [`companion-lan-install-ca.md`](companion-lan-install-ca.md)).
 2. En el POS: **Companion WiFi** → escanee el QR (enlace corto `https://{IP}:8765/c/{código}`).
 3. El navegador redirige a `/companion/?storeId=…&mode=…&pairingCode=…` y carga la PWA (auto-empareja).
 4. Estado “Conectado” en la PWA; en el POS, chip de celular en diálogo QR cuando el WebSocket está activo (SLICE-111).
 
 Si emparejar falla: revise smoke PC, IP, firewall, CA instalada, aviso `companion_cert_ip_mismatch`, expiración del código (**30 min**, doc 23b) o QR regenerado.
+
+### 3b — App Android (`scanner_companion`, DEC-063)
+
+Build e instalación: [`companion-android-apk.md`](companion-android-apk.md).
+
+| Paso | Acción | Esperado |
+|------|--------|----------|
+| B1 | **Leer código de la caja** (misma red / USB tether) | Modo visible (Vender, etc.) |
+| B2 | Apuntar al producto; pulsar **Escanear** | Un solo envío al POS (DEC-065 armed) |
+| B3 | Repetir código sin soltar el dedo | Buffer “Listo:”; no llega hasta B2 |
+| B4 | **Salir de la caja** | Vuelve a **Conectar a la caja** |
+| B5 | **Más opciones** → pegar enlace `https://{IP}:8765/c/{código}` | Empareja sin leer QR |
+
+En Vender (caso A), el escaneo manual en la PWA envía al confirmar campo; en Android el gesto es **Escanear** tras ver el código en pantalla.
 
 ---
 

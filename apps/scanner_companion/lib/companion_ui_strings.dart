@@ -4,6 +4,7 @@ const companionConnectTitle = 'Conectar a la caja';
 const companionConnectIntro =
     'Apunte al código que aparece en la caja para empezar.';
 const companionReadBoxCodeButtonLabel = 'Leer código de la caja';
+const companionMoreOptionsTitle = 'Más opciones';
 const companionPasteLinkButtonLabel = 'Pegar enlace';
 const companionManualLinkFieldLabel = 'Dirección del enlace';
 const companionUsePastedLinkButtonLabel = 'Usar este enlace';

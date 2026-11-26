@@ -39,7 +39,7 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
   final _url = TextEditingController();
   String? _error;
   bool _busy = false;
-  bool _showPasteLink = false;
+  int _pairingGeneration = 0;
 
   @override
   void dispose() {
@@ -70,7 +70,7 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
       );
       if (!mounted) return;
       setState(() {
-        _showPasteLink = false;
+        _pairingGeneration++;
         _url.clear();
         _error = null;
       });
@@ -123,33 +123,39 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
               icon: const Icon(Icons.qr_code_scanner),
               label: const Text(companionReadBoxCodeButtonLabel),
             ),
-            const SizedBox(height: 12),
-            TextButton.icon(
-              key: const Key('companion_lan_paste_link'),
-              onPressed: _busy
-                  ? null
-                  : () => setState(() => _showPasteLink = !_showPasteLink),
-              icon: const Icon(Icons.link),
-              label: const Text(companionPasteLinkButtonLabel),
-            ),
-            if (_showPasteLink) ...[
-              const SizedBox(height: 8),
-              TextField(
-                key: const Key('companion_lan_url_field'),
-                controller: _url,
-                decoration: const InputDecoration(
-                  labelText: companionManualLinkFieldLabel,
-                  border: OutlineInputBorder(),
+            const SizedBox(height: 8),
+            KeyedSubtree(
+              key: const Key('companion_lan_more_options'),
+              child: ExpansionTile(
+                key: ValueKey(_pairingGeneration),
+                enabled: !_busy,
+              leading: const Icon(Icons.link),
+              title: const Text(companionMoreOptionsTitle),
+              subtitle: const Text(companionPasteLinkButtonLabel),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: TextField(
+                    key: const Key('companion_lan_url_field'),
+                    controller: _url,
+                    decoration: const InputDecoration(
+                      labelText: companionManualLinkFieldLabel,
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                  child: OutlinedButton.icon(
+                    key: const Key('companion_lan_connect_button'),
+                    onPressed: _busy ? null : _connect,
+                    icon: const Icon(Icons.link),
+                    label: const Text(companionUsePastedLinkButtonLabel),
+                  ),
+                ),
+              ],
               ),
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
-                key: const Key('companion_lan_connect_button'),
-                onPressed: _busy ? null : _connect,
-                icon: const Icon(Icons.link),
-                label: const Text(companionUsePastedLinkButtonLabel),
-              ),
-            ],
+            ),
             if (_error != null) ...[
               const SizedBox(height: 12),
               Text(

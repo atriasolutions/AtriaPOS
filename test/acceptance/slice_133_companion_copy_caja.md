@@ -11,7 +11,7 @@ Pantalla principal: **Conectar a la caja**, intro, **Leer código de la caja**; 
 ```gherkin
 Dado la app abierta
 Entonces el botón principal dice Leer código de la caja
-Y no hay campo de enlace hasta pulsar Pegar enlace
+Y no hay campo de enlace hasta expandir Más opciones (SLICE-136)
 Cuando sale del visor con Salir de la caja
 Entonces vuelve a Conectar a la caja
 ```

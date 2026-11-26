@@ -179,6 +179,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 135 | SLICE-135 | App | Layout visor: botón ancho y deshabilitado | RF-098 | SC-135-* ✅ |
 | 133 | SLICE-133 | App | Copy de caja + enlace en Pegar enlace | RF-098 | SC-133-* ✅ |
 | 134 | SLICE-134 | App | Íconos Material en acciones | RF-098 | SC-134-* ✅ |
+| 136 | SLICE-136 | App | Más opciones + runbook armed | RF-098 | SC-136-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

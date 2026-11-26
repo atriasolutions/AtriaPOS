@@ -48,8 +48,8 @@ Future<void> _pasteLink(
   WidgetTester tester,
   String url,
 ) async {
-  await tester.tap(find.byKey(const Key('companion_lan_paste_link')));
-  await tester.pump();
+  await tester.tap(find.text(companionMoreOptionsTitle));
+  await tester.pumpAndSettle();
   await tester.enterText(
     find.byKey(const Key('companion_lan_url_field')),
     url,
@@ -63,8 +63,19 @@ void main() {
     );
     expect(find.byKey(const Key('companion_lan_read_qr_button')), findsOneWidget);
     expect(find.byIcon(Icons.qr_code_scanner), findsOneWidget);
-    expect(find.byKey(const Key('companion_lan_paste_link')), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_more_options')), findsOneWidget);
     expect(find.byIcon(Icons.link), findsOneWidget);
+  });
+
+  testWidgets('SC-136-01 enlace oculto hasta Más opciones', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(home: LanConnectScreen(client: _venderClient())),
+    );
+    expect(find.byKey(const Key('companion_lan_url_field')), findsNothing);
+    await tester.tap(find.text(companionMoreOptionsTitle));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('companion_lan_url_field')), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_connect_button')), findsOneWidget);
   });
 
   testWidgets('SC-133-01 copy de caja en pantalla principal', (tester) async {
@@ -250,7 +261,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text(companionConnectTitle), findsOneWidget);
     expect(find.byKey(const Key('companion_lan_url_field')), findsNothing);
-    expect(find.byKey(const Key('companion_lan_paste_link')), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_more_options')), findsOneWidget);
     expect(
       find.byKey(const Key('companion_lan_send_scan_button')),
       findsNothing,
