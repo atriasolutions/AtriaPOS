@@ -23,14 +23,14 @@ class _RecordingClient extends CompanionClient {
 
 Widget _fakeCamera({
   required bool enabled,
-  required Future<void> Function(String code) onCode,
+  required void Function(String code) onDetect,
 }) {
   return Column(
     key: const Key('companion_camera_fake'),
     children: [
       FilledButton(
         key: const Key('companion_camera_fake_scan'),
-        onPressed: enabled ? () => onCode('999888777') : null,
+        onPressed: enabled ? () => onDetect('999888777') : null,
         child: const Text('Simular escaneo'),
       ),
     ],
@@ -112,9 +112,32 @@ void main() {
     expect(find.byKey(const Key('companion_camera_fake')), findsOneWidget);
     await tester.tap(find.byKey(const Key('companion_camera_fake_scan')));
     await tester.pumpAndSettle();
+    expect(client.scans, isEmpty);
+    expect(find.byKey(const Key('companion_camera_ready_chip')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('companion_camera_send_button')));
+    await tester.pumpAndSettle();
 
     expect(client.scans, ['999888777']);
     expect(find.textContaining('Enviado: 999888777'), findsOneWidget);
+  });
+
+  testWidgets('SC-137-03 Escanear deshabilitado sin lectura de cámara', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: CompanionHomeScreen(
+          launchUri: _launchUri(),
+          pairFn: (_) async => _RecordingClient(),
+          cameraBuilder: _fakeCamera,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final button = tester.widget<FilledButton>(
+      find.byKey(const Key('companion_camera_send_button')),
+    );
+    expect(button.onPressed, isNull);
   });
 
   testWidgets('SC-110-05 manual visible junto a cámara', (tester) async {

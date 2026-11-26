@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:companion_web/companion_scan_dedup.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -9,12 +8,13 @@ class CompanionCameraPanel extends StatefulWidget {
   const CompanionCameraPanel({
     super.key,
     required this.enabled,
-    required this.onCode,
+    required this.onDetect,
     this.startUnavailable = false,
   });
 
   final bool enabled;
-  final Future<void> Function(String code) onCode;
+  /// Lectura lista; el envío al POS queda en la pantalla (DEC-065).
+  final void Function(String code) onDetect;
 
   /// Solo tests: simula fallo de cámara sin instanciar hardware.
   final bool startUnavailable;
@@ -25,10 +25,7 @@ class CompanionCameraPanel extends StatefulWidget {
 
 class _CompanionCameraPanelState extends State<CompanionCameraPanel> {
   late final MobileScannerController _controller;
-  final CompanionScanDedup _dedup = CompanionScanDedup();
   late bool _unavailable;
-  String? _sendError;
-
   @override
   void initState() {
     super.initState();
@@ -51,13 +48,7 @@ class _CompanionCameraPanelState extends State<CompanionCameraPanel> {
     if (codes.isEmpty) return;
     final code = codes.first.rawValue?.trim();
     if (code == null || code.isEmpty) return;
-    if (!_dedup.shouldAccept(code, DateTime.now())) return;
-    try {
-      await widget.onCode(code);
-    } catch (e) {
-      if (!mounted) return;
-      setState(() => _sendError = e.toString());
-    }
+    widget.onDetect(code);
   }
 
   void _onScannerError(MobileScannerException error) {
@@ -98,14 +89,6 @@ class _CompanionCameraPanelState extends State<CompanionCameraPanel> {
             ),
           ),
         ),
-        if (_sendError != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              _sendError!,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
       ],
     );
   }

@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-137: PWA companion — cámara armed; botón Escanear antes de enviar al POS.
 - SLICE-136: App companion — enlace bajo Más opciones; DEC-065 armed scan; runbooks piloto Android.
 - SLICE-134: App companion — íconos Material en leer código, pegar enlace, Escanear y Salir de la caja.
 - SLICE-133: App companion — textos “caja”, campo de enlace tras Pegar enlace, Salir de la caja.

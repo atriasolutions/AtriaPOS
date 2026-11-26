@@ -118,7 +118,7 @@ Build e instalación: [`companion-android-apk.md`](companion-android-apk.md).
 | B4 | **Salir de la caja** | Vuelve a **Conectar a la caja** |
 | B5 | **Más opciones** → pegar enlace `https://{IP}:8765/c/{código}` | Empareja sin leer QR |
 
-En Vender (caso A), el escaneo manual en la PWA envía al confirmar campo; en Android el gesto es **Escanear** tras ver el código en pantalla.
+En Vender (caso A), la PWA y la app Android exigen pulsar **Escanear** tras leer el código con la cámara (DEC-065). El campo manual sigue usando **Enviar escaneo**.
 
 ---
 

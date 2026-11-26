@@ -10,7 +10,7 @@ void main() {
           body: CompanionCameraPanel(
             enabled: true,
             startUnavailable: true,
-            onCode: (_) async {},
+            onDetect: (_) {},
           ),
         ),
       ),

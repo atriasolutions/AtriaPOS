@@ -2,7 +2,7 @@
 
 **Estado:** ✅ Decidido (2026-11-26)  
 **Prioridad:** P0  
-**Slices:** 131, 136  
+**Slices:** 131, 136, 137  
 **Relación:** DEC-063 (app Android), DEC-058 (antirrebote en servidor).
 
 ## Decisión
@@ -19,4 +19,4 @@
 
 ## Impacto
 
-`companion_armed_scan.dart`, `lan_scan_screen.dart`, runbook piloto LAN y APK Android. Sin cambio de contrato WebSocket.
+`companion_armed_scan.dart` en Android (`scanner_companion`) y PWA (`companion_web`), runbooks piloto LAN/APK. Sin cambio de contrato WebSocket.

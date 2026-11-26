@@ -16,6 +16,7 @@ Entonces no se reenvía al POS
 
 ### SC-110-04 escaneo cámara → WS
 Dado cámara activa y código detectado  
+Cuando el operador pulsa **Escanear** (DEC-065, SLICE-137)  
 Entonces `sendScan` envía el mismo payload que ingreso manual
 
 ### SC-110-05 manual siempre disponible
@@ -39,7 +40,7 @@ Entonces `CompanionLaunchParams` sigue válido (SC-100-01)
 Tras instalar CA (`runbooks/companion-lan-install-ca.md`):
 
 1. Emparejar por QR, confirmar que el visor de cámara aparece.
-2. Escanear código de producto; verificar llegada al POS.
+2. Leer código con la cámara; pulsar **Escanear**; verificar llegada al POS.
 3. Si cámara bloqueada: solo mensaje breve + ingreso manual (operación válida).
 
 Registrar PASA/FALLA en `runbooks/companion-lan-install-ca.md` § Cámara.

@@ -4,6 +4,7 @@ import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'companion_armed_scan.dart';
 import 'companion_camera_panel.dart';
 import 'companion_client.dart';
 import 'companion_home_presenter.dart';
@@ -11,7 +12,7 @@ import 'companion_mode_labels.dart';
 
 typedef CompanionCameraBuilder = Widget Function({
   required bool enabled,
-  required Future<void> Function(String code) onCode,
+  required void Function(String code) onDetect,
 });
 
 typedef CompanionPairFn = Future<CompanionClient> Function(
@@ -55,7 +56,10 @@ class _CompanionHomeScreenState extends State<CompanionHomeScreen> {
   CompanionClient? _client;
   CompanionSessionPhase _phase = CompanionSessionPhase.awaitingQr;
   final _codeController = TextEditingController();
+  final _armed = CompanionArmedScan();
   String? _error;
+
+  bool get _hasArmedPending => _armed.pending != null;
 
   @override
   void initState() {
@@ -120,13 +124,26 @@ class _CompanionHomeScreenState extends State<CompanionHomeScreen> {
     await _submitScanCode(_codeController.text);
   }
 
+  void _onCameraDetect(String code) {
+    if (_armed.onDetect(code, DateTime.now())) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _sendArmedScan() async {
+    final code = _armed.trigger();
+    if (code == null) return;
+    await _submitScanCode(code);
+    if (!mounted) return;
+    setState(() {});
+  }
+
   Widget _buildCamera({required bool enabled}) {
-    final onCode = _submitScanCode;
     final build = widget.cameraBuilder;
     if (build != null) {
-      return build(enabled: enabled, onCode: onCode);
+      return build(enabled: enabled, onDetect: _onCameraDetect);
     }
-    return CompanionCameraPanel(enabled: enabled, onCode: onCode);
+    return CompanionCameraPanel(enabled: enabled, onDetect: _onCameraDetect);
   }
 
   @override
@@ -181,6 +198,21 @@ class _CompanionHomeScreenState extends State<CompanionHomeScreen> {
             if (showCamera) ...[
               const SizedBox(height: 16),
               _buildCamera(enabled: _client != null),
+              if (_hasArmedPending) ...[
+                const SizedBox(height: 8),
+                Align(
+                  child: Chip(
+                    key: const Key('companion_camera_ready_chip'),
+                    label: Text('Listo: ${_armed.pending}'),
+                  ),
+                ),
+              ],
+              const SizedBox(height: 8),
+              FilledButton(
+                key: const Key('companion_camera_send_button'),
+                onPressed: _hasArmedPending ? _sendArmedScan : null,
+                child: const Text('Escanear'),
+              ),
             ],
             if (showScan) ...[
               const SizedBox(height: 24),

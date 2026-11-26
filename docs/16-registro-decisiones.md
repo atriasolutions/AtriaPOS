@@ -69,7 +69,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-061 | P0 | Cámara opcional; manual si falla | ✅ | [Companion HTTPS](decisiones/DEC-companion-https.md) | SLICE-110 |
 | DEC-062 | P1 | USB y Wi-Fi, misma IP activa | ✅ | [Companion HTTPS](decisiones/DEC-companion-https.md) | SLICE-109 |
 | DEC-063 | P0 | App Android LAN, cámara nativa, sin CA en el teléfono | ✅ | [Companion Android](decisiones/DEC-companion-android.md) | SLICE-116 |
-| DEC-065 | P0 | Companion Android: captura armed (un envío por toque Escanear) | ✅ | [Armed scan](decisiones/DEC-companion-armed-scan.md) | SLICE-131 |
+| DEC-065 | P0 | Companion armed: un envío por toque Escanear (Android + PWA) | ✅ | [Armed scan](decisiones/DEC-companion-armed-scan.md) | SLICE-131, 137 |
 
 ---
 
