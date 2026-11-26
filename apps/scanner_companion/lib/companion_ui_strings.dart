@@ -17,3 +17,6 @@ const companionConnectFailedMessage =
 const companionScanBoxCodeTitle = 'Apunte al código en la caja';
 const companionLeaveBoxButtonLabel = 'Salir de la caja';
 const companionAimBarcodeHint = 'Apunte la cámara al código de barras';
+const companionManualCodeSectionTitle = 'Escribir código';
+const companionManualCodeFieldLabel = 'Código de barras';
+const companionManualSendButtonLabel = 'Enviar código';

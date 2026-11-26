@@ -24,7 +24,14 @@ class LanScanScreen extends StatefulWidget {
 
 class _LanScanScreenState extends State<LanScanScreen> {
   final _armed = CompanionArmedScan();
+  final _manualCode = TextEditingController();
   String? _lastSent;
+
+  @override
+  void dispose() {
+    _manualCode.dispose();
+    super.dispose();
+  }
 
   DateTime _now() => widget.now?.call() ?? DateTime.now();
 
@@ -39,6 +46,14 @@ class _LanScanScreenState extends State<LanScanScreen> {
     final code = _armed.trigger();
     if (code == null) return;
     widget.session.sendScan(code);
+    setState(() => _lastSent = code);
+  }
+
+  void _sendManual() {
+    final code = _manualCode.text.trim();
+    if (code.isEmpty) return;
+    widget.session.sendScan(code);
+    _manualCode.clear();
     setState(() => _lastSent = code);
   }
 
@@ -108,6 +123,38 @@ class _LanScanScreenState extends State<LanScanScreen> {
                     ),
                     icon: const Icon(Icons.document_scanner),
                     label: const Text('Escanear'),
+                  ),
+                  KeyedSubtree(
+                    key: const Key('companion_lan_manual_section'),
+                    child: ExpansionTile(
+                      title: const Text(companionManualCodeSectionTitle),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                          child: TextField(
+                            key: const Key('companion_lan_manual_code_field'),
+                            controller: _manualCode,
+                            decoration: const InputDecoration(
+                              labelText: companionManualCodeFieldLabel,
+                              border: OutlineInputBorder(),
+                            ),
+                            textInputAction: TextInputAction.send,
+                            onSubmitted: (_) => _sendManual(),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                          child: OutlinedButton.icon(
+                            key: const Key(
+                              'companion_lan_manual_send_button',
+                            ),
+                            onPressed: _sendManual,
+                            icon: const Icon(Icons.keyboard),
+                            label: const Text(companionManualSendButtonLabel),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

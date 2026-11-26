@@ -181,6 +181,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 134 | SLICE-134 | App | Íconos Material en acciones | RF-098 | SC-134-* ✅ |
 | 136 | SLICE-136 | App | Más opciones + runbook armed | RF-098 | SC-136-* ✅ |
 | 137 | SLICE-137 | PWA | Cámara armed (confirmar Escanear) | RF-098 | SC-137-* ✅ |
+| 138 | SLICE-138 | App | Código manual en visor Android | RF-098 | SC-138-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

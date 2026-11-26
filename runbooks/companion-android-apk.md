@@ -19,7 +19,7 @@ El APK queda en `build\app\outputs\flutter-apk\app-release.apk`. Cópielo al cel
 1. En el POS, abra **Companion WiFi** (QR) en Vender, Ingreso o Conteo.
 2. En la app: **Leer código de la caja**. La primera vez Android pide la cámara: acéptela. Si la negó, use **Abrir ajustes de la app**.
 3. Alternativa: expanda **Más opciones** → **Pegar enlace** → pegue `https://{ip}:8765/c/{codigo}` → **Usar este enlace**.
-4. En el visor: apunte al código de barras hasta ver **Listo:** … → pulse **Escanear** (un envío por toque; ver DEC-065).
+4. En el visor: apunte al código de barras hasta ver **Listo:** … → pulse **Escanear** (un envío por toque; ver DEC-065). Si la etiqueta no lee: **Escribir código** → **Enviar código**.
 5. **Salir de la caja** vuelve a la pantalla de conexión.
 6. Si cambia la IP, pida un código nuevo en la caja o pegue el enlace actualizado. No hay que instalar certificados en el teléfono.
 

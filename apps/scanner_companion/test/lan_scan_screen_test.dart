@@ -184,6 +184,39 @@ void main() {
     expect(button.onPressed, isNull);
   });
 
+  testWidgets('SC-138-01 código manual bajo Escribir código', (tester) async {
+    final sink = _Sink();
+    await pumpScan(
+      tester,
+      sink: sink,
+      bindCamera: (_) {},
+    );
+    expect(find.byKey(const Key('companion_lan_manual_code_field')), findsNothing);
+    await tester.tap(find.text('Escribir código'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('companion_lan_manual_code_field')), findsOneWidget);
+  });
+
+  testWidgets('SC-138-02 enviar código manual llega al POS', (tester) async {
+    final sink = _Sink();
+    await pumpScan(
+      tester,
+      sink: sink,
+      bindCamera: (_) {},
+    );
+    await tester.tap(find.text('Escribir código'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('companion_lan_manual_code_field')),
+      '1234567890',
+    );
+    await tester.tap(find.byKey(const Key('companion_lan_manual_send_button')));
+    await tester.pump();
+    expect(sink.messages, hasLength(1));
+    expect(sink.messages.single, contains('1234567890'));
+    expect(find.textContaining('Último: 1234567890'), findsOneWidget);
+  });
+
   testWidgets('SC-135-02 Escanear habilitado tras lectura', (tester) async {
     final sink = _Sink();
     await pumpScan(
