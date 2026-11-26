@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'companion_camera_view.dart';
 import 'companion_lan_client.dart';
 import 'companion_qr_link.dart';
+import 'companion_ui_strings.dart';
 import 'lan_scan_screen.dart';
 
-/// Lee el QR del POS o pega el enlace, y empareja por la red local.
+/// Empareja con la caja por código o enlace pegado (red local).
 class LanConnectScreen extends StatefulWidget {
   const LanConnectScreen({
     super.key,
@@ -38,6 +39,7 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
   final _url = TextEditingController();
   String? _error;
   bool _busy = false;
+  bool _showPasteLink = false;
 
   @override
   void dispose() {
@@ -47,7 +49,7 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
 
   Future<void> _connect() async {
     if (_url.text.trim().isEmpty) {
-      setState(() => _error = 'Lea el QR del POS o pegue el enlace.');
+      setState(() => _error = companionConnectValidationEmpty);
       return;
     }
     setState(() {
@@ -66,16 +68,22 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
           ),
         ),
       );
+      if (!mounted) return;
+      setState(() {
+        _showPasteLink = false;
+        _url.clear();
+        _error = null;
+      });
     } on CompanionLinkRejected {
       if (!mounted) return;
       setState(() {
-        _error = 'Enlace no válido o expirado';
+        _error = companionLinkRejectedMessage;
         _busy = false;
       });
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        _error = 'No se pudo conectar al POS';
+        _error = companionConnectFailedMessage;
         _busy = false;
       });
     }
@@ -101,30 +109,44 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Conectar al POS')),
+      appBar: AppBar(title: const Text(companionConnectTitle)),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Lea el código QR de la pantalla del POS, o pegue el enlace.',
-            ),
+            const Text(companionConnectIntro),
             const SizedBox(height: 16),
             FilledButton(
               key: const Key('companion_lan_read_qr_button'),
               onPressed: _busy ? null : _readQr,
-              child: const Text('Leer QR del POS'),
+              child: const Text(companionReadBoxCodeButtonLabel),
             ),
-            const SizedBox(height: 16),
-            TextField(
-              key: const Key('companion_lan_url_field'),
-              controller: _url,
-              decoration: const InputDecoration(
-                labelText: 'Enlace del QR',
-                border: OutlineInputBorder(),
+            const SizedBox(height: 12),
+            TextButton(
+              key: const Key('companion_lan_paste_link'),
+              onPressed: _busy
+                  ? null
+                  : () => setState(() => _showPasteLink = !_showPasteLink),
+              child: const Text(companionPasteLinkButtonLabel),
+            ),
+            if (_showPasteLink) ...[
+              const SizedBox(height: 8),
+              TextField(
+                key: const Key('companion_lan_url_field'),
+                controller: _url,
+                decoration: const InputDecoration(
+                  labelText: companionManualLinkFieldLabel,
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
+              const SizedBox(height: 16),
+              OutlinedButton(
+                key: const Key('companion_lan_connect_button'),
+                onPressed: _busy ? null : _connect,
+                child: const Text(companionUsePastedLinkButtonLabel),
+              ),
+            ],
             if (_error != null) ...[
               const SizedBox(height: 12),
               Text(
@@ -144,12 +166,6 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
                 ),
               ],
             ],
-            const SizedBox(height: 16),
-            OutlinedButton(
-              key: const Key('companion_lan_connect_button'),
-              onPressed: _busy ? null : _connect,
-              child: const Text('Conectar'),
-            ),
           ],
         ),
       ),
@@ -183,7 +199,7 @@ class _CompanionQrScanPageState extends State<_CompanionQrScanPage> {
   Widget build(BuildContext context) {
     final reader = widget.qrReader;
     return Scaffold(
-      appBar: AppBar(title: const Text('Apunte al QR del POS')),
+      appBar: AppBar(title: const Text(companionScanBoxCodeTitle)),
       body: reader != null
           ? reader(_accept)
           : CompanionCameraView(

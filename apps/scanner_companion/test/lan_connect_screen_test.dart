@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:scanner_companion/companion_camera_view.dart';
 import 'package:scanner_companion/companion_lan_client.dart';
+import 'package:scanner_companion/companion_ui_strings.dart';
 import 'package:scanner_companion/lan_connect_screen.dart';
 
 class _Sink implements CompanionScanSink {
@@ -43,7 +44,31 @@ CompanionLanClient _venderClient() {
   );
 }
 
+Future<void> _pasteLink(
+  WidgetTester tester,
+  String url,
+) async {
+  await tester.tap(find.byKey(const Key('companion_lan_paste_link')));
+  await tester.pump();
+  await tester.enterText(
+    find.byKey(const Key('companion_lan_url_field')),
+    url,
+  );
+}
+
 void main() {
+  testWidgets('SC-133-01 copy de caja en pantalla principal', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(home: LanConnectScreen(client: _venderClient())),
+    );
+    expect(find.text(companionConnectTitle), findsOneWidget);
+    expect(find.text(companionConnectIntro), findsOneWidget);
+    expect(find.text(companionReadBoxCodeButtonLabel), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_url_field')), findsNothing);
+    expect(find.textContaining('POS'), findsNothing);
+    expect(find.textContaining('QR'), findsNothing);
+  });
+
   testWidgets('SC-119-01 conectar muestra el modo Vender', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -53,10 +78,7 @@ void main() {
         ),
       ),
     );
-    await tester.enterText(
-      find.byKey(const Key('companion_lan_url_field')),
-      'https://10.0.0.8:8765/c/ABCDEF',
-    );
+    await _pasteLink(tester, 'https://10.0.0.8:8765/c/ABCDEF');
     await tester.tap(find.byKey(const Key('companion_lan_connect_button')));
     await tester.pumpAndSettle();
     expect(find.text('Vender'), findsOneWidget);
@@ -69,13 +91,10 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(home: LanConnectScreen(client: client)),
     );
-    await tester.enterText(
-      find.byKey(const Key('companion_lan_url_field')),
-      'https://10.0.0.8:8765/c/ABCDEF',
-    );
+    await _pasteLink(tester, 'https://10.0.0.8:8765/c/ABCDEF');
     await tester.tap(find.byKey(const Key('companion_lan_connect_button')));
     await tester.pumpAndSettle();
-    expect(find.text('Enlace no válido o expirado'), findsOneWidget);
+    expect(find.text(companionLinkRejectedMessage), findsOneWidget);
     expect(find.byKey(const Key('companion_lan_status')), findsNothing);
     expect(find.byKey(const Key('companion_lan_send_scan_button')), findsNothing);
   });
@@ -145,7 +164,7 @@ void main() {
     await tester.tap(find.byKey(const Key('companion_lan_read_qr_button')));
     await tester.pumpAndSettle();
     expect(find.text(cameraPermissionMessage), findsOneWidget);
-    expect(find.text('Apunte al QR del POS'), findsNothing);
+    expect(find.text(companionScanBoxCodeTitle), findsNothing);
     expect(
       find.byKey(const Key('companion_camera_settings_button')),
       findsOneWidget,
@@ -185,10 +204,7 @@ void main() {
           ),
         ),
       );
-      await tester.enterText(
-        find.byKey(const Key('companion_lan_url_field')),
-        'https://10.0.0.8:8765/c/ABCDEF',
-      );
+      await _pasteLink(tester, 'https://10.0.0.8:8765/c/ABCDEF');
       await tester.tap(find.byKey(const Key('companion_lan_connect_button')));
       await tester.pumpAndSettle();
       expect(
@@ -205,11 +221,10 @@ void main() {
         ),
         findsNothing,
       );
-      expect(find.text('Escanear productos'), findsNothing);
     },
   );
 
-  testWidgets('SC-132-02 Cerrar conexión vuelve al empareje', (tester) async {
+  testWidgets('SC-132-02 Salir de la caja vuelve al empareje', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: LanConnectScreen(
@@ -218,17 +233,14 @@ void main() {
         ),
       ),
     );
-    await tester.enterText(
-      find.byKey(const Key('companion_lan_url_field')),
-      'https://10.0.0.8:8765/c/ABCDEF',
-    );
+    await _pasteLink(tester, 'https://10.0.0.8:8765/c/ABCDEF');
     await tester.tap(find.byKey(const Key('companion_lan_connect_button')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('companion_lan_disconnect_button')));
     await tester.pumpAndSettle();
-    expect(find.byKey(const Key('companion_lan_url_field')), findsOneWidget);
-    expect(find.byKey(const Key('companion_lan_connect_button')), findsOneWidget);
-    expect(find.textContaining('Conectado'), findsNothing);
+    expect(find.text(companionConnectTitle), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_url_field')), findsNothing);
+    expect(find.byKey(const Key('companion_lan_paste_link')), findsOneWidget);
     expect(
       find.byKey(const Key('companion_lan_send_scan_button')),
       findsNothing,

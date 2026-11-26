@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'companion_qr_link.dart';
 
 const cameraPermissionMessage =
-    'Se necesita la cámara para leer el QR del POS';
+    'Se necesita la cámara para leer el código de la caja.';
 
 /// Pide el permiso de cámara. True solo si el usuario lo concede.
 Future<bool> ensureCompanionCamera() async {

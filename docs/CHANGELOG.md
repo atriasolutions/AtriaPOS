@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-133: App companion — textos “caja”, campo de enlace tras Pegar enlace, Salir de la caja.
 - SLICE-135: App companion — visor con cámara amplia, chip Listo y botón Escanear ancho (deshabilitado sin código).
 - SLICE-132: App companion — al conectar abre el visor de productos; Cerrar conexión vuelve al empareje.
 - SLICE-131: App companion — la cámara no envía sola; botón **Escanear** manda un código al POS.

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'companion_armed_scan.dart';
 import 'companion_camera_view.dart';
 import 'companion_lan_client.dart';
+import 'companion_ui_strings.dart';
 
 /// Visor de productos. [camera] permite pruebas sin abrir la cámara real.
 class LanScanScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _LanScanScreenState extends State<LanScanScreen> {
     final pending = _armed.pending;
     if (pending != null) return 'Listo: $pending';
     if (_lastSent != null) return 'Último: $_lastSent';
-    return 'Apunte la cámara al código de barras';
+    return companionAimBarcodeHint;
   }
 
   @override
@@ -61,7 +62,7 @@ class _LanScanScreenState extends State<LanScanScreen> {
               final nav = Navigator.of(context);
               if (nav.canPop()) nav.pop();
             },
-            child: const Text('Cerrar conexión'),
+            child: const Text(companionLeaveBoxButtonLabel),
           ),
         ],
       ),
