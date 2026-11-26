@@ -57,6 +57,16 @@ Future<void> _pasteLink(
 }
 
 void main() {
+  testWidgets('SC-134-01 iconos en pantalla de empareje', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(home: LanConnectScreen(client: _venderClient())),
+    );
+    expect(find.byKey(const Key('companion_lan_read_qr_button')), findsOneWidget);
+    expect(find.byIcon(Icons.qr_code_scanner), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_paste_link')), findsOneWidget);
+    expect(find.byIcon(Icons.link), findsOneWidget);
+  });
+
   testWidgets('SC-133-01 copy de caja en pantalla principal', (tester) async {
     await tester.pumpWidget(
       MaterialApp(home: LanConnectScreen(client: _venderClient())),

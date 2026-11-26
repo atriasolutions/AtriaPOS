@@ -56,13 +56,14 @@ class _LanScanScreenState extends State<LanScanScreen> {
       appBar: AppBar(
         title: Text(companionLanModeLabel(widget.session.modeApi)),
         actions: [
-          TextButton(
+          TextButton.icon(
             key: const Key('companion_lan_disconnect_button'),
             onPressed: () {
               final nav = Navigator.of(context);
               if (nav.canPop()) nav.pop();
             },
-            child: const Text(companionLeaveBoxButtonLabel),
+            icon: const Icon(Icons.logout),
+            label: const Text(companionLeaveBoxButtonLabel),
           ),
         ],
       ),
@@ -95,7 +96,7 @@ class _LanScanScreenState extends State<LanScanScreen> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   const SizedBox(height: 12),
-                  FilledButton(
+                  FilledButton.icon(
                     key: const Key('companion_lan_send_scan_button'),
                     onPressed: _hasPending ? _send : null,
                     style: FilledButton.styleFrom(
@@ -105,7 +106,8 @@ class _LanScanScreenState extends State<LanScanScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    child: const Text('Escanear'),
+                    icon: const Icon(Icons.document_scanner),
+                    label: const Text('Escanear'),
                   ),
                 ],
               ),

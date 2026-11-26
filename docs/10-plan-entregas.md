@@ -178,6 +178,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 132 | SLICE-132 | App | Aterrizaje en visor al conectar | RF-098 | SC-132-* ✅ |
 | 135 | SLICE-135 | App | Layout visor: botón ancho y deshabilitado | RF-098 | SC-135-* ✅ |
 | 133 | SLICE-133 | App | Copy de caja + enlace en Pegar enlace | RF-098 | SC-133-* ✅ |
+| 134 | SLICE-134 | App | Íconos Material en acciones | RF-098 | SC-134-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

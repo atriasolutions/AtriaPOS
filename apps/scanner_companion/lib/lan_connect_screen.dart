@@ -117,18 +117,20 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
           children: [
             const Text(companionConnectIntro),
             const SizedBox(height: 16),
-            FilledButton(
+            FilledButton.icon(
               key: const Key('companion_lan_read_qr_button'),
               onPressed: _busy ? null : _readQr,
-              child: const Text(companionReadBoxCodeButtonLabel),
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text(companionReadBoxCodeButtonLabel),
             ),
             const SizedBox(height: 12),
-            TextButton(
+            TextButton.icon(
               key: const Key('companion_lan_paste_link'),
               onPressed: _busy
                   ? null
                   : () => setState(() => _showPasteLink = !_showPasteLink),
-              child: const Text(companionPasteLinkButtonLabel),
+              icon: const Icon(Icons.link),
+              label: const Text(companionPasteLinkButtonLabel),
             ),
             if (_showPasteLink) ...[
               const SizedBox(height: 8),
@@ -141,10 +143,11 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              OutlinedButton(
+              OutlinedButton.icon(
                 key: const Key('companion_lan_connect_button'),
                 onPressed: _busy ? null : _connect,
-                child: const Text(companionUsePastedLinkButtonLabel),
+                icon: const Icon(Icons.link),
+                label: const Text(companionUsePastedLinkButtonLabel),
               ),
             ],
             if (_error != null) ...[
@@ -156,13 +159,14 @@ class _LanConnectScreenState extends State<LanConnectScreen> {
               ),
               if (_error == cameraPermissionMessage) ...[
                 const SizedBox(height: 8),
-                OutlinedButton(
+                OutlinedButton.icon(
                   key: const Key('companion_camera_settings_button'),
                   onPressed: () {
                     final open = widget.openSettings ?? openCompanionCameraSettings;
                     open();
                   },
-                  child: const Text('Abrir ajustes de la app'),
+                  icon: const Icon(Icons.settings),
+                  label: const Text('Abrir ajustes de la app'),
                 ),
               ],
             ],

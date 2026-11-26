@@ -45,6 +45,22 @@ void main() {
     );
   }
 
+  testWidgets('SC-134-02 iconos en pantalla de trabajo', (tester) async {
+    final sink = _Sink();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LanScanScreen(
+          session: session(sink),
+          now: () => now,
+          camera: (_) => const SizedBox(),
+        ),
+      ),
+    );
+    expect(find.byIcon(Icons.logout), findsOneWidget);
+    expect(find.byIcon(Icons.document_scanner), findsOneWidget);
+    expect(find.byKey(const Key('companion_lan_send_scan_button')), findsOneWidget);
+  });
+
   testWidgets('SC-120-01 dos lecturas iguales sin toque no envían', (
     tester,
   ) async {
