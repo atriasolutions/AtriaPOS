@@ -23,23 +23,29 @@ class LanScanScreen extends StatefulWidget {
 
 class _LanScanScreenState extends State<LanScanScreen> {
   final _armed = CompanionArmedScan();
-  String _status = 'Apunte la cámara al código';
+  String? _lastSent;
 
   DateTime _now() => widget.now?.call() ?? DateTime.now();
 
+  bool get _hasPending => _armed.pending != null;
+
   void handleCode(String raw) {
     if (!_armed.onDetect(raw, _now())) return;
-    setState(() => _status = 'Listo: ${_armed.pending}');
+    setState(() {});
   }
 
   void _send() {
     final code = _armed.trigger();
-    if (code == null) {
-      setState(() => _status = 'Apunte la cámara al código');
-      return;
-    }
+    if (code == null) return;
     widget.session.sendScan(code);
-    setState(() => _status = 'Leído: $code');
+    setState(() => _lastSent = code);
+  }
+
+  String get _statusText {
+    final pending = _armed.pending;
+    if (pending != null) return 'Listo: $pending';
+    if (_lastSent != null) return 'Último: $_lastSent';
+    return 'Apunte la cámara al código de barras';
   }
 
   @override
@@ -66,22 +72,42 @@ class _LanScanScreenState extends State<LanScanScreen> {
                 ? camera(handleCode)
                 : CompanionCameraView(onCode: handleCode),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Text(
-                  _status,
-                  key: const Key('companion_lan_scan_status'),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                FilledButton(
-                  key: const Key('companion_lan_send_scan_button'),
-                  onPressed: _send,
-                  child: const Text('Escanear'),
-                ),
-              ],
+          SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (_hasPending)
+                    Align(
+                      child: Chip(
+                        key: const Key('companion_lan_scan_ready_chip'),
+                        label: Text(_statusText),
+                      ),
+                    )
+                  else
+                    Text(
+                      _statusText,
+                      key: const Key('companion_lan_scan_status'),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  const SizedBox(height: 12),
+                  FilledButton(
+                    key: const Key('companion_lan_send_scan_button'),
+                    onPressed: _hasPending ? _send : null,
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(56),
+                      textStyle: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    child: const Text('Escanear'),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

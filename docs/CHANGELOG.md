@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-135: App companion — visor con cámara amplia, chip Listo y botón Escanear ancho (deshabilitado sin código).
 - SLICE-132: App companion — al conectar abre el visor de productos; Cerrar conexión vuelve al empareje.
 - SLICE-131: App companion — la cámara no envía sola; botón **Escanear** manda un código al POS.
 - SLICE-126…130: IP fresca al abrir QR, etiqueta Red en diálogo, score Ethernet/WiFi, aviso certificado sin hot-reload TLS, un pairing por apertura + botón Actualizar código.

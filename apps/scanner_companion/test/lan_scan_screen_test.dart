@@ -147,9 +147,40 @@ void main() {
       sink: sink,
       bindCamera: (onCode) => onCode('7801'),
     );
-    await tester.tap(find.byKey(const Key('companion_lan_send_scan_button')));
-    await tester.pump();
+    final button = tester.widget<FilledButton>(
+      find.byKey(const Key('companion_lan_send_scan_button')),
+    );
+    expect(button.onPressed, isNull);
     expect(sink.messages, isEmpty);
     expect(find.byKey(const Key('companion_lan_scan_status')), findsOneWidget);
+  });
+
+  testWidgets('SC-135-01 Escanear deshabilitado sin detección', (tester) async {
+    final sink = _Sink();
+    await pumpScan(
+      tester,
+      sink: sink,
+      bindCamera: (onCode) => onCode('7801'),
+    );
+    final button = tester.widget<FilledButton>(
+      find.byKey(const Key('companion_lan_send_scan_button')),
+    );
+    expect(button.onPressed, isNull);
+  });
+
+  testWidgets('SC-135-02 Escanear habilitado tras lectura', (tester) async {
+    final sink = _Sink();
+    await pumpScan(
+      tester,
+      sink: sink,
+      bindCamera: (onCode) => onCode('7801'),
+    );
+    await tester.tap(find.text('leer'));
+    await tester.pump();
+    final button = tester.widget<FilledButton>(
+      find.byKey(const Key('companion_lan_send_scan_button')),
+    );
+    expect(button.onPressed, isNotNull);
+    expect(find.byKey(const Key('companion_lan_scan_ready_chip')), findsOneWidget);
   });
 }
