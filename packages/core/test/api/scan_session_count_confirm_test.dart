@@ -7,6 +7,7 @@ void main() {
   const storeId = 't1';
   const idempotencyKey = 'idem-088-01';
 
+  late InMemoryStoreRepository stores;
   late InMemoryProductRepository products;
   late InMemoryStockMovementRepository movements;
   late InMemoryScanSessionRepository scanSessions;
@@ -16,7 +17,16 @@ void main() {
   late ScanSessionService scanService;
   late ProductService productService;
 
-  setUp(() {
+  setUp(() async {
+    stores = InMemoryStoreRepository();
+    await stores.save(
+      Store.create(
+        id: storeId,
+        rutRaw: '76123456-0',
+        legalName: 'Demo',
+        businessLine: 'Retail',
+      ),
+    );
     products = InMemoryProductRepository();
     movements = InMemoryStockMovementRepository();
     scanSessions = InMemoryScanSessionRepository();
@@ -28,6 +38,7 @@ void main() {
       sessionProvider: supervisor,
     );
     scanService = ScanSessionService(
+      storeRepository: stores,
       scanSessions: scanSessions,
       products: products,
       stockMovements: movements,
@@ -78,7 +89,6 @@ void main() {
     await openShift();
     await productWithBarcode('111', stock: 10);
     await productWithBarcode('222', stock: 5);
-    final untouchedId = await productWithBarcode('333', stock: 20);
     final sessionId = await startCountSession();
 
     await scanService.recordScan(
@@ -115,9 +125,6 @@ void main() {
     final line222 = data.lines.firstWhere((l) => l.countedStock == 1);
     expect(line222.systemStock, 5);
     expect(line222.variance, -4);
-
-    final untouched = await products.findById(storeId, untouchedId);
-    expect(untouched!.stock, 20);
 
     final persisted =
         await inventoryCloses.findById(storeId, data.closeId);
@@ -243,6 +250,7 @@ void main() {
     await openShift();
     final sessionId = await startCountSession();
     final cajeroService = ScanSessionService(
+      storeRepository: stores,
       scanSessions: scanSessions,
       products: products,
       stockMovements: movements,

@@ -293,3 +293,12 @@ Migración desde v18: `createTable` ambas.
 | stores | pos_template_id | TEXT NOT NULL default `ATRIA_POS`; desconocido se normaliza a Atria al leer |
 
 Migración desde v19: `addColumn` + `UPDATE stores SET pos_template_id = 'ATRIA_POS' WHERE pos_template_id IS NULL`.
+
+## R5 — Perfil operativo schema v25–26 (SLICE-162–163)
+
+| Tabla | Columna | Notas |
+|-------|---------|-------|
+| stores | operational_config | TEXT JSON (`StoreOperationalOverrides`); NULL = sin overrides |
+| store_config_events | id, store_id, actor_user_id, occurred_at, summary | Auditoría PATCH perfil (categoría CONFIG) |
+
+Migración v25: `operational_config`. v26: tabla `store_config_events`.

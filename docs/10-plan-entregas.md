@@ -204,6 +204,13 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 158 | SLICE-158 | POS | UX ingreso existencias táctil | RF-085 | SC-158-UI ✅ |
 | 159 | SLICE-159 | POS | UX ajuste e insights táctil | RF-021, RF-087 | SC-159-UI ✅ |
 | 160 | SLICE-160 | App/LAN | Nombre producto en ack de escaneo | RF-098 | SC-160-* ✅ |
+| 161 | SLICE-161 | Docs | Gate R5 multi-rubro | RF-099 | SC-161-* ✅ |
+| 162 | SLICE-162 | Core | Perfil operativo GET y merge | RF-099 | SC-162-* ✅ |
+| 163 | SLICE-163 | Core | PATCH dueño y auditoría | RF-099 | SC-163-* ✅ |
+| 164 | SLICE-164 | POS | Cableado checkout menú ingreso | RF-099 | SC-164-* ✅ |
+| 165 | SLICE-165 | POS | UI configuración tienda | RF-099 | SC-165-UI ✅ |
+| 166 | SLICE-166 | Core/POS | Flag Transbank y stub | RF-099 | SC-166-* ✅ |
+| 167 | SLICE-167 | Core/POS | Caducidad en ingreso | RF-099 | SC-167-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

@@ -4,7 +4,8 @@ enum AuditCategory {
   ventas('VENTAS'),
   inventario('INVENTARIO'),
   usuarios('USUARIOS'),
-  pagos('PAGOS');
+  pagos('PAGOS'),
+  configuracion('CONFIG');
 
   const AuditCategory(this.apiValue);
 

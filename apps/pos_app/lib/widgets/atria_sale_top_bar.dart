@@ -14,6 +14,7 @@ class AtriaSaleTopBar extends StatelessWidget {
     required this.visibleEntries,
     this.showProductStock = false,
     this.onChangeSession,
+    this.onMenuReturned,
     this.scannerAction,
   });
 
@@ -21,6 +22,7 @@ class AtriaSaleTopBar extends StatelessWidget {
   final List<PosMenuEntry> visibleEntries;
   final bool showProductStock;
   final VoidCallback? onChangeSession;
+  final VoidCallback? onMenuReturned;
   final Widget? scannerAction;
 
   void _open(BuildContext context, Widget screen) {
@@ -38,6 +40,7 @@ class AtriaSaleTopBar extends StatelessWidget {
     final menu = SaleOperationMenu(
       composition: composition,
       visibleEntries: visibleEntries,
+      onNavigated: onMenuReturned,
       menuAnchor: Builder(
         builder: (context) {
           final cs = Theme.of(context).colorScheme;

@@ -54,6 +54,10 @@ enum PosMenuEntry {
     feature: PosFeature.userManagement,
     permission: Permission.gestionarUsuarios,
   ),
+  storeConfig(
+    feature: PosFeature.storeOperationalConfig,
+    permission: Permission.gestionarConfigTienda,
+  ),
   ;
 
   const PosMenuEntry({

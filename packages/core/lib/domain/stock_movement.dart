@@ -16,6 +16,7 @@ class StockMovement {
     this.actorId,
     this.guideRef,
     this.lotRef,
+    this.lotExpiry,
   });
 
   final StockMovementId id;
@@ -27,6 +28,7 @@ class StockMovement {
   final String? actorId;
   final String? guideRef;
   final String? lotRef;
+  final DateTime? lotExpiry;
   final DateTime createdAt;
 
   static StockMovement record({
@@ -38,6 +40,7 @@ class StockMovement {
     String? actorId,
     String? guideRef,
     String? lotRef,
+    DateTime? lotExpiry,
     DateTime? createdAt,
   }) {
     if (delta == 0) {
@@ -54,6 +57,7 @@ class StockMovement {
       actorId: actorId,
       guideRef: guideRef,
       lotRef: lotRef,
+      lotExpiry: lotExpiry,
       createdAt: createdAt ?? DateTime.now().toUtc(),
     );
   }

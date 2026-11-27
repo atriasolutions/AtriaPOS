@@ -37,11 +37,13 @@ class StockReceiptRequest {
     required this.quantity,
     required this.guideRef,
     required this.lotRef,
+    this.lotExpiry,
   });
 
   final int quantity;
   final String guideRef;
   final String lotRef;
+  final String? lotExpiry;
 }
 
 class InventoryClosePreviewItemResponse {

@@ -6,6 +6,7 @@ import 'scan_session_dtos.dart';
 
 class ScanSessionService {
   factory ScanSessionService({
+    StoreRepository? storeRepository,
     ScanSessionRepository? scanSessions,
     ProductRepository? products,
     StockMovementRepository? stockMovements,
@@ -14,6 +15,7 @@ class ScanSessionService {
     InventoryCloseRepository? inventoryCloseRepository,
     SessionProvider? sessionProvider,
   }) {
+    final stores = storeRepository ?? InMemoryStoreRepository();
     final sessions = scanSessions ?? InMemoryScanSessionRepository();
     final prods = products ?? InMemoryProductRepository();
     final movements = stockMovements ?? InMemoryStockMovementRepository();
@@ -23,7 +25,7 @@ class ScanSessionService {
         inventoryCloseRepository ?? InMemoryInventoryCloseRepository();
     final provider =
         sessionProvider ?? InMemorySessionProvider.supervisor();
-    final recordReceipt = RecordStockReceipt(prods, movements, provider);
+    final recordReceipt = RecordStockReceipt(stores, prods, movements, provider);
     final adjustStock = AdjustStock(prods, movements, provider);
     final closeInventory = CloseInventory(
       shifts,

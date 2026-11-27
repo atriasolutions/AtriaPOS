@@ -133,13 +133,18 @@ class ConfirmCheckout {
     AuthPolicy.require(session, Permission.vender);
     final actorId = session.userId;
     final store = await _stores.findById(input.storeId);
-    final templateId = store?.posTemplateId ?? PosTemplateId.atriaPos;
-    final requiresSeller = CheckoutTemplatePolicy.requiresSellerCode(templateId);
+    final effectiveTemplate = store != null
+        ? StoreOperationalConfigResolver.effectiveTemplate(store)
+        : PosTemplateRegistry.resolve(PosTemplateId.atriaPos).toPosTemplate();
+    final requiresSeller =
+        CheckoutTemplatePolicy.requiresSellerCodeTemplate(effectiveTemplate);
 
     SaleInvoiceReceiver? invoiceReceiver;
     final documentKind = input.documentKind;
     if (documentKind == CheckoutDocumentKind.factura) {
-      if (!CheckoutTemplatePolicy.allowsInvoiceCheckout(templateId)) {
+      if (!CheckoutTemplatePolicy.allowsInvoiceCheckoutTemplate(
+        effectiveTemplate,
+      )) {
         throw const ValidationFailure(
           'La plantilla de esta tienda no permite emitir factura',
         );

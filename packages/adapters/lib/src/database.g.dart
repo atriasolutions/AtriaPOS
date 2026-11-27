@@ -82,6 +82,18 @@ class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
     requiredDuringInsert: false,
     defaultValue: const Constant('ATRIA_POS'),
   );
+  static const VerificationMeta _operationalConfigMeta = const VerificationMeta(
+    'operationalConfig',
+  );
+  @override
+  late final GeneratedColumn<String> operationalConfig =
+      GeneratedColumn<String>(
+        'operational_config',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -91,6 +103,7 @@ class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
     taxConfig,
     createdAt,
     posTemplateId,
+    operationalConfig,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -161,6 +174,15 @@ class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
         ),
       );
     }
+    if (data.containsKey('operational_config')) {
+      context.handle(
+        _operationalConfigMeta,
+        operationalConfig.isAcceptableOrUnknown(
+          data['operational_config']!,
+          _operationalConfigMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -198,6 +220,10 @@ class $StoresTable extends Stores with TableInfo<$StoresTable, StoreRow> {
         DriftSqlType.string,
         data['${effectivePrefix}pos_template_id'],
       )!,
+      operationalConfig: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}operational_config'],
+      ),
     );
   }
 
@@ -215,6 +241,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
   final String taxConfig;
   final String createdAt;
   final String posTemplateId;
+  final String? operationalConfig;
   const StoreRow({
     required this.id,
     required this.rut,
@@ -223,6 +250,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     required this.taxConfig,
     required this.createdAt,
     required this.posTemplateId,
+    this.operationalConfig,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -234,6 +262,9 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     map['tax_config'] = Variable<String>(taxConfig);
     map['created_at'] = Variable<String>(createdAt);
     map['pos_template_id'] = Variable<String>(posTemplateId);
+    if (!nullToAbsent || operationalConfig != null) {
+      map['operational_config'] = Variable<String>(operationalConfig);
+    }
     return map;
   }
 
@@ -246,6 +277,9 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
       taxConfig: Value(taxConfig),
       createdAt: Value(createdAt),
       posTemplateId: Value(posTemplateId),
+      operationalConfig: operationalConfig == null && nullToAbsent
+          ? const Value.absent()
+          : Value(operationalConfig),
     );
   }
 
@@ -262,6 +296,9 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
       taxConfig: serializer.fromJson<String>(json['taxConfig']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
       posTemplateId: serializer.fromJson<String>(json['posTemplateId']),
+      operationalConfig: serializer.fromJson<String?>(
+        json['operationalConfig'],
+      ),
     );
   }
   @override
@@ -275,6 +312,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
       'taxConfig': serializer.toJson<String>(taxConfig),
       'createdAt': serializer.toJson<String>(createdAt),
       'posTemplateId': serializer.toJson<String>(posTemplateId),
+      'operationalConfig': serializer.toJson<String?>(operationalConfig),
     };
   }
 
@@ -286,6 +324,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     String? taxConfig,
     String? createdAt,
     String? posTemplateId,
+    Value<String?> operationalConfig = const Value.absent(),
   }) => StoreRow(
     id: id ?? this.id,
     rut: rut ?? this.rut,
@@ -294,6 +333,9 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     taxConfig: taxConfig ?? this.taxConfig,
     createdAt: createdAt ?? this.createdAt,
     posTemplateId: posTemplateId ?? this.posTemplateId,
+    operationalConfig: operationalConfig.present
+        ? operationalConfig.value
+        : this.operationalConfig,
   );
   StoreRow copyWithCompanion(StoresCompanion data) {
     return StoreRow(
@@ -308,6 +350,9 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
       posTemplateId: data.posTemplateId.present
           ? data.posTemplateId.value
           : this.posTemplateId,
+      operationalConfig: data.operationalConfig.present
+          ? data.operationalConfig.value
+          : this.operationalConfig,
     );
   }
 
@@ -320,7 +365,8 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
           ..write('businessLine: $businessLine, ')
           ..write('taxConfig: $taxConfig, ')
           ..write('createdAt: $createdAt, ')
-          ..write('posTemplateId: $posTemplateId')
+          ..write('posTemplateId: $posTemplateId, ')
+          ..write('operationalConfig: $operationalConfig')
           ..write(')'))
         .toString();
   }
@@ -334,6 +380,7 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
     taxConfig,
     createdAt,
     posTemplateId,
+    operationalConfig,
   );
   @override
   bool operator ==(Object other) =>
@@ -345,7 +392,8 @@ class StoreRow extends DataClass implements Insertable<StoreRow> {
           other.businessLine == this.businessLine &&
           other.taxConfig == this.taxConfig &&
           other.createdAt == this.createdAt &&
-          other.posTemplateId == this.posTemplateId);
+          other.posTemplateId == this.posTemplateId &&
+          other.operationalConfig == this.operationalConfig);
 }
 
 class StoresCompanion extends UpdateCompanion<StoreRow> {
@@ -356,6 +404,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
   final Value<String> taxConfig;
   final Value<String> createdAt;
   final Value<String> posTemplateId;
+  final Value<String?> operationalConfig;
   final Value<int> rowid;
   const StoresCompanion({
     this.id = const Value.absent(),
@@ -365,6 +414,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     this.taxConfig = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.posTemplateId = const Value.absent(),
+    this.operationalConfig = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   StoresCompanion.insert({
@@ -375,6 +425,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     required String taxConfig,
     required String createdAt,
     this.posTemplateId = const Value.absent(),
+    this.operationalConfig = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        rut = Value(rut),
@@ -390,6 +441,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     Expression<String>? taxConfig,
     Expression<String>? createdAt,
     Expression<String>? posTemplateId,
+    Expression<String>? operationalConfig,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -400,6 +452,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
       if (taxConfig != null) 'tax_config': taxConfig,
       if (createdAt != null) 'created_at': createdAt,
       if (posTemplateId != null) 'pos_template_id': posTemplateId,
+      if (operationalConfig != null) 'operational_config': operationalConfig,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -412,6 +465,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     Value<String>? taxConfig,
     Value<String>? createdAt,
     Value<String>? posTemplateId,
+    Value<String?>? operationalConfig,
     Value<int>? rowid,
   }) {
     return StoresCompanion(
@@ -422,6 +476,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
       taxConfig: taxConfig ?? this.taxConfig,
       createdAt: createdAt ?? this.createdAt,
       posTemplateId: posTemplateId ?? this.posTemplateId,
+      operationalConfig: operationalConfig ?? this.operationalConfig,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -450,6 +505,9 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
     if (posTemplateId.present) {
       map['pos_template_id'] = Variable<String>(posTemplateId.value);
     }
+    if (operationalConfig.present) {
+      map['operational_config'] = Variable<String>(operationalConfig.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -466,6 +524,7 @@ class StoresCompanion extends UpdateCompanion<StoreRow> {
           ..write('taxConfig: $taxConfig, ')
           ..write('createdAt: $createdAt, ')
           ..write('posTemplateId: $posTemplateId, ')
+          ..write('operationalConfig: $operationalConfig, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1210,6 +1269,17 @@ class $StockMovementsTable extends StockMovements
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _lotExpiryMeta = const VerificationMeta(
+    'lotExpiry',
+  );
+  @override
+  late final GeneratedColumn<String> lotExpiry = GeneratedColumn<String>(
+    'lot_expiry',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1222,6 +1292,7 @@ class $StockMovementsTable extends StockMovements
     createdAt,
     guideRef,
     lotRef,
+    lotExpiry,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1304,6 +1375,12 @@ class $StockMovementsTable extends StockMovements
         lotRef.isAcceptableOrUnknown(data['lot_ref']!, _lotRefMeta),
       );
     }
+    if (data.containsKey('lot_expiry')) {
+      context.handle(
+        _lotExpiryMeta,
+        lotExpiry.isAcceptableOrUnknown(data['lot_expiry']!, _lotExpiryMeta),
+      );
+    }
     return context;
   }
 
@@ -1353,6 +1430,10 @@ class $StockMovementsTable extends StockMovements
         DriftSqlType.string,
         data['${effectivePrefix}lot_ref'],
       ),
+      lotExpiry: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}lot_expiry'],
+      ),
     );
   }
 
@@ -1374,6 +1455,7 @@ class StockMovementRow extends DataClass
   final String createdAt;
   final String? guideRef;
   final String? lotRef;
+  final String? lotExpiry;
   const StockMovementRow({
     required this.id,
     required this.storeId,
@@ -1385,6 +1467,7 @@ class StockMovementRow extends DataClass
     required this.createdAt,
     this.guideRef,
     this.lotRef,
+    this.lotExpiry,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1407,6 +1490,9 @@ class StockMovementRow extends DataClass
     if (!nullToAbsent || lotRef != null) {
       map['lot_ref'] = Variable<String>(lotRef);
     }
+    if (!nullToAbsent || lotExpiry != null) {
+      map['lot_expiry'] = Variable<String>(lotExpiry);
+    }
     return map;
   }
 
@@ -1428,6 +1514,9 @@ class StockMovementRow extends DataClass
       lotRef: lotRef == null && nullToAbsent
           ? const Value.absent()
           : Value(lotRef),
+      lotExpiry: lotExpiry == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lotExpiry),
     );
   }
 
@@ -1447,6 +1536,7 @@ class StockMovementRow extends DataClass
       createdAt: serializer.fromJson<String>(json['createdAt']),
       guideRef: serializer.fromJson<String?>(json['guideRef']),
       lotRef: serializer.fromJson<String?>(json['lotRef']),
+      lotExpiry: serializer.fromJson<String?>(json['lotExpiry']),
     );
   }
   @override
@@ -1463,6 +1553,7 @@ class StockMovementRow extends DataClass
       'createdAt': serializer.toJson<String>(createdAt),
       'guideRef': serializer.toJson<String?>(guideRef),
       'lotRef': serializer.toJson<String?>(lotRef),
+      'lotExpiry': serializer.toJson<String?>(lotExpiry),
     };
   }
 
@@ -1477,6 +1568,7 @@ class StockMovementRow extends DataClass
     String? createdAt,
     Value<String?> guideRef = const Value.absent(),
     Value<String?> lotRef = const Value.absent(),
+    Value<String?> lotExpiry = const Value.absent(),
   }) => StockMovementRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -1488,6 +1580,7 @@ class StockMovementRow extends DataClass
     createdAt: createdAt ?? this.createdAt,
     guideRef: guideRef.present ? guideRef.value : this.guideRef,
     lotRef: lotRef.present ? lotRef.value : this.lotRef,
+    lotExpiry: lotExpiry.present ? lotExpiry.value : this.lotExpiry,
   );
   StockMovementRow copyWithCompanion(StockMovementsCompanion data) {
     return StockMovementRow(
@@ -1501,6 +1594,7 @@ class StockMovementRow extends DataClass
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       guideRef: data.guideRef.present ? data.guideRef.value : this.guideRef,
       lotRef: data.lotRef.present ? data.lotRef.value : this.lotRef,
+      lotExpiry: data.lotExpiry.present ? data.lotExpiry.value : this.lotExpiry,
     );
   }
 
@@ -1516,7 +1610,8 @@ class StockMovementRow extends DataClass
           ..write('actorId: $actorId, ')
           ..write('createdAt: $createdAt, ')
           ..write('guideRef: $guideRef, ')
-          ..write('lotRef: $lotRef')
+          ..write('lotRef: $lotRef, ')
+          ..write('lotExpiry: $lotExpiry')
           ..write(')'))
         .toString();
   }
@@ -1533,6 +1628,7 @@ class StockMovementRow extends DataClass
     createdAt,
     guideRef,
     lotRef,
+    lotExpiry,
   );
   @override
   bool operator ==(Object other) =>
@@ -1547,7 +1643,8 @@ class StockMovementRow extends DataClass
           other.actorId == this.actorId &&
           other.createdAt == this.createdAt &&
           other.guideRef == this.guideRef &&
-          other.lotRef == this.lotRef);
+          other.lotRef == this.lotRef &&
+          other.lotExpiry == this.lotExpiry);
 }
 
 class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
@@ -1561,6 +1658,7 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
   final Value<String> createdAt;
   final Value<String?> guideRef;
   final Value<String?> lotRef;
+  final Value<String?> lotExpiry;
   final Value<int> rowid;
   const StockMovementsCompanion({
     this.id = const Value.absent(),
@@ -1573,6 +1671,7 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     this.createdAt = const Value.absent(),
     this.guideRef = const Value.absent(),
     this.lotRef = const Value.absent(),
+    this.lotExpiry = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   StockMovementsCompanion.insert({
@@ -1586,6 +1685,7 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     required String createdAt,
     this.guideRef = const Value.absent(),
     this.lotRef = const Value.absent(),
+    this.lotExpiry = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -1604,6 +1704,7 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     Expression<String>? createdAt,
     Expression<String>? guideRef,
     Expression<String>? lotRef,
+    Expression<String>? lotExpiry,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1617,6 +1718,7 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
       if (createdAt != null) 'created_at': createdAt,
       if (guideRef != null) 'guide_ref': guideRef,
       if (lotRef != null) 'lot_ref': lotRef,
+      if (lotExpiry != null) 'lot_expiry': lotExpiry,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1632,6 +1734,7 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     Value<String>? createdAt,
     Value<String?>? guideRef,
     Value<String?>? lotRef,
+    Value<String?>? lotExpiry,
     Value<int>? rowid,
   }) {
     return StockMovementsCompanion(
@@ -1645,6 +1748,7 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
       createdAt: createdAt ?? this.createdAt,
       guideRef: guideRef ?? this.guideRef,
       lotRef: lotRef ?? this.lotRef,
+      lotExpiry: lotExpiry ?? this.lotExpiry,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1682,6 +1786,9 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
     if (lotRef.present) {
       map['lot_ref'] = Variable<String>(lotRef.value);
     }
+    if (lotExpiry.present) {
+      map['lot_expiry'] = Variable<String>(lotExpiry.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1701,6 +1808,7 @@ class StockMovementsCompanion extends UpdateCompanion<StockMovementRow> {
           ..write('createdAt: $createdAt, ')
           ..write('guideRef: $guideRef, ')
           ..write('lotRef: $lotRef, ')
+          ..write('lotExpiry: $lotExpiry, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -10253,6 +10361,377 @@ class InvoiceCustomersCompanion extends UpdateCompanion<InvoiceCustomerRow> {
   }
 }
 
+class $StoreConfigEventsTable extends StoreConfigEvents
+    with TableInfo<$StoreConfigEventsTable, StoreConfigEventRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $StoreConfigEventsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _storeIdMeta = const VerificationMeta(
+    'storeId',
+  );
+  @override
+  late final GeneratedColumn<String> storeId = GeneratedColumn<String>(
+    'store_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _actorUserIdMeta = const VerificationMeta(
+    'actorUserId',
+  );
+  @override
+  late final GeneratedColumn<String> actorUserId = GeneratedColumn<String>(
+    'actor_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _occurredAtMeta = const VerificationMeta(
+    'occurredAt',
+  );
+  @override
+  late final GeneratedColumn<String> occurredAt = GeneratedColumn<String>(
+    'occurred_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _summaryMeta = const VerificationMeta(
+    'summary',
+  );
+  @override
+  late final GeneratedColumn<String> summary = GeneratedColumn<String>(
+    'summary',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    storeId,
+    actorUserId,
+    occurredAt,
+    summary,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'store_config_events';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<StoreConfigEventRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('store_id')) {
+      context.handle(
+        _storeIdMeta,
+        storeId.isAcceptableOrUnknown(data['store_id']!, _storeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_storeIdMeta);
+    }
+    if (data.containsKey('actor_user_id')) {
+      context.handle(
+        _actorUserIdMeta,
+        actorUserId.isAcceptableOrUnknown(
+          data['actor_user_id']!,
+          _actorUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_actorUserIdMeta);
+    }
+    if (data.containsKey('occurred_at')) {
+      context.handle(
+        _occurredAtMeta,
+        occurredAt.isAcceptableOrUnknown(data['occurred_at']!, _occurredAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_occurredAtMeta);
+    }
+    if (data.containsKey('summary')) {
+      context.handle(
+        _summaryMeta,
+        summary.isAcceptableOrUnknown(data['summary']!, _summaryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_summaryMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  StoreConfigEventRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return StoreConfigEventRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      storeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}store_id'],
+      )!,
+      actorUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}actor_user_id'],
+      )!,
+      occurredAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}occurred_at'],
+      )!,
+      summary: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary'],
+      )!,
+    );
+  }
+
+  @override
+  $StoreConfigEventsTable createAlias(String alias) {
+    return $StoreConfigEventsTable(attachedDatabase, alias);
+  }
+}
+
+class StoreConfigEventRow extends DataClass
+    implements Insertable<StoreConfigEventRow> {
+  final String id;
+  final String storeId;
+  final String actorUserId;
+  final String occurredAt;
+  final String summary;
+  const StoreConfigEventRow({
+    required this.id,
+    required this.storeId,
+    required this.actorUserId,
+    required this.occurredAt,
+    required this.summary,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['store_id'] = Variable<String>(storeId);
+    map['actor_user_id'] = Variable<String>(actorUserId);
+    map['occurred_at'] = Variable<String>(occurredAt);
+    map['summary'] = Variable<String>(summary);
+    return map;
+  }
+
+  StoreConfigEventsCompanion toCompanion(bool nullToAbsent) {
+    return StoreConfigEventsCompanion(
+      id: Value(id),
+      storeId: Value(storeId),
+      actorUserId: Value(actorUserId),
+      occurredAt: Value(occurredAt),
+      summary: Value(summary),
+    );
+  }
+
+  factory StoreConfigEventRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return StoreConfigEventRow(
+      id: serializer.fromJson<String>(json['id']),
+      storeId: serializer.fromJson<String>(json['storeId']),
+      actorUserId: serializer.fromJson<String>(json['actorUserId']),
+      occurredAt: serializer.fromJson<String>(json['occurredAt']),
+      summary: serializer.fromJson<String>(json['summary']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'storeId': serializer.toJson<String>(storeId),
+      'actorUserId': serializer.toJson<String>(actorUserId),
+      'occurredAt': serializer.toJson<String>(occurredAt),
+      'summary': serializer.toJson<String>(summary),
+    };
+  }
+
+  StoreConfigEventRow copyWith({
+    String? id,
+    String? storeId,
+    String? actorUserId,
+    String? occurredAt,
+    String? summary,
+  }) => StoreConfigEventRow(
+    id: id ?? this.id,
+    storeId: storeId ?? this.storeId,
+    actorUserId: actorUserId ?? this.actorUserId,
+    occurredAt: occurredAt ?? this.occurredAt,
+    summary: summary ?? this.summary,
+  );
+  StoreConfigEventRow copyWithCompanion(StoreConfigEventsCompanion data) {
+    return StoreConfigEventRow(
+      id: data.id.present ? data.id.value : this.id,
+      storeId: data.storeId.present ? data.storeId.value : this.storeId,
+      actorUserId: data.actorUserId.present
+          ? data.actorUserId.value
+          : this.actorUserId,
+      occurredAt: data.occurredAt.present
+          ? data.occurredAt.value
+          : this.occurredAt,
+      summary: data.summary.present ? data.summary.value : this.summary,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StoreConfigEventRow(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('actorUserId: $actorUserId, ')
+          ..write('occurredAt: $occurredAt, ')
+          ..write('summary: $summary')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, storeId, actorUserId, occurredAt, summary);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is StoreConfigEventRow &&
+          other.id == this.id &&
+          other.storeId == this.storeId &&
+          other.actorUserId == this.actorUserId &&
+          other.occurredAt == this.occurredAt &&
+          other.summary == this.summary);
+}
+
+class StoreConfigEventsCompanion extends UpdateCompanion<StoreConfigEventRow> {
+  final Value<String> id;
+  final Value<String> storeId;
+  final Value<String> actorUserId;
+  final Value<String> occurredAt;
+  final Value<String> summary;
+  final Value<int> rowid;
+  const StoreConfigEventsCompanion({
+    this.id = const Value.absent(),
+    this.storeId = const Value.absent(),
+    this.actorUserId = const Value.absent(),
+    this.occurredAt = const Value.absent(),
+    this.summary = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  StoreConfigEventsCompanion.insert({
+    required String id,
+    required String storeId,
+    required String actorUserId,
+    required String occurredAt,
+    required String summary,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       storeId = Value(storeId),
+       actorUserId = Value(actorUserId),
+       occurredAt = Value(occurredAt),
+       summary = Value(summary);
+  static Insertable<StoreConfigEventRow> custom({
+    Expression<String>? id,
+    Expression<String>? storeId,
+    Expression<String>? actorUserId,
+    Expression<String>? occurredAt,
+    Expression<String>? summary,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (storeId != null) 'store_id': storeId,
+      if (actorUserId != null) 'actor_user_id': actorUserId,
+      if (occurredAt != null) 'occurred_at': occurredAt,
+      if (summary != null) 'summary': summary,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  StoreConfigEventsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? storeId,
+    Value<String>? actorUserId,
+    Value<String>? occurredAt,
+    Value<String>? summary,
+    Value<int>? rowid,
+  }) {
+    return StoreConfigEventsCompanion(
+      id: id ?? this.id,
+      storeId: storeId ?? this.storeId,
+      actorUserId: actorUserId ?? this.actorUserId,
+      occurredAt: occurredAt ?? this.occurredAt,
+      summary: summary ?? this.summary,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (storeId.present) {
+      map['store_id'] = Variable<String>(storeId.value);
+    }
+    if (actorUserId.present) {
+      map['actor_user_id'] = Variable<String>(actorUserId.value);
+    }
+    if (occurredAt.present) {
+      map['occurred_at'] = Variable<String>(occurredAt.value);
+    }
+    if (summary.present) {
+      map['summary'] = Variable<String>(summary.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StoreConfigEventsCompanion(')
+          ..write('id: $id, ')
+          ..write('storeId: $storeId, ')
+          ..write('actorUserId: $actorUserId, ')
+          ..write('occurredAt: $occurredAt, ')
+          ..write('summary: $summary, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -10285,6 +10764,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $InvoiceCustomersTable invoiceCustomers = $InvoiceCustomersTable(
     this,
   );
+  late final $StoreConfigEventsTable storeConfigEvents =
+      $StoreConfigEventsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -10308,6 +10789,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     dteFolioCounters,
     clockState,
     invoiceCustomers,
+    storeConfigEvents,
   ];
 }
 
@@ -10320,6 +10802,7 @@ typedef $$StoresTableCreateCompanionBuilder =
       required String taxConfig,
       required String createdAt,
       Value<String> posTemplateId,
+      Value<String?> operationalConfig,
       Value<int> rowid,
     });
 typedef $$StoresTableUpdateCompanionBuilder =
@@ -10331,6 +10814,7 @@ typedef $$StoresTableUpdateCompanionBuilder =
       Value<String> taxConfig,
       Value<String> createdAt,
       Value<String> posTemplateId,
+      Value<String?> operationalConfig,
       Value<int> rowid,
     });
 
@@ -10375,6 +10859,11 @@ class $$StoresTableFilterComposer
 
   ColumnFilters<String> get posTemplateId => $composableBuilder(
     column: $table.posTemplateId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get operationalConfig => $composableBuilder(
+    column: $table.operationalConfig,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -10422,6 +10911,11 @@ class $$StoresTableOrderingComposer
     column: $table.posTemplateId,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get operationalConfig => $composableBuilder(
+    column: $table.operationalConfig,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$StoresTableAnnotationComposer
@@ -10455,6 +10949,11 @@ class $$StoresTableAnnotationComposer
 
   GeneratedColumn<String> get posTemplateId => $composableBuilder(
     column: $table.posTemplateId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get operationalConfig => $composableBuilder(
+    column: $table.operationalConfig,
     builder: (column) => column,
   );
 }
@@ -10494,6 +10993,7 @@ class $$StoresTableTableManager
                 Value<String> taxConfig = const Value.absent(),
                 Value<String> createdAt = const Value.absent(),
                 Value<String> posTemplateId = const Value.absent(),
+                Value<String?> operationalConfig = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StoresCompanion(
                 id: id,
@@ -10503,6 +11003,7 @@ class $$StoresTableTableManager
                 taxConfig: taxConfig,
                 createdAt: createdAt,
                 posTemplateId: posTemplateId,
+                operationalConfig: operationalConfig,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -10514,6 +11015,7 @@ class $$StoresTableTableManager
                 required String taxConfig,
                 required String createdAt,
                 Value<String> posTemplateId = const Value.absent(),
+                Value<String?> operationalConfig = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StoresCompanion.insert(
                 id: id,
@@ -10523,6 +11025,7 @@ class $$StoresTableTableManager
                 taxConfig: taxConfig,
                 createdAt: createdAt,
                 posTemplateId: posTemplateId,
+                operationalConfig: operationalConfig,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -10857,6 +11360,7 @@ typedef $$StockMovementsTableCreateCompanionBuilder =
       required String createdAt,
       Value<String?> guideRef,
       Value<String?> lotRef,
+      Value<String?> lotExpiry,
       Value<int> rowid,
     });
 typedef $$StockMovementsTableUpdateCompanionBuilder =
@@ -10871,6 +11375,7 @@ typedef $$StockMovementsTableUpdateCompanionBuilder =
       Value<String> createdAt,
       Value<String?> guideRef,
       Value<String?> lotRef,
+      Value<String?> lotExpiry,
       Value<int> rowid,
     });
 
@@ -10930,6 +11435,11 @@ class $$StockMovementsTableFilterComposer
 
   ColumnFilters<String> get lotRef => $composableBuilder(
     column: $table.lotRef,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lotExpiry => $composableBuilder(
+    column: $table.lotExpiry,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -10992,6 +11502,11 @@ class $$StockMovementsTableOrderingComposer
     column: $table.lotRef,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get lotExpiry => $composableBuilder(
+    column: $table.lotExpiry,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$StockMovementsTableAnnotationComposer
@@ -11032,6 +11547,9 @@ class $$StockMovementsTableAnnotationComposer
 
   GeneratedColumn<String> get lotRef =>
       $composableBuilder(column: $table.lotRef, builder: (column) => column);
+
+  GeneratedColumn<String> get lotExpiry =>
+      $composableBuilder(column: $table.lotExpiry, builder: (column) => column);
 }
 
 class $$StockMovementsTableTableManager
@@ -11081,6 +11599,7 @@ class $$StockMovementsTableTableManager
                 Value<String> createdAt = const Value.absent(),
                 Value<String?> guideRef = const Value.absent(),
                 Value<String?> lotRef = const Value.absent(),
+                Value<String?> lotExpiry = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StockMovementsCompanion(
                 id: id,
@@ -11093,6 +11612,7 @@ class $$StockMovementsTableTableManager
                 createdAt: createdAt,
                 guideRef: guideRef,
                 lotRef: lotRef,
+                lotExpiry: lotExpiry,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -11107,6 +11627,7 @@ class $$StockMovementsTableTableManager
                 required String createdAt,
                 Value<String?> guideRef = const Value.absent(),
                 Value<String?> lotRef = const Value.absent(),
+                Value<String?> lotExpiry = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StockMovementsCompanion.insert(
                 id: id,
@@ -11119,6 +11640,7 @@ class $$StockMovementsTableTableManager
                 createdAt: createdAt,
                 guideRef: guideRef,
                 lotRef: lotRef,
+                lotExpiry: lotExpiry,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -15355,6 +15877,223 @@ typedef $$InvoiceCustomersTableProcessedTableManager =
       InvoiceCustomerRow,
       PrefetchHooks Function()
     >;
+typedef $$StoreConfigEventsTableCreateCompanionBuilder =
+    StoreConfigEventsCompanion Function({
+      required String id,
+      required String storeId,
+      required String actorUserId,
+      required String occurredAt,
+      required String summary,
+      Value<int> rowid,
+    });
+typedef $$StoreConfigEventsTableUpdateCompanionBuilder =
+    StoreConfigEventsCompanion Function({
+      Value<String> id,
+      Value<String> storeId,
+      Value<String> actorUserId,
+      Value<String> occurredAt,
+      Value<String> summary,
+      Value<int> rowid,
+    });
+
+class $$StoreConfigEventsTableFilterComposer
+    extends Composer<_$AppDatabase, $StoreConfigEventsTable> {
+  $$StoreConfigEventsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get summary => $composableBuilder(
+    column: $table.summary,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$StoreConfigEventsTableOrderingComposer
+    extends Composer<_$AppDatabase, $StoreConfigEventsTable> {
+  $$StoreConfigEventsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get summary => $composableBuilder(
+    column: $table.summary,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$StoreConfigEventsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $StoreConfigEventsTable> {
+  $$StoreConfigEventsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get storeId =>
+      $composableBuilder(column: $table.storeId, builder: (column) => column);
+
+  GeneratedColumn<String> get actorUserId => $composableBuilder(
+    column: $table.actorUserId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get occurredAt => $composableBuilder(
+    column: $table.occurredAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get summary =>
+      $composableBuilder(column: $table.summary, builder: (column) => column);
+}
+
+class $$StoreConfigEventsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $StoreConfigEventsTable,
+          StoreConfigEventRow,
+          $$StoreConfigEventsTableFilterComposer,
+          $$StoreConfigEventsTableOrderingComposer,
+          $$StoreConfigEventsTableAnnotationComposer,
+          $$StoreConfigEventsTableCreateCompanionBuilder,
+          $$StoreConfigEventsTableUpdateCompanionBuilder,
+          (
+            StoreConfigEventRow,
+            BaseReferences<
+              _$AppDatabase,
+              $StoreConfigEventsTable,
+              StoreConfigEventRow
+            >,
+          ),
+          StoreConfigEventRow,
+          PrefetchHooks Function()
+        > {
+  $$StoreConfigEventsTableTableManager(
+    _$AppDatabase db,
+    $StoreConfigEventsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$StoreConfigEventsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StoreConfigEventsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StoreConfigEventsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> storeId = const Value.absent(),
+                Value<String> actorUserId = const Value.absent(),
+                Value<String> occurredAt = const Value.absent(),
+                Value<String> summary = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StoreConfigEventsCompanion(
+                id: id,
+                storeId: storeId,
+                actorUserId: actorUserId,
+                occurredAt: occurredAt,
+                summary: summary,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String storeId,
+                required String actorUserId,
+                required String occurredAt,
+                required String summary,
+                Value<int> rowid = const Value.absent(),
+              }) => StoreConfigEventsCompanion.insert(
+                id: id,
+                storeId: storeId,
+                actorUserId: actorUserId,
+                occurredAt: occurredAt,
+                summary: summary,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$StoreConfigEventsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $StoreConfigEventsTable,
+      StoreConfigEventRow,
+      $$StoreConfigEventsTableFilterComposer,
+      $$StoreConfigEventsTableOrderingComposer,
+      $$StoreConfigEventsTableAnnotationComposer,
+      $$StoreConfigEventsTableCreateCompanionBuilder,
+      $$StoreConfigEventsTableUpdateCompanionBuilder,
+      (
+        StoreConfigEventRow,
+        BaseReferences<
+          _$AppDatabase,
+          $StoreConfigEventsTable,
+          StoreConfigEventRow
+        >,
+      ),
+      StoreConfigEventRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -15395,4 +16134,6 @@ class $AppDatabaseManager {
       $$ClockStateTableTableManager(_db, _db.clockState);
   $$InvoiceCustomersTableTableManager get invoiceCustomers =>
       $$InvoiceCustomersTableTableManager(_db, _db.invoiceCustomers);
+  $$StoreConfigEventsTableTableManager get storeConfigEvents =>
+      $$StoreConfigEventsTableTableManager(_db, _db.storeConfigEvents);
 }

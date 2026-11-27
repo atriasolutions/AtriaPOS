@@ -60,6 +60,8 @@ export 'scan_session_line.dart';
 export 'scan_session_state.dart';
 export 'store_id.dart';
 export 'store.dart';
+export 'store_operational_overrides.dart';
+export 'store_operational_config_resolver.dart';
 export 'pos_template_id.dart';
 export 'pos_feature.dart';
 export 'pos_template_definition.dart';

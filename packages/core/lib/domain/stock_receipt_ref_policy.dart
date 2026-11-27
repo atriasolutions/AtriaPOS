@@ -9,6 +9,18 @@ class StockReceiptRefPolicy {
     return raw.trim().toUpperCase();
   }
 
+  static String normalizeOptional(String raw, {required bool required}) {
+    final value = raw.trim();
+    if (value.isEmpty) {
+      if (required) {
+        throw const ValidationFailure('Ingrese la referencia de guía o lote');
+      }
+      return '';
+    }
+    validate(value);
+    return value.toUpperCase();
+  }
+
   static void validate(String raw) {
     final value = raw.trim();
     if (value.isEmpty) {

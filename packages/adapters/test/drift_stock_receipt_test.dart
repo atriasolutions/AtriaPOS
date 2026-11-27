@@ -6,19 +6,29 @@ import 'package:test/test.dart';
 void main() {
   const storeId = 't1';
   late AppDatabase db;
+  late DriftStoreRepository storeRepo;
   late DriftProductRepository products;
   late DriftStockMovementRepository movements;
   late InMemorySessionProvider sessions;
   late CreateProduct createProduct;
   late RecordStockReceipt recordReceipt;
 
-  setUp(() {
+  setUp(() async {
     db = AppDatabase(NativeDatabase.memory());
+    storeRepo = DriftStoreRepository(db);
+    await storeRepo.save(
+      Store.create(
+        id: storeId,
+        rutRaw: '76123456-0',
+        legalName: 'Demo',
+        businessLine: 'Retail',
+      ),
+    );
     products = DriftProductRepository(db);
     movements = DriftStockMovementRepository(db);
     sessions = InMemorySessionProvider.supervisor();
     createProduct = CreateProduct(products, sessions);
-    recordReceipt = RecordStockReceipt(products, movements, sessions);
+    recordReceipt = RecordStockReceipt(storeRepo, products, movements, sessions);
   });
 
   tearDown(() async {

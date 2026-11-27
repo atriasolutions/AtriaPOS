@@ -2,7 +2,7 @@
 
 ## Contexto
 
-**Atria POS** — POS para **comercio de barrio** (Chile), perfil segmento D. Definición en `docs/`. Desarrollo **TDD vertical**. Repo canónico: `atriasolutions/AtriaPOS` (DEC-046).
+**Atria POS** — POS **multi-rubro** (Chile), configurable por tienda (R5, `docs/24`). Definición en `docs/`. Desarrollo **TDD vertical**. Repo canónico: `atriasolutions/AtriaPOS` (DEC-046).
 
 ## Gates
 
@@ -11,7 +11,7 @@
 3. **Gate 2:** cerrar DEC P0 en `docs/16-registro-decisiones.md` + `docs/17-cierre-gate-2.md` antes de SLICE-1.
 4. Leer `docs/09-estrategia-tdd.md` antes de cada slice.
 5. Plan definición: `docs/15-plan-definicion-pre-implementacion.md`.
-6. **Revisión 2:** cerrada (SLICE-77). Histórico: `docs/20-plan-revision-2-atria-pos.md`. **R3:** `docs/20b-esbozo-revision-3.md`.
+6. **Revisión 2:** cerrada (SLICE-77). **R5 multi-rubro:** `docs/24-plan-revision-multi-rubro.md` (slice activo en `docs/10`). **R3:** `docs/20b-esbozo-revision-3.md`.
 
 ## Orden de lectura
 

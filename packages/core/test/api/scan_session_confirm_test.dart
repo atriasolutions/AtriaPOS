@@ -7,6 +7,7 @@ void main() {
   const storeId = 't1';
   const idempotencyKey = 'idem-086-01';
 
+  late InMemoryStoreRepository stores;
   late InMemoryProductRepository products;
   late InMemoryStockMovementRepository movements;
   late InMemoryScanSessionRepository scanSessions;
@@ -14,7 +15,16 @@ void main() {
   late ScanSessionService scanService;
   late ProductService productService;
 
-  setUp(() {
+  setUp(() async {
+    stores = InMemoryStoreRepository();
+    await stores.save(
+      Store.create(
+        id: storeId,
+        rutRaw: '76123456-0',
+        legalName: 'Demo',
+        businessLine: 'Retail',
+      ),
+    );
     products = InMemoryProductRepository();
     movements = InMemoryStockMovementRepository();
     scanSessions = InMemoryScanSessionRepository();
@@ -24,6 +34,7 @@ void main() {
       sessionProvider: supervisor,
     );
     scanService = ScanSessionService(
+      storeRepository: stores,
       scanSessions: scanSessions,
       products: products,
       stockMovements: movements,
@@ -198,6 +209,7 @@ void main() {
   test('SC-086-06 cajero → 403', () async {
     final sessionId = await startReceiptSession();
     final cajeroService = ScanSessionService(
+      storeRepository: stores,
       scanSessions: scanSessions,
       products: products,
       stockMovements: movements,

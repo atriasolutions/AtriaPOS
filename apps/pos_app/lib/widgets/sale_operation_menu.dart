@@ -10,11 +10,13 @@ class SaleOperationMenu extends StatelessWidget {
     required this.composition,
     required this.visibleEntries,
     this.menuAnchor,
+    this.onNavigated,
   });
 
   final PosComposition composition;
   final List<PosMenuEntry> visibleEntries;
   final Widget? menuAnchor;
+  final VoidCallback? onNavigated;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +28,12 @@ class SaleOperationMenu extends StatelessWidget {
     return PopupMenuButton<String>(
       key: const Key('operation_menu_button'),
       tooltip: 'Operación',
-      onSelected: (value) {
+      onSelected: (value) async {
         final entry = popupEntries.firstWhere(
           (e) => popupValueFor(e) == value,
         );
-        navigateForMenuEntry(context, composition, entry);
+        await navigateForMenuEntry(context, composition, entry);
+        onNavigated?.call();
       },
       itemBuilder: (context) =>
           popupEntries.map(buildPopupMenuItem).toList(),

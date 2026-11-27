@@ -8,7 +8,9 @@ void main() {
     expect(def.features, isNot(contains(PosFeature.sellerCodeCheckout)));
     expect(def.features, contains(PosFeature.collaboratorPlanilla));
     expect(def.features, contains(PosFeature.userManagement));
-    expect(def.features.length, PosFeature.values.length - 1);
+    expect(def.features, contains(PosFeature.storeOperationalConfig));
+    expect(def.features, isNot(contains(PosFeature.transbankIntegration)));
+    expect(def.features, isNot(contains(PosFeature.trackExpiryOnReceipt)));
   });
 
   test('SC-089-07 id desconocido → Atria', () {

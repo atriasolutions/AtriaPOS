@@ -14,6 +14,7 @@ import '../screens/shift_sales_screen.dart';
 import '../screens/stock_adjust_screen.dart';
 import '../screens/stock_insights_screen.dart';
 import '../screens/stock_receipt_screen.dart';
+import '../screens/store_config_screen.dart';
 import '../screens/user_list_screen.dart';
 
 /// Orden visual del menú operación (sin duplicar productCreate en popup si va en top bar).
@@ -31,6 +32,7 @@ const posMenuDisplayOrder = <PosMenuEntry>[
   PosMenuEntry.stockInsights,
   PosMenuEntry.productCreate,
   PosMenuEntry.userManagement,
+  PosMenuEntry.storeConfig,
 ];
 
 List<PosMenuEntry> sortMenuEntries(List<PosMenuEntry> visible) {
@@ -59,6 +61,7 @@ String popupValueFor(PosMenuEntry entry) {
     PosMenuEntry.stockInsights => 'stock_insights',
     PosMenuEntry.productCreate => 'product',
     PosMenuEntry.userManagement => 'users',
+    PosMenuEntry.storeConfig => 'store_config',
   };
 }
 
@@ -77,6 +80,7 @@ String menuLabelFor(PosMenuEntry entry) {
     PosMenuEntry.stockInsights => 'Stock insights',
     PosMenuEntry.productCreate => 'Nuevo producto',
     PosMenuEntry.userManagement => 'Usuarios',
+    PosMenuEntry.storeConfig => 'Configuración tienda',
   };
 }
 
@@ -96,14 +100,15 @@ Key menuItemKeyFor(PosMenuEntry entry) {
     PosMenuEntry.stockInsights => const Key('operation_menu_stock_insights'),
     PosMenuEntry.productCreate => const Key('operation_menu_product'),
     PosMenuEntry.userManagement => const Key('operation_menu_users'),
+    PosMenuEntry.storeConfig => const Key('operation_menu_store_config'),
   };
 }
 
-void navigateForMenuEntry(
+Future<void> navigateForMenuEntry(
   BuildContext context,
   PosComposition composition,
   PosMenuEntry entry,
-) {
+) async {
   final screen = switch (entry) {
     PosMenuEntry.shiftSales => ShiftSalesScreen(composition: composition),
     PosMenuEntry.productExchange =>
@@ -121,8 +126,9 @@ void navigateForMenuEntry(
     PosMenuEntry.stockInsights => StockInsightsScreen(composition: composition),
     PosMenuEntry.productCreate => ProductCreateScreen(composition: composition),
     PosMenuEntry.userManagement => UserListScreen(composition: composition),
+    PosMenuEntry.storeConfig => StoreConfigScreen(composition: composition),
   };
-  Navigator.of(context).push(
+  await Navigator.of(context).push(
     MaterialPageRoute<void>(builder: (_) => screen),
   );
 }

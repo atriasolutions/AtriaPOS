@@ -3,6 +3,7 @@ import 'auth_helpers.dart';
 import 'ports/product_repository.dart';
 import 'ports/session_provider.dart';
 import 'ports/stock_movement_repository.dart';
+import 'ports/store_repository.dart';
 
 class RecordStockReceiptInput {
   const RecordStockReceiptInput({
@@ -11,6 +12,7 @@ class RecordStockReceiptInput {
     required this.quantity,
     required this.guideRef,
     required this.lotRef,
+    this.lotExpiry,
   });
 
   final StoreId storeId;
@@ -18,6 +20,7 @@ class RecordStockReceiptInput {
   final int quantity;
   final String guideRef;
   final String lotRef;
+  final DateTime? lotExpiry;
 }
 
 class RecordStockReceiptResult {
@@ -37,8 +40,14 @@ class RecordStockReceiptResult {
 }
 
 class RecordStockReceipt {
-  RecordStockReceipt(this._products, this._movements, this._sessions);
+  RecordStockReceipt(
+    this._stores,
+    this._products,
+    this._movements,
+    this._sessions,
+  );
 
+  final StoreRepository _stores;
   final ProductRepository _products;
   final StockMovementRepository _movements;
   final SessionProvider _sessions;
@@ -53,8 +62,33 @@ class RecordStockReceipt {
       );
     }
 
-    final guideRef = StockReceiptRefPolicy.normalize(input.guideRef);
-    final lotRef = StockReceiptRefPolicy.normalize(input.lotRef);
+    final store = await _stores.findById(input.storeId);
+    if (store == null) {
+      throw NotFoundFailure(
+        'Tienda no encontrada',
+        details: {'storeId': input.storeId},
+      );
+    }
+    final template = StoreOperationalConfigResolver.effectiveTemplate(store);
+    final requiresGuiaLote =
+        template.hasFeature(PosFeature.stockReceiptGuiaLote);
+    final trackExpiry = template.hasFeature(PosFeature.trackExpiryOnReceipt);
+
+    final guideRef = StockReceiptRefPolicy.normalizeOptional(
+      input.guideRef,
+      required: requiresGuiaLote,
+    );
+    final lotRef = StockReceiptRefPolicy.normalizeOptional(
+      input.lotRef,
+      required: requiresGuiaLote,
+    );
+
+    DateTime? lotExpiry = input.lotExpiry;
+    if (trackExpiry) {
+      if (lotExpiry == null) {
+        throw const ValidationFailure('Ingrese la fecha de caducidad del lote');
+      }
+    }
 
     final product = await _products.findById(input.storeId, input.productId);
     if (product == null) {
@@ -69,8 +103,9 @@ class RecordStockReceipt {
       productId: input.productId,
       delta: input.quantity,
       reason: StockAdjustmentReason.recepcion,
-      guideRef: guideRef,
-      lotRef: lotRef,
+      guideRef: guideRef.isEmpty ? null : guideRef,
+      lotRef: lotRef.isEmpty ? null : lotRef,
+      lotExpiry: lotExpiry,
       actorId: session.userId,
     );
 

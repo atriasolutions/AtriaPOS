@@ -4,6 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   const storeId = 't1';
+  late InMemoryStoreRepository stores;
   late InMemoryProductRepository products;
   late InMemoryStockMovementRepository movements;
   late InMemorySessionProvider sessions;
@@ -11,12 +12,21 @@ void main() {
   late RecordStockReceipt recordReceipt;
   late GetProductStock getProductStock;
 
-  setUp(() {
+  setUp(() async {
+    stores = InMemoryStoreRepository();
+    await stores.save(
+      Store.create(
+        id: storeId,
+        rutRaw: '76123456-0',
+        legalName: 'Demo',
+        businessLine: 'Retail',
+      ),
+    );
     products = InMemoryProductRepository();
     movements = InMemoryStockMovementRepository();
     sessions = InMemorySessionProvider.supervisor();
     createProduct = CreateProduct(products, sessions);
-    recordReceipt = RecordStockReceipt(products, movements, sessions);
+    recordReceipt = RecordStockReceipt(stores, products, movements, sessions);
     getProductStock = GetProductStock(products);
   });
 
@@ -90,6 +100,7 @@ void main() {
 
   test('SC-085-04 cajero → PERMISO_DENEGADO', () async {
     final cajero = RecordStockReceipt(
+      stores,
       products,
       movements,
       InMemorySessionProvider.cajero(),

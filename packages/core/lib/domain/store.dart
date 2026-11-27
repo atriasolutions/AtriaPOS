@@ -1,6 +1,7 @@
 import 'pos_template_id.dart';
 import 'rut_chile.dart';
 import 'store_id.dart';
+import 'store_operational_overrides.dart';
 import 'tax_config.dart';
 import 'failures.dart';
 
@@ -13,6 +14,7 @@ class Store {
     required this.taxConfig,
     required this.createdAt,
     this.posTemplateId = PosTemplateId.atriaPos,
+    this.operationalOverrides,
   });
 
   final StoreId id;
@@ -23,6 +25,20 @@ class Store {
   final TaxConfig taxConfig;
   final DateTime createdAt;
   final PosTemplateId posTemplateId;
+  final StoreOperationalOverrides? operationalOverrides;
+
+  Store withOperationalOverrides(StoreOperationalOverrides? overrides) {
+    return Store(
+      id: id,
+      rut: rut,
+      legalName: legalName,
+      businessLine: businessLine,
+      taxConfig: taxConfig,
+      createdAt: createdAt,
+      posTemplateId: posTemplateId,
+      operationalOverrides: overrides,
+    );
+  }
 
   factory Store.create({
     required StoreId id,

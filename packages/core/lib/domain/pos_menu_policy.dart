@@ -2,6 +2,8 @@ import 'auth_policy.dart';
 import 'pos_menu_entry.dart';
 import 'pos_template_definition.dart';
 import 'pos_template_id.dart';
+import 'store.dart';
+import 'store_operational_config_resolver.dart';
 import 'user_role.dart';
 
 class PosMenuPolicy {
@@ -24,5 +26,10 @@ class PosMenuPolicy {
   ) {
     final def = PosTemplateRegistry.resolve(templateId);
     return visibleEntries(role, def.toPosTemplate());
+  }
+
+  static List<PosMenuEntry> visibleForStore(UserRole role, Store store) {
+    final template = StoreOperationalConfigResolver.effectiveTemplate(store);
+    return visibleEntries(role, template);
   }
 }

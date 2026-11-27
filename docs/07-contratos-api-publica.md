@@ -181,7 +181,7 @@ Factura (SLICE-93, RF-097, plantilla con `invoiceCheckout`):
 }
 ```
 
-`sellerCode`: obligatorio en plantilla Atria POS (RF-084, colaborador activo en planilla).
+`sellerCode`: obligatorio solo si el perfil efectivo incluye `sellerCodeCheckout` (RF-099 / DEC-067).
 
 Métodos: `EFECTIVO`, `DEBITO`, `CREDITO`, `OTRO`. Débito y crédito registran el cobro; no mueven el efectivo esperado del turno (SLICE-145).
 
@@ -810,6 +810,37 @@ Sin tienda → `NO_ENCONTRADO` (404).
 Tienda inexistente → `NO_ENCONTRADO` (404).
 
 **Tests comportamiento (SC-089-02)**
+
+### `GET /v0/stores/{storeId}/store-operational-config` (RF-099)
+
+**Response 200**
+
+```json
+{
+  "schemaVersion": 1,
+  "templateId": "ATRIA_POS",
+  "overrides": {
+    "sellerCodeRequired": null,
+    "invoiceCheckoutEnabled": true,
+    "transbankEnabled": false,
+    "receiptRequiresGuiaLote": null,
+    "trackExpiryOnReceipt": false,
+    "inventoryCloseEnabled": null,
+    "dteEnabled": null
+  },
+  "effectiveFeatures": ["auditTrail", "closeShift", "..."]
+}
+```
+
+Solo lectura para cualquier sesión con acceso a la tienda activa; tienda inexistente → 404.
+
+**Tests:** `SC-099-01`
+
+### `PATCH /v0/stores/{storeId}/store-operational-config` (RF-099)
+
+Solo **DUENO** (`gestionarConfigTienda`). Body parcial con flags v1. Persiste merge; dejar de emitir DTE con cola pendiente → `VALIDACION`.
+
+**Tests:** `SC-099-02`
 
 ---
 

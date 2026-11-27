@@ -6,6 +6,7 @@ import 'inventory_dtos.dart';
 
 class InventoryService {
   factory InventoryService({
+    StoreRepository? storeRepository,
     ProductRepository? productRepository,
     StockMovementRepository? stockMovementRepository,
     ShiftRepository? shiftRepository,
@@ -13,6 +14,7 @@ class InventoryService {
     InventoryCloseRepository? inventoryCloseRepository,
     SessionProvider? sessionProvider,
   }) {
+    final stores = storeRepository ?? InMemoryStoreRepository();
     final products = productRepository ?? InMemoryProductRepository();
     final movements =
         stockMovementRepository ?? InMemoryStockMovementRepository();
@@ -24,6 +26,7 @@ class InventoryService {
         sessionProvider ?? InMemorySessionProvider.supervisor();
     final adjustStock = AdjustStock(products, movements, sessions);
     return InventoryService._(
+      stores,
       products,
       movements,
       sessions,
@@ -41,6 +44,7 @@ class InventoryService {
   }
 
   InventoryService._(
+    StoreRepository stores,
     ProductRepository products,
     StockMovementRepository movements,
     SessionProvider sessions,
@@ -50,6 +54,7 @@ class InventoryService {
   )   : _getStock = GetProductStock(products),
         _adjustStock = adjustStock,
         _recordStockReceipt = RecordStockReceipt(
+          stores,
           products,
           movements,
           sessions,
@@ -146,6 +151,9 @@ class InventoryService {
           quantity: request.quantity,
           guideRef: request.guideRef,
           lotRef: request.lotRef,
+          lotExpiry: request.lotExpiry != null && request.lotExpiry!.isNotEmpty
+              ? DateTime.tryParse(request.lotExpiry!)
+              : null,
         ),
       );
       return ApiSuccess(

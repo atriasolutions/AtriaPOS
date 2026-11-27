@@ -15,6 +15,7 @@ class CheckoutPanel extends StatefulWidget {
     required this.enabled,
     required this.requiresSellerCode,
     required this.allowsInvoiceCheckout,
+    this.allowsCardPayments = false,
     required this.onSuccess,
   });
 
@@ -24,6 +25,7 @@ class CheckoutPanel extends StatefulWidget {
   final bool enabled;
   final bool requiresSellerCode;
   final bool allowsInvoiceCheckout;
+  final bool allowsCardPayments;
   final Future<void> Function(CheckoutResponse response) onSuccess;
 
   @override
@@ -436,8 +438,10 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
         Row(
           children: [
             _paymentButton('Efectivo', PaymentMethod.efectivo, const Key('checkout_pay_efectivo')),
-            _paymentButton('Débito', PaymentMethod.debito, const Key('checkout_pay_debito')),
-            _paymentButton('Crédito', PaymentMethod.credito, const Key('checkout_pay_credito')),
+            if (widget.allowsCardPayments) ...[
+              _paymentButton('Débito', PaymentMethod.debito, const Key('checkout_pay_debito')),
+              _paymentButton('Crédito', PaymentMethod.credito, const Key('checkout_pay_credito')),
+            ],
           ],
         ),
         if (_paymentMethod == PaymentMethod.efectivo) ...[

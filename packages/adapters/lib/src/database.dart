@@ -11,6 +11,19 @@ class Stores extends Table {
   TextColumn get taxConfig => text()();
   TextColumn get createdAt => text()();
   TextColumn get posTemplateId => text().withDefault(const Constant('ATRIA_POS'))();
+  TextColumn get operationalConfig => text().named('operational_config').nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+@DataClassName('StoreConfigEventRow')
+class StoreConfigEvents extends Table {
+  TextColumn get id => text()();
+  TextColumn get storeId => text().named('store_id')();
+  TextColumn get actorUserId => text().named('actor_user_id')();
+  TextColumn get occurredAt => text().named('occurred_at')();
+  TextColumn get summary => text()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -46,6 +59,7 @@ class StockMovements extends Table {
   TextColumn get createdAt => text()();
   TextColumn get guideRef => text().named('guide_ref').nullable()();
   TextColumn get lotRef => text().named('lot_ref').nullable()();
+  TextColumn get lotExpiry => text().named('lot_expiry').nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -324,12 +338,13 @@ class DteFolioCounters extends Table {
   DteFolioCounters,
   ClockState,
   InvoiceCustomers,
+  StoreConfigEvents,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 24;
+  int get schemaVersion => 26;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -498,6 +513,13 @@ ALTER TABLE dte_queue_new RENAME TO dte_queue;
             await m.addColumn(sales, sales.invoiceReceiverCommune);
             await m.addColumn(sales, sales.invoiceReceiverPhone);
             await m.createTable(invoiceCustomers);
+          }
+          if (from < 25) {
+            await m.addColumn(stores, stores.operationalConfig);
+          }
+          if (from < 26) {
+            await m.createTable(storeConfigEvents);
+            await m.addColumn(stockMovements, stockMovements.lotExpiry);
           }
         },
       );

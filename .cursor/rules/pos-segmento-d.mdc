@@ -1,9 +1,9 @@
 ---
-description: POS segmento D — TDD, docs y alcance
+description: Atria POS multi-rubro — TDD, docs y alcance
 alwaysApply: true
 ---
 
-# POS barrio (segmento D)
+# Atria POS multi-rubro (Chile)
 
 - Fuente de verdad: `docs/`. No implementar RF fuera del slice activo en `docs/10-plan-entregas.md`.
 - Gate 1: cerrado. Gate 2: cerrar DEC P0 en `docs/16` + `docs/17` antes de SLICE-1.

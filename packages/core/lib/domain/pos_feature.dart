@@ -14,6 +14,9 @@ enum PosFeature {
   productCreate('productCreate'),
   userManagement('userManagement'),
   invoiceCheckout('invoiceCheckout'),
+  transbankIntegration('transbankIntegration'),
+  trackExpiryOnReceipt('trackExpiryOnReceipt'),
+  storeOperationalConfig('storeOperationalConfig'),
   ;
 
   const PosFeature(this.apiValue);

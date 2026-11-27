@@ -179,6 +179,8 @@ class PosComposition {
       userRepository: users,
       pinHasher: hasher,
       sessionProvider: sessions,
+      dteQueueRepository: dteQueue,
+      storeConfigEventRepository: DriftStoreConfigEventRepository(db),
     );
     final clockPersist = DriftClockStateRepository(db);
     final trustedClock = trustedClockOverride ??
@@ -246,6 +248,7 @@ class PosComposition {
         invoiceCustomerRepository: DriftInvoiceCustomerRepository(db),
       ),
       inventoryService: InventoryService(
+        storeRepository: storeRepo,
         productRepository: products,
         stockMovementRepository: movements,
         shiftRepository: shifts,
@@ -254,6 +257,7 @@ class PosComposition {
         sessionProvider: sessions,
       ),
       scanSessionService: ScanSessionService(
+        storeRepository: storeRepo,
         scanSessions: scanSessions,
         products: products,
         stockMovements: movements,
@@ -466,11 +470,18 @@ class PosComposition {
   }
 
   Future<PosTemplateId> resolveActiveTemplateId() async {
-    final storeId = activeStoreId ?? await storeService.activeStoreId();
-    if (storeId == null) return PosTemplateId.atriaPos;
-    final store = await stores.findById(storeId);
+    final store = await resolveActiveStore();
     return store?.posTemplateId ?? PosTemplateId.atriaPos;
   }
+
+  Future<Store?> resolveActiveStore() async {
+    final storeId = activeStoreId ?? await storeService.activeStoreId();
+    if (storeId == null) return null;
+    return stores.findById(storeId);
+  }
+
+  PosTemplate effectiveTemplateForStore(Store store) =>
+      StoreOperationalConfigResolver.effectiveTemplate(store);
 
   Future<void> ensureDemoUsers() async {
     final storeId = activeStoreId ?? kDemoStoreId;

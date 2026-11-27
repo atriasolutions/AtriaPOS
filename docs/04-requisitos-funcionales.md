@@ -140,7 +140,7 @@ Colaboradores de mostrador con **código vendedor**, separados de usuarios POS (
 
 ### RF-084 [M] Código vendedor en venta (SLICE-64)
 
-- **Pausa SLICE-144 (DEC-066):** Atria POS no incluye `sellerCodeCheckout`. El checkout confirma sin código. La planilla sigue disponible para reactivar el requisito.
+- **SLICE-144 / R5:** el requisito de código vendedor lo define el override `sellerCodeRequired` del perfil operativo (DEC-067); por defecto Atria sigue sin exigirlo (DEC-066 histórico).
 - Dado checkout con `sellerCodeCheckout` activo, cuando confirma venta, entonces debe indicar `sellerCode` de colaborador **activo** en planilla.
 - Dado `sellerCode` ausente, inválido o sin colaborador activo, entonces `VALIDACION` (400).
 - Dado rol con `Permission.vender`, cuando lista colaboradores activos para venta, entonces solo códigos vigentes (API-011 `active`).
@@ -228,7 +228,16 @@ Supervisor o dueño consultan en un reporte: productos con **stock bajo** (stock
 
 ### RF-089 [M] Modelo plantilla Atria POS (SLICE-69)
 
-Cada tienda tiene `posTemplateId`; en R2-A solo **ATRIA_POS** es asignable en bootstrap. La plantilla define **features** del producto (qué módulos existen); el **rol** sigue restringiendo operación (DEC-048). Consulta `GET .../pos-template` devuelve `templateId`, `displayName` y `features[]`. Checkout exige código vendedor solo si la plantilla incluye `sellerCodeCheckout` (Atria: en pausa desde SLICE-144). ID desconocido en persistencia → fallback **ATRIA_POS**. Menú dinámico en UI según `PosMenuPolicy` (plantilla × rol): **SLICE-76**.
+Cada tienda tiene `posTemplateId`; en bootstrap solo **ATRIA_POS** es asignable. La plantilla define **features base**; el **rol** restringe operación (DEC-048). `GET .../pos-template` devuelve el **perfil efectivo** (plantilla ⊕ overrides, DEC-067). Menú según `PosMenuPolicy`: **SLICE-76**.
+
+### RF-099 [M] Perfil operativo por tienda (R5, SLICE-162–165)
+
+- Dado dueño autenticado, cuando consulta `GET .../store-operational-config`, entonces recibe `schemaVersion`, overrides guardados y lista `effectiveFeatures`.
+- Dado dueño, cuando envía `PATCH` con flags v1 válidos, entonces persiste overrides y audita evento categoría CONFIG.
+- Dado supervisor o cajero, cuando intenta `PATCH`, entonces `PROHIBIDO`.
+- Overrides v1: `sellerCodeRequired`, `invoiceCheckoutEnabled`, `transbankEnabled`, `receiptRequiresGuiaLote`, `trackExpiryOnReceipt`, `inventoryCloseEnabled`, `dteEnabled` (ver DEC-067).
+- Sin override: se mantiene el default de plantilla.
+- RF-033 y RF-034 quedan **fuera** (DEC-068).
 
 ### RF-088 [M] Cierre inventario (SLICE-68)
 

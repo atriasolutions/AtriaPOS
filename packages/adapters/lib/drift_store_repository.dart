@@ -41,6 +41,21 @@ class DriftStoreRepository implements StoreRepository {
             taxConfig: store.taxConfig.toJsonString(),
             createdAt: store.createdAt.toUtc().toIso8601String(),
             posTemplateId: Value(store.posTemplateId.apiValue),
+            operationalConfig: store.operationalOverrides == null
+                ? const Value.absent()
+                : Value(store.operationalOverrides!.toJsonString()),
+          ),
+          onConflict: DoUpdate(
+            (old) => StoresCompanion(
+              rut: Value(store.rut),
+              legalName: Value(store.legalName),
+              businessLine: Value(store.businessLine),
+              taxConfig: Value(store.taxConfig.toJsonString()),
+              posTemplateId: Value(store.posTemplateId.apiValue),
+              operationalConfig: store.operationalOverrides == null
+                  ? const Value(null)
+                  : Value(store.operationalOverrides!.toJsonString()),
+            ),
           ),
         );
   }
@@ -54,6 +69,9 @@ class DriftStoreRepository implements StoreRepository {
       taxConfig: TaxConfig.parse(row.taxConfig),
       createdAt: DateTime.parse(row.createdAt).toUtc(),
       posTemplateId: PosTemplateId.normalize(row.posTemplateId),
+      operationalOverrides: StoreOperationalOverrides.parseJsonString(
+        row.operationalConfig,
+      ),
     );
   }
 }

@@ -89,6 +89,15 @@ void main() {
   });
 
   test('SC-085-07 auditoría incluye ingreso con guía y lote', () async {
+    final stores = InMemoryStoreRepository();
+    await stores.save(
+      Store.create(
+        id: storeId,
+        rutRaw: '76123456-0',
+        legalName: 'Demo',
+        businessLine: 'Retail',
+      ),
+    );
     final products = InMemoryProductRepository();
     final sales = InMemorySaleRepository();
     final movements = InMemoryStockMovementRepository();
@@ -102,7 +111,7 @@ void main() {
         initialStock: 2,
       ),
     );
-    final receipt = RecordStockReceipt(products, movements, sessions);
+    final receipt = RecordStockReceipt(stores, products, movements, sessions);
     await receipt(
       RecordStockReceiptInput(
         storeId: storeId,

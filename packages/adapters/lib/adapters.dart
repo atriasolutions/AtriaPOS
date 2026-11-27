@@ -21,6 +21,7 @@ export 'sii_dte_xml_builder.dart';
 export 'drift_user_repository.dart';
 export 'drift_collaborator_repository.dart';
 export 'drift_store_repository.dart';
+export 'drift_store_config_event_repository.dart';
 export 'drift_product_repository.dart';
 export 'drift_sale_repository.dart';
 export 'drift_invoice_customer_repository.dart';

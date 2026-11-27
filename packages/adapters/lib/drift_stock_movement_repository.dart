@@ -21,6 +21,9 @@ class DriftStockMovementRepository implements StockMovementRepository {
             actorId: Value(movement.actorId),
             createdAt: movement.createdAt.toUtc().toIso8601String(),
             guideRef: Value(movement.guideRef),
+            lotExpiry: movement.lotExpiry == null
+                ? const Value.absent()
+                : Value(movement.lotExpiry!.toUtc().toIso8601String()),
             lotRef: Value(movement.lotRef),
           ),
         );
@@ -70,6 +73,9 @@ class DriftStockMovementRepository implements StockMovementRepository {
         actorId: row.actorId,
         guideRef: row.guideRef,
         lotRef: row.lotRef,
+        lotExpiry: row.lotExpiry == null
+            ? null
+            : DateTime.parse(row.lotExpiry!).toUtc(),
         createdAt: DateTime.parse(row.createdAt).toUtc(),
       );
 }

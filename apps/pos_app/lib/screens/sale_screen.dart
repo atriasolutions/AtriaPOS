@@ -40,6 +40,7 @@ class _SaleScreenState extends State<SaleScreen> {
   StreamSubscription<ScannerConnectionState>? _scannerStateSub;
   ScannerConnectionState _scannerState = ScannerConnectionState.disconnected;
   PosTemplateId _templateId = PosTemplateId.atriaPos;
+  Store? _activeStore;
   bool _templateResolved = false;
 
   @override
@@ -130,13 +131,30 @@ class _SaleScreenState extends State<SaleScreen> {
   }
 
   Future<void> _loadTemplateId() async {
-    final id = await widget.composition.resolveActiveTemplateId();
+    final store = await widget.composition.resolveActiveStore();
     if (!mounted) return;
-    setState(() => _templateId = id);
+    setState(() {
+      _activeStore = store;
+      _templateId = store?.posTemplateId ?? PosTemplateId.atriaPos;
+    });
+  }
+
+  Future<void> _reloadStoreConfig() => _loadTemplateId();
+
+  PosTemplate get _effectiveTemplate {
+    final store = _activeStore;
+    if (store != null) {
+      return widget.composition.effectiveTemplateForStore(store);
+    }
+    return PosTemplateRegistry.resolve(_templateId).toPosTemplate();
   }
 
   List<PosMenuEntry> _visibleMenuEntries(UserRole? role) {
     if (role == null) return const [];
+    final store = _activeStore;
+    if (store != null) {
+      return PosMenuPolicy.visibleForStore(role, store);
+    }
     return PosMenuPolicy.visibleForTemplateId(role, _templateId);
   }
 
@@ -430,10 +448,12 @@ class _SaleScreenState extends State<SaleScreen> {
     final session = widget.composition.sessionProvider.current;
     final role = session?.role;
     final visibleMenu = _visibleMenuEntries(role);
+    final tpl = _effectiveTemplate;
     final requiresSellerCode =
-        CheckoutTemplatePolicy.requiresSellerCode(_templateId);
+        CheckoutTemplatePolicy.requiresSellerCodeTemplate(tpl);
     final allowsInvoiceCheckout =
-        CheckoutTemplatePolicy.allowsInvoiceCheckout(_templateId);
+        CheckoutTemplatePolicy.allowsInvoiceCheckoutTemplate(tpl);
+    final allowsCardPayments = tpl.hasFeature(PosFeature.transbankIntegration);
     final hasOpsMenu = visibleMenu.isNotEmpty;
     final showProductStock = role != null &&
         AuthPolicy.allows(role, Permission.consultarStock);
@@ -473,6 +493,7 @@ class _SaleScreenState extends State<SaleScreen> {
               visibleEntries: visibleMenu,
               showProductStock: showProductStock,
               onChangeSession: _changeSession,
+              onMenuReturned: _reloadStoreConfig,
               scannerAction: scannerAction,
             )
           else if (scannerAction != null)
@@ -653,6 +674,7 @@ class _SaleScreenState extends State<SaleScreen> {
                         enabled: cartHasLines,
                         requiresSellerCode: requiresSellerCode,
                         allowsInvoiceCheckout: allowsInvoiceCheckout,
+                        allowsCardPayments: allowsCardPayments,
                         onSuccess: _onCheckoutSuccess,
                       ),
                     ),

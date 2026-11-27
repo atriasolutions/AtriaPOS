@@ -10,12 +10,24 @@ class StoreService {
     UserRepository? userRepository,
     PinHasher? pinHasher,
     SessionProvider? sessionProvider,
+    DteQueueRepository? dteQueueRepository,
+    StoreConfigEventRepository? storeConfigEventRepository,
   }) {
     final stores = storeRepository ?? InMemoryStoreRepository();
     final users = userRepository ?? InMemoryUserRepository();
     final hasher = pinHasher ?? BcryptPinHasher();
     final sessions = sessionProvider ?? InMemorySessionProvider();
-    return StoreService._(stores, users, hasher, sessions);
+    final dteQueue = dteQueueRepository ?? InMemoryDteQueueRepository();
+    final configEvents =
+        storeConfigEventRepository ?? InMemoryStoreConfigEventRepository();
+    return StoreService._(
+      stores,
+      users,
+      hasher,
+      sessions,
+      dteQueue,
+      configEvents,
+    );
   }
 
   StoreService._(
@@ -23,14 +35,25 @@ class StoreService {
     UserRepository users,
     PinHasher hasher,
     SessionProvider sessions,
+    DteQueueRepository dteQueue,
+    StoreConfigEventRepository configEvents,
   )   : _bootstrap = BootstrapStore(stores, users, hasher, sessions),
         _getActive = GetActiveStore(stores),
         _getPosTemplate = GetPosTemplate(stores),
+        _getOperationalConfig = GetStoreOperationalConfig(stores),
+        _updateOperationalConfig = UpdateStoreOperationalConfig(
+          stores,
+          sessions,
+          dteQueue,
+          configEvents,
+        ),
         _stores = stores;
 
   final BootstrapStore _bootstrap;
   final GetActiveStore _getActive;
   final GetPosTemplate _getPosTemplate;
+  final GetStoreOperationalConfig _getOperationalConfig;
+  final UpdateStoreOperationalConfig _updateOperationalConfig;
   final StoreRepository _stores;
 
   Future<ApiResult<BootstrapStoreResponse>> bootstrap(
@@ -120,5 +143,97 @@ class StoreService {
         statusCode: 404,
       );
     }
+  }
+
+  Future<ApiResult<StoreOperationalConfigResponse>>
+      getStoreOperationalConfig(StoreId storeId) async {
+    try {
+      final result = await _getOperationalConfig(storeId);
+      return ApiSuccess(
+        _mapOperationalConfig(result),
+        statusCode: 200,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    }
+  }
+
+  Future<ApiResult<StoreOperationalConfigResponse>> patchStoreOperationalConfig(
+    StoreId storeId,
+    PatchStoreOperationalConfigRequest request,
+  ) async {
+    try {
+      final result = await _updateOperationalConfig(
+        UpdateStoreOperationalConfigInput(
+          storeId: storeId,
+          patch: _patchToOverrides(request),
+        ),
+      );
+      return ApiSuccess(
+        _mapOperationalConfig(result),
+        statusCode: 200,
+      );
+    } on NotFoundFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message, details: e.details),
+        statusCode: 404,
+      );
+    } on ForbiddenFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 403,
+      );
+    } on ValidationFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 400,
+      );
+    } on SessionExpiredFailure catch (e) {
+      return ApiFailure(
+        ApiErrorBody(code: e.code, message: e.message),
+        statusCode: 401,
+      );
+    }
+  }
+
+  StoreOperationalConfigResponse _mapOperationalConfig(
+    StoreOperationalConfigResult result,
+  ) {
+    final features = result.effectiveTemplate.features
+        .map((f) => f.apiValue)
+        .toList()
+      ..sort();
+    final o = result.overrides;
+    return StoreOperationalConfigResponse(
+      schemaVersion: StoreOperationalOverrides.currentSchemaVersion,
+      templateId: result.templateId.apiValue,
+      overrides: StoreOperationalOverridesDto(
+        sellerCodeRequired: o.sellerCodeRequired,
+        invoiceCheckoutEnabled: o.invoiceCheckoutEnabled,
+        transbankEnabled: o.transbankEnabled,
+        receiptRequiresGuiaLote: o.receiptRequiresGuiaLote,
+        trackExpiryOnReceipt: o.trackExpiryOnReceipt,
+        inventoryCloseEnabled: o.inventoryCloseEnabled,
+        dteEnabled: o.dteEnabled,
+      ),
+      effectiveFeatures: features,
+    );
+  }
+
+  StoreOperationalOverrides _patchToOverrides(
+    PatchStoreOperationalConfigRequest request,
+  ) {
+    return StoreOperationalOverrides(
+      sellerCodeRequired: request.sellerCodeRequired,
+      invoiceCheckoutEnabled: request.invoiceCheckoutEnabled,
+      transbankEnabled: request.transbankEnabled,
+      receiptRequiresGuiaLote: request.receiptRequiresGuiaLote,
+      trackExpiryOnReceipt: request.trackExpiryOnReceipt,
+      inventoryCloseEnabled: request.inventoryCloseEnabled,
+      dteEnabled: request.dteEnabled,
+    );
   }
 }

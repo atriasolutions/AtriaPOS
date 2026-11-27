@@ -1,5 +1,6 @@
 import 'package:core/api/api.dart';
 import 'package:core/application/application.dart';
+import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -7,11 +8,21 @@ void main() {
   late InventoryService inventoryService;
   late ProductService productService;
 
-  setUp(() {
+  setUp(() async {
+    final stores = InMemoryStoreRepository();
+    await stores.save(
+      Store.create(
+        id: storeId,
+        rutRaw: '76123456-0',
+        legalName: 'Demo',
+        businessLine: 'Retail',
+      ),
+    );
     final products = InMemoryProductRepository();
     final movements = InMemoryStockMovementRepository();
     productService = ProductService(repository: products);
     inventoryService = InventoryService(
+      storeRepository: stores,
       productRepository: products,
       stockMovementRepository: movements,
       sessionProvider: InMemorySessionProvider.supervisor(),
@@ -63,6 +74,15 @@ void main() {
   });
 
   test('SC-085-04 cajero ingreso → 403', () async {
+    final stores = InMemoryStoreRepository();
+    await stores.save(
+      Store.create(
+        id: storeId,
+        rutRaw: '76123456-0',
+        legalName: 'Demo',
+        businessLine: 'Retail',
+      ),
+    );
     final products = InMemoryProductRepository();
     final productId = await ProductService(repository: products).createProduct(
       storeId,
@@ -74,6 +94,7 @@ void main() {
     );
     final id = (productId as ApiSuccess<ProductResponse>).data.id;
     final service = InventoryService(
+      storeRepository: stores,
       productRepository: products,
       stockMovementRepository: InMemoryStockMovementRepository(),
       sessionProvider: InMemorySessionProvider.cajero(),

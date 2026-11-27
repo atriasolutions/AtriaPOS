@@ -14,6 +14,6 @@ class GetPosTemplate {
         details: {'storeId': storeId},
       );
     }
-    return PosTemplateRegistry.resolve(store.posTemplateId).toPosTemplate();
+    return StoreOperationalConfigResolver.effectiveTemplate(store);
   }
 }

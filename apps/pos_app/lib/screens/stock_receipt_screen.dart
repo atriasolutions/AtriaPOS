@@ -36,6 +36,9 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
   List<ProductSearchItem> _searchResults = [];
   bool _loading = false;
   bool _submitting = false;
+  bool _requiresGuiaLote = true;
+  bool _trackExpiry = false;
+  DateTime? _lotExpiry;
 
   _StockReceiptMode _mode = _StockReceiptMode.manual;
   String? _scanSessionId;
@@ -46,7 +49,32 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
   @override
   void initState() {
     super.initState();
+    unawaited(_loadReceiptPolicy());
     unawaited(widget.composition.scannerIngress.start());
+  }
+
+  Future<void> _loadReceiptPolicy() async {
+    final store = await widget.composition.resolveActiveStore();
+    if (store == null || !mounted) return;
+    final tpl = widget.composition.effectiveTemplateForStore(store);
+    setState(() {
+      _requiresGuiaLote = tpl.hasFeature(PosFeature.stockReceiptGuiaLote);
+      _trackExpiry = tpl.hasFeature(PosFeature.trackExpiryOnReceipt);
+    });
+  }
+
+  Future<void> _pickLotExpiry() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _lotExpiry ?? now.add(const Duration(days: 30)),
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 3650)),
+      helpText: 'Fecha caducidad',
+    );
+    if (picked != null && mounted) {
+      setState(() => _lotExpiry = picked);
+    }
   }
 
   @override
@@ -98,14 +126,18 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
       _snack('Ingrese una cantidad mayor a cero.');
       return false;
     }
-    final guide = _guideController.text.trim();
-    final lot = _lotController.text.trim();
-    if (guide.isEmpty) {
-      _snack('Ingrese la referencia de guía.');
-      return false;
+    if (_requiresGuiaLote) {
+      if (_guideController.text.trim().isEmpty) {
+        _snack('Ingrese la referencia de guía.');
+        return false;
+      }
+      if (_lotController.text.trim().isEmpty) {
+        _snack('Ingrese la referencia de lote.');
+        return false;
+      }
     }
-    if (lot.isEmpty) {
-      _snack('Ingrese la referencia de lote.');
+    if (_trackExpiry && _lotExpiry == null) {
+      _snack('Seleccione la fecha de caducidad.');
       return false;
     }
     return true;
@@ -126,6 +158,7 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
         quantity: quantity,
         guideRef: guide,
         lotRef: lot,
+        lotExpiry: _lotExpiry?.toUtc().toIso8601String(),
       ),
     );
     if (!mounted) return;
@@ -151,6 +184,7 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
   }
 
   bool _validateGuideLot() {
+    if (!_requiresGuiaLote) return true;
     if (_guideController.text.trim().isEmpty) {
       _snack('Ingrese la referencia de guía.');
       return false;
@@ -397,17 +431,33 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         ),
         const SizedBox(height: 12),
-        TextField(
-          key: const Key('stock_receipt_guide_field'),
-          controller: _guideController,
-          decoration: touchTextFieldDecoration(labelText: 'Guía'),
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          key: const Key('stock_receipt_lot_ref_field'),
-          controller: _lotController,
-          decoration: touchTextFieldDecoration(labelText: 'Lote'),
-        ),
+        if (_requiresGuiaLote) ...[
+          TextField(
+            key: const Key('stock_receipt_guide_field'),
+            controller: _guideController,
+            decoration: touchTextFieldDecoration(labelText: 'Guía'),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            key: const Key('stock_receipt_lot_ref_field'),
+            controller: _lotController,
+            decoration: touchTextFieldDecoration(labelText: 'Lote'),
+          ),
+          const SizedBox(height: 12),
+        ],
+        if (_trackExpiry) ...[
+          ListTile(
+            key: const Key('stock_receipt_expiry_field'),
+            title: const Text('Fecha caducidad'),
+            subtitle: Text(
+              _lotExpiry == null
+                  ? 'Sin seleccionar'
+                  : _lotExpiry!.toLocal().toString().split(' ').first,
+            ),
+            trailing: const Icon(Icons.calendar_today),
+            onTap: _pickLotExpiry,
+          ),
+        ],
       ],
     );
   }
@@ -417,20 +467,36 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       children: [
-        TextField(
-          key: const Key('stock_receipt_guide_field'),
-          controller: _guideController,
-          decoration: touchTextFieldDecoration(labelText: 'Guía'),
-          enabled: !sessionActive,
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          key: const Key('stock_receipt_lot_ref_field'),
-          controller: _lotController,
-          decoration: touchTextFieldDecoration(labelText: 'Lote'),
-          enabled: !sessionActive,
-        ),
-        const SizedBox(height: 12),
+        if (_requiresGuiaLote) ...[
+          TextField(
+            key: const Key('stock_receipt_guide_field'),
+            controller: _guideController,
+            decoration: touchTextFieldDecoration(labelText: 'Guía'),
+            enabled: !sessionActive,
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            key: const Key('stock_receipt_lot_ref_field'),
+            controller: _lotController,
+            decoration: touchTextFieldDecoration(labelText: 'Lote'),
+            enabled: !sessionActive,
+          ),
+          const SizedBox(height: 12),
+        ],
+        if (_trackExpiry) ...[
+          ListTile(
+            key: const Key('stock_receipt_expiry_field'),
+            title: const Text('Fecha caducidad'),
+            subtitle: Text(
+              _lotExpiry == null
+                  ? 'Sin seleccionar'
+                  : _lotExpiry!.toLocal().toString().split(' ').first,
+            ),
+            trailing: const Icon(Icons.calendar_today),
+            onTap: sessionActive ? null : _pickLotExpiry,
+          ),
+          const SizedBox(height: 12),
+        ],
         if (!sessionActive) ...[
           if (widget.composition.companionLanServer != null)
             SizedBox(

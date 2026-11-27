@@ -12,4 +12,5 @@ enum Permission {
   gestionarPlanilla,
   anularVenta,
   cambiarProducto,
+  gestionarConfigTienda,
 }

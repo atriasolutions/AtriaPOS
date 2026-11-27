@@ -2,7 +2,7 @@
 
 ## Problema
 
-Micro y pequeños comercios de barrio (almacenes, botillerías, minimarkets) operan con **caja manual**, **Excel** o herramientas genéricas. Necesitan:
+Micro y pequeños comercios en Chile (almacén, botillería, ferretería, boutique, etc.) operan con **caja manual**, **Excel** o herramientas genéricas. Necesitan:
 
 - Vender rápido en mostrador.
 - Emitir **boleta electrónica** válida ante el SII.
@@ -22,7 +22,7 @@ Micro y pequeños comercios de barrio (almacenes, botillerías, minimarkets) ope
 
 ## Objetivo del producto (MVP)
 
-Construir un **POS segmento D**: mobile-first, catálogo colaborativo opcional, inventario básico, roles simples, boleta electrónica y modo offline acotado.
+Construir **Atria POS multi-rubro**: mobile-first, configuración por tienda (vendedor, factura, inventario, pagos), inventario y roles simples, boleta electrónica y modo offline acotado. El perfil **minimarket barrio** (antes «segmento D») es un **ejemplo de defaults**, no el único destino.
 
 ## Relación con Kora CRM (y complementos)
 
