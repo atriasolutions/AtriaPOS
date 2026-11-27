@@ -1,10 +1,16 @@
+import 'dart:async';
 import 'dart:convert';
+
+import 'package:core/application/application.dart';
 
 import 'companion_qr_link.dart';
 
 /// Destino de un texto JSON hacia el WebSocket del POS.
 abstract class CompanionScanSink {
   void add(String text);
+
+  /// Mensajes entrantes del POS (confirmaciones de escaneo, heartbeat, etc.).
+  Stream<String> get inbound => const Stream<String>.empty();
 }
 
 /// Acceso al POS. El cliente de prueba sustituye esta puerta.
@@ -25,15 +31,37 @@ class CompanionLanSession {
     required this.modeApi,
     required this.token,
     required this.storeId,
-  });
+  }) {
+    _inboundSub = sink.inbound.listen(_onInbound);
+  }
 
   final CompanionScanSink sink;
   final String modeApi;
   final String token;
   final String storeId;
 
+  /// Llamado cuando el POS confirma un escaneo (`productName` puede ser null).
+  void Function(String code, String? productName)? onScanAcknowledged;
+
+  StreamSubscription<String>? _inboundSub;
+
   void sendScan(String code) {
     sink.add(jsonEncode({'type': 'scan', 'code': code}));
+  }
+
+  void _onInbound(String raw) {
+    final message = CompanionWsMessage.decode(raw);
+    if (message == null) return;
+    if (!CompanionWsMessage.isScanAccepted(message)) return;
+    final name = CompanionWsMessage.scanAcceptedProductName(message);
+    final ackCode =
+        CompanionWsMessage.scanAcceptedCode(message) ?? '';
+    onScanAcknowledged?.call(ackCode, name);
+  }
+
+  void dispose() {
+    unawaited(_inboundSub?.cancel());
+    _inboundSub = null;
   }
 }
 

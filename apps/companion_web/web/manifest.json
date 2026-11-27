@@ -1,5 +1,5 @@
 {
-    "name": "companion_web",
+    "name": "Atria Companion",
     "short_name": "companion_web",
     "start_url": ".",
     "display": "standalone",

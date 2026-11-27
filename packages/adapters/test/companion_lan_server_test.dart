@@ -5,6 +5,7 @@ import 'package:adapters/companion_lan_live_registry.dart';
 import 'package:adapters/companion_lan_server.dart';
 import 'package:adapters/companion_lan_tls.dart';
 import 'package:core/api/api.dart';
+import 'package:core/application/application.dart';
 import 'package:core/domain/domain.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
@@ -130,6 +131,73 @@ void main() {
       final scanned = await scanFuture.timeout(const Duration(seconds: 3));
       expect(scanned, '7801234567890');
       await channel.sink.close();
+    });
+
+    test('SC-098-02 scan WS incluye productName si hay producto', () async {
+      const storeId = 't1';
+      const barcode = '7801234567890';
+      final products = InMemoryProductRepository();
+      await products.save(
+        Product(
+          id: 'p-scan',
+          storeId: storeId,
+          name: 'Leche entera',
+          salePriceClp: 990,
+          stock: 5,
+          barcode: barcode,
+        ),
+      );
+      final resolver = ResolveScanCode(products);
+      final namedServer = CompanionLanServer(
+        companionService: service,
+        liveRegistry: liveRegistry,
+        resolveScanCode: resolver,
+        host: InternetAddress.loopbackIPv4.address,
+        port: 0,
+      );
+      await namedServer.start();
+      try {
+        final offer = await service.createPairingOffer(
+          storeId,
+          CompanionMode.vender,
+        );
+        final pairingCode =
+            (offer as ApiSuccess<CreateCompanionPairingOfferResponse>).data
+                .pairingCode;
+        final pairUri = namedServer.baseUri.replace(
+          path: '/v0/stores/$storeId/companion/pair',
+        );
+        final client = HttpClient();
+        final pairReq = await client.postUrl(pairUri);
+        pairReq.headers.contentType = ContentType.json;
+        pairReq.write(
+          jsonEncode({'pairingCode': pairingCode, 'mode': 'VENDER'}),
+        );
+        final pairRes = await pairReq.close();
+        final pairBody = jsonDecode(
+          await pairRes.transform(utf8.decoder).join(),
+        ) as Map<String, dynamic>;
+        final token = pairBody['token'] as String;
+
+        final wsUri = namedServer.baseUri.replace(
+          path: CompanionLanConstants.wsPath,
+          queryParameters: {'token': token},
+        );
+        final wsUriString = wsUri.toString().replaceFirst('http', 'ws');
+        final channel = WebSocketChannel.connect(Uri.parse(wsUriString));
+        final ackFuture = channel.stream.firstWhere(
+          (event) =>
+              (jsonDecode(event as String) as Map)['type'] == 'scan',
+        );
+        channel.sink.add(jsonEncode({'type': 'scan', 'code': barcode}));
+        final ack = jsonDecode(await ackFuture) as Map<String, dynamic>;
+        expect(ack['accepted'], isTrue);
+        expect(ack['productName'], 'Leche entera');
+        expect(ack['code'], barcode);
+        await channel.sink.close();
+      } finally {
+        await namedServer.stop();
+      }
     });
 
     test('SC-111-03 WS registrado marca celular live', () async {

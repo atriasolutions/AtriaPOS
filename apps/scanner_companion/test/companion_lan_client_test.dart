@@ -8,6 +8,9 @@ class _MemorySink implements CompanionScanSink {
 
   @override
   void add(String text) => messages.add(text);
+
+  @override
+  Stream<String> get inbound => const Stream<String>.empty();
 }
 
 class _FakeGateway implements CompanionPosGateway {

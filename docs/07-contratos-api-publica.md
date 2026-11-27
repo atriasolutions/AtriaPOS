@@ -1144,6 +1144,14 @@ Cliente → servidor:
 { "type": "heartbeat" }
 ```
 
+Servidor → cliente (tras escaneo aceptado, SLICE-160):
+
+```json
+{ "type": "scan", "accepted": true, "code": "7801234567890", "productName": "Pan hallulla" }
+```
+
+`productName` es opcional (producto no resuelto o código no catalogado).
+
 #### `GET /c/{pairingCode}` (SLICE-107, DEC-060)
 
 Resuelve el código de emparejamiento y redirige a la PWA.

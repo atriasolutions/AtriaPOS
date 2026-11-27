@@ -195,6 +195,7 @@ class PosComposition {
     } else if (_useLanCompanionDefault()) {
       companionLanServer = _createCompanionLanServer(
         companionService,
+        products,
         companionDataDir,
         companionLiveRegistry,
       );
@@ -385,13 +386,16 @@ class PosComposition {
 
   static CompanionLanServer _createCompanionLanServer(
     CompanionService service,
+    DriftProductRepository products,
     String? dataDir,
     CompanionLanLiveRegistry liveRegistry,
   ) {
+    final resolveScan = ResolveScanCode(products);
     if (!lanCompanionTls) {
       return CompanionLanServer(
         companionService: service,
         liveRegistry: liveRegistry,
+        resolveScanCode: resolveScan,
         host: InternetAddress.loopbackIPv4.address,
         port: 0,
       );
@@ -407,6 +411,7 @@ class PosComposition {
     return CompanionLanServer(
       companionService: service,
       liveRegistry: liveRegistry,
+      resolveScanCode: resolveScan,
       host: CompanionLanConfig.bindHost,
       port: port,
       staticRoot: CompanionLanConfig.resolveCompanionWebRoot(),

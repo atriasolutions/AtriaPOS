@@ -81,4 +81,8 @@ class _ChannelScanSink implements CompanionScanSink {
   void add(String text) {
     _channel.sink.add(text);
   }
+
+  @override
+  Stream<String> get inbound =>
+      _channel.stream.map((event) => event.toString());
 }

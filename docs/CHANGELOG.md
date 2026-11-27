@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-160: Companion LAN muestra nombre del producto tras escaneo aceptado.
 - SLICE-159: Ajuste e insights con tarjetas, chips de alerta y CTA táctil.
 - SLICE-158: Ingreso existencias alineado al kit táctil de inventario.
 - SLICE-157: Cierre inventario con resumen, segmento y barra inferior táctil.

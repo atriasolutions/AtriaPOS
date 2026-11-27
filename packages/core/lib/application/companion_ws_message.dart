@@ -20,4 +20,24 @@ abstract final class CompanionWsMessage {
 
   static bool isHeartbeat(Map<String, Object?> message) =>
       message['type'] == 'heartbeat';
+
+  /// Respuesta del POS tras aceptar un escaneo (`accepted: true`).
+  static bool isScanAccepted(Map<String, Object?> message) =>
+      message['type'] == 'scan' && message['accepted'] == true;
+
+  static String? scanAcceptedProductName(Map<String, Object?> message) {
+    if (!isScanAccepted(message)) return null;
+    final name = message['productName'];
+    if (name is! String) return null;
+    final trimmed = name.trim();
+    return trimmed.isEmpty ? null : trimmed;
+  }
+
+  static String? scanAcceptedCode(Map<String, Object?> message) {
+    if (!isScanAccepted(message)) return null;
+    final code = message['code'];
+    if (code is! String) return null;
+    final trimmed = code.trim();
+    return trimmed.isEmpty ? null : trimmed;
+  }
 }

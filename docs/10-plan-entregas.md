@@ -203,6 +203,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 157 | SLICE-157 | POS | UX cierre inventario accesible | RF-088 | SC-157-UI ✅ |
 | 158 | SLICE-158 | POS | UX ingreso existencias táctil | RF-085 | SC-158-UI ✅ |
 | 159 | SLICE-159 | POS | UX ajuste e insights táctil | RF-021, RF-087 | SC-159-UI ✅ |
+| 160 | SLICE-160 | App/LAN | Nombre producto en ack de escaneo | RF-098 | SC-160-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

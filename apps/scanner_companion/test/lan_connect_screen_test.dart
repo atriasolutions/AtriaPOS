@@ -8,6 +8,9 @@ import 'package:scanner_companion/lan_connect_screen.dart';
 class _Sink implements CompanionScanSink {
   @override
   void add(String text) {}
+
+  @override
+  Stream<String> get inbound => const Stream<String>.empty();
 }
 
 class _Gateway implements CompanionPosGateway {

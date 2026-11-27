@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:scanner_companion/companion_lan_client.dart';
@@ -5,9 +8,24 @@ import 'package:scanner_companion/lan_scan_screen.dart';
 
 class _Sink implements CompanionScanSink {
   final messages = <String>[];
+  final _inbound = StreamController<String>.broadcast();
 
   @override
   void add(String text) => messages.add(text);
+
+  @override
+  Stream<String> get inbound => _inbound.stream;
+
+  void ackProduct({required String code, required String productName}) {
+    _inbound.add(
+      jsonEncode({
+        'type': 'scan',
+        'accepted': true,
+        'code': code,
+        'productName': productName,
+      }),
+    );
+  }
 }
 
 void main() {
@@ -215,6 +233,27 @@ void main() {
     expect(sink.messages, hasLength(1));
     expect(sink.messages.single, contains('1234567890'));
     expect(find.textContaining('Último: 1234567890'), findsOneWidget);
+  });
+
+  testWidgets('SC-144-01 POS confirma muestra nombre del producto', (tester) async {
+    final sink = _Sink();
+    const barcode = '1234567890';
+    await pumpScan(
+      tester,
+      sink: sink,
+      bindCamera: (_) {},
+    );
+    await tester.tap(find.text('Escribir código'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byKey(const Key('companion_lan_manual_code_field')),
+      barcode,
+    );
+    await tester.tap(find.byKey(const Key('companion_lan_manual_send_button')));
+    await tester.pump();
+    sink.ackProduct(code: barcode, productName: 'Pan hallulla');
+    await tester.pump();
+    expect(find.text('Último: Pan hallulla'), findsOneWidget);
   });
 
   testWidgets('SC-135-02 Escanear habilitado tras lectura', (tester) async {

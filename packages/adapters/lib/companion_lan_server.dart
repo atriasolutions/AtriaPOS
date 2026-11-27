@@ -18,6 +18,7 @@ class CompanionLanServer {
   CompanionLanServer({
     required this.companionService,
     CompanionLanLiveRegistry? liveRegistry,
+    this.resolveScanCode,
     this.host = '0.0.0.0',
     this.port = CompanionLanConstants.defaultPort,
     this.staticRoot,
@@ -26,6 +27,9 @@ class CompanionLanServer {
   }) : liveRegistry = liveRegistry ?? CompanionLanLiveRegistry();
 
   final CompanionService companionService;
+
+  /// Resuelve nombre de producto para mostrar en el companion (opcional).
+  final ResolveScanCode? resolveScanCode;
   final CompanionLanLiveRegistry liveRegistry;
   final String host;
   final int port;
@@ -205,7 +209,24 @@ class CompanionLanServer {
         final scan = await companionService.submitScanFromToken(token, code);
         if (scan == null) return;
         _scans.add(scan.code);
-        channel.sink.add(jsonEncode({'type': 'scan', 'accepted': true}));
+        String? productName;
+        final resolver = resolveScanCode;
+        if (resolver != null) {
+          try {
+            final resolved = await resolver(scan.storeId, scan.code);
+            productName = resolved.productName;
+          } on NotFoundFailure {
+            productName = null;
+          }
+        }
+        channel.sink.add(
+          jsonEncode({
+            'type': 'scan',
+            'accepted': true,
+            'code': scan.code,
+            if (productName != null) 'productName': productName,
+          }),
+        );
       },
       onError: (_) {},
       onDone: () => liveRegistry.unregister(token, channel),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'companion_armed_scan.dart';
 import 'companion_camera_view.dart';
 import 'companion_lan_client.dart';
+import 'companion_scan_display.dart';
 import 'companion_ui_strings.dart';
 
 /// Cámara de productos + estado + manual (sin AppBar ni CTA inferior).
@@ -29,10 +30,33 @@ class CompanionWorkPanel extends StatefulWidget {
 class CompanionWorkPanelState extends State<CompanionWorkPanel> {
   final _armed = CompanionArmedScan();
   final _manualCode = TextEditingController();
-  String? _lastSent;
+  String? _lastLabel;
+
+  @override
+  void initState() {
+    super.initState();
+    _bindSession(widget.session);
+  }
+
+  @override
+  void didUpdateWidget(covariant CompanionWorkPanel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.session != widget.session) {
+      _bindSession(widget.session);
+    }
+  }
+
+  void _bindSession(CompanionLanSession session) {
+    session.onScanAcknowledged = (code, productName) {
+      if (!mounted) return;
+      if (productName == null || productName.isEmpty) return;
+      setState(() => _lastLabel = productName);
+    };
+  }
 
   @override
   void dispose() {
+    widget.session.onScanAcknowledged = null;
     _manualCode.dispose();
     super.dispose();
   }
@@ -51,7 +75,7 @@ class CompanionWorkPanelState extends State<CompanionWorkPanel> {
     final code = _armed.trigger();
     if (code == null) return null;
     widget.session.sendScan(code);
-    setState(() => _lastSent = code);
+    setState(() => _lastLabel = companionScanListoLabel(code));
     return code;
   }
 
@@ -60,13 +84,15 @@ class CompanionWorkPanelState extends State<CompanionWorkPanel> {
     if (code.isEmpty) return;
     widget.session.sendScan(code);
     _manualCode.clear();
-    setState(() => _lastSent = code);
+    setState(() => _lastLabel = companionScanListoLabel(code));
   }
 
   String get _statusText {
     final pending = _armed.pending;
-    if (pending != null) return 'Listo: $pending';
-    if (_lastSent != null) return 'Último: $_lastSent';
+    if (pending != null) {
+      return 'Listo: ${companionScanListoLabel(pending)}';
+    }
+    if (_lastLabel != null) return 'Último: $_lastLabel';
     return companionAimBarcodeHint;
   }
 
