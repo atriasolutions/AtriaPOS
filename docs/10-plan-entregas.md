@@ -189,6 +189,9 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 143 | SLICE-143 | Ops | Piloto UX v2 + runbook | RF-098 | SC-143-UI-01 manual |
 | 144 | SLICE-144 | POS | Pausa código vendedor en cobro | RF-084 | SC-144-* ✅ |
 | 145 | SLICE-145 | Core | Medios débito y crédito (registro) | RF-031 | SC-145-* ✅ |
+| 146 | SLICE-146 | POS | Medios de pago tras el documento | RF-031 | SC-146 ✅ |
+| 147 | SLICE-147 | POS | Efectivo con monto y vuelto | RF-031 | SC-147 ✅ |
+| 148 | SLICE-148 | POS | Botón Cobrar | RF-031 | SC-148 ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

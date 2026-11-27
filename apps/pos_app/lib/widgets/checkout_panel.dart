@@ -38,6 +38,8 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
   bool _invoiceSelected = false;
   final _invoiceRutController = TextEditingController();
   final _invoiceNameController = TextEditingController();
+  PaymentMethod? _paymentMethod;
+  final _cashReceivedController = TextEditingController();
 
   @override
   void initState() {
@@ -50,6 +52,7 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     _sellerCodeController.addListener(_onManualCodeChanged);
     _invoiceRutController.addListener(_onInvoiceFieldsChanged);
     _invoiceNameController.addListener(_onInvoiceFieldsChanged);
+    _cashReceivedController.addListener(_onInvoiceFieldsChanged);
   }
 
   void _onInvoiceFieldsChanged() {
@@ -81,6 +84,7 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     _invoiceNameController.removeListener(_onInvoiceFieldsChanged);
     _invoiceRutController.dispose();
     _invoiceNameController.dispose();
+    _cashReceivedController.dispose();
     super.dispose();
   }
 
@@ -119,6 +123,20 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     return _selectedSellerCode;
   }
 
+  bool get _invoiceReady {
+    if (!_invoiceSelected) return true;
+    return _invoiceRutController.text.trim().isNotEmpty &&
+        _invoiceNameController.text.trim().isNotEmpty;
+  }
+
+  bool get _paymentsEnabled => widget.enabled && _invoiceReady && !_confirming;
+
+  int? get _cashReceivedClp {
+    final digits = _cashReceivedController.text.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digits.isEmpty) return null;
+    return int.tryParse(digits);
+  }
+
   bool get _canConfirm {
     if (!widget.enabled || widget.cartId == null || _confirming) {
       return false;
@@ -127,10 +145,12 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
       if (_loadingCollaborators) return false;
       if ((_effectiveSellerCode ?? '').isEmpty) return false;
     }
-    if (_invoiceSelected) {
-      final rut = _invoiceRutController.text.trim();
-      final name = _invoiceNameController.text.trim();
-      if (rut.isEmpty || name.isEmpty) return false;
+    if (!_invoiceReady) return false;
+    final method = _paymentMethod;
+    if (method == null) return false;
+    if (method == PaymentMethod.efectivo) {
+      final received = _cashReceivedClp;
+      if (received == null || received < widget.totalClp) return false;
     }
     return true;
   }
@@ -145,8 +165,18 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
         (sellerCode == null || sellerCode.isEmpty)) {
       return;
     }
+    final method = _paymentMethod;
+    if (method == null) return;
+    final received = _cashReceivedClp;
+    if (method == PaymentMethod.efectivo &&
+        (received == null || received < widget.totalClp)) {
+      return;
+    }
 
     setState(() => _confirming = true);
+    final isCash = method == PaymentMethod.efectivo;
+    final amountClp = isCash ? received! : widget.totalClp;
+    final changeClp = isCash ? amountClp - widget.totalClp : 0;
     final documentType = _invoiceSelected ? 'FACTURA' : 'BOLETA';
     final invoiceReceiver = _invoiceSelected
         ? CheckoutInvoiceReceiverDto(
@@ -161,11 +191,11 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
         sellerCode: sellerCode ?? '',
         payments: [
           CheckoutPaymentDto(
-            method: 'EFECTIVO',
-            amountClp: widget.totalClp,
+            method: method.apiValue,
+            amountClp: amountClp,
           ),
         ],
-        changeClp: 0,
+        changeClp: changeClp,
         documentType: documentType,
         invoiceReceiver: invoiceReceiver,
       ),
@@ -232,10 +262,6 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
           ),
         ),
         const SizedBox(height: 12),
-        Text(
-          'Pago: efectivo por el total exacto.',
-          style: theme.textTheme.bodySmall,
-        ),
         if (widget.allowsInvoiceCheckout) ...[
           const SizedBox(height: 16),
           Text('Documento', style: theme.textTheme.titleSmall),
@@ -262,7 +288,7 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
                   }
                 : null,
             style: ButtonStyle(
-              visualDensity: VisualDensity.compact,
+              minimumSize: WidgetStateProperty.all(const Size(0, 56)),
             ),
             showSelectedIcon: false,
             key: const Key('checkout_document_type_segment'),
@@ -299,6 +325,34 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
               textCapitalization: TextCapitalization.words,
             ),
           ],
+        ],
+        const SizedBox(height: 16),
+        Text('Medio de pago', style: theme.textTheme.titleSmall),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            _paymentButton('Efectivo', PaymentMethod.efectivo, const Key('checkout_pay_efectivo')),
+            _paymentButton('Débito', PaymentMethod.debito, const Key('checkout_pay_debito')),
+            _paymentButton('Crédito', PaymentMethod.credito, const Key('checkout_pay_credito')),
+          ],
+        ),
+        if (_paymentMethod == PaymentMethod.efectivo) ...[
+          const SizedBox(height: 12),
+          TextField(
+            key: const Key('checkout_cash_received'),
+            controller: _cashReceivedController,
+            enabled: _paymentsEnabled,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Monto recibido',
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _cashStatusLabel,
+            key: const Key('checkout_change_label'),
+            style: theme.textTheme.titleMedium,
+          ),
         ],
         if (widget.requiresSellerCode) ...[
           const SizedBox(height: 16),
@@ -355,10 +409,7 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
           key: const Key('confirm_checkout_button'),
           onPressed: _canConfirm ? _confirm : null,
           style: FilledButton.styleFrom(
-            minimumSize: const Size.fromHeight(48),
-            backgroundColor: widget.enabled
-                ? cs.primary
-                : Colors.grey.shade400,
+            minimumSize: const Size.fromHeight(56),
           ),
           child: _confirming
               ? const SizedBox(
@@ -366,9 +417,40 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
                   height: 22,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('FINALIZAR / COBRAR'),
+              : const Text('Cobrar'),
         ),
       ],
+    );
+  }
+
+  String get _cashStatusLabel {
+    final received = _cashReceivedClp;
+    if (received == null) return 'Vuelto: —';
+    final delta = received - widget.totalClp;
+    if (delta < 0) return 'Falta: \$${-delta}';
+    return 'Vuelto: \$$delta';
+  }
+
+  Widget _paymentButton(String label, PaymentMethod method, Key key) {
+    final selected = _paymentMethod == method;
+    final cs = Theme.of(context).colorScheme;
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: FilledButton(
+          key: key,
+          onPressed: _paymentsEnabled
+              ? () => setState(() => _paymentMethod = method)
+              : null,
+          style: FilledButton.styleFrom(
+            minimumSize: const Size(0, 56),
+            backgroundColor:
+                selected ? cs.primary : cs.surfaceContainerHighest,
+            foregroundColor: selected ? cs.onPrimary : cs.onSurface,
+          ),
+          child: Text(label),
+        ),
+      ),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
+import 'checkout_test_helpers.dart';
 import 'wide_viewport.dart';
 
 Future<void> _openSaleMenu(WidgetTester tester, PosComposition composition) async {
@@ -136,6 +137,7 @@ void main() {
     expect(find.byKey(const Key('checkout_seller_dropdown')), findsNothing);
     expect(find.byKey(const Key('checkout_seller_code_field')), findsNothing);
     expect(find.byKey(const Key('confirm_checkout_button')), findsOneWidget);
+    await chooseCheckoutCash(tester, 500);
 
     final confirm = find.byKey(const Key('confirm_checkout_button'));
     expect(tester.widget<FilledButton>(confirm).onPressed, isNotNull);

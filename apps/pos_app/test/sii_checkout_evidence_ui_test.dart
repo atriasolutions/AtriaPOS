@@ -81,6 +81,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await enterCheckoutSellerCode(tester);
+    await chooseCheckoutCash(tester, 500);
     await tester.tap(find.byKey(const Key('confirm_checkout_button')));
     await tester.pumpAndSettle();
 

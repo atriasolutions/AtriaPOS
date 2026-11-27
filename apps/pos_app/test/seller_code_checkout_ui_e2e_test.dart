@@ -108,6 +108,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await enterCheckoutSellerCode(tester, sellerCode: 'v01');
+    await chooseCheckoutCash(tester, 500);
     await tester.tap(find.byKey(const Key('confirm_checkout_button')));
     await tester.pumpAndSettle();
 
@@ -125,11 +126,16 @@ void main() {
     addTearDown(composition.close);
     await _openCheckoutDialog(tester, composition);
 
-    final button = tester.widget<FilledButton>(
-      find.byKey(const Key('confirm_checkout_button')),
-    );
-    expect(button.onPressed, isNotNull);
     expect(find.text('Vendedor'), findsNothing);
+    expect(
+      tester.widget<FilledButton>(find.byKey(const Key('confirm_checkout_button'))).onPressed,
+      isNull,
+    );
+    await chooseCheckoutCash(tester, 500);
+    expect(
+      tester.widget<FilledButton>(find.byKey(const Key('confirm_checkout_button'))).onPressed,
+      isNotNull,
+    );
   });
 
   testWidgets('SC-144-UI-02 cobrar sin vendedor cierra la venta', (
@@ -144,6 +150,7 @@ void main() {
     await _openCheckoutDialog(tester, composition);
 
     expect(find.byKey(const Key('checkout_seller_code_field')), findsNothing);
+    await chooseCheckoutCash(tester, 500);
     await tester.tap(find.byKey(const Key('confirm_checkout_button')));
     await tester.pumpAndSettle();
 

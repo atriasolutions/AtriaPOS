@@ -11,3 +11,14 @@ Future<void> enterCheckoutSellerCode(
   await tester.enterText(field, sellerCode);
   await tester.pumpAndSettle();
 }
+
+/// Elige efectivo e ingresa el monto recibido para habilitar Cobrar.
+Future<void> chooseCheckoutCash(WidgetTester tester, int amountClp) async {
+  await tester.tap(find.byKey(const Key('checkout_pay_efectivo')));
+  await tester.pumpAndSettle();
+  await tester.enterText(
+    find.byKey(const Key('checkout_cash_received')),
+    '$amountClp',
+  );
+  await tester.pumpAndSettle();
+}

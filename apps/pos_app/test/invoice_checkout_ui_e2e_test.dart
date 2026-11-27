@@ -5,6 +5,8 @@ import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
+import 'checkout_test_helpers.dart';
+
 Future<void> _prepareCart(WidgetTester tester, PosComposition composition) async {
   await composition.ensureDemoStore();
   await composition.ensureDemoUsers();
@@ -82,16 +84,7 @@ void main() {
       'Cliente SpA',
     );
     await tester.pumpAndSettle();
-
-    final sellerField = find.byKey(const Key('checkout_seller_code_field'));
-    if (sellerField.evaluate().isNotEmpty) {
-      await tester.enterText(sellerField, 'V01');
-    } else {
-      await tester.tap(find.byKey(const Key('checkout_seller_dropdown')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.textContaining('V01').first);
-      await tester.pumpAndSettle();
-    }
+    await chooseCheckoutCash(tester, 500);
 
     await tester.tap(find.byKey(const Key('confirm_checkout_button')));
     await tester.pumpAndSettle();
@@ -120,16 +113,7 @@ void main() {
       'Cliente SpA',
     );
     await tester.pumpAndSettle();
-
-    final sellerField = find.byKey(const Key('checkout_seller_code_field'));
-    if (sellerField.evaluate().isNotEmpty) {
-      await tester.enterText(sellerField, 'V01');
-    } else {
-      await tester.tap(find.byKey(const Key('checkout_seller_dropdown')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.textContaining('V01').first);
-      await tester.pumpAndSettle();
-    }
+    await chooseCheckoutCash(tester, 500);
 
     await tester.tap(find.byKey(const Key('confirm_checkout_button')));
     await tester.pumpAndSettle();

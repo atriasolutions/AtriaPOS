@@ -63,6 +63,7 @@ Future<void> runSaleFlowScenario(WidgetTester tester) async {
   expect(find.textContaining('\$1000'), findsOneWidget);
 
   await enterCheckoutSellerCode(tester);
+  await chooseCheckoutCash(tester, 1000);
   await tester.tap(find.byKey(const Key('confirm_checkout_button')));
   await tester.pumpAndSettle();
 
