@@ -62,6 +62,15 @@ class CloseInventory {
       }
     }
 
+    final catalog = await _products.listByStore(storeId);
+    final requiredIds = catalog.map((p) => p.id).toSet();
+    final providedIds = lines.map((l) => l.productId).toSet();
+    if (!requiredIds.every(providedIds.contains)) {
+      throw const ValidationFailure(
+        'Complete el conteo de todos los productos',
+      );
+    }
+
     final shift = await _shifts.findOpenByStore(storeId);
     if (shift == null) {
       throw const NotFoundFailure('No hay turno abierto');

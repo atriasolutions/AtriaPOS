@@ -704,7 +704,7 @@ Sin turno → 404. Cajero → 403.
 
 **201** — `closeId`, `shiftId`, `closedAt`, `lines[]` con `systemStock`, `countedStock`, `variance`, `unitsSoldInShift`.
 
-Validación: lista vacía, `countedQty` negativo, producto duplicado o inexistente, stock final &lt; 0 → 400.
+Validación: lista vacía, `countedQty` negativo, producto duplicado o inexistente, stock final &lt; 0 → 400. **SLICE-153:** debe incluir un recuento por cada producto del catálogo de la tienda; si falta alguno → 400 `Complete el conteo de todos los productos`.
 
 `InventoryService.getInventoryClosePreview` / `submitInventoryClose`.
 

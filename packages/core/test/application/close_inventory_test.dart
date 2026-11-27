@@ -146,6 +146,115 @@ void main() {
     );
   });
 
+  test('SC-153-01 falta SKU del catálogo', () async {
+    final shifts = InMemoryShiftRepository();
+    final products = InMemoryProductRepository();
+    final sales = InMemorySaleRepository();
+    final movements = InMemoryStockMovementRepository();
+    final closes = InMemoryInventoryCloseRepository();
+    final sessions = InMemorySessionProvider.supervisor();
+    await shifts.save(
+      Shift(
+        id: 'sh1',
+        storeId: storeId,
+        openingCashClp: 0,
+        openedAt: DateTime.utc(2026, 1, 1),
+        status: ShiftStatus.abierto,
+      ),
+    );
+    await products.save(
+      Product.create(
+        id: 'p1',
+        storeId: storeId,
+        name: 'Pan',
+        salePriceClp: 500,
+        initialStock: 10,
+      ),
+    );
+    await products.save(
+      Product.create(
+        id: 'p2',
+        storeId: storeId,
+        name: 'Leche',
+        salePriceClp: 900,
+        initialStock: 5,
+      ),
+    );
+    final close = CloseInventory(
+      shifts,
+      products,
+      sales,
+      AdjustStock(products, movements, sessions),
+      closes,
+      sessions,
+    );
+    expect(
+      () => close(
+        storeId,
+        [const CloseInventoryLineInput(productId: 'p1', countedQty: 10)],
+      ),
+      throwsA(
+        isA<ValidationFailure>().having(
+          (e) => e.message,
+          'message',
+          'Complete el conteo de todos los productos',
+        ),
+      ),
+    );
+  });
+
+  test('SC-153-02 catálogo completo cierra', () async {
+    final shifts = InMemoryShiftRepository();
+    final products = InMemoryProductRepository();
+    final sales = InMemorySaleRepository();
+    final movements = InMemoryStockMovementRepository();
+    final closes = InMemoryInventoryCloseRepository();
+    final sessions = InMemorySessionProvider.supervisor();
+    await shifts.save(
+      Shift(
+        id: 'sh1',
+        storeId: storeId,
+        openingCashClp: 0,
+        openedAt: DateTime.utc(2026, 1, 1),
+        status: ShiftStatus.abierto,
+      ),
+    );
+    await products.save(
+      Product.create(
+        id: 'p1',
+        storeId: storeId,
+        name: 'Pan',
+        salePriceClp: 500,
+        initialStock: 10,
+      ),
+    );
+    await products.save(
+      Product.create(
+        id: 'p2',
+        storeId: storeId,
+        name: 'Leche',
+        salePriceClp: 900,
+        initialStock: 5,
+      ),
+    );
+    final close = CloseInventory(
+      shifts,
+      products,
+      sales,
+      AdjustStock(products, movements, sessions),
+      closes,
+      sessions,
+    );
+    final saved = await close(
+      storeId,
+      const [
+        CloseInventoryLineInput(productId: 'p1', countedQty: 10),
+        CloseInventoryLineInput(productId: 'p2', countedQty: 5),
+      ],
+    );
+    expect(saved.lines.length, 2);
+  });
+
   test('SC-088-08 producto duplicado', () async {
     final close = await buildClose();
     expect(
