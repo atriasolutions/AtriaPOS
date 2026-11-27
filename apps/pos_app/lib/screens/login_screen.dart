@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core/api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,12 +20,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _userIdController = TextEditingController(text: 'usr_cajero');
   final _pinController = TextEditingController();
+  final _pinFocus = FocusNode();
   bool _loading = false;
 
   @override
   void dispose() {
     _userIdController.dispose();
     _pinController.dispose();
+    _pinFocus.dispose();
     super.dispose();
   }
 
@@ -68,19 +72,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 labelText: 'Usuario',
                 border: OutlineInputBorder(),
               ),
+              textInputAction: TextInputAction.next,
               inputFormatters: [LatinNWithoutEnyeFormatter()],
+              onSubmitted: (_) => _pinFocus.requestFocus(),
             ),
             const SizedBox(height: 16),
             TextField(
               key: const Key('login_pin_field'),
               controller: _pinController,
+              focusNode: _pinFocus,
               decoration: const InputDecoration(
                 labelText: 'PIN',
                 border: OutlineInputBorder(),
               ),
               obscureText: true,
               keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onSubmitted: (_) {
+                if (!_loading) unawaited(_login());
+              },
             ),
             const SizedBox(height: 24),
             FilledButton(
