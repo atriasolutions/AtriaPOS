@@ -87,20 +87,20 @@ void main() {
       ),
     );
     expect(result.totalClp, 1000);
-    expect(result.sellerCode, 'V01');
+    expect(result.sellerCode, '');
     final stock = await getProductStock(storeId, ctx.productId);
     expect(stock.stock, 8);
     final audit = await movements.listByProduct(storeId, ctx.productId);
     expect(audit.first.reason, StockAdjustmentReason.venta);
   });
 
-  test('SC-084-01 checkout con vendedor activo persiste sellerCode', () async {
+  test('SC-144-02 checkout Atria sin vendedor confirma y no persiste código', () async {
     final ctx = await panCart();
     final result = await confirmCheckout(
       ConfirmCheckoutInput(
         storeId: storeId,
         cartId: ctx.cartId,
-        sellerCode: 'v01',
+        sellerCode: '',
         payments: const [
           CheckoutPaymentInput(
             method: PaymentMethod.efectivo,
@@ -110,76 +110,28 @@ void main() {
         changeClp: 0,
       ),
     );
-    expect(result.sellerCode, 'V01');
+    expect(result.sellerCode, '');
     final stored = await sales.findById(storeId, result.saleId);
-    expect(stored!.sellerCode, 'V01');
+    expect(stored!.sellerCode, isNull);
   });
 
-  test('SC-084-02 sin sellerCode → VALIDACION', () async {
+  test('SC-144-03 código informado no se valida mientras el vendedor está en pausa', () async {
     final ctx = await panCart();
-    expect(
-      () => confirmCheckout(
-        ConfirmCheckoutInput(
-          storeId: storeId,
-          cartId: ctx.cartId,
-          sellerCode: '   ',
-          payments: const [
-            CheckoutPaymentInput(
-              method: PaymentMethod.efectivo,
-              amountClp: 1000,
-            ),
-          ],
-          changeClp: 0,
-        ),
+    final result = await confirmCheckout(
+      ConfirmCheckoutInput(
+        storeId: storeId,
+        cartId: ctx.cartId,
+        sellerCode: 'ZZ9',
+        payments: const [
+          CheckoutPaymentInput(
+            method: PaymentMethod.efectivo,
+            amountClp: 1000,
+          ),
+        ],
+        changeClp: 0,
       ),
-      throwsA(isA<ValidationFailure>()),
     );
-  });
-
-  test('SC-084-03 código inexistente o inactivo → VALIDACION', () async {
-    final ctx = await panCart();
-    expect(
-      () => confirmCheckout(
-        ConfirmCheckoutInput(
-          storeId: storeId,
-          cartId: ctx.cartId,
-          sellerCode: 'ZZ9',
-          payments: const [
-            CheckoutPaymentInput(
-              method: PaymentMethod.efectivo,
-              amountClp: 1000,
-            ),
-          ],
-          changeClp: 0,
-        ),
-      ),
-      throwsA(isA<ValidationFailure>()),
-    );
-    final inactive = Collaborator.create(
-      storeId: storeId,
-      sellerCode: 'V02',
-      firstName: 'Colab',
-      lastName: 'Off',
-    );
-    await collaborators.save(inactive);
-    await collaborators.save(inactive.withUpdates(active: false));
-    expect(
-      () => confirmCheckout(
-        ConfirmCheckoutInput(
-          storeId: storeId,
-          cartId: ctx.cartId,
-          sellerCode: 'V02',
-          payments: const [
-            CheckoutPaymentInput(
-              method: PaymentMethod.efectivo,
-              amountClp: 1000,
-            ),
-          ],
-          changeClp: 0,
-        ),
-      ),
-      throwsA(isA<ValidationFailure>()),
-    );
+    expect(result.sellerCode, '');
   });
 
   test('SC-031-02 carro vacío → VALIDACION', () async {

@@ -20,7 +20,8 @@ void main() {
     final data = (result as ApiSuccess<PosTemplateResponse>).data;
     expect(data.templateId, 'ATRIA_POS');
     expect(data.displayName, 'Atria POS');
-    expect(data.features, contains('sellerCodeCheckout'));
+    expect(data.features, isNot(contains('sellerCodeCheckout')));
+    expect(data.features, contains('collaboratorPlanilla'));
     expect(data.features, isNotEmpty);
   });
 

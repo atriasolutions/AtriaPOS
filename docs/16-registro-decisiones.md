@@ -70,6 +70,7 @@ Leyenda estado: `⬜ Abierto` | `🔄 En análisis` | `✅ Decidido` | `⏸ Post
 | DEC-062 | P1 | USB y Wi-Fi, misma IP activa | ✅ | [Companion HTTPS](decisiones/DEC-companion-https.md) | SLICE-109 |
 | DEC-063 | P0 | App Android LAN, cámara nativa, sin CA en el teléfono | ✅ | [Companion Android](decisiones/DEC-companion-android.md) | SLICE-116 |
 | DEC-065 | P0 | Companion armed: un envío por toque Escanear (Android + PWA) | ✅ | [Armed scan](decisiones/DEC-companion-armed-scan.md) | SLICE-131, 137 |
+| DEC-066 | P0 | Pausa código vendedor en checkout Atria | ✅ | [Pausa vendedor](decisiones/DEC-066-pausa-codigo-vendedor.md) | SLICE-144 |
 
 ---
 

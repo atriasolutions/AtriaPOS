@@ -114,7 +114,7 @@ void main() {
     expect(find.byKey(const Key('checkout_result_dialog')), findsOneWidget);
   });
 
-  testWidgets('SC-084-UI-02 sin vendedor confirmar deshabilitado', (
+  testWidgets('SC-144-UI-01 sin planilla el cobro queda habilitado', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1280, 900);
@@ -125,33 +125,28 @@ void main() {
     addTearDown(composition.close);
     await _openCheckoutDialog(tester, composition);
 
-    final button = tester.widget<FilledButton>(
-      find.byKey(const Key('confirm_checkout_button')),
-    );
-    expect(button.onPressed, isNull);
-  });
-
-  testWidgets('SC-084-UI-03 código inválido muestra validación', (
-    tester,
-  ) async {
-    tester.view.physicalSize = const Size(1280, 900);
-    tester.view.devicePixelRatio = 1.0;
-    addTearDown(tester.view.resetPhysicalSize);
-
-    final composition = PosComposition.memory();
-    addTearDown(composition.close);
-    await _openCheckoutDialog(tester, composition);
-
-    await enterCheckoutSellerCode(tester, sellerCode: 'V99');
     final button = tester.widget<FilledButton>(
       find.byKey(const Key('confirm_checkout_button')),
     );
     expect(button.onPressed, isNotNull);
+    expect(find.text('Vendedor'), findsNothing);
+  });
+
+  testWidgets('SC-144-UI-02 cobrar sin vendedor cierra la venta', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1280, 900);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await _openCheckoutDialog(tester, composition);
+
+    expect(find.byKey(const Key('checkout_seller_code_field')), findsNothing);
     await tester.tap(find.byKey(const Key('confirm_checkout_button')));
     await tester.pumpAndSettle();
 
-    expect(find.byKey(const Key('checkout_validation_snackbar')), findsOneWidget);
-    expect(find.byKey(const Key('checkout_result_dialog')), findsNothing);
-    expect(find.byKey(const Key('confirm_checkout_button')), findsOneWidget);
+    expect(find.byKey(const Key('checkout_result_dialog')), findsOneWidget);
   });
 }

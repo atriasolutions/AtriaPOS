@@ -6,9 +6,8 @@ Future<void> enterCheckoutSellerCode(
   WidgetTester tester, {
   String sellerCode = 'V01',
 }) async {
-  await tester.enterText(
-    find.byKey(const Key('checkout_seller_code_field')),
-    sellerCode,
-  );
+  final field = find.byKey(const Key('checkout_seller_code_field'));
+  if (field.evaluate().isEmpty) return;
+  await tester.enterText(field, sellerCode);
   await tester.pumpAndSettle();
 }

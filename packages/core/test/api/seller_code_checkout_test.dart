@@ -62,6 +62,21 @@ void main() {
     return cartId;
   }
 
+  test('SC-144-04 checkout API sin vendedor responde 201', () async {
+    final cartId = await cartWithPan();
+    final result = await saleService.checkout(
+      storeId,
+      cartId,
+      const CheckoutRequest(
+        sellerCode: '',
+        payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 500)],
+        changeClp: 0,
+      ),
+    );
+    expect(result, isA<ApiSuccess<CheckoutResponse>>());
+    expect((result as ApiSuccess<CheckoutResponse>).data.sellerCode, '');
+  });
+
   test('SC-084-01 checkout API devuelve sellerCode', () async {
     final cartId = await cartWithPan();
     final result = await saleService.checkout(
@@ -74,22 +89,7 @@ void main() {
       ),
     );
     expect(result, isA<ApiSuccess<CheckoutResponse>>());
-    expect((result as ApiSuccess<CheckoutResponse>).data.sellerCode, 'V01');
-  });
-
-  test('SC-084-02 sin sellerCode → 400', () async {
-    final cartId = await cartWithPan();
-    final result = await saleService.checkout(
-      storeId,
-      cartId,
-      const CheckoutRequest(
-        sellerCode: '',
-        payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 500)],
-        changeClp: 0,
-      ),
-    );
-    expect(result, isA<ApiFailure<CheckoutResponse>>());
-    expect((result as ApiFailure<CheckoutResponse>).statusCode, 400);
+    expect((result as ApiSuccess<CheckoutResponse>).data.sellerCode, '');
   });
 
   test('SC-084-04 listActiveForSale cajero → 200', () async {

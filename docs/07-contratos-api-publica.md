@@ -211,8 +211,8 @@ Métodos: `EFECTIVO`, `OTRO`.
 
 **SLICE-64 (RF-084)**
 
-- Checkout exige `sellerCode` de colaborador activo; ausente/inactivo → `VALIDACION`.
-- Tests `SC-084-01`…`06` en `seller_code_checkout_test.dart`, `confirm_checkout_test.dart`.
+- Con `sellerCodeCheckout` en la plantilla, checkout exige `sellerCode` de colaborador activo; ausente/inactivo → `VALIDACION`.
+- **SLICE-144 (DEC-066):** Atria POS no incluye esa feature. `sellerCode` vacío confirma (201) y la venta queda sin código. Tests `SC-144-*`.
 
 **SLICE-4**
 
@@ -790,7 +790,6 @@ Sin tienda → `NO_ENCONTRADO` (404).
     "fiscalCertificate",
     "inventoryClose",
     "productCreate",
-    "sellerCodeCheckout",
     "shiftSalesList",
     "stockAdjust",
     "stockInsights",

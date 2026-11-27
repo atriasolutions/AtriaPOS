@@ -34,8 +34,9 @@ class PosTemplateDefinition {
 }
 
 class PosTemplateRegistry {
+  /// SLICE-144 / DEC-066: `sellerCodeCheckout` queda fuera de Atria hasta retomar RF-084.
+  /// La planilla (`collaboratorPlanilla`) se mantiene.
   static const _atriaFeatures = {
-    PosFeature.sellerCodeCheckout,
     PosFeature.collaboratorPlanilla,
     PosFeature.stockReceiptGuiaLote,
     PosFeature.auditTrail,

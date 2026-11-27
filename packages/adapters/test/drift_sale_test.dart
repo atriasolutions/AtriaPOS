@@ -105,7 +105,7 @@ void main() {
     expect(stock.stock, 8);
   });
 
-  test('SC-084-06 drift persiste seller_code en venta', () async {
+  test('SC-144-05 drift no persiste seller_code mientras está en pausa', () async {
     await openShift(storeId, 0);
     final product = await createProduct(
       const CreateProductInput(
@@ -139,7 +139,7 @@ void main() {
       ),
     );
     final stored = await sales.findById(storeId, checkout.saleId);
-    expect(stored!.sellerCode, 'V01');
+    expect(stored!.sellerCode, isNull);
   });
 
   test('listByStoreCreatedBetween filtra por tienda y día', () async {

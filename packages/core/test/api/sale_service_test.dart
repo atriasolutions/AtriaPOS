@@ -173,7 +173,7 @@ void main() {
     expect(result, isA<ApiSuccess<CheckoutResponse>>());
     final success = result as ApiSuccess<CheckoutResponse>;
     expect(success.data.totalClp, 1000);
-    expect(success.data.sellerCode, 'V01');
+    expect(success.data.sellerCode, '');
     expect(success.data.dteStatus, 'EMITIDA');
     expect(success.data.folio, isNotNull);
     final search = await productService.searchProducts(storeId, 'Pan');

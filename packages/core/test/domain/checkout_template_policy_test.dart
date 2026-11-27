@@ -2,10 +2,14 @@ import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('SC-089-05 Atria exige sellerCode', () {
+  test('SC-144-01 Atria no exige sellerCode mientras RF-084 está en pausa', () {
     expect(
       CheckoutTemplatePolicy.requiresSellerCode(PosTemplateId.atriaPos),
-      isTrue,
+      isFalse,
+    );
+    expect(
+      PosTemplateRegistry.resolve(PosTemplateId.atriaPos).features,
+      contains(PosFeature.collaboratorPlanilla),
     );
   });
 

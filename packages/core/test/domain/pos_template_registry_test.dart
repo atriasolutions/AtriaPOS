@@ -5,9 +5,10 @@ void main() {
   test('SC-089-02 Atria incluye features R2', () {
     final def = PosTemplateRegistry.resolve(PosTemplateId.atriaPos);
     expect(def.displayName, 'Atria POS');
-    expect(def.features, contains(PosFeature.sellerCodeCheckout));
+    expect(def.features, isNot(contains(PosFeature.sellerCodeCheckout)));
+    expect(def.features, contains(PosFeature.collaboratorPlanilla));
     expect(def.features, contains(PosFeature.userManagement));
-    expect(def.features.length, PosFeature.values.length);
+    expect(def.features.length, PosFeature.values.length - 1);
   });
 
   test('SC-089-07 id desconocido → Atria', () {
