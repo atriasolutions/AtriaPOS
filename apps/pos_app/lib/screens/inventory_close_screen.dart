@@ -8,7 +8,10 @@ import 'package:flutter/services.dart';
 import '../di/pos_composition.dart';
 import '../widgets/companion_lan_status_chip.dart';
 import '../widgets/companion_qr_panel.dart';
+import '../theme/atria_touch_targets.dart';
 import '../widgets/inventory_count_line_tile.dart';
+import '../widgets/operation_bottom_bar.dart';
+import '../widgets/operation_mode_segment.dart';
 import 'product_create_screen.dart';
 
 enum _InventoryCloseMode { manual, scan }
@@ -72,6 +75,44 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
     final text = _countControllers[productId]?.text.trim() ?? '';
     if (text.isEmpty) return null;
     return int.tryParse(text);
+  }
+
+  String? get _manualDisabledHint {
+    if (_manualCanSubmit) return null;
+    final preview = _preview;
+    if (preview == null || preview.items.isEmpty) {
+      return 'No hay productos para contar.';
+    }
+    return 'Complete la cantidad contada de cada producto.';
+  }
+
+  ({int contado, int sinContar, int diferencias, int total}) _summaryCounts() {
+    final preview = _preview;
+    if (preview == null) {
+      return (contado: 0, sinContar: 0, diferencias: 0, total: 0);
+    }
+    var contado = 0;
+    var sinContar = 0;
+    var diferencias = 0;
+    for (final item in preview.items) {
+      final qty = _mode == _InventoryCloseMode.manual
+          ? _countedQtyForManual(item.productId)
+          : _countedQtyFromScan(item.productId);
+      switch (resolveInventoryCountLineStatus(item.systemStock, qty).status) {
+        case InventoryCountLineStatus.sinContar:
+          sinContar++;
+        case InventoryCountLineStatus.contado:
+          contado++;
+        case InventoryCountLineStatus.diferencias:
+          diferencias++;
+      }
+    }
+    return (
+      contado: contado,
+      sinContar: sinContar,
+      diferencias: diferencias,
+      total: preview.items.length,
+    );
   }
 
   bool get _manualCanSubmit {
@@ -359,86 +400,49 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
     );
   }
 
-  Widget _buildModeSelector() {
-    return Row(
-      children: [
-        Expanded(
-          child: FilledButton.tonal(
-            key: const Key('inventory_close_mode_manual'),
-            onPressed: () => _onModeChanged(_InventoryCloseMode.manual),
-            style: FilledButton.styleFrom(
-              backgroundColor: _mode == _InventoryCloseMode.manual
-                  ? Theme.of(context).colorScheme.secondaryContainer
-                  : null,
-            ),
-            child: const Text('Manual'),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: FilledButton.tonal(
-            key: const Key('inventory_close_mode_scan'),
-            onPressed: () => _onModeChanged(_InventoryCloseMode.scan),
-            style: FilledButton.styleFrom(
-              backgroundColor: _mode == _InventoryCloseMode.scan
-                  ? Theme.of(context).colorScheme.secondaryContainer
-                  : null,
-            ),
-            child: const Text('Por escaneo'),
-          ),
-        ),
-      ],
+  Widget _buildSummaryBar() {
+    final s = _summaryCounts();
+    final theme = Theme.of(context);
+    return Container(
+      key: const Key('inventory_close_summary'),
+      width: double.infinity,
+      margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        'Contados ${s.contado} / ${s.total} · Sin contar ${s.sinContar} · Diferencias ${s.diferencias}',
+        style: theme.textTheme.titleSmall,
+      ),
     );
   }
 
   Widget _buildManualBody(InventoryClosePreviewResponse preview) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            key: const Key('inventory_close_list'),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: preview.items.length,
-            itemBuilder: (context, index) {
-              final item = preview.items[index];
-              final controller = _countControllers[item.productId]!;
-              return InventoryCountLineTile(
-                productId: item.productId,
-                name: item.name,
-                systemStock: item.systemStock,
-                unitsSoldInShift: item.unitsSoldInShift,
-                countedQty: _countedQtyForManual(item.productId),
-                countField: TextField(
-                  key: Key('inventory_close_count_${item.productId}'),
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    labelText: 'Cantidad contada',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                ),
-              );
-            },
+    return ListView.builder(
+      key: const Key('inventory_close_list'),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      itemCount: preview.items.length,
+      itemBuilder: (context, index) {
+        final item = preview.items[index];
+        final controller = _countControllers[item.productId]!;
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: InventoryCountLineTile(
+            productId: item.productId,
+            name: item.name,
+            systemStock: item.systemStock,
+            unitsSoldInShift: item.unitsSoldInShift,
+            countedQty: _countedQtyForManual(item.productId),
+            countField: InventoryCountLineTile.countedField(
+              fieldKey: Key('inventory_close_count_${item.productId}'),
+              controller: controller,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: FilledButton(
-            key: const Key('inventory_close_submit_button'),
-            onPressed: _manualCanSubmit ? _submit : null,
-            child: _submitting
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Text('Registrar cierre'),
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -466,6 +470,7 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
             FilledButton(
               key: const Key('inventory_close_scan_start_button'),
               onPressed: _scanBusy ? null : _startScanSession,
+              style: touchPrimaryButtonStyle(Theme.of(context)),
               child: const Text('Iniciar conteo por escaneo'),
             ),
           ]
@@ -473,10 +478,7 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
             TextField(
               key: const Key('inventory_close_scan_code_field'),
               controller: _scanCodeController,
-              decoration: const InputDecoration(
-                labelText: 'Código escaneado',
-                border: OutlineInputBorder(),
-              ),
+              decoration: touchTextFieldDecoration(labelText: 'Código escaneado'),
               onSubmitted: _recordScanCode,
             ),
             const SizedBox(height: 8),
@@ -505,18 +507,6 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
                 },
               ),
             ],
-            const SizedBox(height: 12),
-            FilledButton(
-              key: const Key('inventory_close_scan_confirm_button'),
-              onPressed: _scanBusy ? null : _confirmScanSession,
-              child: const Text('Confirmar conteo'),
-            ),
-            const SizedBox(height: 8),
-            OutlinedButton(
-              key: const Key('inventory_close_scan_cancel_button'),
-              onPressed: _scanBusy ? null : _cancelScanSession,
-              child: const Text('Cancelar sesión'),
-            ),
           ],
           const SizedBox(height: 16),
         ],
@@ -556,14 +546,53 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
                       ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                      child: _buildModeSelector(),
+                      child: OperationModeSegment(
+                        manualKey: const Key('inventory_close_mode_manual'),
+                        scanKey: const Key('inventory_close_mode_scan'),
+                        scanSelected: _mode == _InventoryCloseMode.scan,
+                        onChanged: (scan) => _onModeChanged(
+                          scan
+                              ? _InventoryCloseMode.scan
+                              : _InventoryCloseMode.manual,
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 8),
+                    _buildSummaryBar(),
                     Expanded(
                       child: _mode == _InventoryCloseMode.manual
                           ? _buildManualBody(preview!)
                           : _buildScanBody(),
                     ),
+                    if (_mode == _InventoryCloseMode.manual)
+                      OperationBottomBar(
+                        primaryKey: const Key('inventory_close_submit_button'),
+                        primaryLabel: 'Registrar cierre',
+                        onPrimary: _manualCanSubmit ? _submit : null,
+                        primaryBusy: _submitting,
+                        disabledHint: _manualDisabledHint,
+                      )
+                    else if (_scanSessionId != null)
+                      OperationBottomBar(
+                        primaryKey:
+                            const Key('inventory_close_scan_confirm_button'),
+                        primaryLabel: 'Confirmar conteo',
+                        onPrimary:
+                            !_scanBusy && _scanLines.isNotEmpty
+                                ? _confirmScanSession
+                                : null,
+                        primaryBusy: _scanBusy,
+                        disabledHint: _scanLines.isEmpty
+                            ? 'Escanee al menos un producto.'
+                            : null,
+                        secondary: OutlinedButton(
+                          key: const Key('inventory_close_scan_cancel_button'),
+                          onPressed: _scanBusy ? null : _cancelScanSession,
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(kMinTouchHeight),
+                          ),
+                          child: const Text('Cancelar sesión'),
+                        ),
+                      ),
                   ],
                 ),
     );

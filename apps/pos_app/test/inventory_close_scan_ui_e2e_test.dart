@@ -200,16 +200,14 @@ void main() {
     await tester.tap(find.byKey(const Key('inventory_close_scan_start_button')));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('inventory_close_scan_confirm_button')));
-    await tester.pumpAndSettle();
-
     expect(
-      find.byKey(const Key('inventory_close_scan_success_snackbar')),
-      findsNothing,
+      tester
+          .widget<FilledButton>(
+            find.byKey(const Key('inventory_close_scan_confirm_button')),
+          )
+          .onPressed,
+      isNull,
     );
-    expect(
-      find.text('La sesión no tiene productos escaneados'),
-      findsOneWidget,
-    );
+    expect(find.text('Escanee al menos un producto.'), findsOneWidget);
   });
 }

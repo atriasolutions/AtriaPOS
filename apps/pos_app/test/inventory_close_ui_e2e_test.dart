@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/inventory_close_screen.dart';
+import 'package:pos_app/theme/atria_touch_targets.dart';
 
 Future<String> _seedShiftSale(PosComposition composition) async {
   await composition.ensureDemoStore();
@@ -66,6 +67,36 @@ void main() {
       findsOneWidget,
     );
     expect(find.textContaining('Vendidos en turno: 1'), findsOneWidget);
+  });
+
+  testWidgets('SC-157-UI-01 barra resumen visible', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await _seedShiftSale(composition);
+
+    await tester.pumpWidget(
+      MaterialApp(home: InventoryCloseScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('inventory_close_summary')), findsOneWidget);
+    expect(find.textContaining('Sin contar'), findsWidgets);
+  });
+
+  testWidgets('SC-157-UI-02 boton cierre tactil', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await _seedShiftSale(composition);
+
+    await tester.pumpWidget(
+      MaterialApp(home: InventoryCloseScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    final size = tester.getSize(
+      find.byKey(const Key('inventory_close_submit_button')),
+    );
+    expect(size.height, greaterThanOrEqualTo(kMinTouchHeight - 1));
   });
 
   testWidgets('SC-154-UI-01 inicia sin contar', (tester) async {

@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-157: Cierre inventario con resumen, segmento y barra inferior táctil.
 - SLICE-156: Kit táctil y chips accesibles para operación de inventario (RNF-043).
 - SLICE-154–155: Cierre inventario con chips Contado/Sin contar/Diferencias y delta en rojo (manual y escaneo).
 - SLICE-153: Cierre manual exige recuento de todos los productos del catálogo.

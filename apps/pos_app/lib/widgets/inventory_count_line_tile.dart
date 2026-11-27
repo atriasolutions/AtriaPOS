@@ -1,5 +1,6 @@
 import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../theme/atria_touch_targets.dart';
 import 'inventory_status_chip.dart';
@@ -96,12 +97,14 @@ class InventoryCountLineTile extends StatelessWidget {
   static Widget countedField({
     required Key fieldKey,
     required TextEditingController controller,
+    List<TextInputFormatter>? inputFormatters,
   }) {
     return TextField(
       key: fieldKey,
       controller: controller,
       decoration: touchTextFieldDecoration(labelText: 'Cantidad contada'),
       keyboardType: TextInputType.number,
+      inputFormatters: inputFormatters,
     );
   }
 }

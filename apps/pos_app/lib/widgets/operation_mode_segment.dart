@@ -26,15 +26,19 @@ class OperationModeSegment extends StatelessWidget {
       child: SegmentedButton<bool>(
         segments: [
           ButtonSegment<bool>(
-            key: manualKey,
             value: false,
-            label: const Text('Manual'),
+            label: KeyedSubtree(
+              key: manualKey,
+              child: const Text('Manual'),
+            ),
             icon: const Icon(Icons.edit_outlined, size: 20),
           ),
           ButtonSegment<bool>(
-            key: scanKey,
             value: true,
-            label: const Text('Por escaneo'),
+            label: KeyedSubtree(
+              key: scanKey,
+              child: const Text('Por escaneo'),
+            ),
             icon: const Icon(Icons.qr_code_scanner_outlined, size: 20),
           ),
         ],
