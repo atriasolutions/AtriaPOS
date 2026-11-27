@@ -192,6 +192,9 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 146 | SLICE-146 | POS | Medios de pago tras el documento | RF-031 | SC-146 ✅ |
 | 147 | SLICE-147 | POS | Efectivo con monto y vuelto | RF-031 | SC-147 ✅ |
 | 148 | SLICE-148 | POS | Botón Cobrar | RF-031 | SC-148 ✅ |
+| 149 | SLICE-149 | Core | Receptor factura con 8 campos | RF-097 | SC-149 ✅ |
+| 150 | SLICE-150 | Core | Recordar receptor por RUT | RF-097 | SC-150-01 ✅ |
+| 151 | SLICE-151 | POS | Formulario factura en checkout | RF-097 | SC-151 ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

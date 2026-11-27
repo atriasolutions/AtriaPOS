@@ -40,6 +40,22 @@ class SiiDteXmlBuilder {
                   'RznSoc',
                   nest: () => builder.text(receiver.businessName),
                 );
+                builder.element(
+                  'GiroRecep',
+                  nest: () => builder.text(receiver.giro),
+                );
+                builder.element(
+                  'DirRecep',
+                  nest: () => builder.text(receiver.address),
+                );
+                builder.element(
+                  'CmnaRecep',
+                  nest: () => builder.text(receiver.commune),
+                );
+                builder.element(
+                  'CiudadRecep',
+                  nest: () => builder.text(receiver.city),
+                );
               },
             );
           }

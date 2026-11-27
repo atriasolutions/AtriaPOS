@@ -49,6 +49,12 @@ class DriftSaleRepository implements SaleRepository {
               dteDocumentType: Value(sale.dteDocumentType),
               invoiceReceiverRut: Value(sale.invoiceReceiver?.rut),
               invoiceReceiverName: Value(sale.invoiceReceiver?.businessName),
+              invoiceReceiverGiro: Value(sale.invoiceReceiver?.giro),
+              invoiceReceiverEmail: Value(sale.invoiceReceiver?.email),
+              invoiceReceiverAddress: Value(sale.invoiceReceiver?.address),
+              invoiceReceiverCity: Value(sale.invoiceReceiver?.city),
+              invoiceReceiverCommune: Value(sale.invoiceReceiver?.commune),
+              invoiceReceiverPhone: Value(sale.invoiceReceiver?.phone),
             ),
           );
       for (final line in sale.lines) {
@@ -260,6 +266,12 @@ class DriftSaleRepository implements SaleRepository {
             : SaleInvoiceReceiver(
                 rut: row.invoiceReceiverRut!,
                 businessName: row.invoiceReceiverName!,
+                giro: row.invoiceReceiverGiro ?? '',
+                email: row.invoiceReceiverEmail ?? '',
+                address: row.invoiceReceiverAddress ?? '',
+                city: row.invoiceReceiverCity ?? '',
+                commune: row.invoiceReceiverCommune ?? '',
+                phone: row.invoiceReceiverPhone ?? '',
               ),
       );
 }

@@ -3,6 +3,7 @@ import 'auth_helpers.dart';
 import 'emit_sale_dte.dart';
 import 'ports/session_provider.dart';
 import 'ports/cart_repository.dart';
+import 'ports/invoice_customer_repository.dart';
 import 'ports/collaborator_repository.dart';
 import 'ports/dte_gateway.dart';
 import 'ports/dte_queue_repository.dart';
@@ -27,10 +28,32 @@ class ConfirmCheckoutInvoiceReceiverInput {
   const ConfirmCheckoutInvoiceReceiverInput({
     required this.rut,
     required this.businessName,
+    required this.giro,
+    required this.email,
+    required this.address,
+    required this.city,
+    required this.commune,
+    required this.phone,
   });
 
   final String rut;
   final String businessName;
+  final String giro;
+  final String email;
+  final String address;
+  final String city;
+  final String commune;
+  final String phone;
+
+  bool get hasAnyData =>
+      rut.trim().isNotEmpty ||
+      businessName.trim().isNotEmpty ||
+      giro.trim().isNotEmpty ||
+      email.trim().isNotEmpty ||
+      address.trim().isNotEmpty ||
+      city.trim().isNotEmpty ||
+      commune.trim().isNotEmpty ||
+      phone.trim().isNotEmpty;
 }
 
 class ConfirmCheckoutInput {
@@ -88,7 +111,9 @@ class ConfirmCheckout {
     this._dteQueue,
     this._sessions, [
     TrustedClock? clock,
-  ]) : _clock = clock ?? MutableTrustedClock();
+    InvoiceCustomerRepository? invoiceCustomers,
+  ])  : _clock = clock ?? MutableTrustedClock(),
+        _invoiceCustomers = invoiceCustomers;
 
   final CartRepository _carts;
   final ProductRepository _products;
@@ -101,6 +126,7 @@ class ConfirmCheckout {
   final DteQueueRepository _dteQueue;
   final SessionProvider _sessions;
   final TrustedClock _clock;
+  final InvoiceCustomerRepository? _invoiceCustomers;
 
   Future<ConfirmCheckoutResult> call(ConfirmCheckoutInput input) async {
     final session = requireActiveSession(_sessions);
@@ -125,11 +151,16 @@ class ConfirmCheckout {
       invoiceReceiver = SaleInvoiceReceiver.validate(
         rutRaw: raw.rut,
         businessNameRaw: raw.businessName,
+        giroRaw: raw.giro,
+        emailRaw: raw.email,
+        addressRaw: raw.address,
+        cityRaw: raw.city,
+        communeRaw: raw.commune,
+        phoneRaw: raw.phone,
       );
     } else {
       final raw = input.invoiceReceiver;
-      if (raw != null &&
-          (raw.rut.trim().isNotEmpty || raw.businessName.trim().isNotEmpty)) {
+      if (raw != null && raw.hasAnyData) {
         throw const ValidationFailure(
           'No envíe datos de receptor en venta con boleta',
         );
@@ -244,6 +275,10 @@ class ConfirmCheckout {
     }
 
     await _sales.save(sale);
+    final remembered = invoiceReceiver;
+    if (remembered != null) {
+      await _invoiceCustomers?.save(input.storeId, remembered);
+    }
     sale = await emitSaleDte(sale, _dte, _dteQueue, _clock);
     await _sales.save(sale);
     await _carts.save(cart.markCompleted());

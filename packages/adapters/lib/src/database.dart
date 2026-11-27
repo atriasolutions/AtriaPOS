@@ -90,6 +90,18 @@ class Sales extends Table {
       text().named('invoice_receiver_rut').nullable()();
   TextColumn get invoiceReceiverName =>
       text().named('invoice_receiver_name').nullable()();
+  TextColumn get invoiceReceiverGiro =>
+      text().named('invoice_receiver_giro').nullable()();
+  TextColumn get invoiceReceiverEmail =>
+      text().named('invoice_receiver_email').nullable()();
+  TextColumn get invoiceReceiverAddress =>
+      text().named('invoice_receiver_address').nullable()();
+  TextColumn get invoiceReceiverCity =>
+      text().named('invoice_receiver_city').nullable()();
+  TextColumn get invoiceReceiverCommune =>
+      text().named('invoice_receiver_commune').nullable()();
+  TextColumn get invoiceReceiverPhone =>
+      text().named('invoice_receiver_phone').nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -253,6 +265,22 @@ class Payments extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+@DataClassName('InvoiceCustomerRow')
+class InvoiceCustomers extends Table {
+  TextColumn get storeId => text()();
+  TextColumn get rut => text()();
+  TextColumn get businessName => text()();
+  TextColumn get giro => text()();
+  TextColumn get email => text()();
+  TextColumn get address => text()();
+  TextColumn get city => text()();
+  TextColumn get commune => text()();
+  TextColumn get phone => text()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {storeId, rut};
+}
+
 @DataClassName('ClockStateRow')
 class ClockState extends Table {
   TextColumn get id => text()();
@@ -295,12 +323,13 @@ class DteFolioCounters extends Table {
   CreditNoteLines,
   DteFolioCounters,
   ClockState,
+  InvoiceCustomers,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 23;
+  int get schemaVersion => 24;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -460,6 +489,15 @@ ALTER TABLE dte_queue_new RENAME TO dte_queue;
             await m.addColumn(sales, sales.dteDocumentType);
             await m.addColumn(sales, sales.invoiceReceiverRut);
             await m.addColumn(sales, sales.invoiceReceiverName);
+          }
+          if (from < 24) {
+            await m.addColumn(sales, sales.invoiceReceiverGiro);
+            await m.addColumn(sales, sales.invoiceReceiverEmail);
+            await m.addColumn(sales, sales.invoiceReceiverAddress);
+            await m.addColumn(sales, sales.invoiceReceiverCity);
+            await m.addColumn(sales, sales.invoiceReceiverCommune);
+            await m.addColumn(sales, sales.invoiceReceiverPhone);
+            await m.createTable(invoiceCustomers);
           }
         },
       );

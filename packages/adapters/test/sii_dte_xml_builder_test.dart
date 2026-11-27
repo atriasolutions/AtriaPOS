@@ -67,9 +67,15 @@ void main() {
       changeClp: 0,
       createdAt: DateTime.utc(2026, 1, 1),
       dteDocumentType: DteDocumentType.factura,
-      invoiceReceiver: const SaleInvoiceReceiver(
-        rut: '12.345.678-5',
-        businessName: 'Cliente SpA',
+      invoiceReceiver: SaleInvoiceReceiver.validate(
+        rutRaw: '12.345.678-5',
+        businessNameRaw: 'Cliente SpA',
+        giroRaw: 'Abarrotes',
+        emailRaw: 'cliente@correo.cl',
+        addressRaw: 'Av. 1 100',
+        cityRaw: 'Santiago',
+        communeRaw: 'Nunoa',
+        phoneRaw: '912345678',
       ),
     );
     final xml = SiiDteXmlBuilder().buildDocumento(
@@ -81,5 +87,7 @@ void main() {
     expect(xml, contains('<Receptor>'));
     expect(xml, contains('12.345.678-5'));
     expect(xml, contains('Cliente SpA'));
+    expect(xml, contains('<GiroRecep>Abarrotes</GiroRecep>'));
+    expect(xml, contains('<CmnaRecep>Nunoa</CmnaRecep>'));
   });
 }

@@ -14,7 +14,9 @@ Future<void> enterCheckoutSellerCode(
 
 /// Elige efectivo e ingresa el monto recibido para habilitar Cobrar.
 Future<void> chooseCheckoutCash(WidgetTester tester, int amountClp) async {
-  await tester.tap(find.byKey(const Key('checkout_pay_efectivo')));
+  final pay = find.byKey(const Key('checkout_pay_efectivo'));
+  await tester.ensureVisible(pay);
+  await tester.tap(pay);
   await tester.pumpAndSettle();
   await tester.enterText(
     find.byKey(const Key('checkout_cash_received')),

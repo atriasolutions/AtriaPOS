@@ -4,6 +4,7 @@ import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
 import '../support/collaborator_fixtures.dart';
+import '../support/invoice_receiver_fixture.dart';
 
 void main() {
   const storeId = 't1';
@@ -64,15 +65,12 @@ void main() {
     final result = await saleService.checkout(
       storeId,
       cartId,
-      const CheckoutRequest(
+      CheckoutRequest(
         sellerCode: 'V01',
-        payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 1000)],
+        payments: const [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 1000)],
         changeClp: 0,
         documentType: 'FACTURA',
-        invoiceReceiver: CheckoutInvoiceReceiverDto(
-          rut: '12.345.678-5',
-          businessName: 'Cliente SpA',
-        ),
+        invoiceReceiver: invoiceReceiverDto(),
       ),
     );
     expect(result, isA<ApiSuccess<CheckoutResponse>>());
@@ -85,15 +83,12 @@ void main() {
     final result = await saleService.checkout(
       storeId,
       cartId,
-      const CheckoutRequest(
+      CheckoutRequest(
         sellerCode: 'V01',
-        payments: [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 1000)],
+        payments: const [CheckoutPaymentDto(method: 'EFECTIVO', amountClp: 1000)],
         changeClp: 0,
         documentType: 'FACTURA',
-        invoiceReceiver: CheckoutInvoiceReceiverDto(
-          rut: '12.345.678-0',
-          businessName: 'Cliente SpA',
-        ),
+        invoiceReceiver: invoiceReceiverDto(rut: '12.345.678-0'),
       ),
     );
     expect(result, isA<ApiFailure<CheckoutResponse>>());

@@ -3,6 +3,7 @@ import 'package:core/domain/domain.dart';
 import 'package:test/test.dart';
 
 import '../support/collaborator_fixtures.dart';
+import '../support/invoice_receiver_fixture.dart';
 
 class _LastEmitDteGateway implements DteGateway {
   _LastEmitDteGateway(this._inner);
@@ -136,10 +137,7 @@ void main() {
           ],
           changeClp: 0,
           documentKind: CheckoutDocumentKind.factura,
-          invoiceReceiver: const ConfirmCheckoutInvoiceReceiverInput(
-            rut: '12.345.678-5',
-            businessName: 'Cliente SpA',
-          ),
+          invoiceReceiver: invoiceReceiverInput(),
         ),
       ),
     );
@@ -150,6 +148,49 @@ void main() {
     expect(stored!.dteDocumentType, DteDocumentType.factura);
     expect(stored.invoiceReceiver?.businessName, 'Cliente SpA');
     expect(stored.invoiceReceiver?.rut, '12.345.678-5');
+    expect(stored.invoiceReceiver?.giro, 'Abarrotes');
+    expect(stored.invoiceReceiver?.email, 'cliente@correo.cl');
+  });
+
+  test('SC-150-01 factura recuerda al receptor por RUT', () async {
+    final customers = InMemoryInvoiceCustomerRepository();
+    final checkout = ConfirmCheckout(
+      carts,
+      products,
+      sales,
+      movements,
+      shifts,
+      collaborators,
+      stores,
+      gateway,
+      dteQueue,
+      sessions,
+      null,
+      customers,
+    );
+    final ctx = await panCart();
+    await checkout(
+      _payment(
+        ctx.cartId,
+        base: ConfirmCheckoutInput(
+          storeId: storeId,
+          cartId: ctx.cartId,
+          sellerCode: '',
+          payments: const [
+            CheckoutPaymentInput(
+              method: PaymentMethod.efectivo,
+              amountClp: 1000,
+            ),
+          ],
+          changeClp: 0,
+          documentKind: CheckoutDocumentKind.factura,
+          invoiceReceiver: invoiceReceiverInput(),
+        ),
+      ),
+    );
+    final found = await customers.findByRut(storeId, '12.345.678-5');
+    expect(found?.businessName, 'Cliente SpA');
+    expect(found?.phone, '912345678');
   });
 
   test('SC-093-02 RUT inválido → VALIDACION', () async {
@@ -170,10 +211,7 @@ void main() {
             ],
             changeClp: 0,
             documentKind: CheckoutDocumentKind.factura,
-            invoiceReceiver: const ConfirmCheckoutInvoiceReceiverInput(
-              rut: '12.345.678-0',
-              businessName: 'Cliente SpA',
-            ),
+            invoiceReceiver: invoiceReceiverInput(rut: '12.345.678-0'),
           ),
         ),
       ),
@@ -199,10 +237,7 @@ void main() {
             ],
             changeClp: 0,
             documentKind: CheckoutDocumentKind.factura,
-            invoiceReceiver: const ConfirmCheckoutInvoiceReceiverInput(
-              rut: '12.345.678-5',
-              businessName: '   ',
-            ),
+            invoiceReceiver: invoiceReceiverInput(businessName: '   '),
           ),
         ),
       ),
@@ -246,10 +281,7 @@ void main() {
             ],
             changeClp: 0,
             documentKind: CheckoutDocumentKind.factura,
-            invoiceReceiver: const ConfirmCheckoutInvoiceReceiverInput(
-              rut: '12.345.678-5',
-              businessName: 'Cliente SpA',
-            ),
+            invoiceReceiver: invoiceReceiverInput(),
           ),
         ),
       ),
@@ -295,10 +327,7 @@ void main() {
           ],
           changeClp: 0,
           documentKind: CheckoutDocumentKind.factura,
-          invoiceReceiver: const ConfirmCheckoutInvoiceReceiverInput(
-            rut: '12.345.678-5',
-            businessName: 'Cliente SpA',
-          ),
+          invoiceReceiver: invoiceReceiverInput(),
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core/api/api.dart';
 import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,13 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
   bool _invoiceSelected = false;
   final _invoiceRutController = TextEditingController();
   final _invoiceNameController = TextEditingController();
+  final _invoiceGiroController = TextEditingController();
+  final _invoiceEmailController = TextEditingController();
+  final _invoiceAddressController = TextEditingController();
+  final _invoiceCityController = TextEditingController();
+  final _invoiceCommuneController = TextEditingController();
+  final _invoicePhoneController = TextEditingController();
+  final _rutFocus = FocusNode();
   PaymentMethod? _paymentMethod;
   final _cashReceivedController = TextEditingController();
 
@@ -52,7 +61,35 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     _sellerCodeController.addListener(_onManualCodeChanged);
     _invoiceRutController.addListener(_onInvoiceFieldsChanged);
     _invoiceNameController.addListener(_onInvoiceFieldsChanged);
+    _invoiceGiroController.addListener(_onInvoiceFieldsChanged);
+    _invoiceEmailController.addListener(_onInvoiceFieldsChanged);
+    _invoiceAddressController.addListener(_onInvoiceFieldsChanged);
+    _invoiceCityController.addListener(_onInvoiceFieldsChanged);
+    _invoiceCommuneController.addListener(_onInvoiceFieldsChanged);
+    _invoicePhoneController.addListener(_onInvoiceFieldsChanged);
     _cashReceivedController.addListener(_onInvoiceFieldsChanged);
+    _rutFocus.addListener(() {
+      if (!_rutFocus.hasFocus) {
+        unawaited(_lookupCustomer());
+      }
+    });
+  }
+
+  Future<void> _lookupCustomer() async {
+    final found = await widget.composition.saleService.findInvoiceCustomer(
+      widget.composition.requireStoreId,
+      _invoiceRutController.text,
+    );
+    if (!mounted || found == null) return;
+    setState(() {
+      _invoiceNameController.text = found.businessName;
+      _invoiceGiroController.text = found.giro;
+      _invoiceEmailController.text = found.email;
+      _invoiceAddressController.text = found.address;
+      _invoiceCityController.text = found.city;
+      _invoiceCommuneController.text = found.commune;
+      _invoicePhoneController.text = found.phone;
+    });
   }
 
   void _onInvoiceFieldsChanged() {
@@ -84,6 +121,13 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     _invoiceNameController.removeListener(_onInvoiceFieldsChanged);
     _invoiceRutController.dispose();
     _invoiceNameController.dispose();
+    _invoiceGiroController.dispose();
+    _invoiceEmailController.dispose();
+    _invoiceAddressController.dispose();
+    _invoiceCityController.dispose();
+    _invoiceCommuneController.dispose();
+    _invoicePhoneController.dispose();
+    _rutFocus.dispose();
     _cashReceivedController.dispose();
     super.dispose();
   }
@@ -126,7 +170,13 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
   bool get _invoiceReady {
     if (!_invoiceSelected) return true;
     return _invoiceRutController.text.trim().isNotEmpty &&
-        _invoiceNameController.text.trim().isNotEmpty;
+        _invoiceNameController.text.trim().isNotEmpty &&
+        _invoiceGiroController.text.trim().isNotEmpty &&
+        _invoiceEmailController.text.trim().isNotEmpty &&
+        _invoiceAddressController.text.trim().isNotEmpty &&
+        _invoiceCityController.text.trim().isNotEmpty &&
+        _invoiceCommuneController.text.trim().isNotEmpty &&
+        _invoicePhoneController.text.trim().isNotEmpty;
   }
 
   bool get _paymentsEnabled => widget.enabled && _invoiceReady && !_confirming;
@@ -182,6 +232,12 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
         ? CheckoutInvoiceReceiverDto(
             rut: _invoiceRutController.text.trim(),
             businessName: _invoiceNameController.text.trim(),
+            giro: _invoiceGiroController.text.trim(),
+            email: _invoiceEmailController.text.trim(),
+            address: _invoiceAddressController.text.trim(),
+            city: _invoiceCityController.text.trim(),
+            commune: _invoiceCommuneController.text.trim(),
+            phone: _invoicePhoneController.text.trim(),
           )
         : null;
     final result = await widget.composition.saleService.checkout(
@@ -232,6 +288,11 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
         Text(
           'Realizar pago',
           style: theme.textTheme.titleMedium,
@@ -298,6 +359,7 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
             TextField(
               key: const Key('checkout_invoice_rut'),
               controller: _invoiceRutController,
+              focusNode: _rutFocus,
               enabled: widget.enabled,
               decoration: const InputDecoration(
                 labelText: 'RUT receptor',
@@ -323,6 +385,48 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
                 labelText: 'Razón social receptor',
               ),
               textCapitalization: TextCapitalization.words,
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const Key('checkout_invoice_giro'),
+              controller: _invoiceGiroController,
+              enabled: widget.enabled,
+              decoration: const InputDecoration(labelText: 'Giro empresa'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const Key('checkout_invoice_email'),
+              controller: _invoiceEmailController,
+              enabled: widget.enabled,
+              decoration: const InputDecoration(labelText: 'Correo electrónico'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const Key('checkout_invoice_address'),
+              controller: _invoiceAddressController,
+              enabled: widget.enabled,
+              decoration: const InputDecoration(labelText: 'Dirección'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const Key('checkout_invoice_city'),
+              controller: _invoiceCityController,
+              enabled: widget.enabled,
+              decoration: const InputDecoration(labelText: 'Ciudad'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const Key('checkout_invoice_commune'),
+              controller: _invoiceCommuneController,
+              enabled: widget.enabled,
+              decoration: const InputDecoration(labelText: 'Comuna'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const Key('checkout_invoice_phone'),
+              controller: _invoicePhoneController,
+              enabled: widget.enabled,
+              decoration: const InputDecoration(labelText: 'Contacto (teléfono)'),
             ),
           ],
         ],
@@ -404,7 +508,11 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
             textCapitalization: TextCapitalization.characters,
           ),
         ],
-        const Spacer(),
+            ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
         FilledButton(
           key: const Key('confirm_checkout_button'),
           onPressed: _canConfirm ? _confirm : null,

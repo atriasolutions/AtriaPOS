@@ -19,6 +19,7 @@ class SaleService {
     ProductExchangeRepository? productExchangeRepository,
     CreditNoteRepository? creditNoteRepository,
     TrustedClock? clock,
+    InvoiceCustomerRepository? invoiceCustomerRepository,
   }) {
     final carts = cartRepository ?? InMemoryCartRepository();
     final trustedClock = clock ?? MutableTrustedClock();
@@ -52,6 +53,7 @@ class SaleService {
       trustedClock,
       exchanges,
       creditNotes,
+      invoiceCustomerRepository,
     );
   }
 
@@ -69,11 +71,13 @@ class SaleService {
     TrustedClock clock,
     ProductExchangeRepository exchanges,
     CreditNoteRepository creditNotes,
+    InvoiceCustomerRepository? invoiceCustomerRepository,
   )   : _createCart = CreateCart(carts, shifts, sessions),
         _addLine = AddCartLine(carts, products, sessions),
         _updateLine = UpdateCartLineQuantity(carts, sessions),
         _removeLine = RemoveCartLine(carts, sessions),
         _getCart = GetCart(carts, sessions),
+        invoiceCustomers = invoiceCustomerRepository,
         _checkout = ConfirmCheckout(
           carts,
           products,
@@ -86,6 +90,7 @@ class SaleService {
           dteQueue,
           sessions,
           clock,
+          invoiceCustomerRepository,
         ),
         _voidSale = VoidSale(
           sales,
@@ -306,6 +311,17 @@ class SaleService {
     }
   }
 
+  final InvoiceCustomerRepository? invoiceCustomers;
+
+  Future<SaleInvoiceReceiver?> findInvoiceCustomer(
+    StoreId storeId,
+    String rutRaw,
+  ) async {
+    final repo = invoiceCustomers;
+    if (repo == null || !RutChile.isValid(rutRaw)) return null;
+    return repo.findByRut(storeId, RutChile.formatDisplay(rutRaw));
+  }
+
   Future<ApiResult<CheckoutResponse>> checkout(
     StoreId storeId,
     CartId cartId,
@@ -335,6 +351,12 @@ class SaleService {
               : ConfirmCheckoutInvoiceReceiverInput(
                   rut: receiverDto.rut,
                   businessName: receiverDto.businessName,
+                  giro: receiverDto.giro,
+                  email: receiverDto.email,
+                  address: receiverDto.address,
+                  city: receiverDto.city,
+                  commune: receiverDto.commune,
+                  phone: receiverDto.phone,
                 ),
         ),
       );

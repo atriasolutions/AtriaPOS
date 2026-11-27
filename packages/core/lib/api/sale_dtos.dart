@@ -62,10 +62,22 @@ class CheckoutInvoiceReceiverDto {
   const CheckoutInvoiceReceiverDto({
     required this.rut,
     required this.businessName,
+    required this.giro,
+    required this.email,
+    required this.address,
+    required this.city,
+    required this.commune,
+    required this.phone,
   });
 
   final String rut;
   final String businessName;
+  final String giro;
+  final String email;
+  final String address;
+  final String city;
+  final String commune;
+  final String phone;
 }
 
 class CheckoutRequest {

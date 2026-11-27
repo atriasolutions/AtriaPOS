@@ -77,6 +77,8 @@ export 'list_collaborators.dart';
 export 'list_active_collaborators.dart';
 export 'in_memory_collaborator_repository.dart';
 export 'ports/collaborator_repository.dart';
+export 'ports/invoice_customer_repository.dart';
+export 'in_memory_invoice_customer_repository.dart';
 export 'create_cart.dart';
 export 'get_open_shift.dart';
 export 'create_product.dart';

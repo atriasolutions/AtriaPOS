@@ -2379,6 +2379,72 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         type: DriftSqlType.string,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _invoiceReceiverGiroMeta =
+      const VerificationMeta('invoiceReceiverGiro');
+  @override
+  late final GeneratedColumn<String> invoiceReceiverGiro =
+      GeneratedColumn<String>(
+        'invoice_receiver_giro',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _invoiceReceiverEmailMeta =
+      const VerificationMeta('invoiceReceiverEmail');
+  @override
+  late final GeneratedColumn<String> invoiceReceiverEmail =
+      GeneratedColumn<String>(
+        'invoice_receiver_email',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _invoiceReceiverAddressMeta =
+      const VerificationMeta('invoiceReceiverAddress');
+  @override
+  late final GeneratedColumn<String> invoiceReceiverAddress =
+      GeneratedColumn<String>(
+        'invoice_receiver_address',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _invoiceReceiverCityMeta =
+      const VerificationMeta('invoiceReceiverCity');
+  @override
+  late final GeneratedColumn<String> invoiceReceiverCity =
+      GeneratedColumn<String>(
+        'invoice_receiver_city',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _invoiceReceiverCommuneMeta =
+      const VerificationMeta('invoiceReceiverCommune');
+  @override
+  late final GeneratedColumn<String> invoiceReceiverCommune =
+      GeneratedColumn<String>(
+        'invoice_receiver_commune',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _invoiceReceiverPhoneMeta =
+      const VerificationMeta('invoiceReceiverPhone');
+  @override
+  late final GeneratedColumn<String> invoiceReceiverPhone =
+      GeneratedColumn<String>(
+        'invoice_receiver_phone',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2399,6 +2465,12 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
     dteDocumentType,
     invoiceReceiverRut,
     invoiceReceiverName,
+    invoiceReceiverGiro,
+    invoiceReceiverEmail,
+    invoiceReceiverAddress,
+    invoiceReceiverCity,
+    invoiceReceiverCommune,
+    invoiceReceiverPhone,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2546,6 +2618,60 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         ),
       );
     }
+    if (data.containsKey('invoice_receiver_giro')) {
+      context.handle(
+        _invoiceReceiverGiroMeta,
+        invoiceReceiverGiro.isAcceptableOrUnknown(
+          data['invoice_receiver_giro']!,
+          _invoiceReceiverGiroMeta,
+        ),
+      );
+    }
+    if (data.containsKey('invoice_receiver_email')) {
+      context.handle(
+        _invoiceReceiverEmailMeta,
+        invoiceReceiverEmail.isAcceptableOrUnknown(
+          data['invoice_receiver_email']!,
+          _invoiceReceiverEmailMeta,
+        ),
+      );
+    }
+    if (data.containsKey('invoice_receiver_address')) {
+      context.handle(
+        _invoiceReceiverAddressMeta,
+        invoiceReceiverAddress.isAcceptableOrUnknown(
+          data['invoice_receiver_address']!,
+          _invoiceReceiverAddressMeta,
+        ),
+      );
+    }
+    if (data.containsKey('invoice_receiver_city')) {
+      context.handle(
+        _invoiceReceiverCityMeta,
+        invoiceReceiverCity.isAcceptableOrUnknown(
+          data['invoice_receiver_city']!,
+          _invoiceReceiverCityMeta,
+        ),
+      );
+    }
+    if (data.containsKey('invoice_receiver_commune')) {
+      context.handle(
+        _invoiceReceiverCommuneMeta,
+        invoiceReceiverCommune.isAcceptableOrUnknown(
+          data['invoice_receiver_commune']!,
+          _invoiceReceiverCommuneMeta,
+        ),
+      );
+    }
+    if (data.containsKey('invoice_receiver_phone')) {
+      context.handle(
+        _invoiceReceiverPhoneMeta,
+        invoiceReceiverPhone.isAcceptableOrUnknown(
+          data['invoice_receiver_phone']!,
+          _invoiceReceiverPhoneMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2627,6 +2753,30 @@ class $SalesTable extends Sales with TableInfo<$SalesTable, SaleRow> {
         DriftSqlType.string,
         data['${effectivePrefix}invoice_receiver_name'],
       ),
+      invoiceReceiverGiro: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invoice_receiver_giro'],
+      ),
+      invoiceReceiverEmail: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invoice_receiver_email'],
+      ),
+      invoiceReceiverAddress: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invoice_receiver_address'],
+      ),
+      invoiceReceiverCity: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invoice_receiver_city'],
+      ),
+      invoiceReceiverCommune: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invoice_receiver_commune'],
+      ),
+      invoiceReceiverPhone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}invoice_receiver_phone'],
+      ),
     );
   }
 
@@ -2655,6 +2805,12 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
   final int dteDocumentType;
   final String? invoiceReceiverRut;
   final String? invoiceReceiverName;
+  final String? invoiceReceiverGiro;
+  final String? invoiceReceiverEmail;
+  final String? invoiceReceiverAddress;
+  final String? invoiceReceiverCity;
+  final String? invoiceReceiverCommune;
+  final String? invoiceReceiverPhone;
   const SaleRow({
     required this.id,
     required this.storeId,
@@ -2674,6 +2830,12 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     required this.dteDocumentType,
     this.invoiceReceiverRut,
     this.invoiceReceiverName,
+    this.invoiceReceiverGiro,
+    this.invoiceReceiverEmail,
+    this.invoiceReceiverAddress,
+    this.invoiceReceiverCity,
+    this.invoiceReceiverCommune,
+    this.invoiceReceiverPhone,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2711,6 +2873,28 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     }
     if (!nullToAbsent || invoiceReceiverName != null) {
       map['invoice_receiver_name'] = Variable<String>(invoiceReceiverName);
+    }
+    if (!nullToAbsent || invoiceReceiverGiro != null) {
+      map['invoice_receiver_giro'] = Variable<String>(invoiceReceiverGiro);
+    }
+    if (!nullToAbsent || invoiceReceiverEmail != null) {
+      map['invoice_receiver_email'] = Variable<String>(invoiceReceiverEmail);
+    }
+    if (!nullToAbsent || invoiceReceiverAddress != null) {
+      map['invoice_receiver_address'] = Variable<String>(
+        invoiceReceiverAddress,
+      );
+    }
+    if (!nullToAbsent || invoiceReceiverCity != null) {
+      map['invoice_receiver_city'] = Variable<String>(invoiceReceiverCity);
+    }
+    if (!nullToAbsent || invoiceReceiverCommune != null) {
+      map['invoice_receiver_commune'] = Variable<String>(
+        invoiceReceiverCommune,
+      );
+    }
+    if (!nullToAbsent || invoiceReceiverPhone != null) {
+      map['invoice_receiver_phone'] = Variable<String>(invoiceReceiverPhone);
     }
     return map;
   }
@@ -2751,6 +2935,24 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       invoiceReceiverName: invoiceReceiverName == null && nullToAbsent
           ? const Value.absent()
           : Value(invoiceReceiverName),
+      invoiceReceiverGiro: invoiceReceiverGiro == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceReceiverGiro),
+      invoiceReceiverEmail: invoiceReceiverEmail == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceReceiverEmail),
+      invoiceReceiverAddress: invoiceReceiverAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceReceiverAddress),
+      invoiceReceiverCity: invoiceReceiverCity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceReceiverCity),
+      invoiceReceiverCommune: invoiceReceiverCommune == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceReceiverCommune),
+      invoiceReceiverPhone: invoiceReceiverPhone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceReceiverPhone),
     );
   }
 
@@ -2784,6 +2986,24 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       invoiceReceiverName: serializer.fromJson<String?>(
         json['invoiceReceiverName'],
       ),
+      invoiceReceiverGiro: serializer.fromJson<String?>(
+        json['invoiceReceiverGiro'],
+      ),
+      invoiceReceiverEmail: serializer.fromJson<String?>(
+        json['invoiceReceiverEmail'],
+      ),
+      invoiceReceiverAddress: serializer.fromJson<String?>(
+        json['invoiceReceiverAddress'],
+      ),
+      invoiceReceiverCity: serializer.fromJson<String?>(
+        json['invoiceReceiverCity'],
+      ),
+      invoiceReceiverCommune: serializer.fromJson<String?>(
+        json['invoiceReceiverCommune'],
+      ),
+      invoiceReceiverPhone: serializer.fromJson<String?>(
+        json['invoiceReceiverPhone'],
+      ),
     );
   }
   @override
@@ -2808,6 +3028,16 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       'dteDocumentType': serializer.toJson<int>(dteDocumentType),
       'invoiceReceiverRut': serializer.toJson<String?>(invoiceReceiverRut),
       'invoiceReceiverName': serializer.toJson<String?>(invoiceReceiverName),
+      'invoiceReceiverGiro': serializer.toJson<String?>(invoiceReceiverGiro),
+      'invoiceReceiverEmail': serializer.toJson<String?>(invoiceReceiverEmail),
+      'invoiceReceiverAddress': serializer.toJson<String?>(
+        invoiceReceiverAddress,
+      ),
+      'invoiceReceiverCity': serializer.toJson<String?>(invoiceReceiverCity),
+      'invoiceReceiverCommune': serializer.toJson<String?>(
+        invoiceReceiverCommune,
+      ),
+      'invoiceReceiverPhone': serializer.toJson<String?>(invoiceReceiverPhone),
     };
   }
 
@@ -2830,6 +3060,12 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     int? dteDocumentType,
     Value<String?> invoiceReceiverRut = const Value.absent(),
     Value<String?> invoiceReceiverName = const Value.absent(),
+    Value<String?> invoiceReceiverGiro = const Value.absent(),
+    Value<String?> invoiceReceiverEmail = const Value.absent(),
+    Value<String?> invoiceReceiverAddress = const Value.absent(),
+    Value<String?> invoiceReceiverCity = const Value.absent(),
+    Value<String?> invoiceReceiverCommune = const Value.absent(),
+    Value<String?> invoiceReceiverPhone = const Value.absent(),
   }) => SaleRow(
     id: id ?? this.id,
     storeId: storeId ?? this.storeId,
@@ -2857,6 +3093,24 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     invoiceReceiverName: invoiceReceiverName.present
         ? invoiceReceiverName.value
         : this.invoiceReceiverName,
+    invoiceReceiverGiro: invoiceReceiverGiro.present
+        ? invoiceReceiverGiro.value
+        : this.invoiceReceiverGiro,
+    invoiceReceiverEmail: invoiceReceiverEmail.present
+        ? invoiceReceiverEmail.value
+        : this.invoiceReceiverEmail,
+    invoiceReceiverAddress: invoiceReceiverAddress.present
+        ? invoiceReceiverAddress.value
+        : this.invoiceReceiverAddress,
+    invoiceReceiverCity: invoiceReceiverCity.present
+        ? invoiceReceiverCity.value
+        : this.invoiceReceiverCity,
+    invoiceReceiverCommune: invoiceReceiverCommune.present
+        ? invoiceReceiverCommune.value
+        : this.invoiceReceiverCommune,
+    invoiceReceiverPhone: invoiceReceiverPhone.present
+        ? invoiceReceiverPhone.value
+        : this.invoiceReceiverPhone,
   );
   SaleRow copyWithCompanion(SalesCompanion data) {
     return SaleRow(
@@ -2890,6 +3144,24 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
       invoiceReceiverName: data.invoiceReceiverName.present
           ? data.invoiceReceiverName.value
           : this.invoiceReceiverName,
+      invoiceReceiverGiro: data.invoiceReceiverGiro.present
+          ? data.invoiceReceiverGiro.value
+          : this.invoiceReceiverGiro,
+      invoiceReceiverEmail: data.invoiceReceiverEmail.present
+          ? data.invoiceReceiverEmail.value
+          : this.invoiceReceiverEmail,
+      invoiceReceiverAddress: data.invoiceReceiverAddress.present
+          ? data.invoiceReceiverAddress.value
+          : this.invoiceReceiverAddress,
+      invoiceReceiverCity: data.invoiceReceiverCity.present
+          ? data.invoiceReceiverCity.value
+          : this.invoiceReceiverCity,
+      invoiceReceiverCommune: data.invoiceReceiverCommune.present
+          ? data.invoiceReceiverCommune.value
+          : this.invoiceReceiverCommune,
+      invoiceReceiverPhone: data.invoiceReceiverPhone.present
+          ? data.invoiceReceiverPhone.value
+          : this.invoiceReceiverPhone,
     );
   }
 
@@ -2913,13 +3185,19 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           ..write('voidedByUserId: $voidedByUserId, ')
           ..write('dteDocumentType: $dteDocumentType, ')
           ..write('invoiceReceiverRut: $invoiceReceiverRut, ')
-          ..write('invoiceReceiverName: $invoiceReceiverName')
+          ..write('invoiceReceiverName: $invoiceReceiverName, ')
+          ..write('invoiceReceiverGiro: $invoiceReceiverGiro, ')
+          ..write('invoiceReceiverEmail: $invoiceReceiverEmail, ')
+          ..write('invoiceReceiverAddress: $invoiceReceiverAddress, ')
+          ..write('invoiceReceiverCity: $invoiceReceiverCity, ')
+          ..write('invoiceReceiverCommune: $invoiceReceiverCommune, ')
+          ..write('invoiceReceiverPhone: $invoiceReceiverPhone')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     storeId,
     shiftId,
@@ -2938,7 +3216,13 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
     dteDocumentType,
     invoiceReceiverRut,
     invoiceReceiverName,
-  );
+    invoiceReceiverGiro,
+    invoiceReceiverEmail,
+    invoiceReceiverAddress,
+    invoiceReceiverCity,
+    invoiceReceiverCommune,
+    invoiceReceiverPhone,
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2960,7 +3244,13 @@ class SaleRow extends DataClass implements Insertable<SaleRow> {
           other.voidedByUserId == this.voidedByUserId &&
           other.dteDocumentType == this.dteDocumentType &&
           other.invoiceReceiverRut == this.invoiceReceiverRut &&
-          other.invoiceReceiverName == this.invoiceReceiverName);
+          other.invoiceReceiverName == this.invoiceReceiverName &&
+          other.invoiceReceiverGiro == this.invoiceReceiverGiro &&
+          other.invoiceReceiverEmail == this.invoiceReceiverEmail &&
+          other.invoiceReceiverAddress == this.invoiceReceiverAddress &&
+          other.invoiceReceiverCity == this.invoiceReceiverCity &&
+          other.invoiceReceiverCommune == this.invoiceReceiverCommune &&
+          other.invoiceReceiverPhone == this.invoiceReceiverPhone);
 }
 
 class SalesCompanion extends UpdateCompanion<SaleRow> {
@@ -2982,6 +3272,12 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
   final Value<int> dteDocumentType;
   final Value<String?> invoiceReceiverRut;
   final Value<String?> invoiceReceiverName;
+  final Value<String?> invoiceReceiverGiro;
+  final Value<String?> invoiceReceiverEmail;
+  final Value<String?> invoiceReceiverAddress;
+  final Value<String?> invoiceReceiverCity;
+  final Value<String?> invoiceReceiverCommune;
+  final Value<String?> invoiceReceiverPhone;
   final Value<int> rowid;
   const SalesCompanion({
     this.id = const Value.absent(),
@@ -3002,6 +3298,12 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.dteDocumentType = const Value.absent(),
     this.invoiceReceiverRut = const Value.absent(),
     this.invoiceReceiverName = const Value.absent(),
+    this.invoiceReceiverGiro = const Value.absent(),
+    this.invoiceReceiverEmail = const Value.absent(),
+    this.invoiceReceiverAddress = const Value.absent(),
+    this.invoiceReceiverCity = const Value.absent(),
+    this.invoiceReceiverCommune = const Value.absent(),
+    this.invoiceReceiverPhone = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SalesCompanion.insert({
@@ -3023,6 +3325,12 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     this.dteDocumentType = const Value.absent(),
     this.invoiceReceiverRut = const Value.absent(),
     this.invoiceReceiverName = const Value.absent(),
+    this.invoiceReceiverGiro = const Value.absent(),
+    this.invoiceReceiverEmail = const Value.absent(),
+    this.invoiceReceiverAddress = const Value.absent(),
+    this.invoiceReceiverCity = const Value.absent(),
+    this.invoiceReceiverCommune = const Value.absent(),
+    this.invoiceReceiverPhone = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        storeId = Value(storeId),
@@ -3050,6 +3358,12 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Expression<int>? dteDocumentType,
     Expression<String>? invoiceReceiverRut,
     Expression<String>? invoiceReceiverName,
+    Expression<String>? invoiceReceiverGiro,
+    Expression<String>? invoiceReceiverEmail,
+    Expression<String>? invoiceReceiverAddress,
+    Expression<String>? invoiceReceiverCity,
+    Expression<String>? invoiceReceiverCommune,
+    Expression<String>? invoiceReceiverPhone,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -3073,6 +3387,18 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
         'invoice_receiver_rut': invoiceReceiverRut,
       if (invoiceReceiverName != null)
         'invoice_receiver_name': invoiceReceiverName,
+      if (invoiceReceiverGiro != null)
+        'invoice_receiver_giro': invoiceReceiverGiro,
+      if (invoiceReceiverEmail != null)
+        'invoice_receiver_email': invoiceReceiverEmail,
+      if (invoiceReceiverAddress != null)
+        'invoice_receiver_address': invoiceReceiverAddress,
+      if (invoiceReceiverCity != null)
+        'invoice_receiver_city': invoiceReceiverCity,
+      if (invoiceReceiverCommune != null)
+        'invoice_receiver_commune': invoiceReceiverCommune,
+      if (invoiceReceiverPhone != null)
+        'invoice_receiver_phone': invoiceReceiverPhone,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -3096,6 +3422,12 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
     Value<int>? dteDocumentType,
     Value<String?>? invoiceReceiverRut,
     Value<String?>? invoiceReceiverName,
+    Value<String?>? invoiceReceiverGiro,
+    Value<String?>? invoiceReceiverEmail,
+    Value<String?>? invoiceReceiverAddress,
+    Value<String?>? invoiceReceiverCity,
+    Value<String?>? invoiceReceiverCommune,
+    Value<String?>? invoiceReceiverPhone,
     Value<int>? rowid,
   }) {
     return SalesCompanion(
@@ -3117,6 +3449,14 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
       dteDocumentType: dteDocumentType ?? this.dteDocumentType,
       invoiceReceiverRut: invoiceReceiverRut ?? this.invoiceReceiverRut,
       invoiceReceiverName: invoiceReceiverName ?? this.invoiceReceiverName,
+      invoiceReceiverGiro: invoiceReceiverGiro ?? this.invoiceReceiverGiro,
+      invoiceReceiverEmail: invoiceReceiverEmail ?? this.invoiceReceiverEmail,
+      invoiceReceiverAddress:
+          invoiceReceiverAddress ?? this.invoiceReceiverAddress,
+      invoiceReceiverCity: invoiceReceiverCity ?? this.invoiceReceiverCity,
+      invoiceReceiverCommune:
+          invoiceReceiverCommune ?? this.invoiceReceiverCommune,
+      invoiceReceiverPhone: invoiceReceiverPhone ?? this.invoiceReceiverPhone,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3180,6 +3520,36 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
         invoiceReceiverName.value,
       );
     }
+    if (invoiceReceiverGiro.present) {
+      map['invoice_receiver_giro'] = Variable<String>(
+        invoiceReceiverGiro.value,
+      );
+    }
+    if (invoiceReceiverEmail.present) {
+      map['invoice_receiver_email'] = Variable<String>(
+        invoiceReceiverEmail.value,
+      );
+    }
+    if (invoiceReceiverAddress.present) {
+      map['invoice_receiver_address'] = Variable<String>(
+        invoiceReceiverAddress.value,
+      );
+    }
+    if (invoiceReceiverCity.present) {
+      map['invoice_receiver_city'] = Variable<String>(
+        invoiceReceiverCity.value,
+      );
+    }
+    if (invoiceReceiverCommune.present) {
+      map['invoice_receiver_commune'] = Variable<String>(
+        invoiceReceiverCommune.value,
+      );
+    }
+    if (invoiceReceiverPhone.present) {
+      map['invoice_receiver_phone'] = Variable<String>(
+        invoiceReceiverPhone.value,
+      );
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3207,6 +3577,12 @@ class SalesCompanion extends UpdateCompanion<SaleRow> {
           ..write('dteDocumentType: $dteDocumentType, ')
           ..write('invoiceReceiverRut: $invoiceReceiverRut, ')
           ..write('invoiceReceiverName: $invoiceReceiverName, ')
+          ..write('invoiceReceiverGiro: $invoiceReceiverGiro, ')
+          ..write('invoiceReceiverEmail: $invoiceReceiverEmail, ')
+          ..write('invoiceReceiverAddress: $invoiceReceiverAddress, ')
+          ..write('invoiceReceiverCity: $invoiceReceiverCity, ')
+          ..write('invoiceReceiverCommune: $invoiceReceiverCommune, ')
+          ..write('invoiceReceiverPhone: $invoiceReceiverPhone, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -9316,6 +9692,567 @@ class ClockStateCompanion extends UpdateCompanion<ClockStateRow> {
   }
 }
 
+class $InvoiceCustomersTable extends InvoiceCustomers
+    with TableInfo<$InvoiceCustomersTable, InvoiceCustomerRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $InvoiceCustomersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _storeIdMeta = const VerificationMeta(
+    'storeId',
+  );
+  @override
+  late final GeneratedColumn<String> storeId = GeneratedColumn<String>(
+    'store_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _rutMeta = const VerificationMeta('rut');
+  @override
+  late final GeneratedColumn<String> rut = GeneratedColumn<String>(
+    'rut',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _businessNameMeta = const VerificationMeta(
+    'businessName',
+  );
+  @override
+  late final GeneratedColumn<String> businessName = GeneratedColumn<String>(
+    'business_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _giroMeta = const VerificationMeta('giro');
+  @override
+  late final GeneratedColumn<String> giro = GeneratedColumn<String>(
+    'giro',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+    'email',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _addressMeta = const VerificationMeta(
+    'address',
+  );
+  @override
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+    'address',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cityMeta = const VerificationMeta('city');
+  @override
+  late final GeneratedColumn<String> city = GeneratedColumn<String>(
+    'city',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _communeMeta = const VerificationMeta(
+    'commune',
+  );
+  @override
+  late final GeneratedColumn<String> commune = GeneratedColumn<String>(
+    'commune',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+    'phone',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    storeId,
+    rut,
+    businessName,
+    giro,
+    email,
+    address,
+    city,
+    commune,
+    phone,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'invoice_customers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<InvoiceCustomerRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('store_id')) {
+      context.handle(
+        _storeIdMeta,
+        storeId.isAcceptableOrUnknown(data['store_id']!, _storeIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_storeIdMeta);
+    }
+    if (data.containsKey('rut')) {
+      context.handle(
+        _rutMeta,
+        rut.isAcceptableOrUnknown(data['rut']!, _rutMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rutMeta);
+    }
+    if (data.containsKey('business_name')) {
+      context.handle(
+        _businessNameMeta,
+        businessName.isAcceptableOrUnknown(
+          data['business_name']!,
+          _businessNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_businessNameMeta);
+    }
+    if (data.containsKey('giro')) {
+      context.handle(
+        _giroMeta,
+        giro.isAcceptableOrUnknown(data['giro']!, _giroMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_giroMeta);
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+        _emailMeta,
+        email.isAcceptableOrUnknown(data['email']!, _emailMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_emailMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(
+        _addressMeta,
+        address.isAcceptableOrUnknown(data['address']!, _addressMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_addressMeta);
+    }
+    if (data.containsKey('city')) {
+      context.handle(
+        _cityMeta,
+        city.isAcceptableOrUnknown(data['city']!, _cityMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cityMeta);
+    }
+    if (data.containsKey('commune')) {
+      context.handle(
+        _communeMeta,
+        commune.isAcceptableOrUnknown(data['commune']!, _communeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_communeMeta);
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+        _phoneMeta,
+        phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_phoneMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {storeId, rut};
+  @override
+  InvoiceCustomerRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InvoiceCustomerRow(
+      storeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}store_id'],
+      )!,
+      rut: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}rut'],
+      )!,
+      businessName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}business_name'],
+      )!,
+      giro: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}giro'],
+      )!,
+      email: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}email'],
+      )!,
+      address: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}address'],
+      )!,
+      city: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}city'],
+      )!,
+      commune: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}commune'],
+      )!,
+      phone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phone'],
+      )!,
+    );
+  }
+
+  @override
+  $InvoiceCustomersTable createAlias(String alias) {
+    return $InvoiceCustomersTable(attachedDatabase, alias);
+  }
+}
+
+class InvoiceCustomerRow extends DataClass
+    implements Insertable<InvoiceCustomerRow> {
+  final String storeId;
+  final String rut;
+  final String businessName;
+  final String giro;
+  final String email;
+  final String address;
+  final String city;
+  final String commune;
+  final String phone;
+  const InvoiceCustomerRow({
+    required this.storeId,
+    required this.rut,
+    required this.businessName,
+    required this.giro,
+    required this.email,
+    required this.address,
+    required this.city,
+    required this.commune,
+    required this.phone,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['store_id'] = Variable<String>(storeId);
+    map['rut'] = Variable<String>(rut);
+    map['business_name'] = Variable<String>(businessName);
+    map['giro'] = Variable<String>(giro);
+    map['email'] = Variable<String>(email);
+    map['address'] = Variable<String>(address);
+    map['city'] = Variable<String>(city);
+    map['commune'] = Variable<String>(commune);
+    map['phone'] = Variable<String>(phone);
+    return map;
+  }
+
+  InvoiceCustomersCompanion toCompanion(bool nullToAbsent) {
+    return InvoiceCustomersCompanion(
+      storeId: Value(storeId),
+      rut: Value(rut),
+      businessName: Value(businessName),
+      giro: Value(giro),
+      email: Value(email),
+      address: Value(address),
+      city: Value(city),
+      commune: Value(commune),
+      phone: Value(phone),
+    );
+  }
+
+  factory InvoiceCustomerRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InvoiceCustomerRow(
+      storeId: serializer.fromJson<String>(json['storeId']),
+      rut: serializer.fromJson<String>(json['rut']),
+      businessName: serializer.fromJson<String>(json['businessName']),
+      giro: serializer.fromJson<String>(json['giro']),
+      email: serializer.fromJson<String>(json['email']),
+      address: serializer.fromJson<String>(json['address']),
+      city: serializer.fromJson<String>(json['city']),
+      commune: serializer.fromJson<String>(json['commune']),
+      phone: serializer.fromJson<String>(json['phone']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'storeId': serializer.toJson<String>(storeId),
+      'rut': serializer.toJson<String>(rut),
+      'businessName': serializer.toJson<String>(businessName),
+      'giro': serializer.toJson<String>(giro),
+      'email': serializer.toJson<String>(email),
+      'address': serializer.toJson<String>(address),
+      'city': serializer.toJson<String>(city),
+      'commune': serializer.toJson<String>(commune),
+      'phone': serializer.toJson<String>(phone),
+    };
+  }
+
+  InvoiceCustomerRow copyWith({
+    String? storeId,
+    String? rut,
+    String? businessName,
+    String? giro,
+    String? email,
+    String? address,
+    String? city,
+    String? commune,
+    String? phone,
+  }) => InvoiceCustomerRow(
+    storeId: storeId ?? this.storeId,
+    rut: rut ?? this.rut,
+    businessName: businessName ?? this.businessName,
+    giro: giro ?? this.giro,
+    email: email ?? this.email,
+    address: address ?? this.address,
+    city: city ?? this.city,
+    commune: commune ?? this.commune,
+    phone: phone ?? this.phone,
+  );
+  InvoiceCustomerRow copyWithCompanion(InvoiceCustomersCompanion data) {
+    return InvoiceCustomerRow(
+      storeId: data.storeId.present ? data.storeId.value : this.storeId,
+      rut: data.rut.present ? data.rut.value : this.rut,
+      businessName: data.businessName.present
+          ? data.businessName.value
+          : this.businessName,
+      giro: data.giro.present ? data.giro.value : this.giro,
+      email: data.email.present ? data.email.value : this.email,
+      address: data.address.present ? data.address.value : this.address,
+      city: data.city.present ? data.city.value : this.city,
+      commune: data.commune.present ? data.commune.value : this.commune,
+      phone: data.phone.present ? data.phone.value : this.phone,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InvoiceCustomerRow(')
+          ..write('storeId: $storeId, ')
+          ..write('rut: $rut, ')
+          ..write('businessName: $businessName, ')
+          ..write('giro: $giro, ')
+          ..write('email: $email, ')
+          ..write('address: $address, ')
+          ..write('city: $city, ')
+          ..write('commune: $commune, ')
+          ..write('phone: $phone')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    storeId,
+    rut,
+    businessName,
+    giro,
+    email,
+    address,
+    city,
+    commune,
+    phone,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InvoiceCustomerRow &&
+          other.storeId == this.storeId &&
+          other.rut == this.rut &&
+          other.businessName == this.businessName &&
+          other.giro == this.giro &&
+          other.email == this.email &&
+          other.address == this.address &&
+          other.city == this.city &&
+          other.commune == this.commune &&
+          other.phone == this.phone);
+}
+
+class InvoiceCustomersCompanion extends UpdateCompanion<InvoiceCustomerRow> {
+  final Value<String> storeId;
+  final Value<String> rut;
+  final Value<String> businessName;
+  final Value<String> giro;
+  final Value<String> email;
+  final Value<String> address;
+  final Value<String> city;
+  final Value<String> commune;
+  final Value<String> phone;
+  final Value<int> rowid;
+  const InvoiceCustomersCompanion({
+    this.storeId = const Value.absent(),
+    this.rut = const Value.absent(),
+    this.businessName = const Value.absent(),
+    this.giro = const Value.absent(),
+    this.email = const Value.absent(),
+    this.address = const Value.absent(),
+    this.city = const Value.absent(),
+    this.commune = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  InvoiceCustomersCompanion.insert({
+    required String storeId,
+    required String rut,
+    required String businessName,
+    required String giro,
+    required String email,
+    required String address,
+    required String city,
+    required String commune,
+    required String phone,
+    this.rowid = const Value.absent(),
+  }) : storeId = Value(storeId),
+       rut = Value(rut),
+       businessName = Value(businessName),
+       giro = Value(giro),
+       email = Value(email),
+       address = Value(address),
+       city = Value(city),
+       commune = Value(commune),
+       phone = Value(phone);
+  static Insertable<InvoiceCustomerRow> custom({
+    Expression<String>? storeId,
+    Expression<String>? rut,
+    Expression<String>? businessName,
+    Expression<String>? giro,
+    Expression<String>? email,
+    Expression<String>? address,
+    Expression<String>? city,
+    Expression<String>? commune,
+    Expression<String>? phone,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (storeId != null) 'store_id': storeId,
+      if (rut != null) 'rut': rut,
+      if (businessName != null) 'business_name': businessName,
+      if (giro != null) 'giro': giro,
+      if (email != null) 'email': email,
+      if (address != null) 'address': address,
+      if (city != null) 'city': city,
+      if (commune != null) 'commune': commune,
+      if (phone != null) 'phone': phone,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  InvoiceCustomersCompanion copyWith({
+    Value<String>? storeId,
+    Value<String>? rut,
+    Value<String>? businessName,
+    Value<String>? giro,
+    Value<String>? email,
+    Value<String>? address,
+    Value<String>? city,
+    Value<String>? commune,
+    Value<String>? phone,
+    Value<int>? rowid,
+  }) {
+    return InvoiceCustomersCompanion(
+      storeId: storeId ?? this.storeId,
+      rut: rut ?? this.rut,
+      businessName: businessName ?? this.businessName,
+      giro: giro ?? this.giro,
+      email: email ?? this.email,
+      address: address ?? this.address,
+      city: city ?? this.city,
+      commune: commune ?? this.commune,
+      phone: phone ?? this.phone,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (storeId.present) {
+      map['store_id'] = Variable<String>(storeId.value);
+    }
+    if (rut.present) {
+      map['rut'] = Variable<String>(rut.value);
+    }
+    if (businessName.present) {
+      map['business_name'] = Variable<String>(businessName.value);
+    }
+    if (giro.present) {
+      map['giro'] = Variable<String>(giro.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (city.present) {
+      map['city'] = Variable<String>(city.value);
+    }
+    if (commune.present) {
+      map['commune'] = Variable<String>(commune.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InvoiceCustomersCompanion(')
+          ..write('storeId: $storeId, ')
+          ..write('rut: $rut, ')
+          ..write('businessName: $businessName, ')
+          ..write('giro: $giro, ')
+          ..write('email: $email, ')
+          ..write('address: $address, ')
+          ..write('city: $city, ')
+          ..write('commune: $commune, ')
+          ..write('phone: $phone, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -9345,6 +10282,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     this,
   );
   late final $ClockStateTable clockState = $ClockStateTable(this);
+  late final $InvoiceCustomersTable invoiceCustomers = $InvoiceCustomersTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -9367,6 +10307,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     creditNoteLines,
     dteFolioCounters,
     clockState,
+    invoiceCustomers,
   ];
 }
 
@@ -10461,6 +11402,12 @@ typedef $$SalesTableCreateCompanionBuilder =
       Value<int> dteDocumentType,
       Value<String?> invoiceReceiverRut,
       Value<String?> invoiceReceiverName,
+      Value<String?> invoiceReceiverGiro,
+      Value<String?> invoiceReceiverEmail,
+      Value<String?> invoiceReceiverAddress,
+      Value<String?> invoiceReceiverCity,
+      Value<String?> invoiceReceiverCommune,
+      Value<String?> invoiceReceiverPhone,
       Value<int> rowid,
     });
 typedef $$SalesTableUpdateCompanionBuilder =
@@ -10483,6 +11430,12 @@ typedef $$SalesTableUpdateCompanionBuilder =
       Value<int> dteDocumentType,
       Value<String?> invoiceReceiverRut,
       Value<String?> invoiceReceiverName,
+      Value<String?> invoiceReceiverGiro,
+      Value<String?> invoiceReceiverEmail,
+      Value<String?> invoiceReceiverAddress,
+      Value<String?> invoiceReceiverCity,
+      Value<String?> invoiceReceiverCommune,
+      Value<String?> invoiceReceiverPhone,
       Value<int> rowid,
     });
 
@@ -10581,6 +11534,36 @@ class $$SalesTableFilterComposer extends Composer<_$AppDatabase, $SalesTable> {
 
   ColumnFilters<String> get invoiceReceiverName => $composableBuilder(
     column: $table.invoiceReceiverName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get invoiceReceiverGiro => $composableBuilder(
+    column: $table.invoiceReceiverGiro,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get invoiceReceiverEmail => $composableBuilder(
+    column: $table.invoiceReceiverEmail,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get invoiceReceiverAddress => $composableBuilder(
+    column: $table.invoiceReceiverAddress,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get invoiceReceiverCity => $composableBuilder(
+    column: $table.invoiceReceiverCity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get invoiceReceiverCommune => $composableBuilder(
+    column: $table.invoiceReceiverCommune,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get invoiceReceiverPhone => $composableBuilder(
+    column: $table.invoiceReceiverPhone,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -10683,6 +11666,36 @@ class $$SalesTableOrderingComposer
     column: $table.invoiceReceiverName,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get invoiceReceiverGiro => $composableBuilder(
+    column: $table.invoiceReceiverGiro,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get invoiceReceiverEmail => $composableBuilder(
+    column: $table.invoiceReceiverEmail,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get invoiceReceiverAddress => $composableBuilder(
+    column: $table.invoiceReceiverAddress,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get invoiceReceiverCity => $composableBuilder(
+    column: $table.invoiceReceiverCity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get invoiceReceiverCommune => $composableBuilder(
+    column: $table.invoiceReceiverCommune,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get invoiceReceiverPhone => $composableBuilder(
+    column: $table.invoiceReceiverPhone,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SalesTableAnnotationComposer
@@ -10759,6 +11772,36 @@ class $$SalesTableAnnotationComposer
     column: $table.invoiceReceiverName,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get invoiceReceiverGiro => $composableBuilder(
+    column: $table.invoiceReceiverGiro,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get invoiceReceiverEmail => $composableBuilder(
+    column: $table.invoiceReceiverEmail,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get invoiceReceiverAddress => $composableBuilder(
+    column: $table.invoiceReceiverAddress,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get invoiceReceiverCity => $composableBuilder(
+    column: $table.invoiceReceiverCity,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get invoiceReceiverCommune => $composableBuilder(
+    column: $table.invoiceReceiverCommune,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get invoiceReceiverPhone => $composableBuilder(
+    column: $table.invoiceReceiverPhone,
+    builder: (column) => column,
+  );
 }
 
 class $$SalesTableTableManager
@@ -10807,6 +11850,12 @@ class $$SalesTableTableManager
                 Value<int> dteDocumentType = const Value.absent(),
                 Value<String?> invoiceReceiverRut = const Value.absent(),
                 Value<String?> invoiceReceiverName = const Value.absent(),
+                Value<String?> invoiceReceiverGiro = const Value.absent(),
+                Value<String?> invoiceReceiverEmail = const Value.absent(),
+                Value<String?> invoiceReceiverAddress = const Value.absent(),
+                Value<String?> invoiceReceiverCity = const Value.absent(),
+                Value<String?> invoiceReceiverCommune = const Value.absent(),
+                Value<String?> invoiceReceiverPhone = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion(
                 id: id,
@@ -10827,6 +11876,12 @@ class $$SalesTableTableManager
                 dteDocumentType: dteDocumentType,
                 invoiceReceiverRut: invoiceReceiverRut,
                 invoiceReceiverName: invoiceReceiverName,
+                invoiceReceiverGiro: invoiceReceiverGiro,
+                invoiceReceiverEmail: invoiceReceiverEmail,
+                invoiceReceiverAddress: invoiceReceiverAddress,
+                invoiceReceiverCity: invoiceReceiverCity,
+                invoiceReceiverCommune: invoiceReceiverCommune,
+                invoiceReceiverPhone: invoiceReceiverPhone,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -10849,6 +11904,12 @@ class $$SalesTableTableManager
                 Value<int> dteDocumentType = const Value.absent(),
                 Value<String?> invoiceReceiverRut = const Value.absent(),
                 Value<String?> invoiceReceiverName = const Value.absent(),
+                Value<String?> invoiceReceiverGiro = const Value.absent(),
+                Value<String?> invoiceReceiverEmail = const Value.absent(),
+                Value<String?> invoiceReceiverAddress = const Value.absent(),
+                Value<String?> invoiceReceiverCity = const Value.absent(),
+                Value<String?> invoiceReceiverCommune = const Value.absent(),
+                Value<String?> invoiceReceiverPhone = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => SalesCompanion.insert(
                 id: id,
@@ -10869,6 +11930,12 @@ class $$SalesTableTableManager
                 dteDocumentType: dteDocumentType,
                 invoiceReceiverRut: invoiceReceiverRut,
                 invoiceReceiverName: invoiceReceiverName,
+                invoiceReceiverGiro: invoiceReceiverGiro,
+                invoiceReceiverEmail: invoiceReceiverEmail,
+                invoiceReceiverAddress: invoiceReceiverAddress,
+                invoiceReceiverCity: invoiceReceiverCity,
+                invoiceReceiverCommune: invoiceReceiverCommune,
+                invoiceReceiverPhone: invoiceReceiverPhone,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -14000,6 +15067,294 @@ typedef $$ClockStateTableProcessedTableManager =
       ClockStateRow,
       PrefetchHooks Function()
     >;
+typedef $$InvoiceCustomersTableCreateCompanionBuilder =
+    InvoiceCustomersCompanion Function({
+      required String storeId,
+      required String rut,
+      required String businessName,
+      required String giro,
+      required String email,
+      required String address,
+      required String city,
+      required String commune,
+      required String phone,
+      Value<int> rowid,
+    });
+typedef $$InvoiceCustomersTableUpdateCompanionBuilder =
+    InvoiceCustomersCompanion Function({
+      Value<String> storeId,
+      Value<String> rut,
+      Value<String> businessName,
+      Value<String> giro,
+      Value<String> email,
+      Value<String> address,
+      Value<String> city,
+      Value<String> commune,
+      Value<String> phone,
+      Value<int> rowid,
+    });
+
+class $$InvoiceCustomersTableFilterComposer
+    extends Composer<_$AppDatabase, $InvoiceCustomersTable> {
+  $$InvoiceCustomersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get rut => $composableBuilder(
+    column: $table.rut,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get businessName => $composableBuilder(
+    column: $table.businessName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get giro => $composableBuilder(
+    column: $table.giro,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get address => $composableBuilder(
+    column: $table.address,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get city => $composableBuilder(
+    column: $table.city,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get commune => $composableBuilder(
+    column: $table.commune,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$InvoiceCustomersTableOrderingComposer
+    extends Composer<_$AppDatabase, $InvoiceCustomersTable> {
+  $$InvoiceCustomersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get storeId => $composableBuilder(
+    column: $table.storeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get rut => $composableBuilder(
+    column: $table.rut,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get businessName => $composableBuilder(
+    column: $table.businessName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get giro => $composableBuilder(
+    column: $table.giro,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get address => $composableBuilder(
+    column: $table.address,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get city => $composableBuilder(
+    column: $table.city,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get commune => $composableBuilder(
+    column: $table.commune,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$InvoiceCustomersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InvoiceCustomersTable> {
+  $$InvoiceCustomersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get storeId =>
+      $composableBuilder(column: $table.storeId, builder: (column) => column);
+
+  GeneratedColumn<String> get rut =>
+      $composableBuilder(column: $table.rut, builder: (column) => column);
+
+  GeneratedColumn<String> get businessName => $composableBuilder(
+    column: $table.businessName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get giro =>
+      $composableBuilder(column: $table.giro, builder: (column) => column);
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+
+  GeneratedColumn<String> get address =>
+      $composableBuilder(column: $table.address, builder: (column) => column);
+
+  GeneratedColumn<String> get city =>
+      $composableBuilder(column: $table.city, builder: (column) => column);
+
+  GeneratedColumn<String> get commune =>
+      $composableBuilder(column: $table.commune, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
+}
+
+class $$InvoiceCustomersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InvoiceCustomersTable,
+          InvoiceCustomerRow,
+          $$InvoiceCustomersTableFilterComposer,
+          $$InvoiceCustomersTableOrderingComposer,
+          $$InvoiceCustomersTableAnnotationComposer,
+          $$InvoiceCustomersTableCreateCompanionBuilder,
+          $$InvoiceCustomersTableUpdateCompanionBuilder,
+          (
+            InvoiceCustomerRow,
+            BaseReferences<
+              _$AppDatabase,
+              $InvoiceCustomersTable,
+              InvoiceCustomerRow
+            >,
+          ),
+          InvoiceCustomerRow,
+          PrefetchHooks Function()
+        > {
+  $$InvoiceCustomersTableTableManager(
+    _$AppDatabase db,
+    $InvoiceCustomersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$InvoiceCustomersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InvoiceCustomersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$InvoiceCustomersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> storeId = const Value.absent(),
+                Value<String> rut = const Value.absent(),
+                Value<String> businessName = const Value.absent(),
+                Value<String> giro = const Value.absent(),
+                Value<String> email = const Value.absent(),
+                Value<String> address = const Value.absent(),
+                Value<String> city = const Value.absent(),
+                Value<String> commune = const Value.absent(),
+                Value<String> phone = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InvoiceCustomersCompanion(
+                storeId: storeId,
+                rut: rut,
+                businessName: businessName,
+                giro: giro,
+                email: email,
+                address: address,
+                city: city,
+                commune: commune,
+                phone: phone,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String storeId,
+                required String rut,
+                required String businessName,
+                required String giro,
+                required String email,
+                required String address,
+                required String city,
+                required String commune,
+                required String phone,
+                Value<int> rowid = const Value.absent(),
+              }) => InvoiceCustomersCompanion.insert(
+                storeId: storeId,
+                rut: rut,
+                businessName: businessName,
+                giro: giro,
+                email: email,
+                address: address,
+                city: city,
+                commune: commune,
+                phone: phone,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$InvoiceCustomersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InvoiceCustomersTable,
+      InvoiceCustomerRow,
+      $$InvoiceCustomersTableFilterComposer,
+      $$InvoiceCustomersTableOrderingComposer,
+      $$InvoiceCustomersTableAnnotationComposer,
+      $$InvoiceCustomersTableCreateCompanionBuilder,
+      $$InvoiceCustomersTableUpdateCompanionBuilder,
+      (
+        InvoiceCustomerRow,
+        BaseReferences<
+          _$AppDatabase,
+          $InvoiceCustomersTable,
+          InvoiceCustomerRow
+        >,
+      ),
+      InvoiceCustomerRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -14038,4 +15393,6 @@ class $AppDatabaseManager {
       $$DteFolioCountersTableTableManager(_db, _db.dteFolioCounters);
   $$ClockStateTableTableManager get clockState =>
       $$ClockStateTableTableManager(_db, _db.clockState);
+  $$InvoiceCustomersTableTableManager get invoiceCustomers =>
+      $$InvoiceCustomersTableTableManager(_db, _db.invoiceCustomers);
 }

@@ -242,6 +242,7 @@ class PosComposition {
         dteQueueRepository: dteQueue,
         sessionProvider: sessions,
         clock: trustedClock,
+        invoiceCustomerRepository: DriftInvoiceCustomerRepository(db),
       ),
       inventoryService: InventoryService(
         productRepository: products,

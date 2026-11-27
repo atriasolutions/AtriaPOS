@@ -218,6 +218,12 @@ void main() {
         invoiceReceiver: const ConfirmCheckoutInvoiceReceiverInput(
           rut: '12.345.678-5',
           businessName: 'Cliente SpA',
+          giro: 'Abarrotes',
+          email: 'cliente@correo.cl',
+          address: 'Av. 1 100',
+          city: 'Santiago',
+          commune: 'Nunoa',
+          phone: '912345678',
         ),
       ),
     );

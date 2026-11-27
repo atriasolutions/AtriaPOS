@@ -7,6 +7,21 @@ import 'package:pos_app/screens/sale_screen.dart';
 
 import 'checkout_test_helpers.dart';
 
+Future<void> _fillInvoiceRest(WidgetTester tester) async {
+  Future<void> fill(Key key, String value) async {
+    final field = find.byKey(key);
+    await tester.ensureVisible(field);
+    await tester.enterText(field, value);
+  }
+
+  await fill(const Key('checkout_invoice_giro'), 'Abarrotes');
+  await fill(const Key('checkout_invoice_email'), 'cliente@correo.cl');
+  await fill(const Key('checkout_invoice_address'), 'Av. 1 100');
+  await fill(const Key('checkout_invoice_city'), 'Santiago');
+  await fill(const Key('checkout_invoice_commune'), 'Nunoa');
+  await fill(const Key('checkout_invoice_phone'), '912345678');
+}
+
 Future<void> _prepareCart(WidgetTester tester, PosComposition composition) async {
   await composition.ensureDemoStore();
   await composition.ensureDemoUsers();
@@ -61,6 +76,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('checkout_invoice_rut')), findsOneWidget);
     expect(find.byKey(const Key('checkout_invoice_business_name')), findsOneWidget);
+    expect(find.byKey(const Key('checkout_invoice_giro')), findsOneWidget);
+    expect(find.byKey(const Key('checkout_invoice_phone')), findsOneWidget);
   });
 
   testWidgets('SC-093-UI-02 checkout factura válida', (tester) async {
@@ -83,6 +100,7 @@ void main() {
       find.byKey(const Key('checkout_invoice_business_name')),
       'Cliente SpA',
     );
+    await _fillInvoiceRest(tester);
     await tester.pumpAndSettle();
     await chooseCheckoutCash(tester, 500);
 
@@ -112,6 +130,7 @@ void main() {
       find.byKey(const Key('checkout_invoice_business_name')),
       'Cliente SpA',
     );
+    await _fillInvoiceRest(tester);
     await tester.pumpAndSettle();
     await chooseCheckoutCash(tester, 500);
 

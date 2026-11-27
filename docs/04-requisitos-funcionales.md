@@ -284,7 +284,7 @@ Borrador de ingreso o conteo por códigos antes de confirmar stock.
 
 ### RF-097 [M] Factura electrónica en venta (SLICE-93, DEC-055)
 
-- Dado checkout con `documentType` factura, RUT receptor válido y razón social, cuando confirma en plantilla con `invoiceCheckout`, entonces emite DTE tipo **33** (mismo pipeline que boleta).
+- Dado checkout con `documentType` factura y receptor válido (RUT, razón social, giro, correo, dirección, ciudad, comuna y teléfono), cuando confirma en plantilla con `invoiceCheckout`, entonces emite DTE tipo **33** (mismo pipeline que boleta) y recuerda al cliente por RUT.
 - Dado boleta, no envía datos de receptor.
 - Dado factura sin receptor o RUT inválido, entonces `VALIDACION`.
 - Dado plantilla sin factura, entonces `VALIDACION` al elegir factura.

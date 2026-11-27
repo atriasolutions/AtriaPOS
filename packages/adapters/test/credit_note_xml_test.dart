@@ -56,9 +56,15 @@ void main() {
       dteStatus: DteStatus.emitida,
       folio: 12,
       dteDocumentType: DteDocumentType.factura,
-      invoiceReceiver: const SaleInvoiceReceiver(
-        rut: '12.345.678-5',
-        businessName: 'Cliente SpA',
+      invoiceReceiver: SaleInvoiceReceiver.validate(
+        rutRaw: '12.345.678-5',
+        businessNameRaw: 'Cliente SpA',
+        giroRaw: 'Abarrotes',
+        emailRaw: 'cliente@correo.cl',
+        addressRaw: 'Av. 1 100',
+        cityRaw: 'Santiago',
+        communeRaw: 'Nunoa',
+        phoneRaw: '912345678',
       ),
     );
     final xml = SiiDteXmlBuilder().buildNotaCredito(

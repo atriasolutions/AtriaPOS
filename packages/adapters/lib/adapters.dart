@@ -23,6 +23,7 @@ export 'drift_collaborator_repository.dart';
 export 'drift_store_repository.dart';
 export 'drift_product_repository.dart';
 export 'drift_sale_repository.dart';
+export 'drift_invoice_customer_repository.dart';
 export 'drift_shift_repository.dart';
 export 'drift_stock_movement_repository.dart';
 export 'drift_inventory_close_repository.dart';

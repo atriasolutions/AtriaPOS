@@ -170,7 +170,13 @@ Factura (SLICE-93, RF-097, plantilla con `invoiceCheckout`):
   "documentType": "FACTURA",
   "invoiceReceiver": {
     "rut": "12.345.678-5",
-    "businessName": "Cliente SpA"
+    "businessName": "Cliente SpA",
+    "giro": "Abarrotes",
+    "email": "cliente@correo.cl",
+    "address": "Av. 1 100",
+    "city": "Santiago",
+    "commune": "Nunoa",
+    "phone": "912345678"
   }
 }
 ```
@@ -194,6 +200,8 @@ Métodos: `EFECTIVO`, `DEBITO`, `CREDITO`, `OTRO`. Débito y crédito registran 
 ```
 
 **SLICE-93 (RF-097):** `documentType` en response es código SII (`39` boleta, `33` factura). Factura con RUT inválido o razón social vacía → `VALIDACION`. Plantilla sin factura → `VALIDACION`. Tests `SC-093-*` en `invoice_checkout_test.dart`, `invoice_checkout_api_test.dart`, `invoice_checkout_ui_e2e_test.dart`.
+
+**SLICE-149–151:** el receptor exige RUT, razón social, giro, correo, dirección, ciudad, comuna y teléfono. Al confirmar, el POS guarda esos datos por RUT y los precarga en el siguiente cobro con factura.
 
 **Tests comportamiento SLICE-3 (RF-030, RF-031 parcial)**
 
