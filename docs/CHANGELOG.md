@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-152: Estados Sin contar, Contado y Diferencias en el dominio de inventario.
 - SLICE-149–151: Factura pide los 8 datos del receptor, los guarda por RUT y los precarga si el cliente vuelve.
 - SLICE-146–148: Checkout elige efectivo, débito o crédito; efectivo pide monto y vuelto; botón **Cobrar** (56 px).
 - SLICE-145: Medios `DEBITO` y `CREDITO` como registro; el cierre de caja sigue contando solo efectivo.

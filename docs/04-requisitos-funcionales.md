@@ -240,6 +240,7 @@ Con **turno abierto**, supervisor o dueño:
 - Persiste cabecera y líneas de cierre para trazabilidad. Sin turno abierto → error alineado a SC-040. Pantalla **Cierre inventario** en menú Operación (SLICE-74).
 - Dado sesión `countScan` en borrador con productos escaneados (RF-094), cuando confirma conteo (`confirm-count`), entonces aplica `CloseInventory` **solo** con esos SKU (conteo parcial v1) y marca la sesión `confirmed` (SLICE-88).
 - Dado supervisor en **Cierre inventario** (SLICE-89), cuando elige modo por escaneo, inicia sesión y confirma, entonces la UI usa `ScannerIngress` y `confirm-count`; código desconocido puede abrir alta de producto.
+- Dado listado de conteo (SLICE-152+), cada SKU exhibe **Sin contar** (sin cantidad), **Contado** (igual al stock sistema) o **Diferencias** (con delta signed); manual y por escaneo comparten la misma semántica visual.
 
 ---
 

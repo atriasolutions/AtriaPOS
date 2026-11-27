@@ -28,6 +28,7 @@ export 'cart_line_id.dart';
 export 'failures.dart';
 export 'inventory_close.dart';
 export 'inventory_close_id.dart';
+export 'inventory_count_line_status.dart';
 export 'shift_sales_by_product.dart';
 export 'payment.dart';
 export 'payment_method.dart';
