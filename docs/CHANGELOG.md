@@ -6,6 +6,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-159: Ajuste e insights con tarjetas, chips de alerta y CTA táctil.
+- SLICE-158: Ingreso existencias alineado al kit táctil de inventario.
 - SLICE-157: Cierre inventario con resumen, segmento y barra inferior táctil.
 - SLICE-156: Kit táctil y chips accesibles para operación de inventario (RNF-043).
 - SLICE-154–155: Cierre inventario con chips Contado/Sin contar/Diferencias y delta en rojo (manual y escaneo).

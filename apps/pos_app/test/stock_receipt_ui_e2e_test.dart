@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/stock_receipt_screen.dart';
+import 'package:pos_app/theme/atria_touch_targets.dart';
 
 void main() {
   testWidgets('SC-085-UI-01 ingreso desde UI', (tester) async {
@@ -87,5 +88,26 @@ void main() {
 
     expect(find.byKey(const Key('stock_receipt_success_snackbar')), findsNothing);
     expect(find.text('Seleccione un producto.'), findsOneWidget);
+  });
+
+  testWidgets('SC-158-UI-01 CTA ingreso tactil', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await composition.ensureDemoStore();
+    await composition.ensureDemoUsers();
+    await composition.authService.login(
+      kDemoStoreId,
+      const LoginRequest(username: 'usr_supervisor', pin: PosComposition.demoPin),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(home: StockReceiptScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    final size = tester.getSize(
+      find.byKey(const Key('stock_receipt_submit_button')),
+    );
+    expect(size.height, greaterThanOrEqualTo(kMinTouchHeight - 1));
   });
 }

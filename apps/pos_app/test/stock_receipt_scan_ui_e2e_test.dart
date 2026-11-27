@@ -196,13 +196,14 @@ void main() {
     await tester.tap(find.byKey(const Key('stock_receipt_scan_start_button')));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('stock_receipt_scan_confirm_button')));
-    await tester.pumpAndSettle();
-
     expect(
-      find.byKey(const Key('stock_receipt_scan_success_snackbar')),
-      findsNothing,
+      tester
+          .widget<FilledButton>(
+            find.byKey(const Key('stock_receipt_scan_confirm_button')),
+          )
+          .onPressed,
+      isNull,
     );
-    expect(find.textContaining('productos escaneados'), findsOneWidget);
+    expect(find.text('Escanee al menos un producto.'), findsOneWidget);
   });
 }

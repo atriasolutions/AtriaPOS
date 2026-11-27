@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../theme/atria_touch_targets.dart';
+import '../widgets/operation_bottom_bar.dart';
 
 class StockAdjustScreen extends StatefulWidget {
   const StockAdjustScreen({super.key, required this.composition});
@@ -103,92 +105,121 @@ class _StockAdjustScreenState extends State<StockAdjustScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Ajuste de stock')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              key: const Key('stock_adjust_search_field'),
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: 'Buscar producto',
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: _search,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              children: [
+                TextField(
+                  key: const Key('stock_adjust_search_field'),
+                  controller: _searchController,
+                  decoration: touchTextFieldDecoration(labelText: 'Buscar producto')
+                      .copyWith(
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: _search,
+                    ),
+                  ),
+                  onSubmitted: (_) => _search(),
                 ),
-              ),
-              onSubmitted: (_) => _search(),
-            ),
-            if (_loading) const LinearProgressIndicator(),
-            if (_searchResults.isNotEmpty)
-              SizedBox(
-                height: 120,
-                child: ListView.builder(
-                  itemCount: _searchResults.length,
-                  itemBuilder: (context, index) {
-                    final p = _searchResults[index];
-                    return ListTile(
-                      key: Key('stock_pick_${p.id}'),
-                      title: Text(p.name),
-                      subtitle: Text('Stock ${p.stock}'),
-                      onTap: () => _selectProduct(p),
-                    );
+                if (_loading) const LinearProgressIndicator(),
+                if (_searchResults.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  ..._searchResults.map(
+                    (p) => Card(
+                      margin: const EdgeInsets.only(bottom: 4),
+                      child: ListTile(
+                        key: Key('stock_pick_${p.id}'),
+                        minVerticalPadding: 12,
+                        title: Text(p.name),
+                        subtitle: Text(
+                          'Stock ${p.stock}',
+                          style: theme.textTheme.bodyLarge,
+                        ),
+                        onTap: () => _selectProduct(p),
+                      ),
+                    ),
+                  ),
+                ],
+                if (_selectedProductName != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    key: const Key('stock_adjust_selected_label'),
+                    'Producto: $_selectedProductName (stock $_selectedStock)',
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+                const SizedBox(height: 12),
+                TextField(
+                  key: const Key('stock_adjust_delta_field'),
+                  controller: _deltaController,
+                  decoration: touchTextFieldDecoration(
+                    labelText: 'Delta (ej. -1 merma)',
+                  ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  key: const Key('stock_adjust_reason_field'),
+                  value: _reason,
+                  decoration: touchTextFieldDecoration(labelText: 'Motivo'),
+                  menuMaxHeight: 280,
+                  isExpanded: true,
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'MERMA',
+                      child: SizedBox(
+                        height: 48,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Merma'),
+                        ),
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'AJUSTE',
+                      child: SizedBox(
+                        height: 48,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Ajuste'),
+                        ),
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'CORRECCION',
+                      child: SizedBox(
+                        height: 48,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Corrección'),
+                        ),
+                      ),
+                    ),
+                  ],
+                  onChanged: (v) {
+                    if (v != null) setState(() => _reason = v);
                   },
                 ),
-              ),
-            if (_selectedProductName != null)
-              Text(
-                key: const Key('stock_adjust_selected_label'),
-                'Producto: $_selectedProductName (stock $_selectedStock)',
-              ),
-            const SizedBox(height: 12),
-            TextField(
-              key: const Key('stock_adjust_delta_field'),
-              controller: _deltaController,
-              decoration: const InputDecoration(
-                labelText: 'Delta (ej. -1 merma)',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
               ],
             ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<String>(
-              key: const Key('stock_adjust_reason_field'),
-              value: _reason,
-              decoration: const InputDecoration(
-                labelText: 'Motivo',
-                border: OutlineInputBorder(),
-              ),
-              items: const [
-                DropdownMenuItem(value: 'MERMA', child: Text('Merma')),
-                DropdownMenuItem(value: 'AJUSTE', child: Text('Ajuste')),
-                DropdownMenuItem(value: 'CORRECCION', child: Text('Corrección')),
-              ],
-              onChanged: (v) {
-                if (v != null) setState(() => _reason = v);
-              },
-            ),
-            const SizedBox(height: 24),
-            FilledButton(
-              key: const Key('stock_adjust_submit_button'),
-              onPressed: _submitting ? null : _submit,
-              child: _submitting
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Text('Registrar ajuste'),
-            ),
-          ],
-        ),
+          ),
+          OperationBottomBar(
+            primaryKey: const Key('stock_adjust_submit_button'),
+            primaryLabel: 'Registrar ajuste',
+            onPrimary: _submitting ? null : _submit,
+            primaryBusy: _submitting,
+          ),
+        ],
       ),
     );
   }

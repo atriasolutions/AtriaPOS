@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../di/pos_composition.dart';
+import '../theme/atria_touch_targets.dart';
 import '../widgets/companion_lan_status_chip.dart';
 import '../widgets/companion_qr_panel.dart';
+import '../widgets/operation_bottom_bar.dart';
+import '../widgets/operation_mode_segment.dart';
 import 'product_create_screen.dart';
 
 enum _StockReceiptMode { manual, scan }
@@ -344,48 +347,27 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
     );
   }
 
-  Widget _buildModeSelector() {
-    return Row(
-      children: [
-        Expanded(
-          child: FilledButton.tonal(
-            key: const Key('stock_receipt_mode_manual'),
-            onPressed: () => _onModeChanged(_StockReceiptMode.manual),
-            style: FilledButton.styleFrom(
-              backgroundColor: _mode == _StockReceiptMode.manual
-                  ? Theme.of(context).colorScheme.secondaryContainer
-                  : null,
-            ),
-            child: const Text('Manual'),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: FilledButton.tonal(
-            key: const Key('stock_receipt_mode_scan'),
-            onPressed: () => _onModeChanged(_StockReceiptMode.scan),
-            style: FilledButton.styleFrom(
-              backgroundColor: _mode == _StockReceiptMode.scan
-                  ? Theme.of(context).colorScheme.secondaryContainer
-                  : null,
-            ),
-            child: const Text('Por escaneo'),
-          ),
-        ),
-      ],
+  Widget _searchResultTile(ProductSearchItem p) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 4),
+      child: ListTile(
+        key: Key('stock_receipt_pick_${p.id}'),
+        minVerticalPadding: 12,
+        title: Text(p.name),
+        subtitle: Text('Stock ${p.stock}', style: Theme.of(context).textTheme.bodyLarge),
+        onTap: () => _selectProduct(p),
+      ),
     );
   }
 
   Widget _buildManualBody() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       children: [
         TextField(
           key: const Key('stock_receipt_search_field'),
           controller: _searchController,
-          decoration: InputDecoration(
-            labelText: 'Buscar producto',
-            border: const OutlineInputBorder(),
+          decoration: touchTextFieldDecoration(labelText: 'Buscar producto').copyWith(
             suffixIcon: IconButton(
               icon: const Icon(Icons.search),
               onPressed: _search,
@@ -394,35 +376,23 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
           onSubmitted: (_) => _search(),
         ),
         if (_loading) const LinearProgressIndicator(),
-        if (_searchResults.isNotEmpty)
-          SizedBox(
-            height: 120,
-            child: ListView.builder(
-              itemCount: _searchResults.length,
-              itemBuilder: (context, index) {
-                final p = _searchResults[index];
-                return ListTile(
-                  key: Key('stock_receipt_pick_${p.id}'),
-                  title: Text(p.name),
-                  subtitle: Text('Stock ${p.stock}'),
-                  onTap: () => _selectProduct(p),
-                );
-              },
-            ),
-          ),
-        if (_selectedProductName != null)
+        if (_searchResults.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          ..._searchResults.map(_searchResultTile),
+        ],
+        if (_selectedProductName != null) ...[
+          const SizedBox(height: 12),
           Text(
             key: const Key('stock_receipt_selected_label'),
             'Producto: $_selectedProductName (stock $_selectedStock)',
+            style: Theme.of(context).textTheme.titleMedium,
           ),
+        ],
         const SizedBox(height: 12),
         TextField(
           key: const Key('stock_receipt_quantity_field'),
           controller: _quantityController,
-          decoration: const InputDecoration(
-            labelText: 'Cantidad',
-            border: OutlineInputBorder(),
-          ),
+          decoration: touchTextFieldDecoration(labelText: 'Cantidad'),
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         ),
@@ -430,33 +400,13 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
         TextField(
           key: const Key('stock_receipt_guide_field'),
           controller: _guideController,
-          decoration: const InputDecoration(
-            labelText: 'Guía',
-            border: OutlineInputBorder(),
-          ),
-          enabled: _scanSessionId == null || _mode == _StockReceiptMode.manual,
+          decoration: touchTextFieldDecoration(labelText: 'Guía'),
         ),
         const SizedBox(height: 12),
         TextField(
           key: const Key('stock_receipt_lot_ref_field'),
           controller: _lotController,
-          decoration: const InputDecoration(
-            labelText: 'Lote',
-            border: OutlineInputBorder(),
-          ),
-          enabled: _scanSessionId == null || _mode == _StockReceiptMode.manual,
-        ),
-        const SizedBox(height: 24),
-        FilledButton(
-          key: const Key('stock_receipt_submit_button'),
-          onPressed: _submitting ? null : _submit,
-          child: _submitting
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Text('Registrar ingreso'),
+          decoration: touchTextFieldDecoration(labelText: 'Lote'),
         ),
       ],
     );
@@ -464,52 +414,46 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
 
   Widget _buildScanBody() {
     final sessionActive = _scanSessionId != null;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       children: [
         TextField(
           key: const Key('stock_receipt_guide_field'),
           controller: _guideController,
-          decoration: const InputDecoration(
-            labelText: 'Guía',
-            border: OutlineInputBorder(),
-          ),
+          decoration: touchTextFieldDecoration(labelText: 'Guía'),
           enabled: !sessionActive,
         ),
         const SizedBox(height: 12),
         TextField(
           key: const Key('stock_receipt_lot_ref_field'),
           controller: _lotController,
-          decoration: const InputDecoration(
-            labelText: 'Lote',
-            border: OutlineInputBorder(),
-          ),
+          decoration: touchTextFieldDecoration(labelText: 'Lote'),
           enabled: !sessionActive,
         ),
         const SizedBox(height: 12),
         if (!sessionActive) ...[
           if (widget.composition.companionLanServer != null)
-            TextButton.icon(
-              key: const Key('companion_qr_receipt'),
-              onPressed: _openCompanionQr,
-              icon: const Icon(Icons.qr_code),
-              label: const Text('QR companion WiFi'),
+            SizedBox(
+              height: kMinTouchHeight,
+              child: TextButton.icon(
+                key: const Key('companion_qr_receipt'),
+                onPressed: _openCompanionQr,
+                icon: const Icon(Icons.qr_code),
+                label: const Text('QR companion WiFi'),
+              ),
             ),
           const SizedBox(height: 8),
           FilledButton(
             key: const Key('stock_receipt_scan_start_button'),
             onPressed: _scanBusy ? null : _startScanSession,
+            style: touchPrimaryButtonStyle(Theme.of(context)),
             child: const Text('Iniciar sesión de escaneo'),
           ),
-        ]
-        else ...[
+        ] else ...[
           TextField(
             key: const Key('stock_receipt_scan_code_field'),
             controller: _scanCodeController,
-            decoration: const InputDecoration(
-              labelText: 'Código escaneado',
-              border: OutlineInputBorder(),
-            ),
+            decoration: touchTextFieldDecoration(labelText: 'Código escaneado'),
             onSubmitted: _recordScanCode,
           ),
           const SizedBox(height: 8),
@@ -523,24 +467,18 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
               itemCount: _scanLines.length,
               itemBuilder: (context, index) {
                 final line = _scanLines[index];
-                return ListTile(
-                  title: Text(line.productName),
-                  trailing: Text('×${line.quantity}'),
+                return Card(
+                  child: ListTile(
+                    minVerticalPadding: 12,
+                    title: Text(line.productName),
+                    trailing: Text(
+                      '×${line.quantity}',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
                 );
               },
             ),
-          const SizedBox(height: 12),
-          FilledButton(
-            key: const Key('stock_receipt_scan_confirm_button'),
-            onPressed: _scanBusy ? null : _confirmScanSession,
-            child: const Text('Confirmar ingreso'),
-          ),
-          const SizedBox(height: 8),
-          OutlinedButton(
-            key: const Key('stock_receipt_scan_cancel_button'),
-            onPressed: _scanBusy ? null : _cancelScanSession,
-            child: const Text('Cancelar sesión'),
-          ),
         ],
       ],
     );
@@ -548,25 +486,62 @@ class _StockReceiptScreenState extends State<StockReceiptScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final sessionActive = _scanSessionId != null;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Ingreso existencias')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (widget.composition.companionLanServer != null)
-                CompanionLanStatusChip(composition: widget.composition),
-              _buildModeSelector(),
-              const SizedBox(height: 16),
-              if (_mode == _StockReceiptMode.manual)
-                _buildManualBody()
-              else
-                _buildScanBody(),
-            ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (widget.composition.companionLanServer != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: CompanionLanStatusChip(composition: widget.composition),
+            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: OperationModeSegment(
+              manualKey: const Key('stock_receipt_mode_manual'),
+              scanKey: const Key('stock_receipt_mode_scan'),
+              scanSelected: _mode == _StockReceiptMode.scan,
+              onChanged: (scan) => _onModeChanged(
+                scan ? _StockReceiptMode.scan : _StockReceiptMode.manual,
+              ),
+            ),
           ),
-        ),
+          Expanded(
+            child: _mode == _StockReceiptMode.manual
+                ? _buildManualBody()
+                : _buildScanBody(),
+          ),
+          if (_mode == _StockReceiptMode.manual)
+            OperationBottomBar(
+              primaryKey: const Key('stock_receipt_submit_button'),
+              primaryLabel: 'Registrar ingreso',
+              onPrimary: _submitting ? null : _submit,
+              primaryBusy: _submitting,
+            )
+          else if (sessionActive)
+            OperationBottomBar(
+              primaryKey: const Key('stock_receipt_scan_confirm_button'),
+              primaryLabel: 'Confirmar ingreso',
+              onPrimary: !_scanBusy && _scanLines.isNotEmpty
+                  ? _confirmScanSession
+                  : null,
+              primaryBusy: _scanBusy,
+              disabledHint: _scanLines.isEmpty
+                  ? 'Escanee al menos un producto.'
+                  : null,
+              secondary: OutlinedButton(
+                key: const Key('stock_receipt_scan_cancel_button'),
+                onPressed: _scanBusy ? null : _cancelScanSession,
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(kMinTouchHeight),
+                ),
+                child: const Text('Cancelar sesión'),
+              ),
+            ),
+        ],
       ),
     );
   }
