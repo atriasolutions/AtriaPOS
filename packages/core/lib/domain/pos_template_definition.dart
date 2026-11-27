@@ -51,6 +51,7 @@ class PosTemplateRegistry {
     PosFeature.productCreate,
     PosFeature.userManagement,
     PosFeature.invoiceCheckout,
+    PosFeature.cardPaymentCheckout,
     PosFeature.storeOperationalConfig,
   };
 

@@ -31,7 +31,7 @@ Leyenda: ✅ = cubierto por tests | 🔶 = parcial | ⬜ = manual / pendiente
 | SC-001-02 | RF-001 | ✅ | — | — | Core |
 | SC-001-03 | RF-001 | ✅ | — | — | Core |
 | SC-001-UI-01 | RF-001 | — | — | ✅ | `store_setup_ui_e2e_test.dart` |
-| SC-015-UI-01 | RNF-040 | — | — | ✅ | `pos_clock_overlay_test.dart` |
+| SC-015-UI-01 | RNF-040 | — | — | ✅ | `pos_status_strip_test.dart` |
 | SC-040-03 | RF-040 | ✅ | — | ✅ | `shift_open_time_label` en venta |
 | SC-041-03 | RF-041 | ✅ | — | ✅ | `close_shift_screen` timestamps |
 | SC-031-03 | RF-031 | ✅ | — | ✅ | diálogo checkout `createdAt` |

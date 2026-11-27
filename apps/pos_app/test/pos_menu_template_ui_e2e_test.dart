@@ -7,6 +7,7 @@ import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
 import 'checkout_test_helpers.dart';
+import 'options_navigation_helpers.dart';
 import 'wide_viewport.dart';
 
 Future<void> _openSaleMenu(WidgetTester tester, PosComposition composition) async {
@@ -14,11 +15,7 @@ Future<void> _openSaleMenu(WidgetTester tester, PosComposition composition) asyn
     MaterialApp(home: SaleScreen(composition: composition)),
   );
   await tester.pumpAndSettle();
-  final menu = find.byKey(const Key('operation_menu_button'));
-  if (menu.evaluate().isNotEmpty) {
-    await tester.tap(menu);
-    await tester.pumpAndSettle();
-  }
+  await openSaleOptionsScreen(tester);
 }
 
 void main() {

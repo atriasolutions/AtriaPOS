@@ -16,4 +16,4 @@ Cuando solicita cambiar sesión
 Entonces muestra mensaje de cierre de caja
 ```
 
-Verificación: `end_session_test.dart`, UI `sale_change_session`.
+Verificación: `end_session_test.dart`, UI `sale_change_session` en pantalla **Opciones** (sección Ventas y cobro).

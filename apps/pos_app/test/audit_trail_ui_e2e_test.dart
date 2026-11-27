@@ -6,6 +6,8 @@ import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
+import 'options_navigation_helpers.dart';
+
 void main() {
   testWidgets('SC-070-UI-01 auditoría del día en menú operación', (tester) async {
     tester.view.physicalSize = const Size(1280, 900);
@@ -66,8 +68,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('operation_menu_button')));
-    await tester.pumpAndSettle();
+    await openSaleOptionsScreen(tester);
     await tester.tap(find.byKey(const Key('operation_menu_audit')));
     await tester.pumpAndSettle();
 

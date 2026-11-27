@@ -27,8 +27,12 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    expect(find.byKey(const Key('store_config_section_ventas')), findsOneWidget);
+    expect(find.byKey(const Key('store_config_section_inventario')), findsOneWidget);
+    expect(find.byKey(const Key('store_config_section_fiscal')), findsOneWidget);
     expect(find.byKey(const Key('store_config_seller_code')), findsOneWidget);
     expect(find.byKey(const Key('store_config_transbank')), findsOneWidget);
+    expect(find.text('Pago integrado con tarjeta'), findsOneWidget);
   });
 
   testWidgets('SC-165-UI-02 activar vendedor refleja en menú venta', (tester) async {

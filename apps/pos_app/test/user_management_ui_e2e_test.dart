@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
-import 'package:pos_app/screens/login_screen.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 import 'package:core/api/api.dart';
 
+import 'options_navigation_helpers.dart';
 import 'wide_viewport.dart';
 
 void main() {
@@ -22,10 +22,7 @@ void main() {
       MaterialApp(home: SaleScreen(composition: composition)),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('operation_menu_button')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('operation_menu_users')));
-    await tester.pumpAndSettle();
+    await tapOptionsMenuItem(tester, const Key('operation_menu_users'));
   }
 
   testWidgets('SC-080-UI-01 dueño ve lista usuarios', (tester) async {
@@ -86,29 +83,11 @@ void main() {
     await tester.pumpAndSettle();
 
     composition.sessionProvider.clear();
-    var loggedIn = false;
-    await tester.pumpWidget(
-      MaterialApp(
-        home: LoginScreen(
-          composition: composition,
-          onLoggedIn: () => loggedIn = true,
-        ),
-      ),
+    final loginResult = await composition.authService.login(
+      kDemoStoreId,
+      LoginRequest(username: 'usr_cajero', pin: newPin),
     );
-    await tester.pumpAndSettle();
-
-    await tester.enterText(
-      find.byKey(const Key('login_user_id_field')),
-      'usr_cajero',
-    );
-    await tester.enterText(
-      find.byKey(const Key('login_pin_field')),
-      newPin,
-    );
-    await tester.tap(find.byKey(const Key('login_button')));
-    await tester.pumpAndSettle();
-
-    expect(loggedIn, isTrue);
+    expect(loginResult, isA<ApiSuccess<LoginResponse>>());
   });
 
   testWidgets('SC-080-UI-04 supervisor sin menú Usuarios', (tester) async {

@@ -13,7 +13,6 @@ import '../scanner/scanner_connection_state.dart';
 import '../widgets/atria_bordered_panel.dart';
 import '../widgets/atria_sale_top_bar.dart';
 import '../widgets/checkout_panel.dart';
-import '../widgets/companion_lan_status_chip.dart';
 import '../widgets/companion_qr_panel.dart';
 
 class SaleScreen extends StatefulWidget {
@@ -453,8 +452,8 @@ class _SaleScreenState extends State<SaleScreen> {
         CheckoutTemplatePolicy.requiresSellerCodeTemplate(tpl);
     final allowsInvoiceCheckout =
         CheckoutTemplatePolicy.allowsInvoiceCheckoutTemplate(tpl);
-    final allowsCardPayments = tpl.hasFeature(PosFeature.transbankIntegration);
-    final hasOpsMenu = visibleMenu.isNotEmpty;
+    final allowsCardPayments =
+        tpl.hasFeature(PosFeature.cardPaymentCheckout);
     final showProductStock = role != null &&
         AuthPolicy.allows(role, Permission.consultarStock);
 
@@ -480,24 +479,17 @@ class _SaleScreenState extends State<SaleScreen> {
 
     return Scaffold(
       body: Column(
-        children: [
-          if (widget.composition.companionLanServer != null)
-            CompanionLanStatusChip(composition: widget.composition),
-          Expanded(
-            child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (hasOpsMenu || scannerAction != null || showProductStock)
-            AtriaSaleTopBar(
-              composition: widget.composition,
-              visibleEntries: visibleMenu,
-              showProductStock: showProductStock,
-              onChangeSession: _changeSession,
-              onMenuReturned: _reloadStoreConfig,
-              scannerAction: scannerAction,
-            )
-          else if (scannerAction != null)
-            Align(alignment: Alignment.centerRight, child: scannerAction),
+          AtriaSaleCommandBar(
+            composition: widget.composition,
+            clock: widget.composition.trustedClock,
+            visibleEntries: visibleMenu,
+            showProductStock: showProductStock,
+            onChangeSession: _changeSession,
+            onMenuReturned: _reloadStoreConfig,
+            scannerAction: scannerAction,
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -681,9 +673,6 @@ class _SaleScreenState extends State<SaleScreen> {
                   ),
                 ],
               ),
-            ),
-          ),
-        ],
             ),
           ),
         ],

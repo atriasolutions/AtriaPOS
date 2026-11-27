@@ -7,11 +7,17 @@ import 'screens/login_screen.dart';
 import 'screens/sale_screen.dart';
 import 'screens/shift_open_screen.dart';
 import 'screens/store_setup_screen.dart';
+import 'widgets/pos_status_strip.dart';
 
 class AppShell extends StatefulWidget {
-  const AppShell({super.key, required this.composition});
+  const AppShell({
+    super.key,
+    required this.composition,
+    this.showStatusStrip = true,
+  });
 
   final PosComposition composition;
+  final bool showStatusStrip;
 
   @override
   State<AppShell> createState() => _AppShellState();
@@ -94,6 +100,19 @@ class _AppShellState extends State<AppShell> {
         body: Center(child: CircularProgressIndicator()),
       );
     }
-    return _home!;
+    return _wrapWithStatusStrip(_home!);
+  }
+
+  Widget _wrapWithStatusStrip(Widget home) {
+    if (!widget.showStatusStrip) {
+      return home;
+    }
+    if (home is SaleScreen) {
+      return home;
+    }
+    return PosStatusStrip(
+      clock: widget.composition.trustedClock,
+      child: home,
+    );
   }
 }

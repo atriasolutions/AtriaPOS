@@ -9,7 +9,6 @@ import 'package:path_provider/path_provider.dart';
 import 'app_shell.dart';
 import 'di/pos_composition.dart';
 import 'theme/atria_theme.dart';
-import 'widgets/pos_clock_overlay.dart';
 
 PosComposition? _composition;
 
@@ -23,7 +22,7 @@ Future<void> main({PosComposition? testComposition}) async {
   runApp(
     PosApp(
       composition: _composition!,
-      showClockOverlay: testComposition == null,
+      showStatusStrip: testComposition == null,
     ),
   );
 }
@@ -38,23 +37,21 @@ class PosApp extends StatelessWidget {
   const PosApp({
     super.key,
     required this.composition,
-    this.showClockOverlay = true,
+    this.showStatusStrip = true,
   });
 
   final PosComposition composition;
-  final bool showClockOverlay;
+  final bool showStatusStrip;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: kAppName,
       theme: AtriaTheme.light,
-      home: showClockOverlay
-          ? PosClockOverlay(
-              clock: composition.trustedClock,
-              child: AppShell(composition: composition),
-            )
-          : AppShell(composition: composition),
+      home: AppShell(
+        composition: composition,
+        showStatusStrip: showStatusStrip,
+      ),
     );
   }
 }

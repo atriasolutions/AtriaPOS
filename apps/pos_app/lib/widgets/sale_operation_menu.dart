@@ -11,33 +11,37 @@ class SaleOperationMenu extends StatelessWidget {
     required this.visibleEntries,
     this.menuAnchor,
     this.onNavigated,
+    this.onChangeSession,
   });
 
   final PosComposition composition;
   final List<PosMenuEntry> visibleEntries;
   final Widget? menuAnchor;
   final VoidCallback? onNavigated;
+  final VoidCallback? onChangeSession;
 
   @override
   Widget build(BuildContext context) {
-    final popupEntries = sortMenuEntries(visibleEntries)
-        .where((e) => e != PosMenuEntry.productCreate)
-        .toList();
-    if (popupEntries.isEmpty) return const SizedBox.shrink();
+    if (optionsMenuEntries(visibleEntries).isEmpty && onChangeSession == null) {
+      return const SizedBox.shrink();
+    }
 
-    return PopupMenuButton<String>(
-      key: const Key('operation_menu_button'),
-      tooltip: 'Operación',
-      onSelected: (value) async {
-        final entry = popupEntries.firstWhere(
-          (e) => popupValueFor(e) == value,
-        );
-        await navigateForMenuEntry(context, composition, entry);
-        onNavigated?.call();
-      },
-      itemBuilder: (context) =>
-          popupEntries.map(buildPopupMenuItem).toList(),
-      child: menuAnchor,
+    return Tooltip(
+      message: 'Opciones',
+      child: InkWell(
+        key: const Key('operation_menu_button'),
+        onTap: () async {
+          await openOptionsScreen(
+            context,
+            composition,
+            visibleEntries,
+            onChangeSession: onChangeSession,
+          );
+          onNavigated?.call();
+        },
+        borderRadius: BorderRadius.circular(20),
+        child: menuAnchor,
+      ),
     );
   }
 }

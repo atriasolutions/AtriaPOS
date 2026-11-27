@@ -14,8 +14,111 @@ import '../screens/shift_sales_screen.dart';
 import '../screens/stock_adjust_screen.dart';
 import '../screens/stock_insights_screen.dart';
 import '../screens/stock_receipt_screen.dart';
+import '../screens/options_screen.dart';
 import '../screens/store_config_screen.dart';
 import '../screens/user_list_screen.dart';
+
+enum PosMenuCategory { ventas, fiscal, inventario, administracion }
+
+const _categoryDisplayOrder = <PosMenuCategory>[
+  PosMenuCategory.ventas,
+  PosMenuCategory.fiscal,
+  PosMenuCategory.inventario,
+  PosMenuCategory.administracion,
+];
+
+PosMenuCategory categoryFor(PosMenuEntry entry) {
+  return switch (entry) {
+    PosMenuEntry.shiftSales ||
+    PosMenuEntry.productExchange ||
+    PosMenuEntry.closeShift ||
+    PosMenuEntry.dailySales =>
+      PosMenuCategory.ventas,
+    PosMenuEntry.dteQueue ||
+    PosMenuEntry.fiscalCertificate ||
+    PosMenuEntry.auditTrail =>
+      PosMenuCategory.fiscal,
+    PosMenuEntry.stockAdjust ||
+    PosMenuEntry.stockReceipt ||
+    PosMenuEntry.inventoryClose ||
+    PosMenuEntry.stockInsights =>
+      PosMenuCategory.inventario,
+  PosMenuEntry.userManagement || PosMenuEntry.storeConfig =>
+      PosMenuCategory.administracion,
+    PosMenuEntry.productCreate => PosMenuCategory.inventario,
+  };
+}
+
+String categoryTitle(PosMenuCategory category) {
+  return switch (category) {
+    PosMenuCategory.ventas => 'Ventas y caja',
+    PosMenuCategory.fiscal => 'Fiscal',
+    PosMenuCategory.inventario => 'Inventario',
+    PosMenuCategory.administracion => 'Administración',
+  };
+}
+
+/// Ítems visibles para pantalla Opciones (sin nuevo producto).
+List<PosMenuEntry> optionsMenuEntries(List<PosMenuEntry> visible) {
+  return sortMenuEntries(visible)
+      .where((e) => e != PosMenuEntry.productCreate)
+      .toList();
+}
+
+/// Agrupa por categoría; omite secciones vacías.
+Map<PosMenuCategory, List<PosMenuEntry>> groupMenuEntries(
+  List<PosMenuEntry> visible,
+) {
+  final grouped = <PosMenuCategory, List<PosMenuEntry>>{};
+  for (final entry in optionsMenuEntries(visible)) {
+    final cat = categoryFor(entry);
+    grouped.putIfAbsent(cat, () => []).add(entry);
+  }
+  final result = <PosMenuCategory, List<PosMenuEntry>>{};
+  for (final cat in _categoryDisplayOrder) {
+    final items = grouped[cat];
+    if (items != null && items.isNotEmpty) {
+      result[cat] = items;
+    }
+  }
+  return result;
+}
+
+Future<void> openOptionsScreen(
+  BuildContext context,
+  PosComposition composition,
+  List<PosMenuEntry> visibleEntries, {
+  VoidCallback? onChangeSession,
+}) {
+  return Navigator.of(context).push<void>(
+    MaterialPageRoute<void>(
+      builder: (_) => OptionsScreen(
+        composition: composition,
+        visibleEntries: visibleEntries,
+        onChangeSession: onChangeSession,
+      ),
+    ),
+  );
+}
+
+IconData menuIconFor(PosMenuEntry entry) {
+  return switch (entry) {
+    PosMenuEntry.shiftSales => Icons.receipt_long_outlined,
+    PosMenuEntry.productExchange => Icons.swap_horiz,
+    PosMenuEntry.closeShift => Icons.point_of_sale,
+    PosMenuEntry.dteQueue => Icons.cloud_queue,
+    PosMenuEntry.fiscalCertificate => Icons.verified_user_outlined,
+    PosMenuEntry.dailySales => Icons.calendar_today,
+    PosMenuEntry.auditTrail => Icons.fact_check_outlined,
+    PosMenuEntry.stockAdjust => Icons.tune,
+    PosMenuEntry.stockReceipt => Icons.move_to_inbox_outlined,
+    PosMenuEntry.inventoryClose => Icons.inventory_2_outlined,
+    PosMenuEntry.stockInsights => Icons.insights_outlined,
+    PosMenuEntry.productCreate => Icons.add_box_outlined,
+    PosMenuEntry.userManagement => Icons.people_outline,
+    PosMenuEntry.storeConfig => Icons.storefront_outlined,
+  };
+}
 
 /// Orden visual del menú operación (sin duplicar productCreate en popup si va en top bar).
 const posMenuDisplayOrder = <PosMenuEntry>[

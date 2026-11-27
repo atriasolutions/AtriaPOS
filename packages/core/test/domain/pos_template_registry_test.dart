@@ -9,6 +9,7 @@ void main() {
     expect(def.features, contains(PosFeature.collaboratorPlanilla));
     expect(def.features, contains(PosFeature.userManagement));
     expect(def.features, contains(PosFeature.storeOperationalConfig));
+    expect(def.features, contains(PosFeature.cardPaymentCheckout));
     expect(def.features, isNot(contains(PosFeature.transbankIntegration)));
     expect(def.features, isNot(contains(PosFeature.trackExpiryOnReceipt)));
   });

@@ -6,6 +6,7 @@ import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/close_shift_screen.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
+import 'options_navigation_helpers.dart';
 import 'wide_viewport.dart';
 
 void main() {
@@ -95,8 +96,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('operation_menu_button')));
-    await tester.pumpAndSettle();
+    await openSaleOptionsScreen(tester);
     await tester.tap(find.byKey(const Key('operation_menu_close')));
     await tester.pumpAndSettle();
 

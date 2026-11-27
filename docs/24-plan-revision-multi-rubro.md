@@ -35,3 +35,34 @@ Checklist: [`test/acceptance/slice_161_gate_multi_rubro.md`](../test/acceptance/
 ## Precedencia config
 
 `effectiveFeatures = plantilla(posTemplateId) ⊕ overrides tienda` — ver [DEC-067](decisiones/DEC-067-perfil-operativo-tienda.md).
+
+## Integraciones candidatas (roadmap)
+
+Pantalla dueño (fase 1): solo los overrides RF-099. Las filas siguientes orientan fase 2+; sin UI de roadmap en v1.
+
+| Integración | Relación con hoy | Notas |
+|---------------|------------------|--------|
+| Terminal tarjeta (Transbank POS, Getnet, etc.) | `transbankIntegration` / UI «Pago integrado con tarjeta» | Slice 166 stub; cobro con terminal, no sustituye `cardPaymentCheckout` (débito/crédito manual) |
+| Companion escáner / balanza | R4 companion | Profundizar peso y código de barras en mostrador |
+| Export contable (contador / ERP liviano) | Fuera MVP | CSV/XML ventas y notas de crédito |
+| Kora respaldo / emisión | Complemento opcional (doc 14) | No bloquear núcleo local-first |
+| Pasarela alternativa (Mercado Pago, etc.) | Nuevo `PosFeature` futuro | Misma categoría UI «Ventas y cobro» |
+| E-commerce / stock omnicanal | Fuera R5 fase 1 | Reservar; no implementar en perfil v1 |
+
+## Presets de plantilla (fase 2)
+
+Atajos de overrides; no sustituyen `posTemplateId` en fase 1 (solo flags sueltos).
+
+| Preset | Orientación | Overrides típicos |
+|--------|-------------|-------------------|
+| Barrio mínimo | Referencia test | `barrioMinTest` en registry |
+| Retail alimentos | Supermercado / botillería | Guía/lote, caducidad, cierre inventario, DTE ON |
+| Farmacia / regulado | Trazabilidad estricta | Caducidad, auditoría, DTE ON |
+| Servicios | Sin recepción masiva | Factura/cobro ON; inventario liviano OFF donde aplique |
+| Mayorista | B2B | Factura, guía/lote; vendedor en cobro según operación |
+
+## Notas de producto (config dueño)
+
+- **`cardPaymentCheckout`**: hoy viene de plantilla; el switch «Pago integrado con tarjeta» no debe ocultar débito/crédito manual (features separados en dominio).
+- **`collaboratorPlanilla`**: no es override v1; activar «Código vendedor en cobro» asume planilla operativa.
+- **Promos y fiado**: fuera R5 ([DEC-068](decisiones/DEC-068-fiado-fuera-r5.md)); no prometer en pantalla.

@@ -6,6 +6,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- UI post-R5: franja reloj/fecha, barra Vender unificada (Opciones + reloj), configuración tienda por secciones, íconos de cobro con color, cambiar sesión en Opciones.
+- SLICE-168: Pantalla Opciones agrupada por categoría (ventas, fiscal, inventario, administración).
 - R5 / SLICE-161–167: Perfil operativo por tienda (GET/PATCH), UI dueño, menú/checkout/ingreso por flags; Transbank tarjetas si flag; caducidad en ingreso.
 - SLICE-160: Companion LAN muestra nombre del producto tras escaneo aceptado.
 - SLICE-159: Ajuste e insights con tarjetas, chips de alerta y CTA táctil.

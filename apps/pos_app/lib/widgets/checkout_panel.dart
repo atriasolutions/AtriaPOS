@@ -15,7 +15,7 @@ class CheckoutPanel extends StatefulWidget {
     required this.enabled,
     required this.requiresSellerCode,
     required this.allowsInvoiceCheckout,
-    this.allowsCardPayments = false,
+    this.allowsCardPayments = true,
     required this.onSuccess,
   });
 
@@ -543,9 +543,54 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
     return 'Vuelto: \$$delta';
   }
 
+  IconData _paymentIcon(PaymentMethod method) {
+    return switch (method) {
+      PaymentMethod.efectivo => Icons.payments_outlined,
+      PaymentMethod.debito => Icons.credit_card,
+      PaymentMethod.credito => Icons.account_balance_wallet_outlined,
+      PaymentMethod.otro => Icons.more_horiz,
+    };
+  }
+
+  static const _cashGreen = Color(0xFF2E7D32);
+  static const _debitYellow = Color(0xFFF9A825);
+  static const _creditPurple = Color(0xFF5B4FCF);
+
+  Color _paymentAccentColor(ColorScheme cs, PaymentMethod method) {
+    return switch (method) {
+      PaymentMethod.efectivo => _cashGreen,
+      PaymentMethod.debito => _debitYellow,
+      PaymentMethod.credito => _creditPurple,
+      PaymentMethod.otro => cs.onSurfaceVariant,
+    };
+  }
+
+  Color _paymentIconColor(ColorScheme cs, PaymentMethod method, bool selected) {
+    if (selected) return cs.onPrimary;
+    return _paymentAccentColor(cs, method);
+  }
+
   Widget _paymentButton(String label, PaymentMethod method, Key key) {
     final selected = _paymentMethod == method;
     final cs = Theme.of(context).colorScheme;
+    final iconColor = _paymentIconColor(cs, method, selected);
+    final labelColor = selected ? cs.onPrimary : cs.onSurfaceVariant;
+    final accent = _paymentAccentColor(cs, method);
+
+    Widget iconChild = Icon(_paymentIcon(method), size: 22, color: iconColor);
+    if (!selected) {
+      iconChild = DecoratedBox(
+        decoration: BoxDecoration(
+          color: accent.withValues(alpha: 0.12),
+          shape: BoxShape.circle,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: iconChild,
+        ),
+      );
+    }
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -556,11 +601,23 @@ class _CheckoutPanelState extends State<CheckoutPanel> {
               : null,
           style: FilledButton.styleFrom(
             minimumSize: const Size(0, 56),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             backgroundColor:
                 selected ? cs.primary : cs.surfaceContainerHighest,
-            foregroundColor: selected ? cs.onPrimary : cs.onSurface,
+            foregroundColor: labelColor,
           ),
-          child: Text(label),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              iconChild,
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(fontSize: 13, color: labelColor),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );

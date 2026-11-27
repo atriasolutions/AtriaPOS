@@ -25,5 +25,5 @@ Entonces diálogo muestra createdAt y estado DTE
 
 ```gherkin
 Given cualquier pantalla
-Then esquina muestra hora (pos_clock_label)
+Then franja superior muestra fecha y hora (pos_clock_label)
 ```

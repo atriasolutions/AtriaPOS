@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
-import 'package:pos_app/screens/login_screen.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 import 'package:core/api/api.dart';
 
+import 'options_navigation_helpers.dart';
 import 'wide_viewport.dart';
 
 void main() {
@@ -34,10 +34,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('operation_menu_button')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('operation_menu_users')));
-    await tester.pumpAndSettle();
+    await tapOptionsMenuItem(tester, const Key('operation_menu_users'));
     await tester.tap(find.byKey(const Key('users_list_add_fab')));
     await tester.pumpAndSettle();
 
@@ -69,29 +66,11 @@ void main() {
     await tester.pumpAndSettle();
 
     composition.sessionProvider.clear();
-    var loggedIn = false;
-    await tester.pumpWidget(
-      MaterialApp(
-        home: LoginScreen(
-          composition: composition,
-          onLoggedIn: () => loggedIn = true,
-        ),
-      ),
+    final loginResult = await composition.authService.login(
+      kDemoStoreId,
+      LoginRequest(username: newUsername, pin: newPin),
     );
-    await tester.pumpAndSettle();
-
-    await tester.enterText(
-      find.byKey(const Key('login_user_id_field')),
-      newUsername,
-    );
-    await tester.enterText(
-      find.byKey(const Key('login_pin_field')),
-      newPin,
-    );
-    await tester.tap(find.byKey(const Key('login_button')));
-    await tester.pumpAndSettle();
-
-    expect(loggedIn, isTrue);
+    expect(loginResult, isA<ApiSuccess<LoginResponse>>());
     expect(composition.sessionProvider.current?.role.name, 'cajero');
   });
 
@@ -117,8 +96,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('operation_menu_button')));
-    await tester.pumpAndSettle();
+    await openSaleOptionsScreen(tester);
     expect(find.byKey(const Key('operation_menu_users')), findsNothing);
   });
 }

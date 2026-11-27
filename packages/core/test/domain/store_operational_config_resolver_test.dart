@@ -18,6 +18,7 @@ void main() {
       tpl.hasFeature(PosFeature.sellerCodeCheckout),
       isFalse,
     );
+    expect(tpl.hasFeature(PosFeature.cardPaymentCheckout), isTrue);
   });
 
   test('SC-162-02 sellerCodeRequired activa feature', () {

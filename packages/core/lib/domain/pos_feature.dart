@@ -14,6 +14,7 @@ enum PosFeature {
   productCreate('productCreate'),
   userManagement('userManagement'),
   invoiceCheckout('invoiceCheckout'),
+  cardPaymentCheckout('cardPaymentCheckout'),
   transbankIntegration('transbankIntegration'),
   trackExpiryOnReceipt('trackExpiryOnReceipt'),
   storeOperationalConfig('storeOperationalConfig'),

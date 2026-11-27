@@ -5,6 +5,8 @@ import 'package:pos_app/config/store_config.dart';
 import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
+import 'options_navigation_helpers.dart';
+
 Future<void> _checkoutSale(
   PosComposition composition,
   String productId,
@@ -76,8 +78,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('operation_menu_button')));
-    await tester.pumpAndSettle();
+    await openSaleOptionsScreen(tester);
     await tester.tap(find.byKey(const Key('operation_menu_daily_report')));
     await tester.pumpAndSettle();
 

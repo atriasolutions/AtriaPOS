@@ -6,6 +6,8 @@ import 'package:pos_app/di/pos_composition.dart';
 import 'package:pos_app/screens/audit_trail_screen.dart';
 import 'package:pos_app/screens/sale_screen.dart';
 
+import 'options_navigation_helpers.dart';
+
 Future<void> _seedSaleAndMerma(PosComposition composition) async {
   await composition.ensureDemoStore();
   await composition.ensureDemoUsers();
@@ -141,8 +143,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('operation_menu_button')));
-    await tester.pumpAndSettle();
+    await openSaleOptionsScreen(tester);
     await tester.tap(find.byKey(const Key('operation_menu_audit')));
     await tester.pumpAndSettle();
 
