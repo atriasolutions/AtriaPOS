@@ -95,4 +95,31 @@ void main() {
     expect(find.byKey(Key('stock_insights_top_$productId')), findsOneWidget);
     expect(find.textContaining('1 u.'), findsWidgets);
   });
+
+  testWidgets('SC-159-UI-02 chip stock bajo', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    await composition.ensureDemoStore();
+    await composition.ensureDemoUsers();
+    await composition.authService.login(
+      kDemoStoreId,
+      const LoginRequest(username: 'usr_supervisor', pin: PosComposition.demoPin),
+    );
+    await composition.productService.createProduct(
+      kDemoStoreId,
+      const CreateProductRequest(
+        name: 'Yogurt',
+        salePriceClp: 600,
+        initialStock: 1,
+      ),
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(home: StockInsightsScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Stock bajo'), findsWidgets);
+    expect(find.byIcon(Icons.warning_amber_outlined), findsWidgets);
+  });
 }

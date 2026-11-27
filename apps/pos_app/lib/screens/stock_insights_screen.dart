@@ -46,10 +46,31 @@ class _StockInsightsScreenState extends State<StockInsightsScreen> {
     }
   }
 
+  Widget _sectionCard({
+    required String title,
+    required List<Widget> children,
+  }) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 12),
+            ...children,
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final insights = _insights;
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Stock insights')),
@@ -70,60 +91,109 @@ class _StockInsightsScreenState extends State<StockInsightsScreen> {
                     ],
                   )
                 : ListView(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(16),
                     children: [
-                      Text(
-                        'Al ${insights!.asOfDate}',
-                        key: const Key('stock_insights_as_of'),
-                        style: theme.textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Período ranking: ${insights.periodDays} días. '
-                        'Umbral default: ${insights.defaultLowStockThreshold} u.',
-                        key: const Key('stock_insights_period'),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Stock bajo',
-                        style: theme.textTheme.titleSmall,
-                      ),
-                      if (insights.lowStock.isEmpty)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text('No hay productos con stock bajo.'),
-                        )
-                      else
-                        ...insights.lowStock.map(
-                          (item) => ListTile(
-                            key: Key('stock_insights_low_${item.productId}'),
-                            title: Text(item.name),
-                            subtitle: Text(
-                              'Stock ${item.stock} · umbral ${item.lowStockThreshold}',
-                            ),
-                            trailing: Text('\$${item.salePriceClp}'),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                'Al ${insights!.asOfDate}',
+                                key: const Key('stock_insights_as_of'),
+                                style: theme.textTheme.titleMedium,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Período ranking: ${insights.periodDays} días. '
+                                'Umbral default: ${insights.defaultLowStockThreshold} u.',
+                                key: const Key('stock_insights_period'),
+                              ),
+                            ],
                           ),
                         ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Más vendidos',
-                        style: theme.textTheme.titleSmall,
                       ),
-                      if (insights.topSellers.isEmpty)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            'Sin ventas en el período.',
-                          ),
-                        )
-                      else
-                        ...insights.topSellers.map(
-                          (item) => ListTile(
-                            key: Key('stock_insights_top_${item.productId}'),
-                            title: Text(item.name),
-                            trailing: Text('${item.unitsSold} u.'),
-                          ),
-                        ),
+                      _sectionCard(
+                        title: 'Stock bajo',
+                        children: insights.lowStock.isEmpty
+                            ? [
+                                const Text('No hay productos con stock bajo.'),
+                              ]
+                            : insights.lowStock
+                                .map(
+                                (item) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Card(
+                                    color: cs.errorContainer.withValues(alpha: 0.2),
+                                    child: ListTile(
+                                      key: Key(
+                                        'stock_insights_low_${item.productId}',
+                                      ),
+                                      minVerticalPadding: 12,
+                                      contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 4,
+                                      ),
+                                      title: Text(item.name),
+                                      subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Stock ${item.stock} · umbral ${item.lowStockThreshold}',
+                                            style: theme.textTheme.bodyLarge,
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Chip(
+                                            avatar: Icon(
+                                              Icons.warning_amber_outlined,
+                                              size: 18,
+                                              color: cs.onErrorContainer,
+                                            ),
+                                            label: const Text('Stock bajo'),
+                                            visualDensity: VisualDensity.compact,
+                                            materialTapTargetSize:
+                                                MaterialTapTargetSize.shrinkWrap,
+                                            backgroundColor: cs.errorContainer,
+                                          ),
+                                        ],
+                                      ),
+                                      trailing: Text(
+                                        '\$${item.salePriceClp}',
+                                        style: theme.textTheme.bodyLarge,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                                .toList(),
+                      ),
+                      _sectionCard(
+                        title: 'Más vendidos',
+                        children: insights.topSellers.isEmpty
+                            ? [
+                                const Text('Sin ventas en el período.'),
+                              ]
+                            : insights.topSellers
+                                .map(
+                                (item) => Card(
+                                  margin: const EdgeInsets.only(bottom: 8),
+                                  child: ListTile(
+                                    key: Key(
+                                      'stock_insights_top_${item.productId}',
+                                    ),
+                                    minVerticalPadding: 12,
+                                    title: Text(item.name),
+                                    trailing: Text(
+                                      '${item.unitsSold} u.',
+                                      style: theme.textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                ),
+                              )
+                                .toList(),
+                      ),
                     ],
                   ),
       ),
