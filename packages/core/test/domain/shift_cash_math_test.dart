@@ -49,6 +49,38 @@ void main() {
     expect(shiftExpectedCashClp(50000, sales), 51000);
   });
 
+  test('SC-145-02 débito y crédito no suman al efectivo esperado', () {
+    final sales = [
+      Sale(
+        id: 's1',
+        storeId: 't1',
+        shiftId: 'sh1',
+        cartId: 'c1',
+        lines: const [],
+        payments: [
+          Payment(method: PaymentMethod.debito, amountClp: 1000),
+        ],
+        totalClp: 1000,
+        changeClp: 0,
+        createdAt: DateTime.utc(2026, 1, 1),
+      ),
+      Sale(
+        id: 's2',
+        storeId: 't1',
+        shiftId: 'sh1',
+        cartId: 'c2',
+        lines: const [],
+        payments: [
+          Payment(method: PaymentMethod.credito, amountClp: 2000),
+        ],
+        totalClp: 2000,
+        changeClp: 0,
+        createdAt: DateTime.utc(2026, 1, 1),
+      ),
+    ];
+    expect(shiftExpectedCashClp(50000, sales), 50000);
+  });
+
   test('vuelto en efectivo reduce esperado', () {
     final sales = [
       Sale(

@@ -2,6 +2,8 @@ import 'failures.dart';
 
 enum PaymentMethod {
   efectivo('EFECTIVO'),
+  debito('DEBITO'),
+  credito('CREDITO'),
   otro('OTRO');
 
   const PaymentMethod(this.apiValue);

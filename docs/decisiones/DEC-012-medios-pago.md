@@ -11,7 +11,7 @@ El contrato de checkout y el cierre de caja necesitan medios de pago acotados pa
 
 ## Decisión
 
-1. **Enum dominio:** `PaymentMethod.efectivo` (`EFECTIVO`) y `PaymentMethod.otro` (`OTRO`) en `payment_method.dart`.
+1. **Enum dominio:** `PaymentMethod.efectivo` (`EFECTIVO`), `debito` (`DEBITO`), `credito` (`CREDITO`) y `otro` (`OTRO`) en `payment_method.dart`. Débito y crédito se registran en la venta (SLICE-145); no hay terminal ni Transbank. El efectivo esperado del turno solo suma `EFECTIVO`.
 2. **Checkout:** lista de pagos en `ConfirmCheckoutInput`; validación de total cobrado ≥ total venta y `changeClp` coherente.
 3. **Cierre caja:** efectivo esperado usa pagos **EFECTIVO** (DEC-015 / turno).
 4. **Fuera de MVP:** tarjeta integrada, mixtos avanzados y terminal — SLICE-9 **N/A**.

@@ -94,6 +94,27 @@ void main() {
     expect(audit.first.reason, StockAdjustmentReason.venta);
   });
 
+  test('SC-145-03 checkout débito por el total', () async {
+    final ctx = await panCart();
+    final result = await confirmCheckout(
+      ConfirmCheckoutInput(
+        storeId: storeId,
+        cartId: ctx.cartId,
+        sellerCode: '',
+        payments: const [
+          CheckoutPaymentInput(
+            method: PaymentMethod.debito,
+            amountClp: 1000,
+          ),
+        ],
+        changeClp: 0,
+      ),
+    );
+    expect(result.totalClp, 1000);
+    final stored = await sales.findById(storeId, result.saleId);
+    expect(stored!.payments.single.method, PaymentMethod.debito);
+  });
+
   test('SC-144-02 checkout Atria sin vendedor confirma y no persiste código', () async {
     final ctx = await panCart();
     final result = await confirmCheckout(

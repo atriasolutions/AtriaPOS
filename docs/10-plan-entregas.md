@@ -188,6 +188,7 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 142 | SLICE-142 | App | Shell LAN sin push al visor | RF-098 | SC-142-* ✅ |
 | 143 | SLICE-143 | Ops | Piloto UX v2 + runbook | RF-098 | SC-143-UI-01 manual |
 | 144 | SLICE-144 | POS | Pausa código vendedor en cobro | RF-084 | SC-144-* ✅ |
+| 145 | SLICE-145 | Core | Medios débito y crédito (registro) | RF-031 | SC-145-* ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 

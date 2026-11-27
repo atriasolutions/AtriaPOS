@@ -177,7 +177,7 @@ Factura (SLICE-93, RF-097, plantilla con `invoiceCheckout`):
 
 `sellerCode`: obligatorio en plantilla Atria POS (RF-084, colaborador activo en planilla).
 
-Métodos: `EFECTIVO`, `OTRO`.
+Métodos: `EFECTIVO`, `DEBITO`, `CREDITO`, `OTRO`. Débito y crédito registran el cobro; no mueven el efectivo esperado del turno (SLICE-145).
 
 **Response 201 (SLICE-3)**
 
