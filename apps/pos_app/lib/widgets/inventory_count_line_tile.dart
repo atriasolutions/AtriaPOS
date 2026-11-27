@@ -1,6 +1,9 @@
 import 'package:core/domain/domain.dart';
 import 'package:flutter/material.dart';
 
+import '../theme/atria_touch_targets.dart';
+import 'inventory_status_chip.dart';
+
 class InventoryCountLineTile extends StatelessWidget {
   const InventoryCountLineTile({
     super.key,
@@ -18,14 +21,6 @@ class InventoryCountLineTile extends StatelessWidget {
   final int unitsSoldInShift;
   final int? countedQty;
   final Widget? countField;
-
-  String _label(InventoryCountLineStatus status) {
-    return switch (status) {
-      InventoryCountLineStatus.sinContar => 'Sin contar',
-      InventoryCountLineStatus.contado => 'Contado',
-      InventoryCountLineStatus.diferencias => 'Diferencias',
-    };
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,19 +40,21 @@ class InventoryCountLineTile extends StatelessWidget {
                   child: Text(
                     name,
                     key: Key('inventory_close_name_$productId'),
-                    style: theme.textTheme.titleSmall,
+                    style: theme.textTheme.titleMedium,
                   ),
                 ),
-                Chip(
-                  key: Key('inventory_line_status_$productId'),
-                  label: Text(_label(resolution.status)),
-                  visualDensity: VisualDensity.compact,
+                InventoryStatusChip(
+                  semanticsKey: Key('inventory_line_status_$productId'),
+                  status: resolution.status,
+                  delta: resolution.delta,
                 ),
               ],
             ),
+            const SizedBox(height: 4),
             Text(
               'Stock sistema: $systemStock',
               key: Key('inventory_close_system_$productId'),
+              style: theme.textTheme.bodyLarge,
             ),
             Text(
               'Vendidos en turno: $unitsSoldInShift',
@@ -65,23 +62,46 @@ class InventoryCountLineTile extends StatelessWidget {
             ),
             if (resolution.status == InventoryCountLineStatus.diferencias &&
                 resolution.delta != null) ...[
-              const SizedBox(height: 4),
-              Text(
-                'Diferencia: ${resolution.delta! > 0 ? '+' : ''}${resolution.delta}',
-                key: Key('inventory_line_delta_$productId'),
-                style: theme.textTheme.titleMedium?.copyWith(color: cs.error),
+              const SizedBox(height: 6),
+              Semantics(
+                label: resolution.delta! > 0
+                    ? 'Sobrante ${resolution.delta}'
+                    : 'Faltante ${-resolution.delta!}',
+                liveRegion: true,
+                child: Text(
+                  resolution.delta! > 0
+                      ? 'Sobrante: +${resolution.delta}'
+                      : 'Faltante: ${resolution.delta}',
+                  key: Key('inventory_line_delta_$productId'),
+                  style: theme.textTheme.titleMedium?.copyWith(color: cs.error),
+                ),
               ),
             ],
             if (countField != null) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               countField!,
             ] else if (countedQty != null) ...[
               const SizedBox(height: 4),
-              Text('Cantidad contada: $countedQty'),
+              Text(
+                'Cantidad contada: $countedQty',
+                style: theme.textTheme.bodyLarge,
+              ),
             ],
           ],
         ),
       ),
+    );
+  }
+
+  static Widget countedField({
+    required Key fieldKey,
+    required TextEditingController controller,
+  }) {
+    return TextField(
+      key: fieldKey,
+      controller: controller,
+      decoration: touchTextFieldDecoration(labelText: 'Cantidad contada'),
+      keyboardType: TextInputType.number,
     );
   }
 }

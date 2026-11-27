@@ -49,6 +49,7 @@
 | RNF-040 | Contraste y tamaño mínimo legible en sol directo (patio de minimarket) |
 | RNF-041 | Flujo venta: máximo 3 taps desde producto escaneado hasta pantalla de pago |
 | RNF-042 | Mensajes de error en español chileno, sin códigos crudos al cajero |
+| RNF-043 | Operación inventario: controles interactivos ≥ 56 px; estados con texto e icono, no solo color (SLICE-156) |
 
 ## Observabilidad
 
