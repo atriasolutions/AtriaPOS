@@ -62,6 +62,9 @@ void main() {
     ingress.push('78008801');
     await tester.pumpAndSettle();
 
+    expect(find.byKey(const Key('inventory_close_scan_catalog')), findsOneWidget);
+    expect(find.text('Diferencias'), findsOneWidget);
+
     await tester.tap(find.byKey(const Key('inventory_close_scan_confirm_button')));
     await tester.pumpAndSettle();
 
@@ -82,6 +85,42 @@ void main() {
     );
     expect(stock, isA<ApiSuccess<StockResponse>>());
     expect((stock as ApiSuccess<StockResponse>).data.stock, 1);
+  });
+
+  testWidgets('SC-155-UI-01 escaneo muestra diferencia en rojo', (tester) async {
+    final ingress = StreamScannerIngress();
+    final composition = await supervisorComposition(ingress: ingress);
+
+    final created = await composition.productService.createProduct(
+      kDemoStoreId,
+      const CreateProductRequest(
+        name: 'Aceite',
+        salePriceClp: 2000,
+        initialStock: 10,
+        barcode: '78009901',
+      ),
+    );
+    final productId = (created as ApiSuccess<ProductResponse>).data.id;
+
+    await tester.pumpWidget(
+      MaterialApp(home: InventoryCloseScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('inventory_close_mode_scan')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('inventory_close_scan_start_button')));
+    await tester.pumpAndSettle();
+
+    ingress.push('78009901');
+    await tester.pumpAndSettle();
+
+    expect(find.text('Diferencias'), findsOneWidget);
+    expect(find.byKey(Key('inventory_line_delta_$productId')), findsOneWidget);
+    expect(
+      find.byKey(Key('inventory_line_status_$productId')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('SC-088-SCAN-UI-02 modo manual sigue operativo', (tester) async {
@@ -112,6 +151,7 @@ void main() {
       find.byKey(Key('inventory_close_count_$productId')),
       '11',
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('inventory_close_submit_button')));
     await tester.pumpAndSettle();
 

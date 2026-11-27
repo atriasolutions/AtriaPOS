@@ -68,6 +68,76 @@ void main() {
     expect(find.textContaining('Vendidos en turno: 1'), findsOneWidget);
   });
 
+  testWidgets('SC-154-UI-01 inicia sin contar', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    final productId = await _seedShiftSale(composition);
+
+    await tester.pumpWidget(
+      MaterialApp(home: InventoryCloseScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byKey(Key('inventory_line_status_$productId')),
+      findsOneWidget,
+    );
+    expect(find.text('Sin contar'), findsOneWidget);
+    final button = tester.widget<FilledButton>(
+      find.byKey(const Key('inventory_close_submit_button')),
+    );
+    expect(button.onPressed, isNull);
+  });
+
+  testWidgets('SC-154-UI-02 diferencia en rojo', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    final productId = await _seedShiftSale(composition);
+
+    await tester.pumpWidget(
+      MaterialApp(home: InventoryCloseScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(Key('inventory_close_count_$productId')),
+      '8',
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Diferencias'), findsOneWidget);
+    expect(find.byKey(Key('inventory_line_delta_$productId')), findsOneWidget);
+  });
+
+  testWidgets('SC-154-UI-03 habilita cierre al completar', (tester) async {
+    final composition = PosComposition.memory();
+    addTearDown(composition.close);
+    final productId = await _seedShiftSale(composition);
+
+    await tester.pumpWidget(
+      MaterialApp(home: InventoryCloseScreen(composition: composition)),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.widget<FilledButton>(
+        find.byKey(const Key('inventory_close_submit_button')),
+      ).onPressed,
+      isNull,
+    );
+    await tester.enterText(
+      find.byKey(Key('inventory_close_count_$productId')),
+      '9',
+    );
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<FilledButton>(
+        find.byKey(const Key('inventory_close_submit_button')),
+      ).onPressed,
+      isNotNull,
+    );
+  });
+
   testWidgets('SC-088-UI-02 cierre con corrección', (tester) async {
     final composition = PosComposition.memory();
     addTearDown(composition.close);
@@ -82,6 +152,7 @@ void main() {
       find.byKey(Key('inventory_close_count_$productId')),
       '8',
     );
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('inventory_close_submit_button')));
     await tester.pumpAndSettle();
 

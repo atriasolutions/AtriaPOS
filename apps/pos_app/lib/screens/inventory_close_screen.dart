@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import '../di/pos_composition.dart';
 import '../widgets/companion_lan_status_chip.dart';
 import '../widgets/companion_qr_panel.dart';
+import '../widgets/inventory_count_line_tile.dart';
 import 'product_create_screen.dart';
 
 enum _InventoryCloseMode { manual, scan }
@@ -58,10 +59,30 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
     }
     _countControllers.clear();
     for (final item in preview.items) {
-      _countControllers[item.productId] = TextEditingController(
-        text: '${item.systemStock}',
-      );
+      _countControllers[item.productId] = TextEditingController()
+        ..addListener(_onCountFieldsChanged);
     }
+  }
+
+  void _onCountFieldsChanged() {
+    if (mounted) setState(() {});
+  }
+
+  int? _countedQtyForManual(String productId) {
+    final text = _countControllers[productId]?.text.trim() ?? '';
+    if (text.isEmpty) return null;
+    return int.tryParse(text);
+  }
+
+  bool get _manualCanSubmit {
+    final preview = _preview;
+    if (preview == null || _submitting) return false;
+    if (preview.items.isEmpty) return false;
+    for (final item in preview.items) {
+      final qty = _countedQtyForManual(item.productId);
+      if (qty == null || qty < 0) return false;
+    }
+    return true;
   }
 
   Future<void> _loadPreview() async {
@@ -238,9 +259,18 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
       case ApiSuccess<ConfirmInventoryCountScanResponse>(data: final data):
         final withVariance =
             data.lines.where((l) => l.variance != 0).toList();
-        final summary = withVariance.isEmpty
+        final preview = _preview;
+        final sinContar = preview == null
+            ? 0
+            : preview.items
+                .where((i) => _countedQtyFromScan(i.productId) == null)
+                .length;
+        final base = withVariance.isEmpty
             ? 'Conteo confirmado: ${data.lines.length} producto(s), sin ajuste.'
             : 'Conteo confirmado: ${withVariance.length} línea(s) con ajuste.';
+        final summary = sinContar > 0
+            ? '$base Quedan $sinContar sin contar en el catálogo.'
+            : base;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             key: const Key('inventory_close_scan_success_snackbar'),
@@ -285,13 +315,16 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
     setState(() => _mode = mode);
   }
 
-  int? _systemStockFor(String productId) {
-    final preview = _preview;
-    if (preview == null) return null;
-    for (final item in preview.items) {
-      if (item.productId == productId) return item.systemStock;
+  int? _countedQtyFromScan(String productId) {
+    var total = 0;
+    var found = false;
+    for (final line in _scanLines) {
+      if (line.productId == productId) {
+        total += line.quantity;
+        found = true;
+      }
     }
-    return null;
+    return found ? total : null;
   }
 
   void _snack(String message) {
@@ -369,46 +402,23 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
             itemBuilder: (context, index) {
               final item = preview.items[index];
               final controller = _countControllers[item.productId]!;
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        item.name,
-                        key: Key('inventory_close_name_${item.productId}'),
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                      Text(
-                        'Stock sistema: ${item.systemStock}',
-                        key: Key(
-                          'inventory_close_system_${item.productId}',
-                        ),
-                      ),
-                      Text(
-                        'Vendidos en turno: ${item.unitsSoldInShift}',
-                        key: Key(
-                          'inventory_close_sold_${item.productId}',
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        key: Key(
-                          'inventory_close_count_${item.productId}',
-                        ),
-                        controller: controller,
-                        decoration: const InputDecoration(
-                          labelText: 'Cantidad contada',
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                      ),
-                    ],
+              return InventoryCountLineTile(
+                productId: item.productId,
+                name: item.name,
+                systemStock: item.systemStock,
+                unitsSoldInShift: item.unitsSoldInShift,
+                countedQty: _countedQtyForManual(item.productId),
+                countField: TextField(
+                  key: Key('inventory_close_count_${item.productId}'),
+                  controller: controller,
+                  decoration: const InputDecoration(
+                    labelText: 'Cantidad contada',
+                    border: OutlineInputBorder(),
                   ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                 ),
               );
             },
@@ -418,7 +428,7 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
           padding: const EdgeInsets.all(16),
           child: FilledButton(
             key: const Key('inventory_close_submit_button'),
-            onPressed: _submitting ? null : _submit,
+            onPressed: _manualCanSubmit ? _submit : null,
             child: _submitting
                 ? const SizedBox(
                     width: 20,
@@ -434,6 +444,7 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
 
   Widget _buildScanBody() {
     final sessionActive = _scanSessionId != null;
+    final preview = _preview;
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -472,24 +483,28 @@ class _InventoryCloseScreenState extends State<InventoryCloseScreen> {
             if (_scanLines.isEmpty)
               const Text('Escaneé productos para registrar el conteo.')
             else
+              Text(
+                '${_scanLines.length} lectura(s) en la sesión.',
+              ),
+            if (preview != null && preview.items.isNotEmpty) ...[
+              const SizedBox(height: 12),
               ListView.builder(
-                key: const Key('inventory_close_scan_lines'),
+                key: const Key('inventory_close_scan_catalog'),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: _scanLines.length,
+                itemCount: preview.items.length,
                 itemBuilder: (context, index) {
-                  final line = _scanLines[index];
-                  final system = _systemStockFor(line.productId);
-                  final subtitle = system != null
-                      ? 'Stock sistema: $system'
-                      : null;
-                  return ListTile(
-                    title: Text(line.productName),
-                    subtitle: subtitle != null ? Text(subtitle) : null,
-                    trailing: Text('×${line.quantity}'),
+                  final item = preview.items[index];
+                  return InventoryCountLineTile(
+                    productId: item.productId,
+                    name: item.name,
+                    systemStock: item.systemStock,
+                    unitsSoldInShift: item.unitsSoldInShift,
+                    countedQty: _countedQtyFromScan(item.productId),
                   );
                 },
               ),
+            ],
             const SizedBox(height: 12),
             FilledButton(
               key: const Key('inventory_close_scan_confirm_button'),

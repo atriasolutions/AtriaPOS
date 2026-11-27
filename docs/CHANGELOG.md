@@ -6,6 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/).
 
 ### Added
 
+- SLICE-154–155: Cierre inventario con chips Contado/Sin contar/Diferencias y delta en rojo (manual y escaneo).
 - SLICE-153: Cierre manual exige recuento de todos los productos del catálogo.
 - SLICE-152: Estados Sin contar, Contado y Diferencias en el dominio de inventario.
 - SLICE-149–151: Factura pide los 8 datos del receptor, los guarda por RUT y los precarga si el cliente vuelve.

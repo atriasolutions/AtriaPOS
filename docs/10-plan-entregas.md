@@ -197,6 +197,8 @@ Decisiones en [23c](23c-companion-https-respuestas.md). Cada slice 107–112 se 
 | 151 | SLICE-151 | POS | Formulario factura en checkout | RF-097 | SC-151 ✅ |
 | 152 | SLICE-152 | Core | Estados contado / sin contar / diferencias | RF-088 | SC-152-* ✅ |
 | 153 | SLICE-153 | Core | Cierre manual exige todo el catálogo | RF-088 | SC-153-* ✅ |
+| 154 | SLICE-154 | POS | UI manual tres estados | RF-088 | SC-154-UI ✅ |
+| 155 | SLICE-155 | POS | UI escaneo catálogo completo | RF-088 | SC-155-UI ✅ |
 
 ## Orden TDD sugerido (semana orientativa)
 
